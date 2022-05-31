@@ -1,3 +1,5 @@
 <template>
-    <h1>Hola Como</h1>
+    <main>
+        <h1 id="about-page">Hola Como</h1>
+    </main>
 </template>
