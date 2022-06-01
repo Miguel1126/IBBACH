@@ -25,7 +25,8 @@
                 ],
                 cySelected: [],
                 subSelected: [],
-                teaSelected: []
+                teaSelected: [],
+                editing: false
             }
         },
         methods: {
@@ -46,11 +47,77 @@
                 app.cySelected = []
                 app.subSelected = []
                 app.teaSelected = []
+                app.editing = false
+            },
+            validateDropdowns() {
+                const app = this;
+                const valid = app.cySelected.length && app.subSelected.length && app.teaSelected.length ? true : false
+                return valid
             },
             updateTable() {
                 const app = this
-                this.loads.push({ id: app.loads.length + 1, cycle: app.cySelected[0], subject: app.subSelected[0], teacher: app.teaSelected[0] })
-                app.clearDropdown()
+                if (app.validateDropdowns()) {
+                    app.loads.push({ id: app.loads.length + 1, cycle: app.cySelected[0], subject: app.subSelected[0], teacher: app.teaSelected[0] })
+                    app.clearDropdown()
+                }
+                else {
+                    const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                            toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                        }
+                    })
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Debes rellenar todos los campos'
+                    })
+                }
+            },
+            selectLoad(event, cycle, subject, teacher) {
+                const app = this
+                app.editing = true
+                app.cySelected.push(cycle)
+                app.subSelected.push(subject)
+                app.teaSelected.push(teacher)
+            },
+            saveEdit() {
+                this.editing = false
+                this.clearDropdown()
+                this.$swal.fire(
+                        'Listo',
+                        'Se editó la carga',
+                        'success'
+                    )
+            },
+            deleteLoad(id){
+                this.loads = this.loads.filter(load => load.id != id);
+                this.loads = [... this.loads];
+            },
+            confirmDelete(event, id) {
+                this.$swal.fire({
+                    title: '¿Estas seguro de querer borrar esta carga?',
+                    text: "Si la borras, no podrás recuperarla",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Borrar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    this.deleteLoad(id)
+                    this.$swal.fire(
+                        'Listo',
+                        'La carga ha sido eliminada',
+                        'success'
+                    )
+                }
+                })
             }
         }
     }
@@ -60,7 +127,7 @@
     <main>
         <h1 class="h1 fs-1 fw-bold">Administrador de carga académica</h1>
         <br />
-        <section class="load border border-success p-3 border-5 rounded">
+        <section class="load border border-success p-3 border-3 rounded">
             <h3 class="h3 fw-semibold">Asignar una nueva carga</h3>
             <div class="d-flex">
                 <div class="dropdown m-4">
@@ -91,12 +158,14 @@
                     </ul>
                 </div>
                 <div class="m-4">
-                    <button type="button" class="btn btn-primary btn-lg" @click="updateTable">Agregar <i class="material-icons m-auto">add_box</i></button>
-                    <button type="button" class="btn btn-warning btn-lg ms-4" @click="clearDropdown">Limpiar <i class="material-icons m-auto">backspace</i></button>
+                    <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg" @click="updateTable">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
+                    <button v-else type="button" class="d-inline-flex btn btn-success btn-lg" @click="saveEdit">Guardar <i class="material-icons m-auto ms-1">edit</i></button>
+                    <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning btn-lg ms-3" @click="clearDropdown">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
+                    <button v-else type="button" class="d-inline-flex btn btn-danger btn-lg ms-3" @click="clearDropdown">Cancelar <i class="material-icons m-auto ms-1">cancel</i></button>
                 </div>
             </div>
         </section>
-        <section class="load border mt-4 border-primary p-3 border-5 rounded">
+        <section class="load border mt-4 border-primary p-3 border-3 rounded">
             <h3 class="h3 fw-semibold mb-3">Listado de cargas</h3>
             <table class="table table-bordered border-dark">
                 <thead class="table-info table-bordered border-dark">
@@ -114,7 +183,10 @@
                         <td>{{ load.cycle }}</td>
                         <td>{{ load.subject }}</td>
                         <td>{{ load.teacher }}</td>
-                        <td class="d-flex justify-content-center"><button type="button" class="btn btn-primary me-2">Modificar</button><button type="button" class="btn btn-danger">Eliminar</button></td>
+                        <td class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-primary me-2" @click="selectLoad($event, load.cycle, load.subject, load.teacher)">Modificar</button>
+                            <button type="button" class="btn btn-danger" @click="confirmDelete($event, load.id)">Eliminar</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -124,6 +196,6 @@
 
 <style scoped>
     .load {
-        border-radius: 20px !important;
+        border-radius: 15px !important;
     }
 </style>
