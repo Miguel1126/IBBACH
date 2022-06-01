@@ -26,25 +26,9 @@ const ToggleMenu = () => {
 				<span class="material-icons">home</span>
 				<span class="text">Home</span>
 			</router-link>
-			<router-link to="/about" class="button">
-				<span class="material-icons">description</span>
-				<span class="text">About</span>
-			</router-link>
-			<router-link to="/hola" class="button">
-				<span class="material-icons">front_hand</span>
-				<span class="text">Hola</span>
-			</router-link>
-			<router-link to="/como" class="button">
-				<span class="material-icons">show_chart</span>
-				<span class="text">Como</span>
-			</router-link>
-            <router-link to="/estas" class="button">
-				<span class="material-icons">support_agent</span>
-				<span class="text">Estas</span>
-			</router-link>
-            <router-link to="/quetal" class="button">
-				<span class="material-icons">child_care</span>
-				<span class="text">Quetal</span>
+			<router-link to="/cargas" class="button">
+				<span class="material-icons">dataset</span>
+				<span class="text">Cargas</span>
 			</router-link>
 		</div>
 
