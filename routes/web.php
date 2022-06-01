@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::view('/vue', 'vue')
+Route::view('/{any}', 'vue')
 	   ->where('any', '.*');
 
 Auth::routes();
