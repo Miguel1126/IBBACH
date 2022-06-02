@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Loads from '../components/admin/Loads.vue'
 import Groups from '../components/admin/Groups.vue'
+import Subjects from '../components/admin/Subjects.vue'
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -19,6 +20,11 @@ export const router = createRouter({
       path: '/grupos',
       name: 'Groups',
       component: Groups
+    },
+    {
+      path: '/materias',
+      name: 'Subject',
+      component: Subjects
     }
   ]
 })
