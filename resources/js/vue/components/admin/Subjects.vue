@@ -96,7 +96,7 @@
             <h3 class="h3 fw-semibold">Crea una nueva materia</h3>
             <div class="d-flex">
                 <div class="input-group input-group-lg w-50">
-                    <span class="input-group-text" id="inputGroup-sizing-lg">Materia</span>
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="material-icons">collections_bookmark</i></span>
                     <input type="text" class="form-control" v-model="subject" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="e.j Introducción al griego">
                 </div>
                 <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg ms-4" @click="updateTable">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
