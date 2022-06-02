@@ -84,6 +84,9 @@
                 }
                 })
             }
+        },
+        setup() {
+            document.title = "IBBACH | Materias"
         }
     }
 </script>
