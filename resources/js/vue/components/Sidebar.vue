@@ -29,6 +29,7 @@ const ToggleMenu = () => {
 			<Link url="/materias" name="Materias" icon="collections_bookmark"></Link>
 			<Link url="/Ciclos" name="Ciclos" icon="autorenew"></Link>
 			<Link url="/docentes" name="Docentes" icon="app_registration"></Link>
+			<Link url="/horarios" name="Horarios" icon="schedule"></Link>
 		</div>
 
 		<div class="flex"></div>

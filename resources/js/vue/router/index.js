@@ -4,6 +4,8 @@ import Loads from '../components/admin/Loads.vue'
 import Groups from '../components/admin/Groups.vue'
 import Subjects from '../components/admin/Subjects.vue'
 import Cycles from '../components/admin/Cycles.vue'
+import Teachers from '../components/admin/Teachers.vue'
+import Schedules from '../components/admin/Schedules.vue'
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -32,9 +34,15 @@ export const router = createRouter({
       name: 'Cycle',
       component: Cycles
     },
-    { path: '/docentes',
+    { 
+      path: '/docentes',
       name: 'Teachers',
       component: Teachers
+    },
+    {
+      path: '/horarios',
+      name: 'Schedules',
+      component: Schedules
     }
   ]
 })
