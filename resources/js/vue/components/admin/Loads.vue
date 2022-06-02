@@ -156,7 +156,7 @@
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
                         <li v-for="teacher in teachers" :key="teacher.id" class="dropdown-item"><button class="text-light" @click="selectTea($event, teacher.name)">{{ teacher.name }}</button></li>    
                     </ul>
-                </div>
+                </div> 
                 <div class="m-4">
                     <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg" @click="updateTable">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
                     <button v-else type="button" class="d-inline-flex btn btn-success btn-lg" @click="saveEdit">Guardar <i class="material-icons m-auto ms-1">edit</i></button>
