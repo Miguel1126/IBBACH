@@ -31,6 +31,10 @@ export const router = createRouter({
       path: '/ciclos',
       name: 'Cycle',
       component: Cycles
+    },
+    { path: '/docentes',
+      name: 'Teachers',
+      component: Teachers
     }
   ]
 })
