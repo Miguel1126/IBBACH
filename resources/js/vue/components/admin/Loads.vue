@@ -119,6 +119,9 @@
                 }
                 })
             }
+        },
+        setup() {
+            document.title = "IBBACH | Cargas"
         }
     }
 </script>

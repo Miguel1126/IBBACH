@@ -1,7 +1,7 @@
 <script setup>
 import Link from './Link.vue'
 import { ref } from 'vue'
-import logoURL from '../assets/logo.png'
+import logoURL from '../assets/logo.jpg'
 const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
 const ToggleMenu = () => {
 	is_expanded.value = !is_expanded.value
