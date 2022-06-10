@@ -1,7 +1,7 @@
 <script setup>
-import Link from './Link.vue'
+import Link from '../../../components/Link.vue'
 import { ref } from 'vue'
-import logoURL from '../assets/logo.jpg'
+import logoURL from '../../../assets/logo.jpg'
 const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
 const ToggleMenu = () => {
 	is_expanded.value = !is_expanded.value
@@ -23,19 +23,13 @@ const ToggleMenu = () => {
 
 		<h3>Menu</h3>
 		<div class="menu">
-			<Link url="Home" name="Home" icon="home"></Link>
-			<Link url="Loads" name="Cargas" icon="dataset"></Link>
-			<Link url="Groups" name="Grupos" icon="workspaces"></Link>
-			<Link url="Subject" name="Materias" icon="collections_bookmark"></Link>
-			<Link url="Cycle" name="Ciclos" icon="autorenew"></Link>
-			<Link url="Teachers" name="Docentes" icon="app_registration"></Link>
-			<Link url="Schedules" name="Horarios" icon="schedule"></Link>
+			<Link url="Testtea" name="Test" icon="home"></Link>
 		</div>
 
 		<div class="flex"></div>
 		
 		<div class="menu">
-			<!--<Link url="/settings" name="Settings" icon="settings"></Link>-->
+			<!-- <Link url="/settings" name="Settings" icon="settings"></Link> -->
 		</div>
 	</aside>
 </template>

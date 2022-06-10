@@ -1,7 +1,7 @@
 <script setup>
-import Link from './Link.vue'
+import Link from '../../../components/Link.vue'
 import { ref } from 'vue'
-import logoURL from '../assets/logo.jpg'
+import logoURL from '../../../assets/logo.jpg'
 const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
 const ToggleMenu = () => {
 	is_expanded.value = !is_expanded.value
@@ -23,7 +23,6 @@ const ToggleMenu = () => {
 
 		<h3>Menu</h3>
 		<div class="menu">
-			<Link url="Home" name="Home" icon="home"></Link>
 			<Link url="Loads" name="Cargas" icon="dataset"></Link>
 			<Link url="Groups" name="Grupos" icon="workspaces"></Link>
 			<Link url="Subject" name="Materias" icon="collections_bookmark"></Link>
