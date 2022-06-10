@@ -6,7 +6,7 @@
     })
 </script>
 <template>
-    <router-link :to="url" class="button">
+    <router-link :to="{ name: url }" class="button">
 		<span class="material-icons">{{ icon }}</span>
 		<span class="text">{{ name }}</span>
 	</router-link>
