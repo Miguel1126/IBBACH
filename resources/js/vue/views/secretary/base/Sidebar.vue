@@ -1,16 +1,39 @@
 <script setup>
-    defineProps({
-        url: String,
-        name: String,
-        icon: String
-    })
+import Link from '../../../components/Link.vue'
+import { ref } from 'vue'
+import logoURL from '../../../assets/logo.jpg'
+const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
+const ToggleMenu = () => {
+	is_expanded.value = !is_expanded.value
+	localStorage.setItem("is_expanded", is_expanded.value)
+}
 </script>
+
 <template>
-    <router-link :to="{ name: url }" class="button">
-		<span class="material-icons">{{ icon }}</span>
-		<span class="text">{{ name }}</span>
-	</router-link>
+	<aside :class="`${is_expanded ? 'is-expanded' : ''}`">
+		<div class="logo">
+			<img :src="logoURL" alt="Vue" /> 
+		</div>
+
+		<div class="menu-toggle-wrap">
+			<button class="menu-toggle" @click="ToggleMenu">
+				<span class="material-icons">keyboard_double_arrow_right</span>
+			</button>
+		</div>
+
+		<h3>Menu</h3>
+		<div class="menu">
+			<Link url="Testsec" name="Test" icon="home"></Link>
+		</div>
+
+		<div class="flex"></div>
+		
+		<div class="menu">
+			<!-- <Link url="/settings" name="Settings" icon="settings"></Link> -->
+		</div>
+	</aside>
 </template>
+
 <style lang="scss" scoped>
 aside  {
 	display: flex;

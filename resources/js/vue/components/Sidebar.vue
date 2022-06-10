@@ -23,19 +23,19 @@ const ToggleMenu = () => {
 
 		<h3>Menu</h3>
 		<div class="menu">
-			<Link url="/" name="Home" icon="home"></Link>
-			<Link url="/cargas" name="Cargas" icon="dataset"></Link>
-			<Link url="/grupos" name="Grupos" icon="workspaces"></Link>
-			<Link url="/materias" name="Materias" icon="collections_bookmark"></Link>
-			<Link url="/Ciclos" name="Ciclos" icon="autorenew"></Link>
-			<Link url="/docentes" name="Docentes" icon="app_registration"></Link>
-			<Link url="/horarios" name="Horarios" icon="schedule"></Link>
+			<Link url="Home" name="Home" icon="home"></Link>
+			<Link url="Loads" name="Cargas" icon="dataset"></Link>
+			<Link url="Groups" name="Grupos" icon="workspaces"></Link>
+			<Link url="Subject" name="Materias" icon="collections_bookmark"></Link>
+			<Link url="Cycle" name="Ciclos" icon="autorenew"></Link>
+			<Link url="Teachers" name="Docentes" icon="app_registration"></Link>
+			<Link url="Schedules" name="Horarios" icon="schedule"></Link>
 		</div>
 
 		<div class="flex"></div>
 		
 		<div class="menu">
-			<Link url="/settings" name="Settings" icon="settings"></Link>
+			<!--<Link url="/settings" name="Settings" icon="settings"></Link>-->
 		</div>
 	</aside>
 </template>
