@@ -4,6 +4,7 @@ import { router } from './router'
 
 import 'bootstrap'
 import './styles/app.scss'
+import './styles/index.css'
 
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';

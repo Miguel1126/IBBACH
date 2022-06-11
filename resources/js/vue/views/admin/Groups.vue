@@ -95,7 +95,7 @@
     <main>
         <h1 class="h1 fs-1 fw-bold">Administrador de Grupos</h1>
         <br />
-        <section class="load border border-success p-3 border-3 rounded">
+        <section class=" p-3 ">
             <h3 class="h3 fw-semibold">Crea un nuevo grupo</h3>
             <div class="d-flex">
                 <div class="input-group input-group-lg w-25">
@@ -107,7 +107,7 @@
                 <button v-if="editing" type="button" class="d-inline-flex btn btn-danger btn-lg ms-3" @click="clearInput">Cancelar <i class="material-icons m-auto ms-1">cancel</i></button>
             </div>
         </section>
-        <section class="load border mt-4 border-primary p-3 border-3 rounded">
+        <section class=" p-3 ">
             <h3 class="h3 fw-semibold mb-3">Listado de grupos</h3>
             <table class="table table-bordered border-dark">
                 <thead class="table-info table-bordered border-dark">

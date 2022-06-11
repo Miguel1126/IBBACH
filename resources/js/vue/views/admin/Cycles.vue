@@ -107,19 +107,12 @@
          <p>{{ cyc }}</p>
         <br />
           <!--creado contenedor para los botones-->
-        <section class="load border border-success p-3 border-5 rounded">
+        <section class="p-3">
             <h3 class="h3 fw-semibold">Crear nuevo ciclo</h3>
             <div class="d-flex">
-                <div class="dropdown m-4">
-                    <!--boton Dropdown de boostrap-->
-                     <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                         <span v-if="!cyTyped .length">Ciclo</span>
-                        <span v-else>{{ cyTyped [0] }}</span>
-                     </button>
-                      <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                            <li v-for="cycle in cycle" :key="cycle.id" class="dropdown-item"><button class="text-light" @click="typeCy($event, cycle.cycle)">{{ cycle.cycle }}</button></li>
-                            <input type="text" class="form-control" v-model="cyc" placeholder="Ciclo">
-                    </ul>
+                <div class="input-group input-group-lg w-25">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="material-icons">autorenew</i></span>
+               <input type="text" class="form-control" v-model="cyc" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="Nuevo ciclo">
                 </div>
                 <div class="dropdown m-4">
                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -158,7 +151,7 @@
                 </div>
             </div>
         </section>
-                <section class="load border mt-4 border-primary p-3 border-5 rounded">
+                <section class=" p-3 ">
             <h3 class="h3 fw-semibold mb-3">Listado de ciclos</h3>
             <table class="table table-bordered border-dark">
                 <thead class="table-info table-bordered border-dark">
@@ -187,6 +180,9 @@
 </template>
 <style scoped>
     .load {
-        border-radius: 20px !important;
+        border-radius: 15px !important;
+    }
+    td{
+        color: white;
     }
 </style>
