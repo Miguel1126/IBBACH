@@ -49,6 +49,7 @@ aside  {
 	overflow: hidden;
 	min-height: 100vh;
 	padding: 1rem;
+
 	transition: 0.2s ease-in-out;
 	.flex {
 		flex: 1 1 0%;

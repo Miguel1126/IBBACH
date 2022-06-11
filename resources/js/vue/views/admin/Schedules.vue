@@ -152,33 +152,36 @@
                 </div>
             </div>
         </section>
-        
-        <section class=" p-3 ">
-            <table class="table table-bordered border-dark">
-                <thead class="table-info table-bordered border-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Horario</th>
-                        <th scope="col">Descripcion</th>
-                        <th scope="col">UV</th>
-                        <th scope="col">Docente</th>
-                        <th scope="col" class="w-25">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <tr v-for="schedule in schedules" :key="schedule.id">
-                        <th scope="row">{{ schedule.id }}</th>
-                        <td>{{ schedule.time }}</td>
-                        <td>{{ schedule.description }}</td>
-                        <td>{{ schedule.uv }}</td>
-                        <td>{{ schedule.teacher }}</td>
-                        <td class="d-flex justify-content-center">
-                            <button type="button" class="btn btn-primary me-2" @click="selectGroup($event, group.group )">Modificar</button>
-                            <button type="button" class="btn btn-danger" @click="confirmDelete($event, group.id)">Eliminar</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <hr class="separator"/>
+        <section class="p-3">
+            <div class="table-container p-3 mb-5 bg-body rounded">
+                <table class="table table-bordered border-dark">
+                    <thead class="table-info table-bordered border-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Horario</th>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">UV</th>
+                            <th scope="col">Docente</th>
+                            <th scope="col" class="w-25">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr v-for="schedule in schedules" :key="schedule.id">
+                            <th scope="row">{{ schedule.id }}</th>
+                            <td>{{ schedule.time }}</td>
+                            <td>{{ schedule.description }}</td>
+                            <td>{{ schedule.uv }}</td>
+                            <td>{{ schedule.teacher }}</td>
+                            <td class="d-flex justify-content-center">
+                                <button type="button" class="btn btn-primary me-2" @click="selectGroup($event, group.group )">Modificar</button>
+                                <button type="button" class="btn btn-danger" @click="confirmDelete($event, group.id)">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
         </section>
     </main>    
 </template>
