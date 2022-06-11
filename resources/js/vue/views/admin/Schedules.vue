@@ -112,7 +112,7 @@
     <main>
         <h1 class="h1 fs-1 fw-bold">SABATINO NIVEL BASICO I</h1>
         <br />
-        <section class="load border border-success p-3 border-3 rounded">
+        <section class=" p-3 ">
             <h3 class="h3 fw-semibold">Asignar un maestro</h3>
             <div class="d-flex">
                     <div class="input-group-lg w-25">
@@ -153,7 +153,7 @@
             </div>
         </section>
         
-        <section class="load border mt-4 border-primary p-3 border-3 rounded">
+        <section class=" p-3 ">
             <table class="table table-bordered border-dark">
                 <thead class="table-info table-bordered border-dark">
                     <tr>

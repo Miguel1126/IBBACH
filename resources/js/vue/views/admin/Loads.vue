@@ -130,7 +130,7 @@
     <main>
         <h1 class="h1 fs-1 fw-bold">Administrador de carga académica</h1>
         <br />
-        <section class="load border border-success p-3 border-3 rounded">
+        <section class=" p-3">
             <h3 class="h3 fw-semibold">Asignar una nueva carga</h3>
             <div class="d-flex">
                 <div class="dropdown m-4">
@@ -168,7 +168,7 @@
                 </div>
             </div>
         </section>
-        <section class="load border mt-4 border-primary p-3 border-3 rounded">
+        <section class=" p-3 ">
             <h3 class="h3 fw-semibold mb-3">Listado de cargas</h3>
             <table class="table table-bordered border-dark">
                 <thead class="table-info table-bordered border-dark">

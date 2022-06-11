@@ -76,7 +76,7 @@
 <template>
 <main>
     <h1 class="h1 fs-1 fw-bold">Registro De Docentes</h1>
-    <section class="teacher border border-info p-3 border-5">
+    <section class=" p-3 ">
     <h3 class="h1 fw-semibold">Editar Registro De Docentes</h3>
     <div class="d-flex">
     <div class="m-4">
@@ -114,7 +114,7 @@
             </div>
          </section> 
         <br />
-         <section class="teacher border mt-4 border-info p-3 border-5 rounded">
+         <section class=" p-3 ">
             <h3 class="h3 fw-semibold mb-3">Listado De Docentes</h3>
             <table class="table table-bordered border-body">
                 <thead class="table-success table-bordered border-info">
