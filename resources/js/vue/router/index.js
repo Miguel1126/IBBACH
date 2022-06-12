@@ -22,7 +22,6 @@ import Schedules from '../views/admin/Schedules.vue'
  */
 import Secretary from '../views/secretary/base/Secretary.vue'
 import Payments from '../views/secretary/Payments.vue'
-import TestSecretary from '../views/secretary/TestSecretary.vue'
 import Users from '../views/secretary/Users.vue'
 
 /**
@@ -36,6 +35,7 @@ import TestTeacher from '../views/teacher/TestTeacher.vue'
  */
 import Student from '../views/student/base/Student.vue'
 import TestStudent from '../views/student/TestStudent.vue'
+
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -89,11 +89,6 @@ export const router = createRouter({
           path: 'pagos',
           name: 'Payments',
           component: Payments
-        },
-        {
-          path: '',
-          name: 'Testsec',
-          component: TestSecretary
         },
         {
           path: 'Usuarios',
