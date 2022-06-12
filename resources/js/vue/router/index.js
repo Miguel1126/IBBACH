@@ -29,12 +29,14 @@ import Users from '../views/secretary/Users.vue'
  */
 import Teacher from '../views/teacher/base/Teacher.vue'
 import TestTeacher from '../views/teacher/TestTeacher.vue'
+import Assistances from '../views/teacher/Assistances.vue'
 
 /**
  * Components for student view
  */
 import Student from '../views/student/base/Student.vue'
 import TestStudent from '../views/student/TestStudent.vue'
+
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -90,7 +92,7 @@ export const router = createRouter({
           component: Payments
         },
         {
-          path: 'usuarios',
+          path: 'Usuarios',
           name: 'Users',
           component: Users
         }
@@ -104,6 +106,11 @@ export const router = createRouter({
           path: '',
           name: 'Testtea',
           component: TestTeacher
+        },
+        { 
+          path: 'asistencias',
+          name: 'Assistances',
+          component: Assistances
         }
       ]
     },

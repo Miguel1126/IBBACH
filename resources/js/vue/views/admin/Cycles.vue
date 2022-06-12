@@ -143,7 +143,7 @@
                         <li v-for="group in groups" :key="group.id" class="dropdown-item"><button class="text-light" @click="selectGro($event, group.group)">{{ group.group }}</button></li>
                     </ul>
                 </div>
-                 <div class="m-4">
+                <div class="m-4">
                     <button type="button" class="btn btn-primary btn-lg" @click="updateTable">Agregar <i class="material-icons m-auto">add_box</i></button>
                     <button type="button" class="btn btn-warning btn-lg ms-4" @click="clearDropdown">Limpiar <i class="material-icons m-auto">backspace</i></button>
                 </div>
@@ -182,8 +182,5 @@
 <style scoped>
     .load {
         border-radius: 15px !important;
-    }
-    td{
-        color: white;
     }
 </style>
