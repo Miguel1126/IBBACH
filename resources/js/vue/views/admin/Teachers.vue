@@ -106,8 +106,7 @@
 </div>
                     <br>
                 <button type="button" class="d-inline-flex btn btn-outline-primary" @click="updateTable">Agregar<i class="material-icons m-auto">add_box</i></button>
-                <button type="button" class="d-inline-flex btn btn-outline-info ms-4"  @click="updateTable">Editar<i class="material-icons m-auto">drive_file_rename_outline</i></button>
-                <button type="button"  class=" d-inline-flex btn btn-outline-danger ms-4" @click="updateTable">Eliminar<i class="material-icons m-auto">delete</i></button>
+                
                 <button type="button" class=" d-inline-flex btn btn-outline-success ms-4" @click="updateTable">Guardar<i class="material-icons m-auto">save_as</i></button>
 
             </div>
@@ -116,14 +115,15 @@
         <br />
          <section class=" p-3 ">
             <h3 class="h3 fw-semibold mb-3">Listado De Docentes</h3>
-            <table class="table table-bordered border-body">
-                <thead class="table-success table-bordered border-info">
+            <table class="table table-bordered table-light border-dark">
+            <thead class="table-light table-bordered border-dark">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Apellido</th>
                         <th scope="col">Correo electronico</th>
                         <th scope="col">Telefono</th>
+                        <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
@@ -133,6 +133,8 @@
                         <td>{{teacher.lastname}}</td>
                         <td>{{teacher.email}}</td>
                         <td>{{teacher.telephone}}</td>
+                        <button type="button" class="d-inline-flex btn btn-outline-info ms-4"  @click="updateTable">Editar<i class="material-icons m-auto">drive_file_rename_outline</i></button>
+                        <button type="button"  class=" d-inline-flex btn btn-outline-danger ms-4" @click="updateTable">Eliminar<i class="material-icons m-auto">delete</i></button>
                     </tr>
                 </tbody>
             </table>
@@ -144,5 +146,11 @@
 <style scoped>
     .teacher {
         border-radius: 20px !important;
+    }
+     th{
+        color: black;
+    }
+    tr{
+        color: black
     }
 </style>
