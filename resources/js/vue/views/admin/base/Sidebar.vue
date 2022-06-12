@@ -12,7 +12,9 @@ const ToggleMenu = () => {
 <template>
 	<aside :class="`${is_expanded ? 'is-expanded' : ''}`">
 		<div class="logo">
-			<img :src="logoURL" alt="Vue" /> 
+			<router-link class="home-link" to="/">
+				<img :src="logoURL" alt="Vue" /> 
+			</router-link>
 		</div>
 
 		<div class="menu-toggle-wrap">
@@ -49,6 +51,7 @@ aside  {
 	overflow: hidden;
 	min-height: 100vh;
 	padding: 1rem;
+
 	transition: 0.2s ease-in-out;
 	.flex {
 		flex: 1 1 0%;
