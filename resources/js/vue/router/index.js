@@ -29,6 +29,7 @@ import Users from '../views/secretary/Users.vue'
  */
 import Teacher from '../views/teacher/base/Teacher.vue'
 import TestTeacher from '../views/teacher/TestTeacher.vue'
+import Assistances from '../views/teacher/Assistances.vue'
 
 /**
  * Components for student view
@@ -105,6 +106,11 @@ export const router = createRouter({
           path: '',
           name: 'Testtea',
           component: TestTeacher
+        },
+        { 
+          path: 'asistencias',
+          name: 'Assistances',
+          component: Assistances
         }
       ]
     },
