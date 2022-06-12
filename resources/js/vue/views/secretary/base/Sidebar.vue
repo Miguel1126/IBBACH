@@ -27,6 +27,7 @@ const ToggleMenu = () => {
 		<div class="menu">
 			<Link url="Testsec" name="Test" icon="home"></Link>
 			<Link url="Users" name="Usuarios" icon="person"></Link>
+			<Link url="Rate" name="Cuotas" icon="person"></Link>
 		</div>
 
 		<div class="flex"></div>
