@@ -23,6 +23,7 @@ import Schedules from '../views/admin/Schedules.vue'
 import Secretary from '../views/secretary/base/Secretary.vue'
 import Payments from '../views/secretary/Payments.vue'
 import Users from '../views/secretary/Users.vue'
+import Rates from '../views/secretary/Rates.vue'
 
 /**
  * Components for teacher view
@@ -95,6 +96,11 @@ export const router = createRouter({
           path: 'Usuarios',
           name: 'Users',
           component: Users
+        },
+        {
+          path: 'cuotas',
+          name: 'Rate',
+          component: Rates
         }
       ]
     },
