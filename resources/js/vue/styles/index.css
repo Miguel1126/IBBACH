@@ -19,4 +19,16 @@ body {
     background: linear-gradient(90deg, rgba(26,46,73,1) 25%, rgba(70,58,140,1) 100%); 
     color: var(--light);
 }
+.table-container {
+	box-shadow: 5px 5px 2px 1px rgba(255, 255, 255, 0.75)
+}
+.separator {
+	border: 1.5px solid;
+	color: rgb(197, 197, 197);
+	opacity: 1;
+}
+.home-link {
+	position: relative;
+	z-index: 99;
+}
 

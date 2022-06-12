@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
-    <div id="app"></div>
+    <div id="app" class="overflow-auto"></div>
     <script type="module" src="{{ asset('js/main.js') }}"></script>
 </body>
 </html>

@@ -130,7 +130,7 @@
     <main>
         <h1 class="h1 fs-1 fw-bold">Administrador de carga académica</h1>
         <br />
-        <section class=" p-3">
+        <section class="p-3">
             <h3 class="h3 fw-semibold">Asignar una nueva carga</h3>
             <div class="d-flex">
                 <div class="dropdown m-4">
@@ -139,7 +139,7 @@
                         <span v-else>{{ cySelected[0] }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="cycle in cycles" :key="cycle.id" class="dropdown-item"><button class="text-light" @click="selectCy($event, cycle.cycle)">{{ cycle.cycle }}</button></li>
+                        <li v-for="cycle in cycles" :key="cycle.id" class="dropdown-item text-light list-click" @click="selectCy($event, cycle.cycle)">{{ cycle.cycle }}</li>
                     </ul>
                 </div>
                 <div class="dropdown m-4">
@@ -148,7 +148,7 @@
                         <span v-else>{{ subSelected[0] }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="subject in subjects" :key="subject.id" class="dropdown-item"><button class="text-light" @click="selectSub($event, subject.subject)">{{ subject.subject }}</button></li>
+                        <li v-for="subject in subjects" :key="subject.id" class="dropdown-item text-light list-click" @click="selectSub($event, subject.subject)">{{ subject.subject }}</li>
                     </ul>
                 </div>
                 <div class="dropdown m-4">
@@ -157,7 +157,7 @@
                         <span v-else>{{ teaSelected[0] }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="teacher in teachers" :key="teacher.id" class="dropdown-item"><button class="text-light" @click="selectTea($event, teacher.name)">{{ teacher.name }}</button></li>    
+                        <li v-for="teacher in teachers" :key="teacher.id" class="dropdown-item text-light list-click" @click="selectTea($event, teacher.name)">{{ teacher.name }}</li>    
                     </ul>
                 </div> 
                 <div class="m-4">
@@ -168,37 +168,40 @@
                 </div>
             </div>
         </section>
-        <section class=" p-3 ">
-            <h3 class="h3 fw-semibold mb-3">Listado de cargas</h3>
-            <table class="table table-bordered border-dark">
-                <thead class="table-info table-bordered border-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Ciclo</th>
-                        <th scope="col">Materia</th>
-                        <th scope="col">Docente</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <tr v-for="load in loads" :key="load.id">
-                        <th scope="row">{{ load.id }}</th>
-                        <td>{{ load.cycle }}</td>
-                        <td>{{ load.subject }}</td>
-                        <td>{{ load.teacher }}</td>
-                        <td class="d-flex justify-content-center">
-                            <button type="button" class="btn btn-primary me-2" @click="selectLoad($event, load.cycle, load.subject, load.teacher)">Modificar</button>
-                            <button type="button" class="btn btn-danger" @click="confirmDelete($event, load.id)">Eliminar</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <hr class="separator"/>
+        <section class="p-3">
+            <div class="table-container p-3 mb-5 bg-body rounded">
+                <h3 class="h3 fw-semibold mb-3 text-black">Listado de cargas</h3>
+                <table class="table table-bordered border-dark bg-light">
+                    <thead class="table-success table-bordered border-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Ciclo</th>
+                            <th scope="col">Materia</th>
+                            <th scope="col">Docente</th>
+                            <th scope="col" class="w-25">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr v-for="load in loads" :key="load.id">
+                            <th scope="row">{{ load.id }}</th>
+                            <td>{{ load.cycle }}</td>
+                            <td>{{ load.subject }}</td>
+                            <td>{{ load.teacher }}</td>
+                            <td class="d-flex justify-content-center">
+                                <button type="button" class="btn btn-primary me-2" @click="selectLoad($event, load.cycle, load.subject, load.teacher)">Modificar</button>
+                                <button type="button" class="btn btn-danger" @click="confirmDelete($event, load.id)">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>    
 </template>
 
 <style scoped>
-    .load {
-        border-radius: 15px !important;
+    .list-click {
+        cursor: pointer;
     }
 </style>
