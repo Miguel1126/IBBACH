@@ -21,6 +21,7 @@ import Schedules from '../views/admin/Schedules.vue'
  * Components for secretary view
  */
 import Secretary from '../views/secretary/base/Secretary.vue'
+import Payments from '../views/secretary/Payments.vue'
 import TestSecretary from '../views/secretary/TestSecretary.vue'
 import Users from '../views/secretary/Users.vue'
 
@@ -84,6 +85,11 @@ export const router = createRouter({
       path: '/secretaria',
       component: Secretary,
       children: [
+        {
+          path: 'pagos',
+          name: 'Payments',
+          component: Payments
+        },
         {
           path: '',
           name: 'Testsec',
