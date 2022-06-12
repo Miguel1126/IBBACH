@@ -65,81 +65,84 @@
             },
             updateTable() {
                 const app = this
-                this.teachers.push({ id: app.teachers.length + 1,  name: app.names, lastname: app.lastnames, email: app.emails, telephone: app.telephones})
+                
+                app.teachers.push({ id: app.teachers.length + 1,  name: app.names, lastname: app.lastnames, email: app.emails, telephone: app.telephones})
                 app.clearDropdown()
             }
+            
         }
-       
     }
 
 </script>
 <template>
 <main>
-    <h1 class="h1 fs-1 fw-bold">Registro De Docentes</h1>
-    <section class=" p-3 ">
-    <h3 class="h1 fw-semibold">Editar Registro De Docentes</h3>
-    <div class="d-flex">
-    <div class="m-4">
-        <div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-default">Nombre</span>
-  </div>
-  <input v-model="names" placeholder="Escribir nombre" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-</div>
+<h1 class="h1 fs-1 fw-bold">Registro De Docentes</h1>
+<section class=" p-3 ">
+<h3 class="h1 fw-semibold">Editar Registro De Docentes</h3>
+<div class="d-flex">
+<div class="m-4">
 <div class="input-group mb-3">
   <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-default">Apellido</span>
-  </div>
-  <input v-model="lastnames" placeholder="Escribir apellido" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+<span class="input-group-text" id="inputGroup-sizing-default">Nombre</span>
+</div>
+<input v-model="names" placeholder="Escribir nombre" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 </div>
 <div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-default">Correo</span>
-  </div>
-  <input v-model="emails" placeholder="Escribir correo electronico" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+<div class="input-group-prepend">
+<span class="input-group-text" id="inputGroup-sizing-default">Apellido</span>
+</div>
+<input v-model="lastnames" placeholder="Escribir apellido" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 </div>
 <div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-default">Telefono</span>
-  </div>
-  <input v-model="telephones" placeholder="Escribir telefono" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+<div class="input-group-prepend">
+<span class="input-group-text" id="inputGroup-sizing-default">Correo</span>
 </div>
-                    <br>
-                <button type="button" class="d-inline-flex btn btn-outline-primary" @click="updateTable">Agregar<i class="material-icons m-auto">add_box</i></button>
-                
-                <button type="button" class=" d-inline-flex btn btn-outline-success ms-4" @click="updateTable">Guardar<i class="material-icons m-auto">save_as</i></button>
-
-            </div>
-            </div>
-         </section> 
-        <hr class="separator"/>
-         <section class="p-3">
-            <div class="table-container p-3 mb-5 bg-body rounded">
-                <h3 class="h3 fw-semibold mb-3 text-black">Listado De Docentes</h3>
-                <table class="table table-bordered border-body">
-                    <thead class="table-success table-bordered border-info">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Apellido</th>
-                            <th scope="col">Correo electronico</th>
-                            <th scope="col">Telefono</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        <tr v-for="teacher in teachers" :key="teacher.id">
-                            <th scope="row">{{ teacher.id }}</th>
-                            <td>{{ teacher.name }}</td>
-                            <td>{{teacher.lastname}}</td>
-                            <td>{{teacher.email}}</td>
-                            <td>{{teacher.telephone}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>  
-        <br> 
-         <br>
+<input v-model="emails" placeholder="Escribir correo electronico" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+</div>
+<div class="input-group mb-3">
+<div class="input-group-prepend">
+<span class="input-group-text" id="inputGroup-sizing-default">Telefono</span>
+</div>
+<input v-model="telephones" placeholder="Escribir telefono" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+</div>
+<br>
+<button type="button" class="d-inline-flex btn btn-primary btn-lg ms-4" @click="updateTable">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
+</div>
+</div>
+</section> 
+<hr class="separator"/>
+<section class="p-3">
+<div class="table-container p-3 mb-5 bg-body rounded">
+<h3 class="h3 fw-semibold mb-3 text-black">Listado De Docentes</h3>
+<table class="table table-bordered border-body">
+<thead class="table-success table-bordered border-info">
+<tr>
+<th scope="col">#</th>
+<th scope="col">Nombre</th>
+<th scope="col">Apellido</th>
+<th scope="col">Correo electronico</th>
+<th scope="col">Telefono</th>
+<th scope="col" class="w-25">Acciones</th>
+</tr>
+</thead>
+<tbody class="table-group-divider">
+<tr v-for="teacher in teachers" :key="teacher.id">
+<th scope="row">{{ teacher.id }}</th>
+<td>{{ teacher.name }}</td>
+<td>{{teacher.lastname}}</td>
+<td>{{teacher.email}}</td>
+<td>{{teacher.telephone}}</td>
+<td class="d-flex justify-content-center">
+<button type="button" class="btn btn-primary me-2" @click="selectTeacher($event, teacher.teacher)">Modificar</button>
+<button type="button" class="btn btn-danger" @click="confirmdelete()">Eliminar</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>  
+<br> 
+<br>
 </main>
 </template>
 <style scoped>
