@@ -96,7 +96,7 @@ export const router = createRouter({
           component: TestSecretary
         },
         {
-          path: '',
+          path: 'Usuarios',
           name: 'Users',
           component: Users
         }
