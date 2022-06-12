@@ -119,10 +119,9 @@
                         <span v-if="!sdSelected.length">fecha de inicio</span>
                         <span v-else>{{ sdSelected[0] }}</span>
                     </button>
-                      <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
                           <div><input type="date" v-model="sdate"><p>Fecha: {{ sdate }}</p></div>
                             <li v-for="start_date in start_dates" :key="start_date.id" class="dropdown-item"><button class="text-light" @click="selectSd($event, start_date.sdate)">{{ start_date.sdate }}</button></li> 
-
                     </ul>
                 </div>
                 <div class="dropdown m-4">
@@ -130,10 +129,9 @@
                         <span v-if="!edSelected.length">fecha de finalización</span>
                         <span v-else>{{ edSelected[0] }}</span>
                     </button>
-                      <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
                           <div><input type="date" v-model="edate"><p>Fecha: {{ edate }}</p></div>
                             <li v-for="end_date in end_dates" :key="end_date.id" class="dropdown-item"><button class="text-light" @click="selectEnd($event, end_date.edate)">{{ end_date.edate }}</button></li> 
-
                     </ul>
                 </div>
                  <div class="dropdown m-4">
