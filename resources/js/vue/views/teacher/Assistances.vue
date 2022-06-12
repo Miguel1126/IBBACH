@@ -1,111 +1,73 @@
 <script>
-    export default {
-        data() {
-            return {
-                date:[
-                     { id: 1, date: '' },
-                    { id: 2, date: '' },
-                    { id: 3, date: '' }
-                ],
-                	
-                assistances:[
-                    { id: 1, date: '', statu: 'Presente'},
-                    { id: 2, date: '', statu: 'Ausente'},
-                    { id: 3, date: '', statu:'Permiso'}
-                
-                ],
-                assistances: [
-                    { id: 1, statu: 'Presente' },
-                    { id: 2, statu: 'Ausente'},
-                    { id: 3, statu: 'Permiso'}
-                ],
-                dates:null,
-                status: null,
-                datSelected:[],
+export default {
+    data() {
+        return {
+            assistance: {
+                date:null,
                 staSelected: [],
-                
-            }
-        },
-        methods: {
+                notSelected: []
             },
-            selectdat(event, assistance) {
-                this.datSelected = []
-                this.datSelected.push(assistance)
-            },
-            selectsta(event, assistance){
-                this.staSelected = []
-                this.staSelected.push(assistance)
-            },
-            clearDropdown() {
-                const app = this
-                app.datSelected =[]
-                app.staSelected = []
-            },
-            updateTable() {
-                const app = this
-                app.assistances.push({ id: app.assistances.length + 1,  date: app.dates, statu: app.status})
-                app.clearDropdown()
-            },
-           
+            status: [
+                {id: 1, statu: 'Presente'},
+                {id: 2, statu: 'Ausente'},
+                {id: 3, statu: 'permiso'}
+            ],
+            notes: [
+                {id: 1, note: '1'},
+                {id: 2, note: '2'},
+                {id: 3, note: '3'}
+            ]
         }
+    },
+    methods: {
+        selectSta(event, statu) {
+            this.assistance.staSelected = []
+            this.assistance.staSelected.push(statu)
+        },
+         selectNot(event, note) {
+            this.assistance.notSelected = []
+            this.assistance.notSelected.push(note)
+        }
+    }
+}
 </script>
 
 <template>
     <main>
-        <h1 class="h1 fs-1 fw-bold">Registro de asistencias</h1>
-        <br />
-        <section class=" p-3 ">
-            <div class="d-flex">
+        <h1 class="h1 fs-1 fw-bold">Registro de asistencia</h1>
+        <section class="p-3">
+            <h3 class="h3 fw-semibold">Registrar asistencia</h3>
+             <div class="d-flex">
+                <div class="m-2">
+                    <label>Fecha</label>
+                    <input class="form-control" type="date" name="fechainicio" placeholder="00-00-000" v-model="assistance.date">
+                </div>
+                <div class="dropdown m-4">
+                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                <span><i class="material-icons">group</i></span>
+                    <span v-if="!assistance.staSelected.length">Estado</span>
+                    <span v-else>{{ assistance.staSelected[0] }}</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                    <li v-for="statu in status" :key="statu.id" class="dropdown-item"><button class="text-light" @click="selectSta($event, statu.statu)">{{ statu.statu }}</button></li> 
+                </ul>
+                </div>
+                 <div class="dropdown m-4">
+                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                <span><i class="material-icons">note</i></span>
+                    <span>Notas</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                    <li v-for="note in notes" :key="note.id" class="dropdown-item"><button class="text-light" @click="SelectedNot($event, note.note)">{{ note.note }}</button></li> 
+                </ul>
+                </div>
             </div>
         </section>
-        <section class=" p-3 ">
-            <input type="date">
-            <br>
-            <br>
-            <div class="dropdown m-2">
-  <button type="button" class="btn btn-primary dropdown-toggle" data-mdb-toggle="dropdown" aria-expanded="false">
-    <span v-if="!staSelected.length">Estado</span>
-    <span v-else>{{ staSelected[0] }}</span>
-  </button>
-   <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-    <li v-for="statu in status" :key="statu.id" class="dropdown-item"><button class="text-light" @click="selectSta($event, statu.statu)">{{ statu.statu }}</button></li>
-    </ul>
-    
-</div>
-<h3 class="h3 fw-semibold mb-3">Listado de asistencias</h3>
-<br>
-<table class="table table-bordered table-light border-dark">
-<thead class="table-light table-bordered border-dark">
-<tr>
-<th scope="col">#</th>
-<th scope="col">Fecha</th>
-<th scope="col">Estado</th>
-</tr>
-</thead>
-<tbody class="table-group-divider">
-<tr v-for="assistance in assistances" :key="assistance.id">
-<th scope="row">{{ assistance.id }}</th>
-<td>{{assistance.date}}</td>
-<td>{{assistance.statu}}</td>
-<br>
-</tr>
-</tbody>
-</table>
-<br>
-</section>
-</main>    
+    </main>
 </template>
 
 <style scoped>
     .assistance {
         border-radius: 15px !important;
-    }
-
-    
-    th{
-        color: black;
-    }
-    tr{
-        color: black
     }
 </style>
