@@ -22,7 +22,6 @@ import Schedules from '../views/admin/Schedules.vue'
  */
 import Secretary from '../views/secretary/base/Secretary.vue'
 import Payments from '../views/secretary/Payments.vue'
-import TestSecretary from '../views/secretary/TestSecretary.vue'
 import Users from '../views/secretary/Users.vue'
 
 /**
@@ -91,12 +90,7 @@ export const router = createRouter({
           component: Payments
         },
         {
-          path: '',
-          name: 'Testsec',
-          component: TestSecretary
-        },
-        {
-          path: '',
+          path: 'usuarios',
           name: 'Users',
           component: Users
         }
