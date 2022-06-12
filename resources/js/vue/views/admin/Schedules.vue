@@ -129,7 +129,7 @@
                             <span v-else>{{ subSelected[0] }}</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                            <li v-for="subject in subjects" :key="subject.id" class="dropdown-item"><button class="text-light" @click="selectSub($event, subject.subject)">{{ subject.subject }}</button></li>
+                            <li v-for="subject in subjects" :key="subject.id" class="dropdown-item text-light list-click" @click="selectSub($event, subject.subject)">{{ subject.subject }}</li>
                         </ul>
                     </div>
                     <div class="input-group-lg w-25">
@@ -142,7 +142,7 @@
                             <span v-else>{{ teaSelected[0] }}</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                            <li v-for="teacher in teachers" :key="teacher.id" class="dropdown-item"><button class="text-light" @click="selectTea($event, teacher.name)">{{ teacher.name }}</button></li>
+                            <li v-for="teacher in teachers" :key="teacher.id" class="dropdown-item text-ligth list-click" @click="selectTea($event, teacher.name)">{{ teacher.name }}</li>
                         </ul>
                     </div>
                 <div class="m-4">
@@ -187,7 +187,7 @@
 </template>
 
 <style scoped>
-    .load {
-        border-radius: 15px !important;
+    .list-click {
+        cursor: pointer;
     }
 </style>

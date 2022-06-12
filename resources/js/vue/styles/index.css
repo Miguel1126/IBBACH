@@ -27,4 +27,8 @@ body {
 	color: rgb(197, 197, 197);
 	opacity: 1;
 }
+.home-link {
+	position: relative;
+	z-index: 99;
+}
 
