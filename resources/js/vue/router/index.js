@@ -21,7 +21,8 @@ import Schedules from '../views/admin/Schedules.vue'
  * Components for secretary view
  */
 import Secretary from '../views/secretary/base/Secretary.vue'
-import TestSecretary from '../views/secretary/TestSecretary.vue'
+import Payments from '../views/secretary/Payments.vue'
+import Users from '../views/secretary/Users.vue'
 
 /**
  * Components for teacher view
@@ -35,6 +36,7 @@ import Assistances from '../views/teacher/Assistances.vue'
  */
 import Student from '../views/student/base/Student.vue'
 import TestStudent from '../views/student/TestStudent.vue'
+
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -85,9 +87,14 @@ export const router = createRouter({
       component: Secretary,
       children: [
         {
-          path: '',
-          name: 'Testsec',
-          component: TestSecretary
+          path: 'pagos',
+          name: 'Payments',
+          component: Payments
+        },
+        {
+          path: 'Usuarios',
+          name: 'Users',
+          component: Users
         }
       ]
     },

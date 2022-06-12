@@ -119,10 +119,9 @@
                         <span v-if="!sdSelected.length">fecha de inicio</span>
                         <span v-else>{{ sdSelected[0] }}</span>
                     </button>
-                      <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
                           <div><input type="date" v-model="sdate"><p>Fecha: {{ sdate }}</p></div>
                             <li v-for="start_date in start_dates" :key="start_date.id" class="dropdown-item"><button class="text-light" @click="selectSd($event, start_date.sdate)">{{ start_date.sdate }}</button></li> 
-
                     </ul>
                 </div>
                 <div class="dropdown m-4">
@@ -130,10 +129,9 @@
                         <span v-if="!edSelected.length">fecha de finalización</span>
                         <span v-else>{{ edSelected[0] }}</span>
                     </button>
-                      <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
                           <div><input type="date" v-model="edate"><p>Fecha: {{ edate }}</p></div>
                             <li v-for="end_date in end_dates" :key="end_date.id" class="dropdown-item"><button class="text-light" @click="selectEnd($event, end_date.edate)">{{ end_date.edate }}</button></li> 
-
                     </ul>
                 </div>
                  <div class="dropdown m-4">
@@ -145,44 +143,44 @@
                         <li v-for="group in groups" :key="group.id" class="dropdown-item"><button class="text-light" @click="selectGro($event, group.group)">{{ group.group }}</button></li>
                     </ul>
                 </div>
-                 <div class="m-4">
+                <div class="m-4">
                     <button type="button" class="btn btn-primary btn-lg" @click="updateTable">Agregar <i class="material-icons m-auto">add_box</i></button>
                     <button type="button" class="btn btn-warning btn-lg ms-4" @click="clearDropdown">Limpiar <i class="material-icons m-auto">backspace</i></button>
                 </div>
             </div>
         </section>
-                <section class=" p-3 ">
-            <h3 class="h3 fw-semibold mb-3">Listado de ciclos</h3>
-            <table class="table table-bordered border-dark">
-                <thead class="table-info table-bordered border-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Ciclo</th>
-                        <th scope="col">Fecha de inicio</th>
-                        <th scope="col">Fecha de finalización</th>
-                        <th scope="col">Grupo</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <tr v-for="cy in cys" :key="cy.id">
-                        <th scope="row">{{ cycle.id }}</th>
-                        <td>{{ cy.cycle }}</td>
-                        <td>{{ cy.sdate }}</td>
-                        <td>{{ cy.edate }}</td>
-                        <td>{{ cy.group }}</td>
-                        <td class="d-flex justify-content-center"><button type="button" class="btn btn-primary me-2">Modificar</button><button type="button" class="btn btn-danger">Eliminar</button></td>
-                    </tr>
-                </tbody>
-            </table>
+        <hr class="separator"/>
+        <section class="p-3">
+            <div class="table-container p-3 mb-5 bg-body rounded">
+                <h3 class="h3 fw-semibold mb-3 text-black">Listado de ciclos</h3>
+                <table class="table table-bordered border-dark">
+                    <thead class="table-info table-bordered border-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Ciclo</th>
+                            <th scope="col">Fecha de inicio</th>
+                            <th scope="col">Fecha de finalización</th>
+                            <th scope="col">Grupo</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr v-for="cy in cys" :key="cy.id">
+                            <th scope="row">{{ cycle.id }}</th>
+                            <td>{{ cy.cycle }}</td>
+                            <td>{{ cy.sdate }}</td>
+                            <td>{{ cy.edate }}</td>
+                            <td>{{ cy.group }}</td>
+                            <td class="d-flex justify-content-center"><button type="button" class="btn btn-primary me-2">Modificar</button><button type="button" class="btn btn-danger">Eliminar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
 </template>
 <style scoped>
     .load {
         border-radius: 15px !important;
-    }
-    td{
-        color: white;
     }
 </style>

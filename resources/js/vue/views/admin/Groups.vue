@@ -107,27 +107,30 @@
                 <button v-if="editing" type="button" class="d-inline-flex btn btn-danger btn-lg ms-3" @click="clearInput">Cancelar <i class="material-icons m-auto ms-1">cancel</i></button>
             </div>
         </section>
-        <section class=" p-3 ">
-            <h3 class="h3 fw-semibold mb-3">Listado de grupos</h3>
-            <table class="table table-bordered border-dark">
-                <thead class="table-info table-bordered border-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Grupo</th>
-                        <th scope="col" class="w-25">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <tr v-for="group in groups" :key="group.id">
-                        <th scope="row">{{ group.id }}</th>
-                        <td>{{ group.group }}</td>
-                        <td class="d-flex justify-content-center">
-                            <button type="button" class="btn btn-primary me-2" @click="selectGroup($event, group.group )">Modificar</button>
-                            <button type="button" class="btn btn-danger" @click="confirmDelete($event, group.id)">Eliminar</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <hr class="separator"/>
+        <section class="p-3">
+            <div class="table-container p-3 mb-5 bg-body rounded">
+                <h3 class="h3 fw-semibold mb-3 text-black">Listado de grupos</h3>
+                <table class="table table-bordered border-dark">
+                    <thead class="table-info table-bordered border-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Grupo</th>
+                            <th scope="col" class="w-25">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr v-for="group in groups" :key="group.id">
+                            <th scope="row">{{ group.id }}</th>
+                            <td>{{ group.group }}</td>
+                            <td class="d-flex justify-content-center">
+                                <button type="button" class="btn btn-primary me-2" @click="selectGroup($event, group.group )">Modificar</button>
+                                <button type="button" class="btn btn-danger" @click="confirmDelete($event, group.id)">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>    
 </template>

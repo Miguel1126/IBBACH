@@ -112,32 +112,31 @@
             </div>
             </div>
          </section> 
-        <br />
-         <section class=" p-3 ">
-            <h3 class="h3 fw-semibold mb-3">Listado De Docentes</h3>
-            <table class="table table-bordered table-light border-dark">
-            <thead class="table-light table-bordered border-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Apellido</th>
-                        <th scope="col">Correo electronico</th>
-                        <th scope="col">Telefono</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <tr v-for="teacher in teachers" :key="teacher.id">
-                        <th scope="row">{{ teacher.id }}</th>
-                        <td>{{ teacher.name }}</td>
-                        <td>{{teacher.lastname}}</td>
-                        <td>{{teacher.email}}</td>
-                        <td>{{teacher.telephone}}</td>
-                        <button type="button" class="d-inline-flex btn btn-outline-info ms-4"  @click="updateTable">Editar<i class="material-icons m-auto">drive_file_rename_outline</i></button>
-                        <button type="button"  class=" d-inline-flex btn btn-outline-danger ms-4" @click="updateTable">Eliminar<i class="material-icons m-auto">delete</i></button>
-                    </tr>
-                </tbody>
-            </table>
+        <hr class="separator"/>
+         <section class="p-3">
+            <div class="table-container p-3 mb-5 bg-body rounded">
+                <h3 class="h3 fw-semibold mb-3 text-black">Listado De Docentes</h3>
+                <table class="table table-bordered border-body">
+                    <thead class="table-success table-bordered border-info">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Correo electronico</th>
+                            <th scope="col">Telefono</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr v-for="teacher in teachers" :key="teacher.id">
+                            <th scope="row">{{ teacher.id }}</th>
+                            <td>{{ teacher.name }}</td>
+                            <td>{{teacher.lastname}}</td>
+                            <td>{{teacher.email}}</td>
+                            <td>{{teacher.telephone}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>  
         <br> 
          <br>

@@ -12,7 +12,9 @@ const ToggleMenu = () => {
 <template>
 	<aside :class="`${is_expanded ? 'is-expanded' : ''}`">
 		<div class="logo">
-			<img :src="logoURL" alt="Vue" /> 
+			<router-link class="home-link" to="/">
+				<img :src="logoURL" alt="Vue" /> 
+			</router-link>
 		</div>
 
 		<div class="menu-toggle-wrap">
@@ -23,7 +25,8 @@ const ToggleMenu = () => {
 
 		<h3>Menu</h3>
 		<div class="menu">
-			<Link url="Testsec" name="Test" icon="home"></Link>
+			<Link url="Payments" name="Pagos" icon="request_quote"></Link>
+			<Link url="Users" name="Usuarios" icon="person"></Link>
 		</div>
 
 		<div class="flex"></div>

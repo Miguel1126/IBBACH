@@ -8,12 +8,12 @@ button {
 .app {
 	display: flex;
 	width: 100vw;
-	height: 100vh;
 	main {
 		flex: 1 1 0;
 		padding: 2rem;
 		@media (max-width: 1024px) {
 			padding-left: 6rem;
+			height: 100vh;
 		}
 	}
 }
