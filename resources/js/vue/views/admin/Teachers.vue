@@ -106,8 +106,7 @@
 </div>
                     <br>
                 <button type="button" class="d-inline-flex btn btn-outline-primary" @click="updateTable">Agregar<i class="material-icons m-auto">add_box</i></button>
-                <button type="button" class="d-inline-flex btn btn-outline-info ms-4"  @click="updateTable">Editar<i class="material-icons m-auto">drive_file_rename_outline</i></button>
-                <button type="button"  class=" d-inline-flex btn btn-outline-danger ms-4" @click="updateTable">Eliminar<i class="material-icons m-auto">delete</i></button>
+                
                 <button type="button" class=" d-inline-flex btn btn-outline-success ms-4" @click="updateTable">Guardar<i class="material-icons m-auto">save_as</i></button>
 
             </div>
@@ -146,5 +145,11 @@
 <style scoped>
     .teacher {
         border-radius: 20px !important;
+    }
+     th{
+        color: black;
+    }
+    tr{
+        color: black
     }
 </style>
