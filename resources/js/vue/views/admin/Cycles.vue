@@ -149,7 +149,7 @@
                 </div>
             </div>
         </section>
-                <section class=" p-3 ">
+        <section class=" p-3 ">
             <h3 class="h3 fw-semibold mb-3">Listado de ciclos</h3>
             <table class="table table-bordered border-dark">
                 <thead class="table-info table-bordered border-dark">
