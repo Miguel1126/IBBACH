@@ -10,7 +10,7 @@ export default {
             status: [
                 {id: 1, statu: 'Presente'},
                 {id: 2, statu: 'Ausente'},
-                {id: 3, statu: 'permiso'}
+                {id: 3, statu: 'Permiso'}
             ],
             notes: [
                 {id: 1, note: '1'},
@@ -18,15 +18,8 @@ export default {
                 {id: 3, note: '3'}
             ],
             assistances:[
-
-            ],
-             
-             date: null,
-             statu:null,
-             note: null,
-             datSelected:[],
-             staSelected:[],
-             notSelected: [],
+                
+            ]
                     
         }
     },
@@ -47,7 +40,7 @@ export default {
             },
             updateTable() {
                 const app = this
-                app.assistances.push({ id: app.assistances.length + 1,  date: app.date, statu: app.status, note: app.notes, })
+                app.assistances.push({ id: app.assistances.length + 1,  date: app.assistance.date, statu: app.assistance.staSelected[0], note: app.assistance.notSelected[0], })
                 app.clearDropdown()
             },
         
