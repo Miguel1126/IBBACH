@@ -175,7 +175,7 @@
         <hr class="separator"/>
         <section class="p-3">
             <div class="table-container p-3 mb-5 bg-body rounded">
-                <h3 class="h3 fw-semibold mb-3 text-black">Listado de cargas</h3>
+                <h3 class="h3 fw-semibold mb-3 text-black">Listado de pagos</h3>
                 <table class="table table-bordered border-dark bg-light">
                     <thead class="table-success table-bordered border-dark">
                         <tr>
