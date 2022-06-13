@@ -66,6 +66,10 @@
                 app.pay.price = price
                 app.pay.tuitSelected = tuition
             },
+             deleteRate(id){
+                this.rates = this.rates.filter(rate => rate.id != id)
+                this.rates = [... this.rates]
+            },
             saveEdit() {
                 this.editing = false
                 this.clearDropdown()
@@ -74,10 +78,6 @@
                         'Se editó la cuota',
                         'success'
                     )
-            },
-            deleteRate(id){
-                this.rates = this.rates.filter(rate => rate.id != id)
-                this.rates = [... this.rates]
             },
             confirmDelete(event, id) {
                 this.$swal.fire({
@@ -161,7 +161,10 @@
                             <td>{{ rate.rate }}</td>
                             <td>{{ rate.price }}</td>
                             <td>{{ rate.tuition }}</td>
-                            <td class="d-flex justify-content-center"><button type="button" class="btn btn-primary me-2">Modificar</button><button type="button" class="btn btn-danger">Eliminar</button></td>
+                        <td class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-primary me-2" @click="selectRate($event, rate.tuition, rate.price)">Modificar</button>
+                            <button type="button" class="btn btn-danger" @click="confirmDelete($event, rate.id)">Eliminar</button>
+                        </td>
                         </tr>
                     </tbody>
                 </table>

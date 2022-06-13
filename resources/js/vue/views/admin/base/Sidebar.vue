@@ -32,11 +32,10 @@ const ToggleMenu = () => {
 			<Link url="Teachers" name="Docentes" icon="app_registration"></Link>
 			<Link url="Schedules" name="Horarios" icon="schedule"></Link>
 		</div>
-
-		<div class="flex"></div>
 		
+		<h3>Reportes</h3>
 		<div class="menu">
-			<!--<Link url="/settings" name="Settings" icon="settings"></Link>-->
+			<Link url="LoadsReport" name="Cargas" icon="summarize"></Link>
 		</div>
 	</aside>
 </template>
@@ -51,7 +50,6 @@ aside  {
 	overflow: hidden;
 	min-height: 100vh;
 	padding: 1rem;
-
 	transition: 0.2s ease-in-out;
 	.flex {
 		flex: 1 1 0%;
@@ -60,12 +58,13 @@ aside  {
 		margin-bottom: 1rem;
 		img {
 			width: 2rem;
+			transition: 0.2s ease-in-out;
+			border-radius: 10px;
 		}
 	}
 	.menu-toggle-wrap {
 		display: flex;
 		justify-content: flex-end;
-		margin-bottom: 1rem;
 		position: relative;
 		top: 0;
 		transition: 0.2s ease-in-out;
@@ -97,6 +96,7 @@ aside  {
 	}
 	.menu {
 		margin: 0 -1rem;
+		margin-bottom: 1.6rem;
 		.button {
 			display: flex;
 			align-items: center;
@@ -137,8 +137,13 @@ aside  {
 	}
 	&.is-expanded {
 		width: var(--sidebar-width);
+		img {
+			margin-bottom: 30px;
+			width: 150px;
+			transition: 0.2s ease-in-out;
+		}
 		.menu-toggle-wrap {
-			top: -3rem;
+			top: -2rem;
 			
 			.menu-toggle {
 				transform: rotate(-180deg);
