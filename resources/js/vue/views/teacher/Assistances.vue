@@ -10,29 +10,39 @@ export default {
             status: [
                 {id: 1, statu: 'Presente'},
                 {id: 2, statu: 'Ausente'},
-                {id: 3, statu: 'permiso'}
+                {id: 3, statu: 'Permiso'}
             ],
             notes: [
                 {id: 1, note: '1'},
                 {id: 2, note: '2'},
                 {id: 3, note: '3'}
             ],
-             assistances:[
-                    
+            assistances:[
                 
-                ],
+            ]
+                    
         }
     },
-    methods: {
-        selectSta(event, statu) {
-            this.assistance.staSelected = []
-            this.assistance.staSelected.push(statu)
-        },
-         selectNot(event, note) {
-            this.assistance.notSelected = []
-            this.assistance.notSelected.push(note)
-        },
-        
+            methods: {
+                selectSta(event, statu) {
+                this.assistance.staSelected = []
+                this.assistance.staSelected.push(statu)
+            },
+                selectNot(event, note) {
+                this.assistance.notSelected = []
+                this.assistance.notSelected.push(note)
+            },
+                clearDropdown() {
+                const app = this
+                app.staSelected = []
+                app.notSelected =[]
+                
+            },
+            updateTable() {
+                const app = this
+                app.assistances.push({ id: app.assistances.length + 1,  date: app.assistance.date, statu: app.assistance.staSelected[0], note: app.assistance.notSelected[0], })
+                app.clearDropdown()
+            },
         
     }
 }
@@ -61,17 +71,16 @@ export default {
                  <div class="dropdown m-4">
                     <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
                 <span><i class="material-icons">note</i></span>
-                    <span>Notas</span>
+                    <span v-if="!assistance.notSelected.length">Notas</span>
+                        <span v-else>{{ assistance.notSelected[0] }}</span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
                     <li v-for="note in notes" :key="note.id" class="dropdown-item"><button class="text-light list-click" @click="selectNot($event, note.note)">{{ note.note }}</button></li> 
                 </ul>
                 </div>
                 <div class="m-4">
-                    <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg" @click="updateTable">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
-                    <button v-else type="button" class="d-inline-flex btn btn-success btn-lg" @click="saveEdit">Guardar <i class="material-icons m-auto ms-1">edit</i></button>
-                    <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning btn-lg ms-3" @click="clearDropInput">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
-                    <button v-else type="button" class="d-inline-flex btn btn-danger btn-lg ms-3" @click="clearDropInput">Cancelar <i class="material-icons m-auto ms-1">cancel</i></button>
+                    <button type="button" class="d-inline-flex btn btn-primary btn-lg" @click="updateTable">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
+                    <button type="button" class="d-inline-flex btn btn-warning btn-lg ms-3" @click="clearDrowdop">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
                 </div>
             </div>
         </section>
@@ -85,11 +94,16 @@ export default {
                             <th scope="col">Fecha de asistencia</th>
                             <th scope="col">Estado</th>
                             <th scope="col">Notas</th>
-                            <th scope="col" class="w-25">Acciones</th>
-                            <tbody class="table-group-divider">
-                    </tbody>
                         </tr>
                     </thead>
+<tbody class="table-group-divider">
+<tr v-for="assistance in assistances" :key="assistance.id">
+<th scope="row">{{ assistance.id }}</th>
+<td>{{ assistance.date }}</td>
+<td>{{assistance.statu}}</td>
+<td>{{assistance.note}}</td>
+</tr>
+</tbody>
                     
                 </table>
             </div>
