@@ -10,7 +10,7 @@ export default {
             status: [
                 {id: 1, statu: 'Presente'},
                 {id: 2, statu: 'Ausente'},
-                {id: 3, statu: 'permiso'}
+                {id: 3, statu: 'Permiso'}
             ],
             notes: [
                 {id: 1, note: '1'},
@@ -18,15 +18,8 @@ export default {
                 {id: 3, note: '3'}
             ],
             assistances:[
-
-            ],
-             
-             date: null,
-             statu:null,
-             note: null,
-             datSelected:[],
-             staSelected:[],
-             notSelected: [],
+                
+            ]
                     
         }
     },
@@ -47,12 +40,43 @@ export default {
             },
             updateTable() {
                 const app = this
-                app.assistances.push({ id: app.assistances.length + 1,  date: app.date, statu: app.status, note: app.notes, })
+                app.assistances.push({ id: app.assistances.length + 1,  date: app.assistance.date, statu: app.assistance.staSelected[0], note: app.assistance.notSelected[0], })
                 app.clearDropdown()
+                },
+                deleteAssistance(id){
+                this.assistances = this.assistances.filter(assistance => assistance.id != id);
+                this.assistances = [... this.assistances];
             },
+           
+               confirmDelete(event, id) {
+                this.$swal.fire({
+                    title: '¿Estas seguro de querer borrar esta asistencia?',
+                    text: "Si la borras, no podrás recuperarla",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Borrar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    this.deleteAssistance(id)
+                    this.$swal.fire(
+                        'Listo',
+                        'La asistencia ha sido eliminada',
+                        'success'
+                    )
+                }
+                })
+            },
+            },
+              setup() {
+            document.title = "IBBACH | Asistencias"
+            
         
     }
 }
+    
 </script>
 
 <template>
@@ -86,7 +110,7 @@ export default {
                 </ul>
                 </div>
                 <div class="m-4">
-                    <button type="button" class="d-inline-flex btn btn-primary btn-lg" @click="updateTable">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
+                    <button  type="button" class="d-inline-flex btn btn-primary btn-lg" @click="updateTable">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
                     <button type="button" class="d-inline-flex btn btn-warning btn-lg ms-3" @click="clearDrowdop">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
                 </div>
             </div>
@@ -101,6 +125,7 @@ export default {
                             <th scope="col">Fecha de asistencia</th>
                             <th scope="col">Estado</th>
                             <th scope="col">Notas</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
 <tbody class="table-group-divider">
@@ -109,6 +134,10 @@ export default {
 <td>{{ assistance.date }}</td>
 <td>{{assistance.statu}}</td>
 <td>{{assistance.note}}</td>
+<td class="d-flex justify-content-center">
+    <button type="button" class="btn btn-primary me-2" @click="selectAssistance($event, assistance.assistance, assistance.statu, assistance.note)">Modificar</button>
+    <button type="button" class="btn btn-danger" @click="confirmDelete($event, assistance.id)">Eliminar</button>
+</td>
 </tr>
 </tbody>
                     
