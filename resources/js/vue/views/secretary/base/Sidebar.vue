@@ -56,12 +56,13 @@ aside  {
 		margin-bottom: 1rem;
 		img {
 			width: 2rem;
+			transition: 0.2s ease-in-out;
+			border-radius: 10px;
 		}
 	}
 	.menu-toggle-wrap {
 		display: flex;
 		justify-content: flex-end;
-		margin-bottom: 1rem;
 		position: relative;
 		top: 0;
 		transition: 0.2s ease-in-out;
@@ -133,8 +134,13 @@ aside  {
 	}
 	&.is-expanded {
 		width: var(--sidebar-width);
+		img {
+			margin-bottom: 30px;
+			width: 150px;
+			transition: 0.2s ease-in-out;
+		}
 		.menu-toggle-wrap {
-			top: -3rem;
+			top: -2rem;
 			
 			.menu-toggle {
 				transform: rotate(-180deg);

@@ -16,6 +16,7 @@ import Subjects from '../views/admin/Subjects.vue'
 import Cycles from '../views/admin/Cycles.vue'
 import Teachers from '../views/admin/Teachers.vue'
 import Schedules from '../views/admin/Schedules.vue'
+import LoadsReport from '../views/admin/reports/LoadsReport.vue'
 
 /**
  * Components for secretary view
@@ -80,6 +81,11 @@ export const router = createRouter({
           path: 'horarios',
           name: 'Schedules',
           component: Schedules
+        },
+        {
+          path: 'reporte-cargas',
+          name: 'LoadsReport',
+          component: LoadsReport
         }
       ]
     },
