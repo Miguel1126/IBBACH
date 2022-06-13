@@ -18152,7 +18152,7 @@ __webpack_require__.r(__webpack_exports__);
         statu: 'Ausente'
       }, {
         id: 3,
-        statu: 'permiso'
+        statu: 'Permiso'
       }],
       notes: [{
         id: 1,
@@ -18164,13 +18164,7 @@ __webpack_require__.r(__webpack_exports__);
         id: 3,
         note: '3'
       }],
-      assistances: [],
-      date: null,
-      statu: null,
-      note: null,
-      datSelected: [],
-      staSelected: [],
-      notSelected: []
+      assistances: []
     };
   },
   methods: {
@@ -18191,9 +18185,9 @@ __webpack_require__.r(__webpack_exports__);
       var app = this;
       app.assistances.push({
         id: app.assistances.length + 1,
-        date: app.date,
-        statu: app.status,
-        note: app.notes
+        date: app.assistance.date,
+        statu: app.assistance.staSelected[0],
+        note: app.assistance.notSelected[0]
       });
       app.clearDropdown();
     }
@@ -28887,6 +28881,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Schedules_vue_vue_type_template_id_7e78fae4_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Schedules.vue?vue&type=template&id=7e78fae4&scoped=true */ "./resources/js/vue/views/admin/Schedules.vue?vue&type=template&id=7e78fae4&scoped=true");
 /* harmony import */ var _Schedules_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Schedules.vue?vue&type=script&lang=js */ "./resources/js/vue/views/admin/Schedules.vue?vue&type=script&lang=js");
 /* harmony import */ var _Schedules_vue_vue_type_style_index_0_id_7e78fae4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Schedules.vue?vue&type=style&index=0&id=7e78fae4&scoped=true&lang=css */ "./resources/js/vue/views/admin/Schedules.vue?vue&type=style&index=0&id=7e78fae4&scoped=true&lang=css");
+/* harmony import */ var D_GitHub_IBBACH_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
 ;
 
 
