@@ -5,6 +5,7 @@ import { createRouter, createWebHistory } from 'vue-router'
  */
 import Home from '../views/Home.vue'
 import NotFound from '../views/NotFound.vue'
+import Applicant from '../views/Applicant.vue'
 
 /**
  * Components for admin view
@@ -14,7 +15,6 @@ import Loads from '../views/admin/Loads.vue'
 import Groups from '../views/admin/Groups.vue'
 import Subjects from '../views/admin/Subjects.vue'
 import Cycles from '../views/admin/Cycles.vue'
-import Teachers from '../views/admin/Teachers.vue'
 import Schedules from '../views/admin/Schedules.vue'
 import LoadsReport from '../views/admin/reports/LoadsReport.vue'
 
@@ -71,11 +71,6 @@ export const router = createRouter({
           path: 'ciclos',
           name: 'Cycle',
           component: Cycles
-        },
-        { 
-          path: 'docentes',
-          name: 'Teachers',
-          component: Teachers
         },
         {
           path: 'horarios',
@@ -136,6 +131,11 @@ export const router = createRouter({
           component: TestStudent
         }
       ]
+    },
+    {
+      path: '/solicitud-de-ingreso',
+      name: 'Applicant',
+      component: Applicant
     },
     { 
       path: '/:pathMatch(.*)*',
