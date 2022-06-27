@@ -12,6 +12,7 @@
 		<router-link to="/admin">Admin</router-link> | 
 		<router-link to="/secretaria">Secretaria</router-link> | 
 		<router-link to="/docente">Docente</router-link> | 
-		<router-link to="/estudiante">Estudiante</router-link> | 
+		<router-link to="/estudiante">Estudiante</router-link> |
+		<router-link to="/solicitud-de-ingreso">Formulario de ingreso</router-link> |
 	</main>
 </template>
