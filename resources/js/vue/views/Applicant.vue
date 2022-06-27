@@ -1,18 +1,18 @@
 <script setup>
-    function formatPhone() {
-        let phoneNumber = document.getElementById("phone").value
+    function formatPhone(id) {
+        let phoneNumber = document.getElementById(id).value
         if (phoneNumber.length === 8) {
             let cleaned = ('' + phoneNumber).replace(/\D/g, '')
             let match = cleaned.match(/^(\d{4})(\d{4})$/)
             if (match) {
-                document.querySelector('#phone').value = match[1] + '-' + match[2]
+                document.querySelector(`#${id}`).value = match[1] + '-' + match[2]
             }
             else {
-                document.querySelector('#phone').value = ""
+                document.querySelector(`#${id}`).value = ""
             }
         }
         if (phoneNumber.length > 9) {
-            document.querySelector('#phone').value = phoneNumber.slice(0, -1)
+            document.querySelector(`#${id}`).value = phoneNumber.slice(0, -1)
         }
     }
 </script>
@@ -41,8 +41,8 @@
                             <input type="email" class="form-control" id="email" placeholder="juanperez@gmail.com" required>
                         </div>
                         <div class="mb-3">
-                            <label for="phone" class="form-label">Teléfono</label>
-                            <input type="text" class="form-control" id="phone" placeholder="6458-5955" @input="formatPhone" required>
+                            <label for="phone1" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="phone1" placeholder="6458-5955" @input="formatPhone('phone1')" required>
                         </div>
                         <div class="mb-3">
                             <label for="address" class="form-label">Dirección donde reside</label>
@@ -100,9 +100,9 @@
                             <label for="churchAddress" class="form-label">Dirección de la iglesia</label>
                             <input type="text" class="form-control" id="churchAddress" placeholder=" municipio, departamento" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Teléfono</label>
-                            <input type="text" class="form-control" id="phone" placeholder="6458-5955" @input="formatPhone" required>
+                      <div class="mb-3">
+                            <label for="phone2" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="phone2" placeholder="6458-5955" @input="formatPhone('phone2')" required>
                         </div>
                         <div class="mb-3">
                             <label for="district" class="form-label">Distrito</label>
@@ -117,10 +117,10 @@
                                 <label for="licence" class="form-label">Licencia</label>
                                 <input type="text" class="form-control" id="licence" placeholder="licencia" required>
                             </div>
-                            <div>
-                                <label for="phone" class="form-label">Teléfono</label>
-                                <input type="text" class="form-control" id="phone" placeholder="6458-5955" @input="formatPhone" required>
-                            </div>
+                        <div class="mb-3">
+                            <label for="phone3" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="phone3" placeholder="6458-5955" @input="formatPhone('phone3')" required>
+                        </div>
                         </div>
                         <br/>
                             <div class="mb-3">
@@ -131,9 +131,9 @@
                                     <label for="pastor1" class="form-label">Nombre del Pastor</label>
                                     <input type="text" class="form-control" id="pastor1" placeholder="Nombre" required>
                                 </div>
-                                <div>
-                                    <label for="phone" class="form-label">Teléfono</label>
-                                    <input type="text" class="form-control" id="phone" placeholder="6458-5955" @input="formatPhone" required>
+                                <div class="mb-3">
+                                    <label for="phone4" class="form-label">Teléfono</label>
+                                    <input type="text" class="form-control" id="phone4" placeholder="6458-5955" @input="formatPhone('phone4')" required>
                                 </div>
                             </div>
                             <div class="d-flex">
@@ -142,13 +142,13 @@
                                     <input type="text" class="form-control" id="pastor2" placeholder="Nombre" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="phone" class="form-label">Teléfono</label>
-                                    <input type="text" class="form-control" id="phone" placeholder="6458-5955" @input="formatPhone" required>
+                                    <label for="phone5" class="form-label">Teléfono</label>
+                                    <input type="text" class="form-control" id="phone5" placeholder="6458-5955" @input="formatPhone('phone5')" required>
                                 </div>
                             </div>
                             <br/>
                             <div class="mb-3">
-                                <label for="lgsus" class="form-label">¿Cuando acepto a Jesucristo?</label>
+                                <label for="lgsus" class="form-label">¿Cuando aceptó a Jesucristo?</label>
                                 <input type="text" class="form-control" id="lgsus" placeholder="Aproximado" required>
                             </div>
                         <div class="mb-3">
