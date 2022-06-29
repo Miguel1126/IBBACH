@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,3 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::resource('/grupos', GroupController::class);
+Route::get('/grupos/get', [GroupController::class, 'show']);
