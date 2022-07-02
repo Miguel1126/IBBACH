@@ -162,7 +162,7 @@
                             <td>{{ rate.price }}</td>
                             <td>{{ rate.tuition }}</td>
                         <td class="d-flex justify-content-center">
-                            <button type="button" class="btn btn-primary me-2" @click="selectRate($event, rate.tuition, rate.price)">Modificar</button>
+                            <button type="button" class="btn btn-primary me-2" @click="selectRate($event, rate.rate, rate.price, rate.tuition)">Modificar</button>
                             <button type="button" class="btn btn-danger" @click="confirmDelete($event, rate.id)">Eliminar</button>
                         </td>
                         </tr>
