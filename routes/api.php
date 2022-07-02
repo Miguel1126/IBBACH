@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\LoadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +16,8 @@ use App\Http\Controllers\GroupController;
 |
 */
 
-Route::resource('/grupos', GroupController::class);
+//Route::resource('/grupos', GroupController::class);
 Route::get('/grupos/get', [GroupController::class, 'show']);
+
+Route::post('/cargas/save',[LoadController::class,'store']);
+Route::get('/cargas/all',[LoadController::class,'show']);
