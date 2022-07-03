@@ -19,7 +19,7 @@ return new class extends Migration
             $table->boolean('is_member');
             $table->integer('pastor_phone');
             $table->string('church_name',60);
-            $table->string('church_adderss',70);
+            $table->string('church_address',70);
             $table->integer('church_phone');
             $table->string('district',70);
             $table->string('pastor_name',30);

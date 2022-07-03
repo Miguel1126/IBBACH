@@ -18,7 +18,6 @@ return new class extends Migration
             $table->decimal('ev1',);
             $table->decimal('ev2',);
             $table->decimal('ev4',);
-            $table->decimal('ev4',);
             $table->decimal('ev5',);
             $table->decimal('percentege',);
             $table->decimal('finalAverage',);
@@ -28,12 +27,11 @@ return new class extends Migration
             ->constrained('loads')
             ->cascadeOnUpdate()
             ->nullOndelete();
-            $table->foreignId('inscription_id')
+            /* $table->foreignId('inscription_id')
             ->nullable()
             ->constrained('inscriptions')
             ->cascadeOnUpdate()
-            ->nullOndelete();
-            $table->timestamps();
+            ->nullOndelete(); */
             $table->timestamps();
         });
     }

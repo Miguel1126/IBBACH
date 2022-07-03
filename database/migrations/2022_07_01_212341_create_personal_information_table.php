@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('nationality',50);
             $table->date('birth_date');
             $table->string('marital_status',60);
-            $table->string('mate_name',50);
+            $table->string('mate_name',50)->nullable();
             $table->string('secular_degree',60);
             $table->string('current_ocupation',100);
             $table->timestamps();
