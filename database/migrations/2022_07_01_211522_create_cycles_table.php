@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('cycles', function (Blueprint $table) {
             $table->id();
-            $table->interger('cycle');
+            $table->integer('cycle');
             $table->date('start_date');
             $table->date('end_date');
             $table->string('status',10);
@@ -24,6 +24,7 @@ return new class extends Migration
             ->constrained('groups')
             ->cascadeOnUpdate()
             ->nullOndelete();
+            $table->timestamps();
         });
     }
 

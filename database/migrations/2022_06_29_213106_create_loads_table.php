@@ -16,16 +16,16 @@ return new class extends Migration
         Schema::create('loads', function (Blueprint $table) {
             $table->id();
             $table->string('status',10);
-            $table->foreignId('user_id')
+            /* $table->foreignId('user_id')
             ->nullable()
             ->constrained('users')
             ->cascadeOnUpdate()
-            ->nullOnDelete();
-            $table->foreignId('cycle_id')
+            ->nullOnDelete(); */
+            /* $table->foreignId('cycle_id')
             ->nullable()
             ->constrained('cycles')
             ->cascadeOnUpdate()
-            ->nullOnDelete();
+            ->nullOnDelete(); */
             $table->foreignId('subject_id')
             ->nullable()
             ->constrained('subjects')
