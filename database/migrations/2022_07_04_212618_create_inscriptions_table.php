@@ -13,25 +13,21 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('notes', function (Blueprint $table) {
+        Schema::create('inscriptions', function (Blueprint $table) {
             $table->id();
-            $table->decimal('ev1',);
-            $table->decimal('ev2',);
-            $table->decimal('ev4',);
-            $table->decimal('ev5',);
-            $table->decimal('percentege',);
-            $table->decimal('finalAverage',);
+            $table->date('registration_date');
+            $table->string('current_year',10);
             $table->string('status',10);
+            $table->foreignId('user_id')
+            ->nullable()
+            ->constrained('users')
+            ->cascadeOnUpdate()
+            ->nullOnDelete();
             $table->foreignId('load_id')
             ->nullable()
             ->constrained('loads')
             ->cascadeOnUpdate()
-            ->nullOndelete();
-            /* $table->foreignId('inscription_id')
-            ->nullable()
-            ->constrained('inscriptions')
-            ->cascadeOnUpdate()
-            ->nullOndelete(); */
+            ->nullOnDelete();
             $table->timestamps();
         });
     }
@@ -43,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notes');
+        Schema::dropIfExists('inscriptions');
     }
 };

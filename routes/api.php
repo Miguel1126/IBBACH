@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\GroupController;
 
 use App\Http\Controllers\SubjectController;
@@ -19,6 +20,8 @@ use App\Http\Controllers\LoadController;
 |
 */
 
+Route::resource('/aplicante', ApplicantController::class);
+Route::get('/aplicante/get', [ApplicantController::class, 'show']);
 
 Route::resource('/grupos', GroupController::class);
 Route::get('/grupos/get', [GroupController::class, 'show']);

@@ -13,11 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('subjects', function (Blueprint $table) {
+        Schema::create('assistances', function (Blueprint $table) {
             $table->id();
-            $table->string('subject',10);
-            $table->string('decription',10);
+            $table->date('date');
             $table->string('status',10);
+            $table->foreignId('note_id')
+            ->nullable()
+            ->constrained('notes')
+            ->cascadeOnUpdate()
+            ->nullOndelete();
+            $table->timestamps();
         });
     }
 
@@ -28,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subjects');
+        Schema::dropIfExists('assistances');
     }
 };

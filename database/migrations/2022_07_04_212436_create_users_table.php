@@ -13,17 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cycles', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->integer('cycle');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->string('status',10);
-            $table->foreignId('group_id')
+            $table->string('name');
+            $table->string('code')->unique();
+            $table->string('password');
+            $table->string('role');
+            $table->string('status')->default('D');
+            $table->foreignId('applicant_id')
             ->nullable()
-            ->constrained('groups')
+            ->constrained('applicants')
             ->cascadeOnUpdate()
-            ->nullOndelete();
+            ->nullOnDelete();
             $table->timestamps();
         });
     }
@@ -35,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cycles');
+        Schema::dropIfExists('users');
     }
 };

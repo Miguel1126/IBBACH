@@ -13,11 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('inscriptions', function (Blueprint $table) {
+        Schema::create('cycles', function (Blueprint $table) {
             $table->id();
-            $table->string('registration_date',10);
-            $table->string('current_year',10);
+            $table->integer('cycle');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->string('status',10);
+            $table->foreignId('group_id')
+            ->nullable()
+            ->constrained('groups')
+            ->cascadeOnUpdate()
+            ->nullOndelete();
+            $table->timestamps();
         });
     }
 
@@ -28,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inscriptions');
+        Schema::dropIfExists('cycles');
     }
 };

@@ -13,25 +13,31 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('applicants', function (Blueprint $table) {
+        Schema::create('loads', function (Blueprint $table) {
             $table->id();
-            $table->date('registration_date');
-            $table->foreignId('personal_information_id')
+            $table->string('status',10);
+            $table->foreignId('user_id')
             ->nullable()
-            ->constrained('personal_information')
+            ->constrained('users')
             ->cascadeOnUpdate()
             ->nullOnDelete();
-            $table->foreignId('eclesiastical_information_id')
+            $table->foreignId('cycle_id')
             ->nullable()
-            ->constrained('eclesiastical_information')
+            ->constrained('cycles')
             ->cascadeOnUpdate()
             ->nullOnDelete();
-            $table->foreignId('ministerial_information_id')
+            $table->foreignId('subject_id')
             ->nullable()
-            ->constrained('ministerial_information')
+            ->constrained('subjects')
+            ->cascadeOnUpdate()
+            ->nullOnDelete();
+            $table->foreignId('schedule_id')
+            ->nullable()
+            ->constrained('schedules')
             ->cascadeOnUpdate()
             ->nullOnDelete();
             $table->timestamps();
+
         });
     }
 
@@ -42,6 +48,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('applicants');
+        Schema::dropIfExists('loads');
     }
 };
