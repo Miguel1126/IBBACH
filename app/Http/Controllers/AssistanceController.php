@@ -3,16 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Cycle;
-
-class CycleController extends Controller
+use App\Models\Assistance;
+class AssistanceController extends Controller
 {
-  
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         //
     }
-     /**
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -31,33 +35,32 @@ class CycleController extends Controller
     public function store(Request $request)
     {
         try{
-            $cycle = new Cycle();
-            $cycle->cycle = $request->cycle;
-            $cycle->start_date = $request->start_date;
-            $cycle->end_date = $request->end_date;
-            $cycle->status = $request->status;
-            $cycle->group_id = $request->group_id;
-            if($cycle->save()>=1){
-                return response()->json(['status'=>'ok','data'=>$cycle],201);
+            $assistance = new Assistance();
+            $assistance-> date = $request->date;
+            $assistance-> status = $request->status;
+            $assistance-> note_id = $request->note_id;
+            if($assistance->save()>=1){
+                return response()->json(['status'=>'ok','data'=>$assistance],201);
             }
-        }catch(\Exception $e){
+        }
+        catch(\Exception $e){
             return $e->getMessage();
         }
     }
+
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
     public function show($id)
     {
-        try {
-            $cycle = Cycle::orderBy('id','asc')->get();
-            return $cycle;
+        try{
+            $assistance = Assistance::orderBy('id','asc')->get();
+            return $assistance;
         }
-        catch (\Exception $e) {
+        catch(\Exception $e){
             return $e->getMessage();
         }
     }
@@ -95,5 +98,4 @@ class CycleController extends Controller
     {
         //
     }
-
 }

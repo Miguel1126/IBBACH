@@ -3,16 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Cycle;
-
-class CycleController extends Controller
+use App\Models\Note;
+class NoteController extends Controller
 {
-  
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         //
     }
-     /**
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -31,16 +35,22 @@ class CycleController extends Controller
     public function store(Request $request)
     {
         try{
-            $cycle = new Cycle();
-            $cycle->cycle = $request->cycle;
-            $cycle->start_date = $request->start_date;
-            $cycle->end_date = $request->end_date;
-            $cycle->status = $request->status;
-            $cycle->group_id = $request->group_id;
-            if($cycle->save()>=1){
-                return response()->json(['status'=>'ok','data'=>$cycle],201);
+            $note = new Note();
+            $note-> ev1 = $request->ev1;
+            $note-> ev2 = $request->ev2;
+            $note-> ev3 = $request->ev3;
+            $note-> ev4 = $request->ev4;
+            $note-> ev5 = $request->ev5;
+            $note-> percentege = $request->percentege;
+            $note-> finalAverage = $request->finalAverage;
+            $note-> status = $request->status;
+            $note-> load_id = $request->load_id;
+            $note-> insription_id = $request->inscription_id;
+            if($note->save()>=1){
+                return response()->json(['status'=>'ok','data'=>$note],201);
             }
-        }catch(\Exception $e){
+        }
+        catch(\Exception $e){
             return $e->getMessage();
         }
     }
@@ -50,14 +60,13 @@ class CycleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
     public function show($id)
     {
-        try {
-            $cycle = Cycle::orderBy('id','asc')->get();
-            return $cycle;
+        try{
+            $note = Note::orderBy('id','asc')->get();
+            return $note;
         }
-        catch (\Exception $e) {
+        catch (\Exception $e){
             return $e->getMessage();
         }
     }
@@ -95,5 +104,5 @@ class CycleController extends Controller
     {
         //
     }
-
 }
+
