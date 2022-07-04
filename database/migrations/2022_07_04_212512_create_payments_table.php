@@ -23,14 +23,12 @@ return new class extends Migration
             ->constrained('rates')
             ->cascadeOnUpdate()
             ->nullOnDelete();
-            $table->timestamps();
-            // Cuando esté lista la tabla de users le quitan el comentario al código de abajo
-            /* $table->foreignId('user_id')
+            $table->foreignId('user_id')
             ->nullable()
             ->constrained('users')
             ->cascadeOnUpdate()
             ->nullOnDelete();
-            $table->timestamps(); */
+            $table->timestamps();
         });
     }
 

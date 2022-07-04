@@ -27,11 +27,11 @@ return new class extends Migration
             ->constrained('loads')
             ->cascadeOnUpdate()
             ->nullOndelete();
-            /* $table->foreignId('inscription_id')
+            $table->foreignId('inscription_id')
             ->nullable()
             ->constrained('inscriptions')
             ->cascadeOnUpdate()
-            ->nullOndelete(); */
+            ->nullOndelete();
             $table->timestamps();
         });
     }

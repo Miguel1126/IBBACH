@@ -13,15 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('assistances', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->string('status',10);
-            $table->foreignId('note_id')
+            $table->string('name');
+            $table->string('code')->unique();
+            $table->string('password');
+            $table->string('role');
+            $table->string('status')->default('D');
+            $table->foreignId('applicant_id')
             ->nullable()
-            ->constrained('notes')
+            ->constrained('applicants')
             ->cascadeOnUpdate()
-            ->nullOndelete();
+            ->nullOnDelete();
             $table->timestamps();
         });
     }
@@ -33,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('assistances');
+        Schema::dropIfExists('users');
     }
 };
