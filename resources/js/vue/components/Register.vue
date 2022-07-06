@@ -1,8 +1,6 @@
 <script>
 import axios from 'axios';
     export default{
-        name: 'Register',
-
         data(){
         return{
             name: '',
@@ -15,27 +13,17 @@ import axios from 'axios';
     },
 
         methods: {
-            handleSubmit(){
-                const data = {
-                    name: this.name,
-                    last_name: this.last_name,
-                    email: this.email,
-                    password: this.password,
-                    password_confirm: this.password_confirm,
-                    role: this.role
-
-                }
-                axios.post('http://127.0.0.1:8000/Register', data)
-                .them(
-                    res => {
-                        console.log(res)
-                    }
-                ).catch(
-                    err => {
-                        console.log(err)
-                    }
-                )
-            }
+           async handleSubmit(){
+           const response = await axios.post('http://127.0.0.1:8000/Register', {
+                name: this.name,
+                last_name: this.last_name,
+                email: this.email,
+                password: this.password,
+                password_confirm: this.password_confirm,
+                role: this.role
+            });
+            console.log(response);
+        }
         }
     }
 </script>
