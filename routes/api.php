@@ -30,7 +30,7 @@ Route::get('/grupos/get', [GroupController::class, 'show']);
 
 Route::resource('/asignaturas', SubjectController::class);
 Route::get('/asignaturas/get', [SubjectController::class, 'show']); 
-Route::post('/asignaturas/post', [SubjectController::class, 'store']); 
+
 
 Route::post('/cargas/save',[LoadController::class,'store']);
 Route::get('/cargas/all',[LoadController::class,'show']);
