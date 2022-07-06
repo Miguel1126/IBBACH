@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApplicantController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\RegisterController;
 
 use App\Http\Controllers\SubjectController;
 
@@ -33,3 +35,5 @@ Route::post('/asignaturas/post', [SubjectController::class, 'store']);
 Route::post('/cargas/save',[LoadController::class,'store']);
 Route::get('/cargas/all',[LoadController::class,'show']);
 
+Route::post('login', [AuthController::class,'login']);
+Route::post('register', [RegisterController::class,'register']);
