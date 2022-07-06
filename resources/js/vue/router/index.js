@@ -39,6 +39,12 @@ import Assistances from '../views/teacher/Assistances.vue'
 import Student from '../views/student/base/Student.vue'
 import TestStudent from '../views/student/TestStudent.vue'
 
+/**
+ * Components for login
+ */
+import Login from '../components/Login.vue'
+ import Register from '../components/Register.vue'
+
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -48,6 +54,14 @@ export const router = createRouter({
       name: 'Home',
 			component: Home
 		},
+    {
+      path:'/login',
+      component: Login
+    },
+    {
+      path:'/register',
+      component: Register
+    },
     {
       path: '/admin',
       component: Admin,
