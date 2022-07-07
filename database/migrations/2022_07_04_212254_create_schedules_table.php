@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('start_time',10);
             $table->string('end_time',10);
+            $table->timestamps();
         });
     }
 
