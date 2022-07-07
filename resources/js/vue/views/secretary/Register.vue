@@ -5,24 +5,30 @@ import axios from 'axios';
         return{
             name: '',
             last_name: '',
-            email: '',
+            code: '',
             password: '',
-            password_confirm: '',
+            password_confirmation: '',
             role: ''
         }
     },
 
         methods: {
            async handleSubmit(){
-           const response = await axios.post('http://127.0.0.1:8000/Register', {
+           const response = await axios.post('/api/register', {
                 name: this.name,
                 last_name: this.last_name,
-                email: this.email,
+                code: this.code,
                 password: this.password,
-                password_confirm: this.password_confirm,
+                password_confirmation: this.password_confirmation,
                 role: this.role
             });
-            console.log(response);
+            if (response.status === 200) {
+                this.$swal.fire(
+                        'Listo',
+                        'Se registró el usuario',
+                        'success'
+                    )
+            }
         }
         }
     }
@@ -30,7 +36,7 @@ import axios from 'axios';
 
 <template>
     <form @submit.prevent="handleSubmit">
-        <h3>Sign up</h3>
+        <h3>Registrar usuario</h3>
         <div class="form-group">
             <label>Nombre</label>
             <input type="text" class="form-control" v-model="name" placeholder="Nombre"/>
@@ -40,8 +46,8 @@ import axios from 'axios';
             <input type="text" class="form-control" v-model="last_name" placeholder="Apellido"/>
         </div>
         <div class="form-group">
-            <label>Email</label>
-            <input type="email" class="form-control" v-model="email" placeholder="Correo electronico"/>
+            <label>Código</label>
+            <input type="text" class="form-control" v-model="code" placeholder="codigo"/>
         </div>
         <div class="form-group">
             <label>Contraseña</label>
@@ -49,7 +55,7 @@ import axios from 'axios';
         </div>
         <div class="form-group">
             <label>Confirmar contraseña</label>
-            <input type="password" class="form-control" v-model="password_confirm" placeholder="Confirmar contraseña"/>
+            <input type="password" class="form-control" v-model="password_confirmation" placeholder="Confirmar contraseña"/>
         </div>
         <div class="form-group">
             <label>Tipo de usuario</label>

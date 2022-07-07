@@ -10,10 +10,10 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 </head>
 <body>
     <div id="app" class="overflow-auto"></div>
-    <script type="module" src="{{ asset('js/main.js') }}"></script>
+    <script type="module" src="{{ mix('js/main.js') }}"></script>
 </body>
 </html>

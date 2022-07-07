@@ -43,7 +43,7 @@ import TestStudent from '../views/student/TestStudent.vue'
  * Components for login
  */
 import Login from '../components/Login.vue'
- import Register from '../components/Register.vue'
+ import Register from '../views/secretary/Register.vue'
 
 
 export const router = createRouter({
