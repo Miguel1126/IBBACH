@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Subject;
+use App\Models\Schedule;
 
-class SubjectController extends Controller
+
+class ScheduleController extends Controller
 {
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         //
@@ -32,12 +37,11 @@ class SubjectController extends Controller
     public function store(Request $request)
     {
         try {
-            $subject = new Subject();
-            $subject->subject = $request->subject;
-            $subject->description = $request->description;
-            $subject->status = $request->status;
-            if ($subject->save()>=1) {
-                return response()->json(['status'=>'OK','data'=>$subject],201);
+            $schedule = new Schedule();
+            $schedule->start_time = $request->start_time;
+            $schedule->end_time = $request->end_time;
+            if ($schedule->save()>=1) {
+                return response()->json(['status'=>'OK','data'=>$schedule],201);
             }
         }
         catch (\Exception $e) {
@@ -47,20 +51,19 @@ class SubjectController extends Controller
 
     /**
      * Display the specified resource.
-     *S
+     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
         try {
-            $subject = Subject::orderBy('id','asc')->get();
-            return $subject;
+            $schedule = Schedule::orderBy('id','asc')->get();
+            return $schedule;
         }
         catch (\Exception $e) {
             return $e->getMessage();
         }
-  
     }
 
     /**

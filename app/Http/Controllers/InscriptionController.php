@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Subject;
+use App\Models\Inscription;
 
-class SubjectController extends Controller
+class InscriptionController extends Controller
 {
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         //
@@ -32,12 +36,14 @@ class SubjectController extends Controller
     public function store(Request $request)
     {
         try {
-            $subject = new Subject();
-            $subject->subject = $request->subject;
-            $subject->description = $request->description;
-            $subject->status = $request->status;
-            if ($subject->save()>=1) {
-                return response()->json(['status'=>'OK','data'=>$subject],201);
+            $inscription = new Inscription();
+            $inscription->registration_date = $request->registration_date;
+            $inscription->current_year = $request->current_year;
+            $inscription->status = $request->status;
+            $inscription-> user_id = $request-> user_id;
+            $inscription-> load_id = $request-> load_id;
+            if ($inscription->save()>=1) {
+                return response()->json(['status'=>'OK','data'=>$inscription],201);
             }
         }
         catch (\Exception $e) {
@@ -47,20 +53,19 @@ class SubjectController extends Controller
 
     /**
      * Display the specified resource.
-     *S
+     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show()
     {
         try {
-            $subject = Subject::orderBy('id','asc')->get();
-            return $subject;
+            $inscription = Inscription::orderBy('id','asc')->get();
+            return $inscription;
         }
         catch (\Exception $e) {
             return $e->getMessage();
         }
-  
     }
 
     /**
