@@ -32,7 +32,6 @@ Route::resource('/grupos', GroupController::class);
 Route::get('/grupos/get', [GroupController::class, 'show']);
 
 Route::resource('/asignaturas', SubjectController::class);
-
 Route::get('/asignaturas/get', [SubjectController::class, 'show']);
 
 Route::resource('/inscripciones', InscriptionController::class);
@@ -40,10 +39,6 @@ Route::get('/inscripciones/get', [InscriptionController::class, 'show']);
 
 Route::resource('/horarios', ScheduleController::class);
 Route::get('/horarios/get', [ScheduleController::class, 'show']); 
-
-Route::get('/asignaturas/get', [SubjectController::class, 'show']); 
-
-
 
 Route::post('/cargas/save',[LoadController::class,'store']);
 Route::get('/cargas/all',[LoadController::class,'show']);

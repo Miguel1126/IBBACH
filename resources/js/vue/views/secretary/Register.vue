@@ -1,5 +1,4 @@
 <script>
-import axios from 'axios';
     export default{
         data(){
         return{
@@ -14,7 +13,7 @@ import axios from 'axios';
 
         methods: {
            async handleSubmit(){
-           const response = await axios.post('/api/register', {
+           const response = await this.axios.post('/api/register', {
                 name: this.name,
                 last_name: this.last_name,
                 code: this.code,

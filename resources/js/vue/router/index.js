@@ -138,7 +138,7 @@ export const router = createRouter({
       ]
     },
     {
-      path: '/estudiante',
+      path: '/alumno',
       component: Student,
       children: [
         {
