@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Assistance;
+use App\Models\Payment;
 
 
-class AssistanceController extends Controller
+class PaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,12 +37,13 @@ class AssistanceController extends Controller
     public function store(Request $request)
     {
         try {
-            $assistance = new Assistance();
-            $assistance->date = $request->subject;
-            $assistance->status = $request->status;
-            $assistance->note_id = $request->note_id;
-            if ($assistance->save()>=1) {
-                return response()->json(['status'=>'OK','data'=>$assistance],201);
+            $payment = new Payment();
+            $payment->payment_date = $request->payment_date;
+            $payment->last_pay_date = $request->last_pay_date;
+            $payment->sourcharge = $request->sourcharge;
+            $payment->rate_id = $request->rate_id;
+            if ($payment->save()>=1) {
+                return response()->json(['status'=>'OK','data'=>$payment],201);
             }
         }
         catch (\Exception $e) {
@@ -58,10 +59,9 @@ class AssistanceController extends Controller
      */
     public function show()
     {
-        
         try {
-            $assistance = Assistance::orderBy('id','asc')->get();
-            return $assistance;
+            $payment = Payment::orderBy('id','asc')->get();
+            return $payment;
         }
         catch (\Exception $e) {
             return $e->getMessage();

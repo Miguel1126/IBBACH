@@ -10,6 +10,14 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\LoadController;
 use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\RateController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AssistanceController;
+use App\Http\Controllers\PaymentController;
+
+
+
+
 
 
 
@@ -39,6 +47,19 @@ Route::get('/inscripciones/get', [InscriptionController::class, 'show']);
 
 Route::resource('/horarios', ScheduleController::class);
 Route::get('/horarios/get', [ScheduleController::class, 'show']); 
+
+Route::resource('/tarifas', RateController::class);
+Route::get('/tarifas/get', [RateController::class, 'show']);
+
+Route::resource('/usuarios', UserController::class);
+Route::get('/usuarios/get', [UserController::class, 'show']); 
+
+Route::resource('/asistencias', AssistanceController::class);
+Route::get('/asistencias/get', [AssistanceController::class, 'show']);
+
+Route::resource('/pagos', PaymentController::class);
+Route::get('/pagos/get', [PaymentController::class, 'show']);
+
 
 Route::post('/cargas/save',[LoadController::class,'store']);
 Route::get('/cargas/all',[LoadController::class,'show']);
