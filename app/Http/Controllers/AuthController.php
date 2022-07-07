@@ -12,36 +12,6 @@ use phpDocumentor\Reflection\Types\ArrayKey;
 
 class AuthController extends Controller
 {
-
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-    }
-
-    //sobreescribiendo el metodo redirectPath para redireccionar dependiendo el type de user
-    public function redirectPath()
-    {
-        if (Auth::user()->role=='admin') {
-            //retornamos la vista del admin
-            return view('../views/admin/base/Admin.vue');
-        }
-        return '/';
-    }
-
     public function login(Request $request){
         $user = User::where("code", "=", $request->code)->first();
         if (isset($user->id)) {
@@ -49,7 +19,7 @@ class AuthController extends Controller
                 $token = $user->createToken("auth_token")->plainTextToken;
                 return response()->json([
                     "status" => 1,
-                    "msg" => "Usuario logeado",
+                    "role" => $user->role,
                     "access_token" => $token
                 ]);
             }
