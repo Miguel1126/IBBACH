@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Rate;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,7 +21,7 @@ class DatabaseSeeder extends Seeder
         $user->name = "Secretaria";
         $user->last_name = "...";
         $user->code = "secre000";
-        $user->password = "0007";
+        $user->password = Hash::make("0007");
         $user->role = "secretaria";
         $user->save();
 
