@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Assistance;
+use App\Models\Rate;
 
 
-class AssistanceController extends Controller
+class RateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,12 +37,12 @@ class AssistanceController extends Controller
     public function store(Request $request)
     {
         try {
-            $assistance = new Assistance();
-            $assistance->date = $request->subject;
-            $assistance->status = $request->status;
-            $assistance->note_id = $request->note_id;
-            if ($assistance->save()>=1) {
-                return response()->json(['status'=>'OK','data'=>$assistance],201);
+            $rate = new Rate();
+            $rate->rate = $request->rate;
+            $rate->price = $request->price;
+            $rate->tuition = $request->tuition;
+            if ($rate->save()>=1) {
+                return response()->json(['status'=>'OK','data'=>$rate],201);
             }
         }
         catch (\Exception $e) {
@@ -58,10 +58,9 @@ class AssistanceController extends Controller
      */
     public function show()
     {
-        
         try {
-            $assistance = Assistance::orderBy('id','asc')->get();
-            return $assistance;
+            $rate = Rate::orderBy('id','asc')->get();
+            return $rate;
         }
         catch (\Exception $e) {
             return $e->getMessage();
