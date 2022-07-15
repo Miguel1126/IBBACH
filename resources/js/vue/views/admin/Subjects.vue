@@ -1,18 +1,25 @@
 <script>
     export default {
+        mounted() {
+            this.getSubjects()
+        },
         data() {
             return {
-                subjects: [
-                    { id: 1, subject: 'Introducción al griego' },
-                    { id: 2, subject: 'Amar al progimo' },
-                    { id: 3, subject: 'Como rezar' },
-                    { id: 4, subject: 'Habilidades eclesiasticas' }
-                ],
+                subjects:[],
                 subject: null,
                 editing: false
             }
         },
         methods: {
+            getSubjects(){
+                this.axios.get('/api/asignaturas/show')
+                .then(response => {
+                    this.subjects = response.data
+                })
+                .catch(error => {
+                    console.error(error)
+                })
+            },
             clearInput() {
                 this.subject = null
                 this.editing = false
