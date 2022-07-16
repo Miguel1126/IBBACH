@@ -109,6 +109,14 @@
                     <span class="input-group-text" id="inputGroup-sizing-lg"><i class="material-icons">collections_bookmark</i></span>
                     <input type="text" class="form-control" v-model="subject" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="e.j Introducción al griego">
                 </div>
+                 <div class="input-group input-group-lg w-50">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="material-icons">collections_bookmark</i></span>
+                    <input type="text" class="form-control" v-model="description" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="Introduce descripcion">
+                </div>
+                 <div class="input-group input-group-lg w-50">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="material-icons">collections_bookmark</i></span>
+                    <input type="text" class="form-control" v-model="status" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="Escribe el estado">
+                </div>
                 <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg ms-4" @click="updateTable">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
                 <button v-else type="button" class="d-inline-flex btn btn-success btn-lg ms-4" @click="saveEdit">Guardar <i class="material-icons m-auto ms-1">edit</i></button>
                 <button v-if="editing" type="button" class="d-inline-flex btn btn-danger btn-lg ms-3" @click="clearInput">Cancelar <i class="material-icons m-auto ms-1">cancel</i></button>
