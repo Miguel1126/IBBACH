@@ -20,6 +20,7 @@
                 ],
                 subSelected: [],
                 teaSelected: [],
+                cySelected: [],
                 editing: false
             }
         },
@@ -70,6 +71,9 @@
                 const app = this
                 app.editing = true
                 app.teaSelected.push(teacher)
+                app.subSelected.push(subject)
+                app.cySelected.push(cycle)
+                
             },
             saveEdit() {
                 this.editing = false
