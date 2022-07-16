@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('cycles', function (Blueprint $table) {
             $table->id();
-            $table->integer('cycle');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->string('cycle');
+            $table->Date('start_date');
+            $table->Date('end_date');
             $table->string('status',10);
             $table->foreignId('group_id')
             ->nullable()

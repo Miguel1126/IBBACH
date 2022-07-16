@@ -85,7 +85,7 @@ export const router = createRouter({
         },
         {
           path: 'ciclos',
-          name: 'Cycle',
+          name: 'Cycles',
           component: Cycles
         },
         {

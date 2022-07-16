@@ -14,6 +14,7 @@ use App\Http\Controllers\RateController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AssistanceController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\CycleController;
 
 
 
@@ -66,3 +67,5 @@ Route::get('/cargas/all',[LoadController::class,'show']);
 
 Route::post('login', [AuthController::class,'login']);
 Route::post('register', [RegisterController::class,'register']);
+
+Route::resource('/ciclos', CycleController::class);
