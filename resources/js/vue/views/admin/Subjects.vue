@@ -7,6 +7,10 @@
             return {
                 subjects:[],
                 subject: null,
+                descriptions:[],
+                description: null,
+                status:[],
+                statu: null,
                 editing: false
             }
         },
@@ -22,16 +26,21 @@
             },
             clearInput() {
                 this.subject = null
+                this.description = null
                 this.editing = false
             },
             validateInput() {
-                let valid = this.subject ? true : false
+                let valid = this.subject && this.description ? true : false
                 return valid
             },
             updateTable() {
                 const app = this
                 if (app.validateInput()) {
                     app.subjects.push({ id: app.subjects.length + 1, subject: app.subject })
+                    app.clearInput()
+                }
+                if (app.validateInput()) {
+                     app.description.push({ id: app.descriptions.length + 1, description: app.description })
                     app.clearInput()
                 }
                 else {
@@ -52,10 +61,12 @@
                     })
                 }
             },
-            selectGroup(event, subject) {
+            selectGroup(event, subject, description) {
                 const app = this
                 app.editing = true
                 app.subject = subject
+                app.description = description
+                
             },
             saveEdit() {
                 this.editing = false
@@ -69,6 +80,7 @@
             deleteSubject(id){
                 this.subjects = this.subjects.filter(subject => subject.id != id)
                 this.subjects = [... this.subjects]
+
             },
             confirmDelete(event, id) {
                 this.$swal.fire({
@@ -83,6 +95,7 @@
                 }).then((result) => {
                 if (result.isConfirmed) {
                     this.deleteSubject(id)
+                    this.deleteDescription(id)
                     this.$swal.fire(
                         'Listo',
                         'La materia ha sido eliminada',
@@ -131,6 +144,8 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Materias</th>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">Estado</th>
                             <th scope="col" class="w-25">Acciones</th>
                         </tr>
                     </thead>
@@ -138,8 +153,10 @@
                         <tr v-for="subject in subjects" :key="subject.id">
                             <th scope="row">{{ subject.id }}</th>
                             <td>{{ subject.subject }}</td>
+                            <td>{{ subject.description }}</td>
+                            <td>{{ subject.status }}</td>
                             <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary me-2" @click="selectGroup($event, subject.subject)">Modificar</button>
+                                <button type="button" class="btn btn-primary me-2" @click="selectGroup($event, subject.subject, subject.description, subject.statu)">Modificar</button>
                                 <button type="button" class="btn btn-danger" @click="confirmDelete($event, subject.id)">Eliminar</button>
                             </td>
                         </tr>
