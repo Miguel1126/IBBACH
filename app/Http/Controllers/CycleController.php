@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cycle;
+use App\Models\Group;
 
 class CycleController extends Controller
 {
@@ -54,7 +55,10 @@ class CycleController extends Controller
     public function show($id)
     {
         try {
-            $cycle = Cycle::orderBy('id','asc')->get();
+            $cycle = Cycle::join('groups', 'cycles.group_id', '=', 'groups.id')
+            ->select('cycles.id', 'cycles.cycle', 'cycles.start_date', 'cycles.end_date', 'cycles.status', 'groups.group')
+            ->orderBy('id', 'asc')
+            ->get();
             return $cycle;
         }
         catch (\Exception $e) {
