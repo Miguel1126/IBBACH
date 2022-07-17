@@ -69,3 +69,4 @@ Route::post('login', [AuthController::class,'login']);
 Route::post('register', [RegisterController::class,'register']);
 
 Route::resource('/ciclos', CycleController::class);
+Route::get('/ciclos/get',[CycleController::class,'show']);
