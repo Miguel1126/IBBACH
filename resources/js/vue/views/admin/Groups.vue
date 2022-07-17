@@ -11,40 +11,12 @@
             }
         },
         methods: {
-            getGroups(){
-                this.axios.get('/api/grupos/show')
-                .then(response => {
-                    this.groups = response.data
-                })
-                .catch(error => {
-                    console.error(error)
-                })
-            },
              async handleSumit(){
-                const response = await this.axios.post('/api/grupos', {
-                group: this.group,
-                });
                 if (this.validateInput()) {
-                    this.clearInput()
-                }
-                else {
-                    const Toast = this.$swal.mixin({
-                    toast: true,
-                    position: 'top',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', this.$swal.stopTimer)
-                            toast.addEventListener('mouseleave', this.$swal.resumeTimer)
-                        }
-                    })
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Debes rellenar el campo'
-                    })
-                }
-                console.log(response);
+                    const response = await this.axios.post('/api/grupos', {
+                    group: this.group,
+                    });
+                    console.log(response);
                 if (response.status === 201) {
                     this.clearInput()
                     this.getGroups() 
@@ -54,20 +26,6 @@
                         'success'
                     )
                 }
-            },
-            clearInput() {
-                this.group = null
-                this.editing = false
-            },
-            validateInput() {
-                let valid = this.group ? true : false
-                return valid
-            },
-            updateTable() {
-                const app = this
-                if (app.validateInput()) {
-                    app.groups.push({ id: app.groups.length + 1, group: app.group })
-                    app.clearInput()
                 }
                 else {
                     const Toast = this.$swal.mixin({
@@ -86,6 +44,23 @@
                         title: 'Debes rellenar el campo'
                     })
                 }
+            },
+            getGroups(){
+                this.axios.get('/api/grupos/show')
+                .then(response => {
+                    this.groups = response.data
+                })
+                .catch(error => {
+                    console.error(error)
+                })
+            },
+            clearInput() {
+                this.group = null
+                this.editing = false
+            },
+            validateInput() {
+                let valid = this.group ? true : false
+                return valid
             },
             selectGroup(event, group) {
                 const app = this
