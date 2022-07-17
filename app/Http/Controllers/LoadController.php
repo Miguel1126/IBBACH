@@ -55,8 +55,20 @@ class LoadController extends Controller
     public function show()
     {
         try {
-            $load = Load::orderBy('id','asc')->get();
-            return $load;
+            $loads = Load::join('users', 'loads.user_id', '=', 'users.id')
+            ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
+            ->join('subjects', 'loads.subject_id', '=', 'subjects.id')
+            ->join('schedules', 'loads.schedule_id', '=', 'schedules.id')
+            ->select(
+                'loads.id',
+                'cycles.cycle',
+                'subjects.subject',
+                'users.name as teacher',
+                'schedules.start_time as schedule'
+            )
+            ->orderBy('id', 'asc')
+            ->get();
+            return $loads;
         }
         catch (\Exception $e) {
             return $e->getMessage();

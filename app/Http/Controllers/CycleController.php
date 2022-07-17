@@ -52,7 +52,7 @@ class CycleController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function show($id)
+    public function show()
     {
         try {
             $cycle = Cycle::join('groups', 'cycles.group_id', '=', 'groups.id')
