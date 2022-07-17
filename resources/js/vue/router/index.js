@@ -5,7 +5,15 @@ import { createRouter, createWebHistory } from 'vue-router'
  */
 import Home from '../views/Home.vue'
 import NotFound from '../views/NotFound.vue'
-import Applicant from '../views/Applicant.vue'
+
+
+/**
+ * compnents for applicant view
+ */
+ import PersonalInformation from '../views/applicant/PersonalInformation.vue'
+ import EclesiasticalInformation from '../views/applicant/EclesiasticalInformation.vue'
+ import MinisterialInformation from '../views/applicant/MinisterialInformation.vue'
+
 
 /**
  * Components for admin view
@@ -23,7 +31,6 @@ import LoadsReport from '../views/admin/reports/LoadsReport.vue'
  */
 import Secretary from '../views/secretary/base/Secretary.vue'
 import Payments from '../views/secretary/Payments.vue'
-import Users from '../views/secretary/Users.vue'
 import Rates from '../views/secretary/Rates.vue'
 
 /**
@@ -58,11 +65,6 @@ export const router = createRouter({
       path:'/login',
       name: 'Login',
       component: Login
-    },
-    {
-      path:'/register',
-      name: 'Register',
-      component: Register
     },
     {
       path: '/admin',
@@ -110,9 +112,9 @@ export const router = createRouter({
           component: Payments
         },
         {
-          path: 'Usuarios',
-          name: 'Users',
-          component: Users
+          path:'/register',
+          name: 'Register',
+          component: Register
         },
         {
           path: 'cuotas',
@@ -149,9 +151,19 @@ export const router = createRouter({
       ]
     },
     {
-      path: '/solicitud-de-ingreso',
-      name: 'Applicant',
-      component: Applicant
+      path: '/informacion-personal',
+      name: 'PersonalInformation',
+      component: PersonalInformation
+    },
+    {
+      path: '/informacion-eclesiastica',
+      name: 'EclesiasticalInformation',
+      component: EclesiasticalInformation
+    },
+    {
+      path: '/informacion-ministerial',
+      name: 'MinisterialInformation',
+      component: MinisterialInformation
     },
     { 
       path: '/:pathMatch(.*)*',
