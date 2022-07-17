@@ -1,31 +1,38 @@
 <script>
     export default {
+         mounted() {
+            this.getSubjects()
+        },
         data() {
             return {
-                subjects: [
-                    { id: 1, subject: 'Introducción al griego' },
-                    { id: 2, subject: 'Amar al progimo' },
-                    { id: 3, subject: 'Como rezar' },
-                    { id: 4, subject: 'Habilidades eclesiasticas' }
-                ],
+                subjects: [],
                 subject: null,
+                descriptions:[],
+                description: null,
+                status:[],
+                statu: null,
                 editing: false
             }
         },
         methods: {
-            clearInput() {
-                this.subject = null
-                this.editing = false
+            getSubjects(){
+                this.axios.get('/api/asignaturas/show')
+                .then(response => {
+                    this.subjects = response.data
+                })
+                .catch(error => {
+                    console.error(error)
+                })
             },
-            validateInput() {
-                let valid = this.subject ? true : false
-                return valid
-            },
-            updateTable() {
-                const app = this
-                if (app.validateInput()) {
-                    app.subjects.push({ id: app.subjects.length + 1, subject: app.subject })
-                    app.clearInput()
+            async handleSumit(){
+                const response = await this.axios.post('/api/asignaturas', {
+                subject: this.subject,
+                subject: this.subject,
+                description: this.description,
+                status: this.status,
+                });
+                if (this.validateInput()) {
+                    this.clearInput()
                 }
                 else {
                     const Toast = this.$swal.mixin({
@@ -44,11 +51,34 @@
                         title: 'Debes rellenar el campo'
                     })
                 }
+                console.log(response);
+                if (response.status === 201) {
+                    this.clearInput()
+                    this.getSubjects() 
+                    this.$swal.fire(
+                        'Listo',
+                        'Se registró la materia',
+                        'success'
+                    )
+                }
             },
-            selectGroup(event, subject) {
+            
+            clearInput() {
+                this.subject = null
+                this.description = null
+                this.status = null
+                this.editing = false
+            },
+            validateInput() {
+                let valid = this.subject && this.description && this.status  ? true : false
+                return valid
+            },
+            selectGroup(event, subject, description) {
                 const app = this
                 app.editing = true
                 app.subject = subject
+                app.description = description
+                
             },
             saveEdit() {
                 this.editing = false
@@ -62,6 +92,12 @@
             deleteSubject(id){
                 this.subjects = this.subjects.filter(subject => subject.id != id)
                 this.subjects = [... this.subjects]
+
+            },
+            deleteDescription(id){
+                this.descriptions = this.descriptions.filter(description => description.id != id)
+                this.descriptions = [... this.descriptions]
+
             },
             confirmDelete(event, id) {
                 this.$swal.fire({
@@ -76,6 +112,7 @@
                 }).then((result) => {
                 if (result.isConfirmed) {
                     this.deleteSubject(id)
+                    this.deleteDescription(id)
                     this.$swal.fire(
                         'Listo',
                         'La materia ha sido eliminada',
@@ -96,16 +133,26 @@
         <h1 class="h1 fs-1 fw-bold">Administrador de Materias</h1>
         <br />
         <section class=" p-3 ">
+            <form @submit.prevent="handleSumit">
             <h3 class="h3 fw-semibold">Crea una nueva materia</h3>
             <div class="d-flex">
                 <div class="input-group input-group-lg w-50">
                     <span class="input-group-text" id="inputGroup-sizing-lg"><i class="material-icons">collections_bookmark</i></span>
                     <input type="text" class="form-control" v-model="subject" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="e.j Introducción al griego">
                 </div>
-                <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg ms-4" @click="updateTable">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
+                 <div class="input-group input-group-lg w-50">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="material-icons">collections_bookmark</i></span>
+                    <input type="text" class="form-control" v-model="description" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="Introduce descripcion">
+                </div>
+                 <div class="input-group input-group-lg w-50">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="material-icons">collections_bookmark</i></span>
+                    <input type="text" class="form-control" v-model="status" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="Escribe el estado">
+                </div>
+                <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg ms-4" @click="handleSumit">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
                 <button v-else type="button" class="d-inline-flex btn btn-success btn-lg ms-4" @click="saveEdit">Guardar <i class="material-icons m-auto ms-1">edit</i></button>
                 <button v-if="editing" type="button" class="d-inline-flex btn btn-danger btn-lg ms-3" @click="clearInput">Cancelar <i class="material-icons m-auto ms-1">cancel</i></button>
             </div>
+            </form>
         </section>
         <hr class="separator"/>
         <section class="p-3">
@@ -116,6 +163,8 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Materias</th>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">Estado</th>
                             <th scope="col" class="w-25">Acciones</th>
                         </tr>
                     </thead>
@@ -123,8 +172,10 @@
                         <tr v-for="subject in subjects" :key="subject.id">
                             <th scope="row">{{ subject.id }}</th>
                             <td>{{ subject.subject }}</td>
+                            <td>{{ subject.description }}</td>
+                            <td>{{ subject.status }}</td>
                             <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary me-2" @click="selectGroup($event, subject.subject)">Modificar</button>
+                                <button type="button" class="btn btn-primary me-2" @click="selectGroup($event, subject.subject, subject.description)">Modificar</button>
                                 <button type="button" class="btn btn-danger" @click="confirmDelete($event, subject.id)">Eliminar</button>
                             </td>
                         </tr>
