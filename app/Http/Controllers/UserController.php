@@ -10,7 +10,7 @@ class UserController extends Controller
     public function getTeacher() {
         try {
             $teacher = User::select('users.id', 'users.name as teacher')
-            ->where('users.role', '=', 'Secretaria')
+            ->where('users.role', '=', 'docente')
             ->orderBy('id','asc')->get();
             return $teacher;
         }
