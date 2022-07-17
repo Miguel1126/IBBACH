@@ -33,7 +33,7 @@
             },
             async getCycles() {
                 try {
-                    const response = await this.axios.get('/api/ciclos')
+                    const response = await this.axios.get('/api/ciclos/get')
                     if (response.status === 200) {
                         if (typeof(response.data) === 'object') {
                             this.cycles = response.data

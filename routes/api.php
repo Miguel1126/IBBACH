@@ -45,9 +45,6 @@ Route::get('/horarios/get', [ScheduleController::class, 'show']);
 Route::resource('/tarifas', RateController::class);
 Route::get('/tarifas/get', [RateController::class, 'show']);
 
-/* Route::resource('/usuarios', UserController::class);
-Route::get('/usuarios/get', [UserController::class, 'show']);  */
-
 Route::resource('/asistencias', AssistanceController::class);
 Route::get('/asistencias/get', [AssistanceController::class, 'show']);
 
