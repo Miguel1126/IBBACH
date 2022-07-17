@@ -14,7 +14,7 @@ class Applicant extends Model
     }
 
     public function eclesiasticalInformation() {
-        return $this->belongsTo(EclesiasticalInformation::class,'eclesiastical_information_id');
+        return $this->belongsTo(EcclesiasticalInformation::class,'ecclesiastical_information_id');
     }
 
     public function ministerialInformation() {
