@@ -51,7 +51,7 @@ class CycleController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function show($id)
+    public function show()
     {
         try {
             $cycle = Cycle::orderBy('id','asc')->get();
