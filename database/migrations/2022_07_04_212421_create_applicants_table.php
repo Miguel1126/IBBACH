@@ -21,9 +21,9 @@ return new class extends Migration
             ->constrained('personal_information')
             ->cascadeOnUpdate()
             ->nullOnDelete();
-            $table->foreignId('eclesiastical_information_id')
+            $table->foreignId('ecclesiastical_information_id')
             ->nullable()
-            ->constrained('eclesiastical_information')
+            ->constrained('ecclesiastical_information')
             ->cascadeOnUpdate()
             ->nullOnDelete();
             $table->foreignId('ministerial_information_id')

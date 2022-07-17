@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('eclesiastical_information', function (Blueprint $table) {
+        Schema::create('ecclesiastical_information', function (Blueprint $table) {
             $table->id();
             $table->boolean('is_pastor');
             $table->boolean('is_member');
@@ -45,6 +45,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('eclesiastical_information');
+        Schema::dropIfExists('ecclesiastical_information');
     }
 };

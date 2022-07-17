@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Applicant;
-use App\Models\EclesiasticalInformation;
+use App\Models\EcclesiasticalInformation;
 use App\Models\MinisterialInformation;
 use App\Models\PersonalInformation;
 use Illuminate\Http\Request;
@@ -61,27 +61,27 @@ class ApplicantController extends Controller
             }
 
             // saving eclesiastical information values from request
-            $eclesiasticalInfo = new EclesiasticalInformation();
-            $eclesiasticalInfo->is_pastor = $request->is_pastor;
-            $eclesiasticalInfo->is_member = $request->is_member;
-            $eclesiasticalInfo->pastor_phone = $request->pastor_phone;
-            $eclesiasticalInfo->church_name = $request->church_name;
-            $eclesiasticalInfo->church_address = $request->church_address;
-            $eclesiasticalInfo->church_phone = $request->church_phone;
-            $eclesiasticalInfo->district = $request->district;
-            $eclesiasticalInfo->pastor_name = $request->pastor_name;
-            $eclesiasticalInfo->licence = $request->licence;
-            $eclesiasticalInfo->reference_name_one = $request->reference_name_one;
-            $eclesiasticalInfo->reference_phone_one = $request->reference_phone_one;
-            $eclesiasticalInfo->reference_name_two = $request->reference_name_two;
-            $eclesiasticalInfo->reference_phone_two = $request->reference_phone_two;
-            $eclesiasticalInfo->christ_accepted = $request->christ_accepted;
-            $eclesiasticalInfo->christening_date = $request->christening_date;
-            $eclesiasticalInfo->time_being_member = $request->time_being_member;
-            $eclesiasticalInfo->privileges_held = $request->privileges_held;
-            $eclesiasticalInfo->denomination = $request->denomination;
-            $eclesiasticalInfo->study_reason = $request->study_reason;
-            if ($eclesiasticalInfo->save() <= 0) {
+            $ecclesiasticalInfo = new EcclesiasticalInformation();
+            $ecclesiasticalInfo->is_pastor = $request->is_pastor;
+            $ecclesiasticalInfo->is_member = $request->is_member;
+            $ecclesiasticalInfo->pastor_phone = $request->pastor_phone;
+            $ecclesiasticalInfo->church_name = $request->church_name;
+            $ecclesiasticalInfo->church_address = $request->church_address;
+            $ecclesiasticalInfo->church_phone = $request->church_phone;
+            $ecclesiasticalInfo->district = $request->district;
+            $ecclesiasticalInfo->pastor_name = $request->pastor_name;
+            $ecclesiasticalInfo->licence = $request->licence;
+            $ecclesiasticalInfo->reference_name_one = $request->reference_name_one;
+            $ecclesiasticalInfo->reference_phone_one = $request->reference_phone_one;
+            $ecclesiasticalInfo->reference_name_two = $request->reference_name_two;
+            $ecclesiasticalInfo->reference_phone_two = $request->reference_phone_two;
+            $ecclesiasticalInfo->christ_accepted = $request->christ_accepted;
+            $ecclesiasticalInfo->christening_date = $request->christening_date;
+            $ecclesiasticalInfo->time_being_member = $request->time_being_member;
+            $ecclesiasticalInfo->privileges_held = $request->privileges_held;
+            $ecclesiasticalInfo->denomination = $request->denomination;
+            $ecclesiasticalInfo->study_reason = $request->study_reason;
+            if ($ecclesiasticalInfo->save() <= 0) {
                 $errors++;
             }
 
@@ -105,7 +105,7 @@ class ApplicantController extends Controller
             $applicant = new Applicant();
             $applicant->registration_date = $request->registration_date;
             $applicant->personal_information_id = $personalInfo->id;
-            $applicant->eclesiastical_information_id = $eclesiasticalInfo->id;
+            $applicant->ecclesiastical_information_id = $ecclesiasticalInfo->id;
             $applicant->ministerial_information_id = $ministerialInfo->id;
             if ($applicant->save() <= 0) {
                 $errors++;
@@ -137,7 +137,7 @@ class ApplicantController extends Controller
     {
         try {
             $applicant = Applicant::join('personal_information','applicants.personal_information_id','=','personal_information.id')
-            ->join('eclesiastical_information','applicants.eclesiastical_information_id','=','eclesiastical_information.id')
+            ->join('ecclesiastical_information','applicants.ecclesiastical_information_id','=','ecclesiastical_information.id')
             ->join('ministerial_information','applicants.ministerial_information_id','=','ministerial_information.id')
             ->select()
             ->orderBy('id','asc')->get();

@@ -11,7 +11,7 @@ import NotFound from '../views/NotFound.vue'
  * compnents for applicant view
  */
  import PersonalInformation from '../views/applicant/PersonalInformation.vue'
- import EclesiasticalInformation from '../views/applicant/EclesiasticalInformation.vue'
+ import EcclesiasticalInformation from '../views/applicant/EcclesiasticalInformation.vue'
  import MinisterialInformation from '../views/applicant/MinisterialInformation.vue'
 
 
@@ -157,8 +157,8 @@ export const router = createRouter({
     },
     {
       path: '/informacion-eclesiastica',
-      name: 'EclesiasticalInformation',
-      component: EclesiasticalInformation
+      name: 'EcclesiasticalInformation',
+      component: EcclesiasticalInformation
     },
     {
       path: '/informacion-ministerial',
