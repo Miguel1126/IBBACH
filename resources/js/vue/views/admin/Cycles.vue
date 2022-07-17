@@ -1,15 +1,21 @@
 <script>
     export default{
           mounted() {
-            this.getCycle();
+            this.getCycles();
+            this.getGroups();
         },
         data(){
             return {
                cycle: '',
                start_date: '',
                end_date: '',
-               status: '',
-               group_id: '',
+               statuses: [
+                {id: 1, status: 'activo'},
+                {id: 2, status: 'inactivo'}
+               ],
+               statusSelected:[],
+               groups:[],
+               groupSelected:[],
                cycles:[],
                editing: false
 
@@ -17,15 +23,24 @@
         },
         methods:{
             async handleSubmit(){
-                const response = await this.axios.post('/api/ciclos', {
-                cycle: this.cycle,
-                start_date: this.start_date,
-                end_date: this.end_date,
-                status: this.status,
-                group_id: this.group_id
-                });
                 if (this.validateInput()) {
-                    this.clearInput()
+                    const response = await this.axios.post('/api/ciclos', {
+                    cycle: this.cycle,
+                    start_date: this.start_date,
+                    end_date: this.end_date,
+                    status: this.statusSelected[0],
+                    group_id: this.groupSelected[0].id
+                    });
+                    console.log(response);
+                if (response.status === 201) {
+                    this.clearInput() 
+                    this.getCycles();
+                    this.$swal.fire(
+                        'Listo',
+                        'Se registró el Ciclo',
+                        'success'
+                    )
+                }
                 }
                 else {
                     const Toast = this.$swal.mixin({
@@ -44,45 +59,60 @@
                         title: 'Debes rellenar el campo'
                     })
                 }
-                console.log(response);
-                if (response.status === 201) {
-                    this.clearInput() 
-                    this.getCycle();
-                    this.$swal.fire(
-                        'Listo',
-                        'Se registró el Ciclo',
-                        'success'
-                    )
-                }else if(response.status != 201) {
-                    this.clearInput() 
-                    this.getCycle();
-                    this.$swal.fire(
-                        'Ups!!',
-                        'Algo salio mal, intentalo mas tarde',
-                        'success'
-                    )
+            },
+            async getCycles() {
+                try {
+                    const response = await this.axios.get('/api/ciclos/get')
+                    if (response.status === 200) {
+                        if (typeof(response.data) === 'object') {
+                            this.cycles = response.data
+                            console.log(response)
+                        }
+                        else {
+                            this.cycles[0] = 'error'
+                            console.log(response)
+                        }
+                    }
+                }
+                catch {
+                    (error) => console.error(error) 
                 }
             },
-            getCycle(){
-                this.axios.get('/api/ciclos/show')
-                .then(response => {
-                    this.cycles = response.data;
-                })
-                .catch(error => {
-                    console.error(error);
-                })
+            async getGroups() {
+                try {
+                    const response = await this.axios.get('/api/grupos/get')
+                    if (response.status === 200) {
+                        if (typeof(response.data) === 'object') {
+                            this.groups = response.data
+                        }
+                        else {
+                            this.groups[0] = 'error'
+                        }
+                    }
+                }
+                catch {
+                    (error) => console.error(error) 
+                }
             },
             clearInput() {
                 this.cycle = null
                 this.start_date = null
                 this.end_date = null
-                this.status = null
-                this.group_id = null
+                this.statusSelected = []
+                this.groupSelected = []
                 this.editing = false
             },
             validateInput() {
-                let valid = this.cycle && this.start_date && this.end_date && this.status  ? true : false
+                let valid = this.cycle && this.start_date && this.end_date && this.statusSelected && this.groupSelected ? true : false
                 return valid
+            },
+            selectStatus(event, statuses) {
+                this.statusSelected = [];
+                this.statusSelected.push(statuses);
+            },
+            selectGroup(event, groups) {
+                this.groupSelected = [];
+                this.groupSelected.push(groups);
             },
         }
     }
@@ -105,13 +135,23 @@
                         <label>fecha de finalización</label>
                         <input type="date" class="form-control" v-model="end_date"/>
                     </div>
-                    <div class="form-group mb-3">
-                        <label>status</label>
-                        <input type="text" class="form-control" v-model="status" placeholder="Estado del ciclo"/>
+                    <div class="dropdown m-4">
+                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span v-if="!statusSelected.length">Estado</span>
+                        <span v-else>{{ statusSelected[0] }}</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                        <li v-for="status in statuses" :key="status.id" class="dropdown-item text-light list-click" @click="selectStatus($event, status.status)">{{ status.status }}</li>
+                    </ul>
                     </div>
-                    <div class="form-group mb-3">
-                        <label>Grupo</label>
-                        <input type="number" class="form-control" v-model="group_id"/>
+                    <div class="dropdown m-4">
+                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span v-if="!groupSelected.length">Grupos</span>
+                        <span v-else>{{ groupSelected[0].group }}</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                        <li v-for="group in groups" :key="group.id" class="dropdown-item text-light list-click" @click="selectGroup($event, group)">{{ group.group }}</li>
+                    </ul>
                     </div>
                     <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg ms-4" @click="handleSubmit">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
                 </form>

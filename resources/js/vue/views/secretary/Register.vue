@@ -10,7 +10,6 @@
             role: ''
         }
     },
-
         methods: {
            async handleSubmit(){
            const response = await this.axios.post('/api/register', {

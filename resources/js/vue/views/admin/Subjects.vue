@@ -15,15 +15,6 @@
             }
         },
         methods: {
-            getSubjects(){
-                this.axios.get('/api/asignaturas/show')
-                .then(response => {
-                    this.subjects = response.data
-                })
-                .catch(error => {
-                    console.error(error)
-                })
-            },
             async handleSumit(){
                 const response = await this.axios.post('/api/asignaturas', {
                 subject: this.subject,
@@ -62,7 +53,15 @@
                     )
                 }
             },
-            
+            getSubjects(){
+                this.axios.get('/api/asignaturas/show')
+                .then(response => {
+                    this.subjects = response.data
+                })
+                .catch(error => {
+                    console.error(error)
+                })
+            },
             clearInput() {
                 this.subject = null
                 this.description = null
