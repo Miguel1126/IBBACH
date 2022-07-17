@@ -11,17 +11,10 @@ use App\Http\Controllers\LoadController;
 use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\RateController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\AssistanceController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CycleController;
-
-
-
-
-
-
-
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,15 +45,14 @@ Route::get('/horarios/get', [ScheduleController::class, 'show']);
 Route::resource('/tarifas', RateController::class);
 Route::get('/tarifas/get', [RateController::class, 'show']);
 
-Route::resource('/usuarios', UserController::class);
-Route::get('/usuarios/get', [UserController::class, 'show']); 
+/* Route::resource('/usuarios', UserController::class);
+Route::get('/usuarios/get', [UserController::class, 'show']);  */
 
 Route::resource('/asistencias', AssistanceController::class);
 Route::get('/asistencias/get', [AssistanceController::class, 'show']);
 
 Route::resource('/pagos', PaymentController::class);
 Route::get('/pagos/get', [PaymentController::class, 'show']);
-
 
 Route::post('/cargas/save',[LoadController::class,'store']);
 Route::get('/cargas/all',[LoadController::class,'show']);
@@ -70,3 +62,5 @@ Route::post('register', [RegisterController::class,'register']);
 
 Route::resource('/ciclos', CycleController::class);
 Route::get('/ciclos/get',[CycleController::class,'show']);
+
+Route::get('docentes', [UserController::class, 'getTeacher']);
