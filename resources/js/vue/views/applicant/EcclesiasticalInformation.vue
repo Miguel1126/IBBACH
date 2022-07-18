@@ -47,6 +47,9 @@
             document.querySelector(`#${id}`).value = phoneNumber.slice(0, -1)
             }
         }
+    },
+    mounted() {
+        this.passData()
     }
     
 }

@@ -8,12 +8,27 @@
 export default {
     data() {
         return {
-            
+            personalInformation:{},
+            ecclesiasticalInformation: {},
+            ministerialInformation: {}
+        }
+    },
+    methods: {
+        getPersonalInformation(data) {
+            this.personalInformation = data
+            console.log(this.personalInformation)
+        },
+        getEcclesiasticalInfo(data) {
+            this.ecclesiasticalInformation = data
+            console.log(this.ecclesiasticalInformation)
+        },
+        getMinisterialInformation(data) {
+            this.ministerialInformation = data
+            console.log(this.ministerialInformation)
         }
     }
 }
 </script>
-datos
 
 <template>
     <div class="container-fluid d-block">
@@ -23,9 +38,9 @@ datos
     </div>
     <div class="m-5 rounded form-container">
         <form class="d-block p-5" action="">
-            <PersonalInformation />
-            <EcclesiasticalInformation />
-            <MinisterialInformation />
+            <PersonalInformation @personalInfo="getPersonalInformation($event)" />
+            <EcclesiasticalInformation @ecclesiasticalInfo="getEcclesiasticalInfo($event)" />
+            <MinisterialInformation @ministerialInfo="getMinisterialInformation($event)"/>
          </form>
     </div>
 </div>
