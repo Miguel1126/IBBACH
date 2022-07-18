@@ -134,16 +134,16 @@
         <section class=" p-3 ">
             <form @submit.prevent="handleSumit">
             <h3 class="h3 fw-semibold">Crea una nueva materia</h3>
-            <div class="d-flex">
-                <div class="input-group input-group-lg w-50">
+            <div>
+                <div class="input-group input-group-lg w-50 mb-3">
                     <span class="input-group-text" id="inputGroup-sizing-lg"><i class="material-icons">collections_bookmark</i></span>
                     <input type="text" class="form-control" v-model="subject" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="e.j Introducción al griego">
                 </div>
-                 <div class="input-group input-group-lg w-50">
+                 <div class="input-group input-group-lg w-50 mb-3">
                     <span class="input-group-text" id="inputGroup-sizing-lg"><i class="material-icons">collections_bookmark</i></span>
                     <input type="text" class="form-control" v-model="description" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="Introduce descripcion">
                 </div>
-                 <div class="input-group input-group-lg w-50">
+                 <div class="input-group input-group-lg w-50 mb-3">
                     <span class="input-group-text" id="inputGroup-sizing-lg"><i class="material-icons">collections_bookmark</i></span>
                     <input type="text" class="form-control" v-model="status" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="Escribe el estado">
                 </div>
