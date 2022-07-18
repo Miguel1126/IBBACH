@@ -1,5 +1,28 @@
 <script>
-
+export default{
+    data() {
+        return {
+            ministerialInfo:{
+                ministry_performed: '',
+                current_ministry: '',
+                full_time: '',
+                ministry_qualification: '',
+                aspirated_ministry: '',
+                reason_aspiring_ministry: '',
+                cicle_to_be_taken: '',
+                previous_institution: '',
+                last_year_studied:'',
+                qualities_religious_worker:'',
+                registration_date: ''
+            }
+        }
+    },
+    methods: {
+        passData() {
+            this.$emit('ministerialInfo', this.ministerialInfo)
+        },
+    }
+}
 </script>
 
 <template>
