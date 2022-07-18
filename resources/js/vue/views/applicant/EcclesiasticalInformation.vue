@@ -1,19 +1,54 @@
-<script setup>
-function formatPhone(id) {
-    let phoneNumber = document.getElementById(id).value
-    if (phoneNumber.length === 8) {
-        let cleaned = ('' + phoneNumber).replace(/\D/g, '')
-        let match = cleaned.match(/^(\d{4})(\d{4})$/)
-        if (match) {
-            document.querySelector(`#${id}`).value = match[1] + '-' + match[2]
+<script>
+    export default{
+    data() {
+        return {
+            
+            ecclesiasticalInfo:{
+                is_pastor: '',
+                is_member: '',
+                pastor_phone: '',
+                church_name: '',
+                church_address: '',
+                church_phone: '',
+                district: '',
+                pastor_name: '',
+                licence: '',
+                reference_name_one: '',
+                reference_phone_one: '',
+                reference_name_two: '',
+                reference_phone_two: '',
+                christ_accepted: '',
+                christening_date: '',
+                time_being_member:'',
+                privileges_held: '',
+                denomination: '',
+                study_reason: ''
+            }
+
         }
-        else {
-            document.querySelector(`#${id}`).value = ""
+    },
+    methods: {
+        passData() {
+            this.$emit('ecclesiasticalInfo', this.ecclesiasticalInfo)
+        },
+        formatPhone(id) {
+        let phoneNumber = document.getElementById(id).value
+        if (phoneNumber.length === 8) {
+            let cleaned = ('' + phoneNumber).replace(/\D/g, '')
+            let match = cleaned.match(/^(\d{4})(\d{4})$/)
+            if (match) {
+                document.querySelector(`#${id}`).value = match[1] + '-' + match[2]
+            }
+            else {
+                document.querySelector(`#${id}`).value = ""
+            }
+            }
+        if (phoneNumber.length > 9) {
+            document.querySelector(`#${id}`).value = phoneNumber.slice(0, -1)
+            }
         }
     }
-    if (phoneNumber.length > 9) {
-        document.querySelector(`#${id}`).value = phoneNumber.slice(0, -1)
-    }
+    
 }
 </script>
 
