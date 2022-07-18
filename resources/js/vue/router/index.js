@@ -13,7 +13,7 @@ import NotFound from '../views/NotFound.vue'
  import PersonalInformation from '../views/applicant/PersonalInformation.vue'
  import EcclesiasticalInformation from '../views/applicant/EcclesiasticalInformation.vue'
  import MinisterialInformation from '../views/applicant/MinisterialInformation.vue'
-
+ import ApplicantForm from '../views/applicant/ApplicantForm.vue' 
 
 /**
  * Components for admin view
@@ -164,6 +164,11 @@ export const router = createRouter({
       path: '/informacion-ministerial',
       name: 'MinisterialInformation',
       component: MinisterialInformation
+    },
+    {
+      path: '/aplicante/formulario',
+      name: 'ApplicantForm',
+      component: ApplicantForm
     },
     { 
       path: '/:pathMatch(.*)*',

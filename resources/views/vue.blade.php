@@ -15,6 +15,6 @@
 <body>
     <div id="app" class="overflow-auto"></div>
     <script type="module" src="{{ mix('js/main.js') }}"></script>
-    <script type="module" src="{{ asset('js/app.js') }}"></script>
+    <script type="module" src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>
