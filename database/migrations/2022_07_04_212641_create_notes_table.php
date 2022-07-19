@@ -15,12 +15,17 @@ return new class extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
-            $table->decimal('ev1',);
-            $table->decimal('ev2',);
-            $table->decimal('ev4',);
-            $table->decimal('ev5',);
-            $table->decimal('percentege',);
-            $table->decimal('finalAverage',);
+            $table->float('ev1',);
+            $table->float('percentege1',);
+            $table->float('ev2',);
+            $table->float('percentege2',);
+            $table->float('ev3',);
+            $table->float('percentege3',);
+            $table->float('ev4',);
+            $table->float('percentege4',);
+            $table->float('ev5',);
+            $table->float('percentege5',);
+            $table->float('finalAverage',);
             $table->string('status',10);
             $table->foreignId('load_id')
             ->nullable()
