@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('inscriptions', function (Blueprint $table) {
             $table->id();
             $table->date('registration_date');
-            $table->string('current_year',10);
             $table->string('status',10);
             $table->foreignId('user_id')
             ->nullable()
