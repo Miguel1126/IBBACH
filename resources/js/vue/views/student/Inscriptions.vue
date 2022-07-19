@@ -2,41 +2,162 @@
     export default{
         data(){
             return {
-               cycle: '',
-               start_date: '',
-               end_date: '',
+               date: '',
                statuses: [
                 {id: 1, status: 'activo'},
                 {id: 2, status: 'inactivo'}
                ],
                statusSelected:[],
-               groups:[],
-               groupSelected:[],
-               cycles:[],
+               students: [],
+               studentSelected: [],
+               loads: [],
+               loadSelected: [],
+               inscriptions: [],
                editing: false
 
             }
         },
         methods:{
+            async handleSubmit(){
+                if (this.validateInput()) {
+                    const response = await this.axios.post('/api/inscripciones', {
+                    register_date: this.date,
+                    status: this.statusSelected[0],
+                    user_id: this.studentSelected[0],
+                    load_id: this.loadSelected[0]
+                    });
+                    console.log(response);
+                if (response.status === 201) {
+                    this.clearInput() 
+                    this.$swal.fire(
+                        'Listo',
+                        'La inscripcion fue exitosa',
+                        'success'
+                    )
+                }
+                }
+                else {
+                    const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                            toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                        }
+                    })
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Debes rellenar el campo'
+                    })
+                }
+            },
+            async getInscriptions() {
+                try {
+                    const response = await this.axios.get('/api/inscripciones/get')
+                    if (response.status === 200) {
+                        if (typeof(response.data) === 'object') {
+                            this.inscriptions = response.data
+                        }
+                        else {
+                            this.inscriptions[0] = 'error'
+                        }
+                    }
+                }
+                catch {
+                    (error) => console.error(error) 
+                }
+            },
+            async getStudents() {
+                try {
+                    const response = await this.axios.get('/api/students')
+                    if (response.status === 200) {
+                        if (typeof(response.data) === 'object') {
+                            this.students = response.data
+                        }
+                        else {
+                            this.students[0] = 'error'
+                        }
+                    }
+                }
+                catch {
+                    (error) => console.error(error) 
+                }
+            },
+            // async getSchedules() {
+            //     try {
+            //         const response = await this.axios.get('/api/horarios/get')
+            //         if (response.status === 200) {
+            //             if (typeof(response.data) === 'object') {
+            //                 this.schedules = response.data
+            //             }
+            //             else {
+            //                 this.schedules[0] = 'error'
+            //             }
+            //         }
+            //     }
+            //     catch {
+            //         (error) => console.error(error) 
+            //     }
+            // },
+            // async getSubjects() {
+            //     try {
+            //         const response = await this.axios.get('/api/asignaturas/get')
+            //         if (response.status === 200) {
+            //             if (typeof(response.data) === 'object') {
+            //                 this.subjects = response.data
+            //             }
+            //             else {
+            //                 this.subjects[0] = 'error'
+            //             }
+            //         }
+            //     }
+            //     catch {
+            //         (error) => console.error(error) 
+            //     }
+            // },
+            // async getCycles() {
+            //     try {
+            //         const response = await this.axios.get('/api/ciclos/get')
+            //         if (response.status === 200) {
+            //             if (typeof(response.data) === 'object') {
+            //                 this.cycles = response.data
+            //                 console.log(response)
+            //             }
+            //             else {
+            //                 this.cycles[0] = 'error'
+            //                 console.log(response)
+            //             }
+            //         }
+            //     }
+            //     catch {
+            //         (error) => console.error(error) 
+            //     }
+            // },
             clearInput() {
-                this.cycle = null
-                this.start_date = null
-                this.end_date = null
+                this.date = null
                 this.statusSelected = []
-                this.groupSelected = []
+                this.studentSelected = []
+                this.loadSelected = []
                 this.editing = false
             },
             validateInput() {
-                let valid = this.cycle && this.start_date && this.end_date && this.statusSelected && this.groupSelected ? true : false
+                let valid = this.date && this.statusSelected && this.studentSelected && this.loadSelected ? true : false
                 return valid
             },
             selectStatus(event, statuses) {
                 this.statusSelected = [];
                 this.statusSelected.push(statuses);
             },
-            selectGroup(event, groups) {
-                this.groupSelected = [];
-                this.groupSelected.push(groups);
+            selectStudent(event, students) {
+                this.studentSelected = [];
+                this.studentSelected.push(students);
+            },
+            selectLoad(event, loads) {
+                this.loadSelected = [];
+                this.loadSelected.push(loads);
             },
         }
     }
@@ -49,7 +170,7 @@
                 <form class="w-25" @submit.prevent="handleSubmit">
                     <div class="form-group mb-3">
                         <label>Fecha de registro</label>
-                        <input type="date" class="form-control" v-model="cycle" placeholder="Nuevo ciclo"/>
+                        <input type="date" class="form-control" v-model="inscription" placeholder="Nuevo ciclo"/>
                     </div>
                     <div class="dropdown m-4">
                     <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -62,20 +183,20 @@
                     </div>
                     <div class="dropdown m-4">
                     <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span v-if="!groupSelected.length">Alumnos</span>
-                        <span v-else>{{ groupSelected[0].group }}</span>
+                        <span v-if="!studentSelected.length">Alumnos</span>
+                        <span v-else>{{ studentSelected[0].student }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="group in groups" :key="group.id" class="dropdown-item text-light list-click" @click="selectGroup($event, group)">{{ group.group }}</li>
+                        <li v-for="student in students" :key="student.id" class="dropdown-item text-light list-click" @click="selectStudent($event, student)">{{ student.student }}</li>
                     </ul>
                     </div>
                     <div class="dropdown m-4">
                     <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span v-if="!groupSelected.length">Cargas</span>
-                        <span v-else>{{ groupSelected[0].group }}</span>
+                        <span v-if="!loadSelected.length">Cargas</span>
+                        <span v-else>{{ loadSelected[0] }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="group in groups" :key="group.id" class="dropdown-item text-light list-click" @click="selectGroup($event, group)">{{ group.group }}</li>
+                        <li v-for="load in loads" :key="load.id" class="dropdown-item text-light list-click" @click="selectLoad($event, load)">{{ load.load }}</li>
                     </ul>
                     </div>
                     <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg ms-4" @click="handleSubmit">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
@@ -98,16 +219,18 @@
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        <tr v-for="cycle in cycles" :key="cycle.id">
-                            <th scope="row">{{ cycle.id }}</th>
-                            <td>{{ cycle.cycle }}</td>
-                            <td>{{ cycle.start_date }}</td>
-                            <td>{{ cycle.end_date }}</td>
-                            <td>{{ cycle.status }}</td>
-                            <td>{{ cycle.group }}</td>
+                        <tr v-for="inscription in inscriptions" :key="inscription.id">
+                            <th scope="row">{{ inscription.id }}</th>
+                            <td>{{ inscription.date }}</td>
+                            <td>{{ inscription.status }}</td>
+                            <td>{{ inscription.student }}</td>
+                            <td>{{ inscription.user_id}}</td>
+                            <td>{{ inscription.cycle_id}}</td>
+                            <td>{{ inscription.subject_id}}</td>
+                            <td>{{ inscription.schedule_id}}</td>
                             <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary me-2" @click="selectGroup($event, cycle.cycle )">Modificar</button>
-                                <button type="button" class="btn btn-danger" @click="confirmDelete($event, cycle.id)">Eliminar</button>
+                                <button type="button" class="btn btn-primary me-2" @click="selectGroup($event, inscription.inscription )">Modificar</button>
+                                <button type="button" class="btn btn-danger" @click="confirmDelete($event, inscription.id)">Eliminar</button>
                             </td>
                         </tr>
                     </tbody>
