@@ -60,7 +60,10 @@ class AssistanceController extends Controller
     {
         
         try {
-            $assistance = Assistance::orderBy('id','asc')->get();
+            $assistance = Assistance::join('notes', 'assistance.note_id', '=', 'notes.id')
+            ->select('assistance.id', 'assistance.date', 'assistance.status', 'notes.inscriptions_id')
+            ->orderBy('id', 'asc')
+            ->get();
             return $assistance;
         }
         catch (\Exception $e) {
