@@ -45,6 +45,7 @@ import Assistances from '../views/teacher/Assistances.vue'
  */
 import Student from '../views/student/base/Student.vue'
 import TestStudent from '../views/student/TestStudent.vue'
+import Inscriptions from '../views/student/Inscriptions.vue'
 
 /**
  * Components for login
@@ -147,8 +148,15 @@ export const router = createRouter({
           path: '',
           name: 'Testest',
           component: TestStudent
-        }
+        },
+        {
+          path: 'inscripciones',
+          name: 'Inscription',
+          component: Inscriptions
+        },
+        
       ]
+      
     },
     {
       path: '/informacion-personal',
