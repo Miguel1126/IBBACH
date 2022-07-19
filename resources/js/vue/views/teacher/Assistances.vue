@@ -17,9 +17,9 @@ export default {
                 {id: 2, note: '2'},
                 {id: 3, note: '3'}
             ],
-            assistances:[
-                
-            ]
+            assistances:[],
+            staSelected: [],
+            notSelected: []
                     
         }
     },
@@ -128,18 +128,18 @@ export default {
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
-<tbody class="table-group-divider">
-<tr v-for="assistance in assistances" :key="assistance.id">
-<th scope="row">{{ assistance.id }}</th>
-<td>{{ assistance.date }}</td>
-<td>{{assistance.statu}}</td>
-<td>{{assistance.note}}</td>
-<td class="d-flex justify-content-center">
-    <button type="button" class="btn btn-primary me-2" @click="selectAssistance($event, assistance.assistance, assistance.statu, assistance.note)">Modificar</button>
-    <button type="button" class="btn btn-danger" @click="confirmDelete($event, assistance.id)">Eliminar</button>
-</td>
-</tr>
-</tbody>
+                    <tbody class="table-group-divider">
+                    <tr v-for="assistance in assistances" :key="assistance.id">
+                    <th scope="row">{{ assistance.id }}</th>
+                    <td>{{ assistance.date }}</td>
+                    <td>{{assistance.statu}}</td>
+                    <td>{{assistance.note}}</td>
+                    <td class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-primary me-2" @click="selectAssistance($event, assistance.assistance, assistance.statu, assistance.note)">Modificar</button>
+                        <button type="button" class="btn btn-danger" @click="confirmDelete($event, assistance.id)">Eliminar</button>
+                    </td>
+    </tr>
+    </tbody>
                     
                 </table>
             </div>
