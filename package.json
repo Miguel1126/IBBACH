@@ -7,7 +7,8 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "setup": "composer install && npm install"
     },
     "devDependencies": {
         "@popperjs/core": "^2.10.2",
