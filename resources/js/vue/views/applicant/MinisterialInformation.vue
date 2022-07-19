@@ -3,17 +3,17 @@ export default{
     data() {
         return {
             ministerialInfo:{
-                ministry_performed: 'as',
-                current_ministry: 'asa',
-                full_time: 'asa',
-                ministry_qualification: 'asa',
-                aspirated_ministry: 'as',
-                reason_aspiring_ministry: 'sa',
-                cicle_to_be_taken: 'asa',
-                previous_institution: 'ssas',
-                last_year_studied:'as',
-                qualities_religious_worker:'sa',
-                registration_date: 'as'
+                ministry_performed: '',
+                current_ministry: '',
+                full_time: '',
+                ministry_qualification: '',
+                aspirated_ministry: '',
+                reason_aspiring_ministry: '',
+                cicle_to_be_taken: '',
+                previous_institution: '',
+                last_year_studied:'',
+                qualities_religious_worker:'',
+                registration_date: ''
             }
         }
     },
@@ -22,9 +22,7 @@ export default{
             this.$emit('ministerialInfo', this.ministerialInfo)
         },
     },
-    mounted() {
-        this.passData()
-    }
+    expose: ['passData']
 }
 </script>
 

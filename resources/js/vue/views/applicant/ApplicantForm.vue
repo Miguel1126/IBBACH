@@ -25,6 +25,11 @@ export default {
         getMinisterialInformation(data) {
             this.ministerialInformation = data
             console.log(this.ministerialInformation)
+        },
+        getData() {
+            this.$refs.personalInfo.passData()
+            this.$refs.ecclesiasticalInfo.passData()
+            this.$refs.ministerialInfo.passData()
         }
     }
 }
@@ -38,10 +43,11 @@ export default {
     </div>
     <div class="m-5 rounded form-container">
         <form class="d-block p-5" action="">
-            <PersonalInformation @personalInfo="getPersonalInformation($event)" />
-            <EcclesiasticalInformation @ecclesiasticalInfo="getEcclesiasticalInfo($event)" />
-            <MinisterialInformation @ministerialInfo="getMinisterialInformation($event)"/>
+            <PersonalInformation ref="personalInfo" @personalInfo="getPersonalInformation($event)" />
+            <EcclesiasticalInformation ref="ecclesiasticalInfo" @ecclesiasticalInfo="getEcclesiasticalInfo($event)" />
+            <MinisterialInformation ref="ministerialInfo" @ministerialInfo="getMinisterialInformation($event)"/>
          </form>
+         <button @click="getData">Click</button>
     </div>
 </div>
 </template>

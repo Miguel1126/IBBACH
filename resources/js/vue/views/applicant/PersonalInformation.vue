@@ -17,6 +17,33 @@ function formatPhone(id) {
 }
 </script>
 
+<script>
+export default {
+    data() {
+        return {
+            personalInformation: {
+                last_name: '',
+                email: '',
+                phone: '',
+                address: '',
+                nationality: '',
+                birth_date: '',
+                marital_status: '',
+                mate_name: '',
+                secular_degree: '',
+                current_ocupation: ''
+            }
+        }
+    },
+    methods: {
+        passData() {
+            this.$emit('personalInfo', this.personalInformation)
+        },
+    },
+    expose: ['passData']
+}
+</script>
+
 <template>
     <section class="w-100 text-black">
         <h3 class="fw-bold text-center mb-5 section-title">Datos Personales</h3>
