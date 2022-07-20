@@ -2,72 +2,76 @@
 export default {
     data() {
         return {
-            assistance: {
-                date:null,
-                staSelected: [],
-                notSelected: []
-            },
-            status: [
-                {id: 1, statu: 'Presente'},
-                {id: 2, statu: 'Ausente'},
-                {id: 3, statu: 'Permiso'}
-            ],
             notes: [
                 {id: 1, note: '1'},
                 {id: 2, note: '2'},
                 {id: 3, note: '3'}
             ],
-            assistances:[],
-            staSelected: [],
-            notSelected: []
+            statuses: [
+                {id: 1, status: 'activo'},
+                {id: 2, status: 'inactivo'}
+               ],
+            date: '',
+            statusSelected:[],
+            noteSelected: [],
+            assistances:[]
+
                     
         }
     },
             methods: {
-                selectSta(event, statu) {
-                this.assistance.staSelected = []
-                this.assistance.staSelected.push(statu)
-            },
-                selectNot(event, note) {
-                this.assistance.notSelected = []
-                this.assistance.notSelected.push(note)
-            },
-                clearDropdown() {
-                const app = this
-                app.staSelected = []
-                app.notSelected =[]
-                
-            },
-            updateTable() {
-                const app = this
-                app.assistances.push({ id: app.assistances.length + 1,  date: app.assistance.date, statu: app.assistance.staSelected[0], note: app.assistance.notSelected[0], })
-                app.clearDropdown()
-                },
-                deleteAssistance(id){
-                this.assistances = this.assistances.filter(assistance => assistance.id != id);
-                this.assistances = [... this.assistances];
-            },
-           
-               confirmDelete(event, id) {
-                this.$swal.fire({
-                    title: '¿Estas seguro de querer borrar esta asistencia?',
-                    text: "Si la borras, no podrás recuperarla",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Borrar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    this.deleteAssistance(id)
+                async handleSubmit(){
+                if (this.validateInput()) {
+                    const response = await this.axios.post('/api/asistencias', {
+                    date: this.date,
+                    status: this.statusSelected[0],
+                    note_id: this.noteSelected[0],
+                    });
+                    console.log(response);
+                if (response.status === 201) {
+                    this.clearDropdown() 
                     this.$swal.fire(
                         'Listo',
-                        'La asistencia ha sido eliminada',
+                        'Se registró la asistencia',
                         'success'
                     )
                 }
-                })
+                }
+                else {
+                    const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                            toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                        }
+                    })
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Debes rellenar el campo'
+                    })
+                }
+            },
+                clearDropdown() {
+                this.date = null
+                this.statusSelected = []
+                this.noteSelected =[]
+                
+            },
+            validateInput() {
+                let valid = this.date && this.statusSelected && this.noteSelected ? true : false
+                return valid
+            },
+                selectStatus(event, status) {
+                this.statusSelected = []
+                this.statusSelected.push(status)
+            },
+                selectNotes(event, notes) {
+                this.noteSelected = []
+                this.noteSelected.push(notes)
             },
             },
               setup() {
@@ -83,37 +87,36 @@ export default {
     <main>
         <h1 class="h1 fs-1 fw-bold">Registro de asistencia</h1>
         <section class="p-3">
+            <form @submit.prevent="handleSubmit">
             <h3 class="h3 fw-semibold">Registrar asistencia</h3>
              <div class="d-flex">
                 <div class="m-2">
                     <label>Fecha</label>
-                    <input class="form-control" type="date" name="fechainicio" placeholder="00-00-000" v-model="assistance.date">
+                    <input class="form-control" type="date" name="fechainicio" placeholder="00-00-000" v-model="date">
+                </div>
+               <div class="dropdown m-4">
+                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span v-if="!statusSelected.length">Estado</span>
+                        <span v-else>{{ statusSelected[0] }}</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                        <li v-for="status in statuses" :key="status.id" class="dropdown-item text-light list-click" @click="selectStatus($event, status.status)">{{ status.status }}</li>
+                    </ul>
                 </div>
                 <div class="dropdown m-4">
                     <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                <span><i class="material-icons">group</i></span>
-                    <span v-if="!assistance.staSelected.length">Estado</span>
-                    <span v-else>{{ assistance.staSelected[0] }}</span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                    <li v-for="statu in status" :key="statu.id" class="dropdown-item"><button class="text-light list-click" @click="selectSta($event, statu.statu)">{{ statu.statu }}</button></li> 
-                </ul>
-                </div>
-                 <div class="dropdown m-4">
-                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                <span><i class="material-icons">note</i></span>
-                    <span v-if="!assistance.notSelected.length">Notas</span>
-                        <span v-else>{{ assistance.notSelected[0] }}</span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                    <li v-for="note in notes" :key="note.id" class="dropdown-item"><button class="text-light list-click" @click="selectNot($event, note.note)">{{ note.note }}</button></li> 
-                </ul>
+                        <span v-if="!noteSelected.length">Notas</span>
+                        <span v-else>{{ noteSelected[0] }}</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                    <li v-for="note in notes" :key="note.id" class="dropdown-item text-light list-click" @click="selectNotes($event, note.note)">{{ note.note }}</li>                   </ul>
                 </div>
                 <div class="m-4">
-                    <button  type="button" class="d-inline-flex btn btn-primary btn-lg" @click="updateTable">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
+                    <button  type="submit" class="d-inline-flex btn btn-primary btn-lg">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
                     <button type="button" class="d-inline-flex btn btn-warning btn-lg ms-3" @click="clearDrowdop">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
                 </div>
             </div>
+            </form>
         </section>
          <section class="p-3">
             <div class="table-container p-3 mb-5 bg-body rounded">
@@ -131,8 +134,8 @@ export default {
                     <tbody class="table-group-divider">
                     <tr v-for="assistance in assistances" :key="assistance.id">
                     <th scope="row">{{ assistance.id }}</th>
-                    <td>{{ assistance.date }}</td>
-                    <td>{{assistance.statu}}</td>
+                    <td>{{assistance.date}}</td>
+                    <td>{{assistance.status}}</td>
                     <td>{{assistance.note}}</td>
                     <td class="d-flex justify-content-center">
                         <button type="button" class="btn btn-primary me-2" @click="selectAssistance($event, assistance.assistance, assistance.statu, assistance.note)">Modificar</button>
