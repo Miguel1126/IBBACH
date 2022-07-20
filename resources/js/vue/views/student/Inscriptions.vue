@@ -1,5 +1,10 @@
 <script>
-    export default{
+    export default {
+        mounted(){
+            this.getStudents(),
+            this.getLoads(),
+            this.getInscriptions()
+        },
         data(){
             return {
                date: '',
@@ -78,6 +83,7 @@
                             this.students = response.data
                         }
                         else {
+                            console.log(response)
                             this.students[0] = 'error'
                         }
                     }
@@ -86,56 +92,22 @@
                     (error) => console.error(error) 
                 }
             },
-            // async getSchedules() {
-            //     try {
-            //         const response = await this.axios.get('/api/horarios/get')
-            //         if (response.status === 200) {
-            //             if (typeof(response.data) === 'object') {
-            //                 this.schedules = response.data
-            //             }
-            //             else {
-            //                 this.schedules[0] = 'error'
-            //             }
-            //         }
-            //     }
-            //     catch {
-            //         (error) => console.error(error) 
-            //     }
-            // },
-            // async getSubjects() {
-            //     try {
-            //         const response = await this.axios.get('/api/asignaturas/get')
-            //         if (response.status === 200) {
-            //             if (typeof(response.data) === 'object') {
-            //                 this.subjects = response.data
-            //             }
-            //             else {
-            //                 this.subjects[0] = 'error'
-            //             }
-            //         }
-            //     }
-            //     catch {
-            //         (error) => console.error(error) 
-            //     }
-            // },
-            // async getCycles() {
-            //     try {
-            //         const response = await this.axios.get('/api/ciclos/get')
-            //         if (response.status === 200) {
-            //             if (typeof(response.data) === 'object') {
-            //                 this.cycles = response.data
-            //                 console.log(response)
-            //             }
-            //             else {
-            //                 this.cycles[0] = 'error'
-            //                 console.log(response)
-            //             }
-            //         }
-            //     }
-            //     catch {
-            //         (error) => console.error(error) 
-            //     }
-            // },
+            async getLoads() {
+                try {
+                    const response = await this.axios.get('/api/cargas/all')
+                    if (response.status === 200) {
+                        if (typeof(response.data) === 'object') {
+                            this.loads = response.data
+                        }
+                        else {
+                            this.loads[0] = 'error'
+                        }
+                    }
+                }
+                catch {
+                    (error) => console.error(error) 
+                }
+            },
             clearInput() {
                 this.date = null
                 this.statusSelected = []
@@ -164,13 +136,13 @@
 </script>
 <template>
     <main>
-        <h1 class="h1 fs-1 fw-bold mb-3">Registro de ciclos</h1>
+        <h1 class="h1 fs-1 fw-bold mb-3">Inscripcion de ciclos</h1>
         <section class="p-3">
-            <h3 class="h3 fw-semibold">Crear nuevo ciclo</h3>
+            <h3 class="h3 fw-semibold">Inscribir nuevo ciclo</h3>
                 <form class="w-25" @submit.prevent="handleSubmit">
                     <div class="form-group mb-3">
                         <label>Fecha de registro</label>
-                        <input type="date" class="form-control" v-model="inscription" placeholder="Nuevo ciclo"/>
+                        <input type="date" class="form-control" v-model="date"/>
                     </div>
                     <div class="dropdown m-4">
                     <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -193,10 +165,10 @@
                     <div class="dropdown m-4">
                     <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
                         <span v-if="!loadSelected.length">Cargas</span>
-                        <span v-else>{{ loadSelected[0] }}</span>
+                        <span v-else>{{ loadSelected[0].load_id }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="load in loads" :key="load.id" class="dropdown-item text-light list-click" @click="selectLoad($event, load)">{{ load.load }}</li>
+                        <li v-for="load in loads" :key="load.id" class="dropdown-item text-light list-click" @click="selectLoad($event, load_id)">{{ load.load }}</li>
                     </ul>
                     </div>
                     <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg ms-4" @click="handleSubmit">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
@@ -224,10 +196,7 @@
                             <td>{{ inscription.date }}</td>
                             <td>{{ inscription.status }}</td>
                             <td>{{ inscription.student }}</td>
-                            <td>{{ inscription.user_id}}</td>
-                            <td>{{ inscription.cycle_id}}</td>
-                            <td>{{ inscription.subject_id}}</td>
-                            <td>{{ inscription.schedule_id}}</td>
+                            <td>{{ inscription.load_id}}</td>
                             <td class="d-flex justify-content-center">
                                 <button type="button" class="btn btn-primary me-2" @click="selectGroup($event, inscription.inscription )">Modificar</button>
                                 <button type="button" class="btn btn-danger" @click="confirmDelete($event, inscription.id)">Eliminar</button>

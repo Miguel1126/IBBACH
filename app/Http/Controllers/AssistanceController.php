@@ -38,7 +38,7 @@ class AssistanceController extends Controller
     {
         try {
             $assistance = new Assistance();
-            $assistance->date = $request->subject;
+            $assistance->date = $request->date;
             $assistance->status = $request->status;
             $assistance->note_id = $request->note_id;
             if ($assistance->save()>=1) {
@@ -60,8 +60,8 @@ class AssistanceController extends Controller
     {
         
         try {
-            $assistance = Assistance::join('notes', 'assistance.note_id', '=', 'notes.id')
-            ->select('assistance.id', 'assistance.date', 'assistance.status', 'notes.inscriptions_id')
+            $assistance = Assistance::join('notes', 'assistances.note_id', '=', 'notes.id')
+            ->select('assistances.id', 'assistances.date', 'assistances.status', 'notes.inscription_id')
             ->orderBy('id', 'asc')
             ->get();
             return $assistance;
