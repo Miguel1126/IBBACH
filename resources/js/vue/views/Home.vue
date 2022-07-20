@@ -18,9 +18,6 @@ import Nav from '../components/Nav.vue'
 		<router-link to="/secretaria">Secretaria</router-link> | 
 		<router-link to="/docente">Docente</router-link> | 
 		<router-link to="/alumno">Estudiante</router-link> |
-		<router-link to="/informacion-personal">Formulario de ingreso - personal</router-link> |
-		<router-link to="/informacion-eclesiastica">Formulario de ingreso - eclesiastica</router-link> |
-		<router-link to="/informacion-ministerial">Formulario de ingreso - ministerial</router-link> |
 		<router-link to="/aplicante/formulario">Formulario de ingreso</router-link> |
 		<div>
 			<router-view />
