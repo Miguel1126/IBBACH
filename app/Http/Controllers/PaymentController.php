@@ -42,6 +42,7 @@ class PaymentController extends Controller
             $payment->last_pay_date = $request->last_pay_date;
             $payment->sourcharge = $request->sourcharge;
             $payment->rate_id = $request->rate_id;
+            $payment->user_id = $request->user_id;
             if ($payment->save()>=1) {
                 return response()->json(['status'=>'OK','data'=>$payment],201);
             }
@@ -60,8 +61,19 @@ class PaymentController extends Controller
     public function show()
     {
         try {
-            $payment = Payment::orderBy('id','asc')->get();
-            return $payment;
+            $rates = Payment::join('users', 'payments.user_id', '=', 'users.id')
+            ->join('rates', 'payments.rate_id', '=', 'rates.id')
+            ->select(
+                'payments.id',
+                'payments.payment_date',
+                'payments.last_pay_date',
+                'payments.sourcharge',
+                'users.name as student',
+                'rates.price'
+            )
+            ->orderBy('id', 'asc')
+            ->get();
+            return $rates;
         }
         catch (\Exception $e) {
             return $e->getMessage();
