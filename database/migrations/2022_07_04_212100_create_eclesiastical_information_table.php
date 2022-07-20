@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('ecclesiastical_information', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_pastor');
-            $table->boolean('is_member');
+            $table->boolean('is_pastor')->nullable();
+            $table->boolean('is_member')->nullable();
             $table->integer('pastor_phone');
             $table->string('church_name',60);
             $table->string('church_address',70);
