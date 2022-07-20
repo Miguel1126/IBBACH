@@ -170,16 +170,6 @@ export const router = createRouter({
       component: PersonalInformation
     },
     {
-      path: '/informacion-eclesiastica',
-      name: 'EcclesiasticalInformation',
-      component: EcclesiasticalInformation
-    },
-    {
-      path: '/informacion-ministerial',
-      name: 'MinisterialInformation',
-      component: MinisterialInformation
-    },
-    {
       path: '/aplicante/formulario',
       name: 'ApplicantForm',
       component: ApplicantForm

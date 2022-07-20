@@ -3,17 +3,16 @@ export default{
     data() {
         return {
             ministerialInfo:{
-                ministry_performed: 'as',
-                current_ministry: 'asa',
-                full_time: 'asa',
-                ministry_qualification: 'asa',
-                aspirated_ministry: 'as',
-                reason_aspiring_ministry: 'sa',
-                cicle_to_be_taken: 'asa',
-                previous_institution: 'ssas',
-                last_year_studied:'as',
-                qualities_religious_worker:'sa',
-                registration_date: 'as'
+                ministry_performed: '',
+                current_ministry: '',
+                full_time: '',
+                ministry_qualification: '',
+                aspirated_ministry: '',
+                reason_aspiring_ministry: '',
+                cicle_to_be_taken: '',
+                previous_institution: '',
+                last_year_studied:'',
+                qualities_religious_worker:''
             }
         }
     },
@@ -22,9 +21,7 @@ export default{
             this.$emit('ministerialInfo', this.ministerialInfo)
         },
     },
-    mounted() {
-        this.passData()
-    }
+    expose: ['passData']
 }
 </script>
 
@@ -34,14 +31,14 @@ export default{
         <div class="questions-container">
             <div class="mb-3">
                 <label for="privilegesHeld" class="form-label">¿En qué ministerio se ha desempeñado?</label>
-                <input type="text" class="form-control" id="privilegesHeld" placeholder="ministerial" required>
+                <input type="text" class="form-control" id="privilegesHeld" placeholder="ministerial" v-model="ministeriaInfo.ministry_performed" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Está a tiempo completo:</label>
-                <select class="form-select">
+                <select class="form-select" v-model="ministeriaInfo.full_time">
                     <option selected>-- --</option>
-                    <option value="1">Si</option>
-                    <option value="2">No</option>
+                    <option value="true">Si</option>
+                    <option value="false">No</option>
                 </select>
             </div>
             <div class="mb-3">

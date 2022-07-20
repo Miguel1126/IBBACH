@@ -8,23 +8,38 @@
 export default {
     data() {
         return {
-            personalInformation:{},
-            ecclesiasticalInformation: {},
-            ministerialInformation: {}
+            formData: {
+                personalInformation:{},
+                ecclesiasticalInformation: {},
+                ministerialInformation: {}
+            }
         }
     },
     methods: {
         getPersonalInformation(data) {
-            this.personalInformation = data
-            console.log(this.personalInformation)
+            this.formData.personalInformation = data
+            console.log(this.formData.personalInformation)
         },
         getEcclesiasticalInfo(data) {
-            this.ecclesiasticalInformation = data
-            console.log(this.ecclesiasticalInformation)
+            this.formData.ecclesiasticalInformation = data
+            console.log(this.formData.ecclesiasticalInformation)
         },
         getMinisterialInformation(data) {
-            this.ministerialInformation = data
-            console.log(this.ministerialInformation)
+            this.formData.ministerialInformation = data
+            console.log(this.formData.ministerialInformation)
+        },
+        getData() {
+            this.$refs.personalInfo.passData()
+            this.$refs.ecclesiasticalInfo.passData()
+            this.$refs.ministerialInfo.passData()
+        },
+        sendForm() {
+
+            this.getData()
+
+            /* const response = await this.axios.post('/api/aplicante', this.formData)
+            console.log(response) */
+
         }
     }
 }
@@ -37,10 +52,11 @@ export default {
         <h4 class="text-center m-3">Ingresa tus datos a continación, revisa muy bien la información antes de enviarla.</h4>
     </div>
     <div class="m-5 rounded form-container">
-        <form class="d-block p-5" action="">
-            <PersonalInformation @personalInfo="getPersonalInformation($event)" />
-            <EcclesiasticalInformation @ecclesiasticalInfo="getEcclesiasticalInfo($event)" />
-            <MinisterialInformation @ministerialInfo="getMinisterialInformation($event)"/>
+        <form @submit.prevent="sendForm" class="d-block p-5" action="">
+            <PersonalInformation ref="personalInfo" @personalInfo="getPersonalInformation($event)" />
+            <EcclesiasticalInformation ref="ecclesiasticalInfo" @ecclesiasticalInfo="getEcclesiasticalInfo($event)" />
+            <MinisterialInformation ref="ministerialInfo" @ministerialInfo="getMinisterialInformation($event)"/>
+            <input type="submit" class="btn btn-primary text-light" value="Enviar formulario" />
          </form>
     </div>
 </div>
