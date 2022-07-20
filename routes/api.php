@@ -61,3 +61,4 @@ Route::resource('/ciclos', CycleController::class);
 Route::get('/ciclos/get',[CycleController::class,'show']);
 
 Route::get('docentes', [UserController::class, 'getTeacher']);
+Route::get('students', [UserController::class, 'getStudent']);

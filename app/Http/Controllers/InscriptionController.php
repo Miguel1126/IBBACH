@@ -38,7 +38,6 @@ class InscriptionController extends Controller
         try {
             $inscription = new Inscription();
             $inscription->registration_date = $request->registration_date;
-            $inscription->current_year = $request->current_year;
             $inscription->status = $request->status;
             $inscription-> user_id = $request-> user_id;
             $inscription-> load_id = $request-> load_id;
@@ -60,8 +59,18 @@ class InscriptionController extends Controller
     public function show()
     {
         try {
-            $inscription = Inscription::orderBy('id','asc')->get();
-            return $inscription;
+            $inscriptions = Inscription::join('users', 'inscriptions.user_id', '=', 'users.id')
+            ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+            ->select(
+                'inscriptions.id',
+                'inscriptions.registration_date',
+                'inscriptions.status',
+                'users.name as student',
+                'loads.id'
+            )
+            ->orderBy('id', 'asc')
+            ->get();
+            return $inscriptions;
         }
         catch (\Exception $e) {
             return $e->getMessage();

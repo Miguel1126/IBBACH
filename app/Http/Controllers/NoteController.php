@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Note;
-class NoteController extends Controller
+class notesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,19 +35,23 @@ class NoteController extends Controller
     public function store(Request $request)
     {
         try{
-            $note = new Note();
-            $note-> ev1 = $request->ev1;
-            $note-> ev2 = $request->ev2;
-            $note-> ev3 = $request->ev3;
-            $note-> ev4 = $request->ev4;
-            $note-> ev5 = $request->ev5;
-            $note-> percentege = $request->percentege;
-            $note-> finalAverage = $request->finalAverage;
-            $note-> status = $request->status;
-            $note-> load_id = $request->load_id;
-            $note-> insription_id = $request->inscription_id;
-            if($note->save()>=1){
-                return response()->json(['status'=>'ok','data'=>$note],201);
+            $notes = new Note();
+            $notes-> ev1 = $request->ev1;
+            $notes-> percentege1 = $request->percentege1;
+            $notes-> ev2 = $request->ev2;
+            $notes-> percentege2 = $request->percentege2;
+            $notes-> ev3 = $request->ev3;
+            $notes-> percentege3 = $request->percentege3;
+            $notes-> ev4 = $request->ev4;
+            $notes-> percentege4 = $request->percentege4;
+            $notes-> ev5 = $request->ev5;
+            $notes-> percentege5 = $request->percentege5;
+            $notes-> finalAverage = $request->finalAverage;
+            $notes-> status = $request->status;
+            $notes-> load_id = $request->load_id;
+            $notes-> insription_id = $request->inscription_id;
+            if($notes->save()>=1){
+                return response()->json(['status'=>'ok','data'=>$notes],201);
             }
         }
         catch(\Exception $e){
@@ -60,13 +64,22 @@ class NoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        try{
-            $note = Note::orderBy('id','asc')->get();
-            return $note;
+        try {
+            $notes = Note::join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id', 'loads', 'notes.load_id', '=', 'loads.id')
+            ->select('notes.id', 'notes.ev1', 'notes.percentege1',
+            'notes.ev2', 'notes.percentege2',
+            'notes.ev3', 'notes.percentege3',
+            'notes.ev4', 'notes.percentege4',
+            'notes.ev5', 'notes.percentege5',
+            'notes.finalAverage', 'notes.status',
+            'loads.subject_id', 'inscriptions.cycle_id')
+            ->orderBy('id', 'asc')
+            ->get();
+            return $notes;
         }
-        catch (\Exception $e){
+        catch (\Exception $e) {
             return $e->getMessage();
         }
     }

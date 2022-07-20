@@ -39,12 +39,14 @@ import Rates from '../views/secretary/Rates.vue'
 import Teacher from '../views/teacher/base/Teacher.vue'
 import TestTeacher from '../views/teacher/TestTeacher.vue'
 import Assistances from '../views/teacher/Assistances.vue'
+import Notes from '../views/teacher/Notes.vue'
 
 /**
  * Components for student view
  */
 import Student from '../views/student/base/Student.vue'
 import TestStudent from '../views/student/TestStudent.vue'
+import Inscriptions from '../views/student/Inscriptions.vue'
 
 /**
  * Components for login
@@ -136,6 +138,11 @@ export const router = createRouter({
           path: 'asistencias',
           name: 'Assistances',
           component: Assistances
+        },
+        {
+          path: 'notas',
+          name: 'Notes',
+          component: Notes
         }
       ]
     },
@@ -147,8 +154,15 @@ export const router = createRouter({
           path: '',
           name: 'Testest',
           component: TestStudent
-        }
+        },
+        {
+          path: 'inscripciones',
+          name: 'Inscription',
+          component: Inscriptions
+        },
+        
       ]
+      
     },
     {
       path: '/informacion-personal',

@@ -20,6 +20,14 @@ class UserController extends Controller
     }
 
     public function getStudent() {
-        
+        try {
+            $student = User::select('users.id', 'users.name as student')
+            ->where('users.role', '=', 'alumno')
+            ->orderBy('id','asc')->get();
+            return $student;
+        }
+        catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 }
