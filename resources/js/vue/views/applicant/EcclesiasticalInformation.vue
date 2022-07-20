@@ -48,9 +48,7 @@
             }
         }
     },
-    mounted() {
-        this.passData()
-    }
+    expose: ['passData']
     
 }
 </script>
