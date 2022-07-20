@@ -12,8 +12,7 @@ export default{
                 cicle_to_be_taken: '',
                 previous_institution: '',
                 last_year_studied:'',
-                qualities_religious_worker:'',
-                registration_date: ''
+                qualities_religious_worker:''
             }
         }
     },
@@ -32,14 +31,14 @@ export default{
         <div class="questions-container">
             <div class="mb-3">
                 <label for="privilegesHeld" class="form-label">¿En qué ministerio se ha desempeñado?</label>
-                <input type="text" class="form-control" id="privilegesHeld" placeholder="ministerial" required>
+                <input type="text" class="form-control" id="privilegesHeld" placeholder="ministerial" v-model="ministeriaInfo.ministry_performed" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Está a tiempo completo:</label>
-                <select class="form-select">
+                <select class="form-select" v-model="ministeriaInfo.full_time">
                     <option selected>-- --</option>
-                    <option value="1">Si</option>
-                    <option value="2">No</option>
+                    <option value="true">Si</option>
+                    <option value="false">No</option>
                 </select>
             </div>
             <div class="mb-3">
