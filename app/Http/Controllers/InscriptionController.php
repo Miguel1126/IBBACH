@@ -66,7 +66,6 @@ class InscriptionController extends Controller
                 'inscriptions.registration_date',
                 'inscriptions.status',
                 'users.name as student',
-                'loads.id'
             )
             ->orderBy('id', 'asc')
             ->get();
