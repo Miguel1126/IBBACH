@@ -9,36 +9,45 @@ export default {
     data() {
         return {
             formData: {
-                personalInformation:{},
-                ecclesiasticalInformation: {},
-                ministerialInformation: {}
+                registration_date: ''
             }
         }
     },
     methods: {
         getPersonalInformation(data) {
-            this.formData.personalInformation = data
-            console.log(this.formData.personalInformation)
+            let entries = Object.entries(data)
+            entries.forEach(elm => {
+                this.formData[elm[0]] = elm[1]
+            })
         },
         getEcclesiasticalInfo(data) {
-            this.formData.ecclesiasticalInformation = data
-            console.log(this.formData.ecclesiasticalInformation)
+            let entries = Object.entries(data)
+            entries.forEach(elm => {
+                this.formData[elm[0]] = elm[1]
+            })
         },
         getMinisterialInformation(data) {
-            this.formData.ministerialInformation = data
-            console.log(this.formData.ministerialInformation)
+            let entries = Object.entries(data)
+            entries.forEach(elm => {
+                this.formData[elm[0]] = elm[1]
+            })
         },
         getData() {
             this.$refs.personalInfo.passData()
             this.$refs.ecclesiasticalInfo.passData()
             this.$refs.ministerialInfo.passData()
         },
-        sendForm() {
+        async sendForm() {
 
             this.getData()
+            console.log(this.formData)
 
-            /* const response = await this.axios.post('/api/aplicante', this.formData)
-            console.log(response) */
+            const date = new Date()
+            const formatedDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+            this.formData.registration_date = formatedDate
+
+            const response = await this.axios.post('/api/aplicante', this.formData)
+            console.log(response)
 
         }
     }

@@ -139,7 +139,7 @@ class ApplicantController extends Controller
             $applicant = Applicant::join('personal_information','applicants.personal_information_id','=','personal_information.id')
             ->join('ecclesiastical_information','applicants.ecclesiastical_information_id','=','ecclesiastical_information.id')
             ->join('ministerial_information','applicants.ministerial_information_id','=','ministerial_information.id')
-            ->select()
+            ->select('applicants.id','personal_information.name')
             ->orderBy('id','asc')->get();
             return $applicant;
         }
