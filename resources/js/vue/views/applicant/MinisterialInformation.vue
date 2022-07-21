@@ -30,41 +30,49 @@ export default{
         <h3 class="fw-bold text-center mb-5 section-title">Datos Ministeriales</h3>
         <div class="questions-container">
             <div class="mb-3">
-                <label for="privilegesHeld" class="form-label">¿En qué ministerio se ha desempeñado?</label>
-                <input type="text" class="form-control" id="privilegesHeld" placeholder="ministerial" v-model="ministeriaInfo.ministry_performed" required>
+                <label for="ministry_performed" class="form-label">¿En qué ministerio se ha desempeñado?</label>
+                <input type="text" class="form-control" id="ministry_performed" placeholder="ministerial" v-model="ministerialInfo.ministry_performed" required>
+            </div>
+            <div class="mb-3">
+                <label for="current_ministry" class="form-label">¿Su ministerio actual?</label>
+                <input type="text" class="form-control" id="current_ministry" placeholder="ministerial" v-model="ministerialInfo.current_ministry" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Está a tiempo completo:</label>
-                <select class="form-select" v-model="ministeriaInfo.full_time">
+                <select class="form-select" v-model="ministerialInfo.full_time">
                     <option selected>-- --</option>
-                    <option value="true">Si</option>
-                    <option value="false">No</option>
+                    <option value="1">Si</option>
+                    <option value="0">No</option>
                 </select>
             </div>
             <div class="mb-3">
-                <label for="privilegesHeld" class="form-label">¿Porque?</label>
-                <input type="text" class="form-control" id="privilegesHeld" placeholder="porque tengo tiempo" required>
+                <label for="ministry_qualification" class="form-label">¿Cómo califica su ministerio actual?</label>
+                <input type="text" class="form-control" id="ministry_qualification" placeholder="nose" v-model="ministerialInfo.ministry_qualification" required>
             </div>
             <div class="mb-3">
-                <label for="denomination" class="form-label">¿A qué ministerio cree que Dios lo está llamando?</label>
-                <input type="text" class="form-control" id="denomination" placeholder="nose" required>
+                <label for="aspirated_ministry" class="form-label">¿A qué ministerio cree que Dios lo está llamando?</label>
+                <input type="text" class="form-control" id="aspirated_ministry" placeholder="nose" v-model="ministerialInfo.aspirated_ministry" required>
+            </div>
+             <div class="mb-3">
+                <label for="reason_aspiring_ministry" class="form-label">¿Por qué cree así?</label>
+                <input type="text" class="form-control" id="reason_aspiring_ministry" placeholder="nose" v-model="ministerialInfo.reason_aspiring_ministry" required>
             </div>
             <div class="mb-3">
-                <label for="studyReason" class="form-label">¿En qué Institución estudio el ciclo o los ciclos
+                <label for="cicle_to_be_taken" class="form-label">¿Qué ciclo le corresponde cursar en el bíblico?</label>
+                <input type="text" class="form-control" id="cicle_to_be_taken" placeholder="nose" v-model="ministerialInfo.cicle_to_be_taken" required>
+            </div>
+            <div class="mb-3">
+                <label for="previous_institution" class="form-label">¿En qué Institución estudio el ciclo o los ciclos
                     anteriores? </label>
-                <input type="text" class="form-control" id="studyReason" placeholder="ya se me olvido" required>
+                <input type="text" class="form-control" id="previous_institution" placeholder="ya se me olvido" v-model="ministerialInfo.previous_institution" required>
             </div>
             <div class="mb-3">
-                <label for="studyReason" class="form-label">¿En qué año estudió la última vez? </label>
-                <input type="text" class="form-control" id="studyReason" placeholder="2018" required>
+                <label for="last_year_studied" class="form-label">¿En qué año estudió la última vez? </label>
+                <input type="text" class="form-control" id="last_year_studied" placeholder="2018" v-model="ministerialInfo.last_year_studied" required>
             </div>
             <div class="mb-3">
-                <label for="studyReason" class="form-label">¿Qué ministerio desempeña aparte de su iglesia? </label>
-                <input type="text" class="form-control" id="studyReason" placeholder="cristiano" required>
-            </div>
-            <div class="mb-3">
-                <label for="studyReason" class="form-label">Escriba las cualidades de un obrero cristiano: </label>
-                <input type="text" class="form-control" id="studyReason" placeholder="respetuso" required>
+                <label for="qualities_religious_worker" class="form-label">Escriba las cualidades de un obrero cristiano: </label>
+                <input type="text" class="form-control" id="qualities_religious_worker" placeholder="respetuso" v-model="ministerialInfo.qualities_religious_worker" required>
             </div>
         </div>
     </section>

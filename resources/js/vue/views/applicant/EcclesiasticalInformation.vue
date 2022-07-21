@@ -4,8 +4,8 @@
         return {
             
             ecclesiasticalInfo:{
-                is_pastor: '',
-                is_member: '',
+                is_pastor: null,
+                is_member: null,
                 pastor_phone: null,
                 church_name: '',
                 church_address: '',
@@ -68,14 +68,14 @@
                 <label class="form-label">¿Es pastor?</label>
                 <select class="form-select" v-model="ecclesiasticalInfo.is_pastor">
                     <option selected>-- --</option>
-                    <option value="true">Si</option>
-                    <option value="false">No</option>
+                    <option value="1">Si</option>
+                    <option value="0">No</option>
                 </select>
                 <label class="form-label">¿Es Miembro?</label>
                 <select class="form-select" v-model="ecclesiasticalInfo.is_member">
                     <option selected>-- --</option>
-                    <option value="true">Si</option>
-                    <option value="false">No</option>   
+                    <option value="1">Si</option>
+                    <option value="0">No</option>   
                 </select>
             </div>
             <div class="mb-3">
