@@ -1,5 +1,8 @@
 <script>
 export default {
+        mounted() {
+            this.getAssistances();
+        },
     data() {
         return {
             notes: [
@@ -30,6 +33,7 @@ export default {
                     console.log(response);
                 if (response.status === 201) {
                     this.clearDropdown() 
+                    this.getAssistances()
                     this.$swal.fire(
                         'Listo',
                         'Se registró la asistencia',
@@ -54,12 +58,31 @@ export default {
                         title: 'Debes rellenar el campo'
                     })
                 }
+                
             },
                 clearDropdown() {
                 this.date = null
                 this.statusSelected = []
                 this.noteSelected =[]
                 
+            },
+             async getAssistances() {
+                try {
+                    const response = await this.axios.get('/api/asistencias/get')
+                    if (response.status === 200) {
+                        if (typeof(response.data) === 'object') {
+                            this.assistances = response.data
+                            console.log(response)
+                        }
+                        else {
+                            this.assistances[0] = 'error'
+                            console.log(response)
+                        }
+                    }
+                }
+                catch {
+                    (error) => console.error(error) 
+                }
             },
             validateInput() {
                 let valid = this.date && this.statusSelected && this.noteSelected ? true : false
@@ -109,7 +132,8 @@ export default {
                         <span v-else>{{ noteSelected[0] }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                    <li v-for="note in notes" :key="note.id" class="dropdown-item text-light list-click" @click="selectNotes($event, note.note)">{{ note.note }}</li>                   </ul>
+                    <li v-for="note in notes" :key="note.id" class="dropdown-item text-light list-click" @click="selectNotes($event, note.note)">{{ note.note }}</li>
+                    </ul>
                 </div>
                 <div class="m-4">
                     <button  type="submit" class="d-inline-flex btn btn-primary btn-lg">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
