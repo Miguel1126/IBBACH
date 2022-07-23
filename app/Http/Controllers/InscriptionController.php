@@ -40,7 +40,7 @@ class InscriptionController extends Controller
             $inscription->registration_date = $request->registration_date;
             $inscription->status = $request->status;
             $inscription-> user_id = $request-> user_id;
-            $inscription-> load_id = $request-> load_id;
+            $inscription-> subject_id = $request-> subject_id;
             if ($inscription->save()>=1) {
                 return response()->json(['status'=>'OK','data'=>$inscription],201);
             }
@@ -60,12 +60,13 @@ class InscriptionController extends Controller
     {
         try {
             $inscriptions = Inscription::join('users', 'inscriptions.user_id', '=', 'users.id')
-            ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+            ->join('subjects', 'inscriptions.subject_id', '=', 'subjects.id')
             ->select(
                 'inscriptions.id',
-                'inscriptions.registration_date',
+                'inscriptions.registration_date as date',
                 'inscriptions.status',
                 'users.name as student',
+                'subjects.subject',
             )
             ->orderBy('id', 'asc')
             ->get();
