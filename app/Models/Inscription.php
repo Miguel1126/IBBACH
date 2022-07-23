@@ -9,8 +9,8 @@ class Inscription extends Model
 {
     use HasFactory;
 
-    public function loads(){
-        return $this->belongsTo(Load::class, 'load_id');
+    public function inscriptions(){
+        return $this->belongsTo(Subject::class, 'subject_id');
     }
 
     public function users(){

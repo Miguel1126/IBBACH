@@ -1,8 +1,8 @@
 <script>
     export default {
         mounted(){
-            this.getStudents(),
-            this.getLoads(),
+            this.getStudents()
+            this.getSubjects()
             this.getInscriptions()
         },
         data(){
@@ -15,8 +15,8 @@
                statusSelected:[],
                students: [],
                studentSelected: [],
-               loads: [],
-               loadSelected: [],
+               subjects: [],
+               subjectSelected: [],
                inscriptions: [],
                editing: false
 
@@ -26,14 +26,15 @@
             async handleSubmit(){
                 if (this.validateInput()) {
                     const response = await this.axios.post('/api/inscripciones', {
-                    register_date: this.date,
+                    registration_date: this.date,
                     status: this.statusSelected[0],
-                    user_id: this.studentSelected[0],
-                    load_id: this.loadSelected[0]
+                    user_id: this.studentSelected[0].id,
+                    subject_id: this.subjectSelected[0].id
                     });
                     console.log(response);
                 if (response.status === 201) {
                     this.clearInput() 
+                    this.getInscriptions()
                     this.$swal.fire(
                         'Listo',
                         'La inscripcion fue exitosa',
@@ -41,23 +42,7 @@
                     )
                 }
                 }
-                else {
-                    const Toast = this.$swal.mixin({
-                    toast: true,
-                    position: 'top',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', this.$swal.stopTimer)
-                            toast.addEventListener('mouseleave', this.$swal.resumeTimer)
-                        }
-                    })
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Debes rellenar el campo'
-                    })
-                }
+                
             },
             async getInscriptions() {
                 try {
@@ -67,12 +52,13 @@
                             this.inscriptions = response.data
                         }
                         else {
+                            console.log(response)
                             this.inscriptions[0] = 'error'
                         }
                     }
                 }
-                catch {
-                    (error) => console.error(error) 
+                catch (error) {
+                    console.error(error);
                 }
             },
             async getStudents() {
@@ -88,35 +74,36 @@
                         }
                     }
                 }
-                catch {
-                    (error) => console.error(error) 
+                catch (error) {
+                    console.error(error)
                 }
             },
-            async getLoads() {
+            async getSubjects() {
                 try {
-                    const response = await this.axios.get('/api/cargas/all')
+                    const response = await this.axios.get('/api/asignaturas/get')
                     if (response.status === 200) {
                         if (typeof(response.data) === 'object') {
-                            this.loads = response.data
+                            this.subjects = response.data
                         }
                         else {
-                            this.loads[0] = 'error'
+                            console.log(response)
+                            this.subjects[0] = 'error'
                         }
                     }
                 }
-                catch {
-                    (error) => console.error(error) 
+                catch (error) {
+                    console.error(error) 
                 }
             },
             clearInput() {
                 this.date = null
                 this.statusSelected = []
                 this.studentSelected = []
-                this.loadSelected = []
+                this.subjectSelected = []
                 this.editing = false
             },
             validateInput() {
-                let valid = this.date && this.statusSelected && this.studentSelected && this.loadSelected ? true : false
+                let valid = this.date && this.statusSelected && this.studentSelected && this.subjectSelected ? true : false
                 return valid
             },
             selectStatus(event, statuses) {
@@ -127,9 +114,9 @@
                 this.studentSelected = [];
                 this.studentSelected.push(students);
             },
-            selectLoad(event, loads) {
-                this.loadSelected = [];
-                this.loadSelected.push(loads);
+            selectSubject(event, subject) {
+                this.subjectSelected = [];
+                this.subjectSelected.push(subject);
             },
         }
     }
@@ -164,15 +151,15 @@
                     </div>
                     <div class="dropdown m-4">
                     <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span v-if="!loadSelected.length">Cargas</span>
-                        <span v-else>{{ loadSelected[0].load_id }}</span>
+                        <span v-if="!subjectSelected.length">Materia</span>
+                        <span v-else>{{ subjectSelected[0].subject }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="load in loads" :key="load.id" class="dropdown-item text-light list-click" @click="selectLoad($event, load_id)">{{ load.load }}</li>
+                        <li v-for="subject in subjects" :key="subject.id" class="dropdown-item text-light list-click" @click="selectSubject($event, subject)">{{ subject.subject }}</li>
                     </ul>
                     </div>
-                    <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg ms-4" @click="handleSubmit">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
-                    <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning btn-lg ms-3" @click="clearInput">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
+                    <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary btn-lg ms-4">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
+                    <button v-if="!editing" type="submit" class="d-inline-flex btn btn-warning btn-lg ms-3">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
                 </form>
         </section>
         <hr class="separator"/>
@@ -196,7 +183,7 @@
                             <td>{{ inscription.date }}</td>
                             <td>{{ inscription.status }}</td>
                             <td>{{ inscription.student }}</td>
-                            <td>{{ inscription.load_id}}</td>
+                            <td>{{ inscription.subject}}</td>
                             <td class="d-flex justify-content-center">
                                 <button type="button" class="btn btn-primary me-2" @click="selectGroup($event, inscription.inscription )">Modificar</button>
                                 <button type="button" class="btn btn-danger" @click="confirmDelete($event, inscription.id)">Eliminar</button>
