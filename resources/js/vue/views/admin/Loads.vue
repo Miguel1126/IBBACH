@@ -64,7 +64,7 @@ export default {
             }
         },
         getTeachers() {
-            /* try {
+            try {
                 const response = await this.axios.get('/api/docente')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
@@ -78,12 +78,7 @@ export default {
             }
             catch (error) {
                 console.error(error)
-            } */
-
-            this.axios.get('/api/docente')
-            .then(response => {
-                console.log(response)
-            })
+            }
         },
         async getSchedules() {
             try {
