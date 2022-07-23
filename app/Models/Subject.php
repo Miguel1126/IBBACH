@@ -10,7 +10,7 @@ class Subject extends Model
     use HasFactory;
 
    
-    public function loads(){
-        return $this->belongsTo(Load::class, 'load_id');
+    public function inscriptions(){
+        return $this->hasMany(Inscription::class, 'id');
     }
 }
