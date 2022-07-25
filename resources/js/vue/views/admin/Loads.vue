@@ -17,6 +17,7 @@ export default {
     methods: {
         async getLoads() {
             try {
+                this.loads[0] = 'loading'
                 const response = await this.axios.get('/api/cargas/all')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
@@ -39,7 +40,7 @@ export default {
                         this.cycles = response.data
                     }
                     else {
-                        this.cycles[0] = 'error'
+                        console.log(response)
                     }
                 }
             }
@@ -55,7 +56,7 @@ export default {
                         this.subjects = response.data
                     }
                     else {
-                        this.subjects[0] = 'error'
+                        console.log(response)
                     }
                 }
             }
@@ -63,15 +64,14 @@ export default {
                 console.error(error);
             }
         },
-        getTeachers() {
+        async getTeachers() {
             try {
-                const response = await this.axios.get('/api/docente')
+                const response = await this.axios.get('/api/getDocentes')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.teachers = response.data
                     }
                     else {
-                        this.teachers[0] = 'error'
                         console.log(response)
                     }
                 }
@@ -88,7 +88,7 @@ export default {
                         this.schedules = response.data
                     }
                     else {
-                        this.schedules[0] = 'error'
+                        console.log(response)
                     }
                 }
             }
@@ -113,12 +113,11 @@ export default {
             this.schSelected.push(schedule)
         },
         clearDropdown() {
-            const app = this
-            app.cySelected = []
-            app.subSelected = []
-            app.teaSelected = []
-            app.schSelected = []
-            app.editing = false
+            this.cySelected = []
+            this.subSelected = []
+            this.teaSelected = []
+            this.schSelected = []
+            this.editing = false
         },
         validateDropdowns() {
             const app = this;
@@ -310,13 +309,16 @@ export default {
         <section class="p-3">
             <div class="p-3 mb-5 bg-body rounded">
                 <h3 class="h3 fw-semibold mb-3 text-black">Listado de cargas</h3>
-                <div v-if="!loads.length" class="d-flex justify-content-center">
+                <div v-if="loads[0] === 'loading'" class="d-flex justify-content-center">
                     <div class="waveform">
                         <div class="waveform__bar"></div>
                         <div class="waveform__bar"></div>
                         <div class="waveform__bar"></div>
                         <div class="waveform__bar"></div>
                     </div>
+                </div>
+                <div v-else-if="!loads.length" class="d-flex justify-content-center">
+                    <h4 class="text-black">No hay datos para mostrar</h4>
                 </div>
                 <div v-else-if="loads[0] === 'error'" class="d-flex justify-content-center">
                     <h4 class="text-black">Ups... Ocurrió un error, inténtalo de nuevo más tarde.</h4>
@@ -358,10 +360,6 @@ export default {
 <style scoped>
 .list-click {
     cursor: pointer;
-}
-
-.table-container {
-    background: black;
 }
 
 /**loader styles */

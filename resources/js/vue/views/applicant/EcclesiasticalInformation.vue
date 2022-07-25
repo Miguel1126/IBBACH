@@ -38,6 +38,27 @@
             this.ecclesiasticalInfo.reference_phone_two = document.querySelector('#phone5').value.replace('-', '')
             this.$emit('ecclesiasticalInfo', this.ecclesiasticalInfo)
         },
+        clearInputs() {
+            this.ecclesiasticalInfo.is_pastor = null
+            this.ecclesiasticalInfo.is_member = null
+            this.ecclesiasticalInfo.pastor_phone = null
+            this.ecclesiasticalInfo.church_name = ''
+            this.ecclesiasticalInfo.church_address = ''
+            this.ecclesiasticalInfo.church_phone = null
+            this.ecclesiasticalInfo.district = ''
+            this.ecclesiasticalInfo.pastor_name = ''
+            this.ecclesiasticalInfo.licence = ''
+            this.ecclesiasticalInfo.reference_name_one = ''
+            this.ecclesiasticalInfo.reference_phone_one = null
+            this.ecclesiasticalInfo.reference_name_two = ''
+            this.ecclesiasticalInfo.reference_phone_two = null
+            this.ecclesiasticalInfo.christ_accepted = ''
+            this.ecclesiasticalInfo.christening_date = ''
+            this.ecclesiasticalInfo.time_being_member = ''
+            this.ecclesiasticalInfo.privileges_held = ''
+            this.ecclesiasticalInfo.denomination = ''
+            this.ecclesiasticalInfo.study_reason = ''
+        },
         formatPhone(id) {
         let phoneNumber = document.getElementById(id).value
         if (phoneNumber.length === 8) {
@@ -55,7 +76,7 @@
             }
         }
     },
-    expose: ['passData']
+    expose: ['passData','clearInputs']
     
 }
 </script>
