@@ -22,6 +22,19 @@ export default {
             this.personalInformation.phone = document.querySelector('#phone1').value.replace('-', '')
             this.$emit('personalInfo', this.personalInformation)
         },
+        clearInputs() {
+            this.personalInformation.name = ''
+            this.personalInformation.last_name = ''
+            this.personalInformation.email = ''
+            this.personalInformation.phone = null
+            this.personalInformation.address = ''
+            this.personalInformation.nationality = ''
+            this.personalInformation.birth_date = ''
+            this.personalInformation.marital_status = ''
+            this.personalInformation.mate_name = ''
+            this.personalInformation.secular_degree = ''
+            this.personalInformation.current_ocupation = ''
+        },
         formatPhone(id) {
             let phoneNumber = document.getElementById(id).value
             if (phoneNumber.length === 8) {
@@ -39,7 +52,7 @@ export default {
             }
         }
     },
-    expose: ['passData']
+    expose: ['passData', 'clearInputs']
 }
 </script>
 

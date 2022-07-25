@@ -20,8 +20,20 @@ export default{
         passData() {
             this.$emit('ministerialInfo', this.ministerialInfo)
         },
+        clearInputs() {
+            this.ministerialInfo.ministry_performed = ''
+            this.ministerialInfo.current_ministry = ''
+            this.ministerialInfo.full_time = ''
+            this.ministerialInfo.ministry_qualification = ''
+            this.ministerialInfo.aspirated_ministry = ''
+            this.ministerialInfo.reason_aspiring_ministry = ''
+            this.ministerialInfo.cicle_to_be_taken = ''
+            this.ministerialInfo.previous_institution = ''
+            this.ministerialInfo.last_year_studied =''
+            this.ministerialInfo.qualities_religious_worker =''
+        }
     },
-    expose: ['passData']
+    expose: ['passData', 'clearInputs']
 }
 </script>
 
