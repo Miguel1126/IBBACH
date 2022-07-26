@@ -32,12 +32,19 @@
                     group_id: this.groupSelected[0].id
                     });
                     console.log(response);
-                if (response.status === 201) {
+                if (response.data.status === 302) {
+                    this.$swal.fire(
+                        'Error',
+                        `${response.data.message}`,
+                        'error'
+                    )
+                }
+                else if (response.status === 201) {
                     this.clearInput() 
                     this.getCycles();
                     this.$swal.fire(
                         'Listo',
-                        'Se registró el Ciclo',
+                        '¡Se ha registrado el ciclo correctamente!',
                         'success'
                     )
                 }
