@@ -58,6 +58,10 @@
             this.ecclesiasticalInfo.privileges_held = ''
             this.ecclesiasticalInfo.denomination = ''
             this.ecclesiasticalInfo.study_reason = ''
+            document.querySelector('#phone3').value = ''
+            document.querySelector('#phone2').value = ''
+            document.querySelector('#phone4').value = ''
+            document.querySelector('#phone5').value = ''
         },
         formatPhone(id) {
         let phoneNumber = document.getElementById(id).value
@@ -115,11 +119,11 @@
                 <label for="district" class="form-label">Distrito</label>
                 <input type="text" class="form-control" id="district" placeholder="Distrito" v-model="ecclesiasticalInfo.district" required>
             </div>
-            <div class="mb-3">
+            <div class="mb-3" v-if="ecclesiasticalInfo.is_member === '1'">
                 <label for="MemOrPas" class="form-label">Si es miembro escriba el nombre de su pastor</label>
                 <input type="text" class="form-control" id="MemOrPas" placeholder="Nombre" v-model="ecclesiasticalInfo.pastor_name" required>
             </div>
-            <div class="d-flex">
+            <div class="d-flex" v-if="ecclesiasticalInfo.is_member === '1'">
                 <div>
                     <label for="licence" class="form-label">Licencia</label>
                     <input type="text" class="form-control" id="licence" placeholder="licencia" v-model="ecclesiasticalInfo.licence" required>
@@ -131,7 +135,7 @@
                 </div>
             </div>
             <br />
-            <div class="mb-3">
+            <div class="mb-2 mt-3">
                 <label for="nationality" class="form-label">Anote el nombre y teléfono de dos pastores de Las Asambleas
                     de Dios que puedan dar referencias suyas</label>
             </div>
@@ -160,7 +164,7 @@
             <br />
             <div class="mb-3">
                 <label for="lgsus" class="form-label">¿Cuando aceptó a Jesucristo?</label>
-                <input type="text" class="form-control" id="lgsus" placeholder="Aproximado" v-model="ecclesiasticalInfo.christ_accepted" required>
+                <textarea class="form-control" id="lgsus" placeholder="Aproximado" v-model="ecclesiasticalInfo.christ_accepted" required></textarea>
             </div>
             <div class="mb-3">
                 <label for="christeningDate" class="form-label">¿Cuando se bautizó?</label>
@@ -174,7 +178,7 @@
             <div class="mb-3">
                 <label for="privilegesHeld" class="form-label">¿Cuales son los privilegios en que se ha
                     desempeñado?</label>
-                <input type="text" class="form-control" id="privilegesHeld" placeholder="Aproximado" v-model="ecclesiasticalInfo.privileges_held" required>
+                <textarea type="text" class="form-control" id="privilegesHeld" placeholder="Aproximado" v-model="ecclesiasticalInfo.privileges_held" required></textarea>
             </div>
             <div class="mb-3">
                 <label for="denomination" class="form-label">¿A qué denominación pertenece?</label>
@@ -183,7 +187,7 @@
             <div class="mb-3">
                 <label for="studyReason" class="form-label">¿Cuál es el interés de estudiar en el Instituto Bíblico
                     Betel Anexo? </label>
-                <input type="text" class="form-control" id="studyReason" placeholder="Aproximado" v-model="ecclesiasticalInfo.study_reason" required>
+                <textarea type="text" class="form-control" id="studyReason" placeholder="Aproximado" v-model="ecclesiasticalInfo.study_reason" required></textarea>
             </div>
         </div>
     </section>
