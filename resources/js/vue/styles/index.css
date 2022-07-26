@@ -22,6 +22,12 @@ body {
 .table-container {
 	box-shadow: 5px 5px 2px 1px rgba(255, 255, 255, 0.75)
 }
+.table-color {
+	background-color: #eee;
+}
+.table-container {
+    overflow-x: scroll;
+}
 .separator {
 	border: 1.5px solid;
 	color: rgb(197, 197, 197);

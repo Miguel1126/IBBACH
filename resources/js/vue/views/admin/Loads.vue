@@ -245,7 +245,7 @@ export default {
         <br />
         <section class="p-3">
             <h3 class="h3 fw-semibold">Asignar una nueva carga</h3>
-            <div class="d-flex">
+            <div class="d-flex flex-wrap">
                 <div class="dropdown m-4">
                     <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -307,7 +307,7 @@ export default {
         </section>
         <hr class="separator" />
         <section class="p-3">
-            <div class="p-3 mb-5 bg-body rounded">
+            <div class="p-3 table-color rounded">
                 <h3 class="h3 fw-semibold mb-3 text-black">Listado de cargas</h3>
                 <div v-if="loads[0] === 'loading'" class="d-flex justify-content-center">
                     <div class="waveform">
@@ -323,7 +323,7 @@ export default {
                 <div v-else-if="loads[0] === 'error'" class="d-flex justify-content-center">
                     <h4 class="text-black">Ups... Ocurrió un error, inténtalo de nuevo más tarde.</h4>
                 </div>
-                <div class="table-responsive" v-else>
+                <div class="table-container" v-else>
                     <table class="table table-bordered border-dark bg-light">
                         <thead class="table-success table-bordered border-dark">
                             <tr>

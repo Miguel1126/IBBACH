@@ -159,7 +159,7 @@
         </section>
         <hr class="separator"/>
         <section class="p-3">
-            <div class="table-container p-3 mb-5 bg-body rounded">
+            <div class="table-container p-3 mb-5 table-color rounded">
                 <h3 class="h3 fw-semibold mb-3 text-black">Listado </h3>
                 <table class="table table-bordered border-dark">
                     <thead class="table-info table-bordered border-dark">
