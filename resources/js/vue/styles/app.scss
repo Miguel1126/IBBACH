@@ -6,14 +6,14 @@ button {
 	background: none;
 }
 .app {
-	display: flex;
 	width: 100vw;
 	main {
+		margin-left: 45px;
 		flex: 1 1 0;
 		padding: 2rem;
 		@media (max-width: 1024px) {
-			padding-left: 6rem;
 			height: 100vh;
+			margin-left: 0px;
 		}
 	}
 }

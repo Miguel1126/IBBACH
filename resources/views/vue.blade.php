@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 </head>
 <body>
-    <div id="app" class="overflow-auto"></div>
+    <div id="app" class="overflow-auto app"></div>
     <script type="module" src="{{ mix('js/main.js') }}"></script>
     <script type="module" src="{{ mix('js/app.js') }}"></script>
 </body>

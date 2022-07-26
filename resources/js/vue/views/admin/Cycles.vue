@@ -32,12 +32,19 @@
                     group_id: this.groupSelected[0].id
                     });
                     console.log(response);
-                if (response.status === 201) {
+                if (response.data.status === 302) {
+                    this.$swal.fire(
+                        'Error',
+                        `${response.data.message}`,
+                        'error'
+                    )
+                }
+                else if (response.status === 201) {
                     this.clearInput() 
                     this.getCycles();
                     this.$swal.fire(
                         'Listo',
-                        'Se registró el Ciclo',
+                        '¡Se ha registrado el ciclo correctamente!',
                         'success'
                     )
                 }
@@ -159,7 +166,7 @@
         </section>
         <hr class="separator"/>
         <section class="p-3">
-            <div class="table-container p-3 mb-5 bg-body rounded">
+            <div class="table-container p-3 mb-5 table-color rounded">
                 <h3 class="h3 fw-semibold mb-3 text-black">Listado </h3>
                 <table class="table table-bordered border-dark">
                     <thead class="table-info table-bordered border-dark">
