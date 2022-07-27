@@ -40,6 +40,7 @@ const ToggleMenu = () => {
 
 <style lang="scss" scoped>
 aside  {
+	position: fixed;
 	display: flex;
 	flex-direction: column;
 	background-color: var(--dark);
@@ -48,6 +49,7 @@ aside  {
 	overflow: hidden;
 	min-height: 100vh;
 	padding: 1rem;
+	z-index: 9999;
 	transition: 0.2s ease-in-out;
 	.flex {
 		flex: 1 1 0%;
@@ -94,6 +96,7 @@ aside  {
 	}
 	.menu {
 		margin: 0 -1rem;
+		margin-bottom: 1.6rem;
 		.button {
 			display: flex;
 			align-items: center;
@@ -159,8 +162,8 @@ aside  {
 		}
 	}
 	@media (max-width: 1024px) {
-		position: absolute;
 		z-index: 99;
+		left: -65px;
 	}
 }
 </style>

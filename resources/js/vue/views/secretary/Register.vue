@@ -33,7 +33,7 @@
 </script>
 
 <template>
-    <form @submit.prevent="handleSubmit">
+    <form @submit.prevent="handleSubmit" class="form">
         <h3>Registrar usuario</h3>
         <div class="form-group">
             <label>Nombre</label>
@@ -62,3 +62,10 @@
         <button class="btn btn-primary btn-block">Registrarse</button>
     </form>
 </template>
+
+<style scoped> 
+    .form {
+        width: 20rem;
+        margin-left: 5rem;
+    }
+</style>
