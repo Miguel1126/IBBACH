@@ -38,7 +38,6 @@ class RateController extends Controller
     {
         try {
             $rate = new Rate();
-            $rate->rate = $request->rate;
             $rate->price = $request->price;
             $rate->tuition = $request->tuition;
             if ($rate->save()>=1) {
@@ -59,7 +58,7 @@ class RateController extends Controller
     public function show()
     {
         try {
-            $rate = Rate::orderBy('id','asc')->get();
+            $rate = Rate::orderBy('id', 'asc')->get();
             return $rate;
         }
         catch (\Exception $e) {
