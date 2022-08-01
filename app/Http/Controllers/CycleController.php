@@ -32,14 +32,22 @@ class CycleController extends Controller
     public function store(Request $request)
     {
         try{
+            
             $cycle = new Cycle();
-            $cycle->cycle = $request->cycle;
-            $cycle->start_date = $request->start_date;
-            $cycle->end_date = $request->end_date;
-            $cycle->status = $request->status;
-            $cycle->group_id = $request->group_id;
-            if($cycle->save()>=1){
-                return response()->json(['status'=>'ok','data'=>$cycle],201);
+
+            if (Cycle::where('cycle', '=', $request->input('cycle'))->exists()) {
+                return response()->json(["status" => 302,"message" => "El ciclo ya existe"],200);
+            }
+            else {
+
+                $cycle->cycle = $request->cycle;
+                $cycle->start_date = $request->start_date;
+                $cycle->end_date = $request->end_date;
+                $cycle->status = $request->status;
+                $cycle->group_id = $request->group_id;
+                if($cycle->save()>=1){
+                    return response()->json(['status'=>'ok','data'=>$cycle],201);
+                }
             }
         }catch(\Exception $e){
             return $e->getMessage();

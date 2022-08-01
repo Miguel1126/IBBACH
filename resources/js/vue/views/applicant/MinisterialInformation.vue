@@ -20,8 +20,20 @@ export default{
         passData() {
             this.$emit('ministerialInfo', this.ministerialInfo)
         },
+        clearInputs() {
+            this.ministerialInfo.ministry_performed = ''
+            this.ministerialInfo.current_ministry = ''
+            this.ministerialInfo.full_time = ''
+            this.ministerialInfo.ministry_qualification = ''
+            this.ministerialInfo.aspirated_ministry = ''
+            this.ministerialInfo.reason_aspiring_ministry = ''
+            this.ministerialInfo.cicle_to_be_taken = ''
+            this.ministerialInfo.previous_institution = ''
+            this.ministerialInfo.last_year_studied =''
+            this.ministerialInfo.qualities_religious_worker =''
+        }
     },
-    expose: ['passData']
+    expose: ['passData', 'clearInputs']
 }
 </script>
 
@@ -47,7 +59,7 @@ export default{
             </div>
             <div class="mb-3">
                 <label for="ministry_qualification" class="form-label">¿Cómo califica su ministerio actual?</label>
-                <input type="text" class="form-control" id="ministry_qualification" placeholder="nose" v-model="ministerialInfo.ministry_qualification" required>
+                <textarea type="text" class="form-control" id="ministry_qualification" placeholder="nose" v-model="ministerialInfo.ministry_qualification" required></textarea>
             </div>
             <div class="mb-3">
                 <label for="aspirated_ministry" class="form-label">¿A qué ministerio cree que Dios lo está llamando?</label>
@@ -55,7 +67,7 @@ export default{
             </div>
              <div class="mb-3">
                 <label for="reason_aspiring_ministry" class="form-label">¿Por qué cree así?</label>
-                <input type="text" class="form-control" id="reason_aspiring_ministry" placeholder="nose" v-model="ministerialInfo.reason_aspiring_ministry" required>
+                <textarea type="text" class="form-control" id="reason_aspiring_ministry" placeholder="nose" v-model="ministerialInfo.reason_aspiring_ministry" required></textarea>
             </div>
             <div class="mb-3">
                 <label for="cicle_to_be_taken" class="form-label">¿Qué ciclo le corresponde cursar en el bíblico?</label>
@@ -72,7 +84,7 @@ export default{
             </div>
             <div class="mb-3">
                 <label for="qualities_religious_worker" class="form-label">Escriba las cualidades de un obrero cristiano: </label>
-                <input type="text" class="form-control" id="qualities_religious_worker" placeholder="respetuso" v-model="ministerialInfo.qualities_religious_worker" required>
+                <textarea type="text" class="form-control" id="qualities_religious_worker" placeholder="respetuso" v-model="ministerialInfo.qualities_religious_worker" required></textarea>
             </div>
         </div>
     </section>

@@ -109,7 +109,7 @@
         </section>
         <hr class="separator"/>
         <section class="p-3">
-            <div class="table-container p-3 mb-5 bg-body rounded">
+            <div class="table-container p-3 mb-5 table-color rounded">
                 <table class="table table-bordered border-dark">
                     <thead class="table-info table-bordered border-dark">
                         <tr>
