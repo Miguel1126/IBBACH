@@ -58,7 +58,6 @@ class AssistanceController extends Controller
      */
     public function show()
     {
-        
         try {
             $assistance = Assistance::join('notes', 'assistances.note_id', '=', 'notes.id')
             ->select('assistances.id', 'assistances.date', 'assistances.status', 'notes.inscription_id')
@@ -69,6 +68,7 @@ class AssistanceController extends Controller
         catch (\Exception $e) {
             return $e->getMessage();
         }
+  
     }
 
     /**
