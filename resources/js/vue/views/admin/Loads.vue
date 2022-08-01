@@ -63,7 +63,7 @@ export default {
                 console.error(error);
             }
         },
-        getTeachers() {
+        async getTeachers() {
             try {
                 const response = await this.axios.get('/api/docente')
                 if (response.status === 200) {
