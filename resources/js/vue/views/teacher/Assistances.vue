@@ -5,11 +5,7 @@ export default {
         },
     data() {
         return {
-            notes: [
-                {id: 1, note: '1'},
-                {id: 2, note: '2'},
-                {id: 3, note: '3'}
-            ],
+            notes: [],
             statuses: [
                 {id: 1, status: 'activo'},
                 {id: 2, status: 'inactivo'}
@@ -28,7 +24,7 @@ export default {
                     const response = await this.axios.post('/api/asistencias', {
                     date: this.date,
                     status: this.statusSelected[0],
-                    note_id: this.noteSelected[0],
+                    note_id: this.noteSelected[0]
                     });
                     console.log(response);
                 if (response.status === 201) {
@@ -96,9 +92,13 @@ export default {
                 this.noteSelected = []
                 this.noteSelected.push(notes)
             },
+
             },
-              setup() {
-            document.title = "IBBACH | Asistencias"
+
+
+
+        setup() {
+        document.title = "IBBACH | Asistencias"
             
         
     }
@@ -132,11 +132,11 @@ export default {
                         <span v-else>{{ noteSelected[0] }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                    <li v-for="note in notes" :key="note.id" class="dropdown-item text-light list-click" @click="selectNotes($event, note.note)">{{ note.note }}</li>
+                    <li v-for="note in notes" :key="note.id" class="dropdown-item text-light list-click" @click="selectNotes($event, note)">{{ note.note }}</li>
                     </ul>
                 </div>
                 <div class="m-4">
-                    <button  type="submit" class="d-inline-flex btn btn-primary btn-lg">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
+                   <button type="submit" class="d-inline-flex btn btn-primary btn-lg ms-4" @click="handleSubmit">Guardar <i class="material-icons m-auto ms-1">add_box</i></button>
                     <button type="button" class="d-inline-flex btn btn-warning btn-lg ms-3" @click="clearDrowdop">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
                 </div>
             </div>
