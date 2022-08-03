@@ -22,9 +22,9 @@ return new class extends Migration
             ->constrained('users')
             ->cascadeOnUpdate()
             ->nullOnDelete();
-            $table->foreignId('subject_id')
+            $table->foreignId('load_id')
             ->nullable()
-            ->constrained('subjects')
+            ->constrained('loads')
             ->cascadeOnUpdate()
             ->nullOnDelete();
             $table->timestamps();
