@@ -66,3 +66,9 @@ Route::get('students', [UserController::class, 'getStudent']);
 
 Route::resource('/notas', NoteController::class);
 Route::get('getNotas', [NoteController::class, 'show']);
+
+Route::any('{path}', function() {
+    return response()->json([
+        'message' => 'The specified route was not found'
+    ], 404);
+})->where('path', '.*');
