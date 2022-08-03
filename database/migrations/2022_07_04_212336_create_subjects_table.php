@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
-            $table->string('subject',10);
+            $table->string('subject');
             $table->text('description');
-            $table->string('status',10);
+            $table->string('status');
             $table->timestamps();
         });
     }

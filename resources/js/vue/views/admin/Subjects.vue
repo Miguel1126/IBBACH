@@ -9,8 +9,11 @@
                 subject: null,
                 descriptions:[],
                 description: null,
-                status:[],
-                statu: null,
+                statuses: [
+                {id: 1, status: 'disponible'},
+                {id: 2, status: 'ocupado'}
+               ],
+               statusSelected:[],
                 editing: false
             }
         },
@@ -20,7 +23,7 @@
                 subject: this.subject,
                 subject: this.subject,
                 description: this.description,
-                status: this.status,
+                status: this.statusSelected[0],
                 });
                 if (this.validateInput()) {
                     this.clearInput()
@@ -71,6 +74,10 @@
             validateInput() {
                 let valid = this.subject && this.description && this.status  ? true : false
                 return valid
+            },
+            selectStatus(event, statuses) {
+                this.statusSelected = [];
+                this.statusSelected.push(statuses);
             },
             selectGroup(event, subject, description) {
                 const app = this
@@ -143,11 +150,16 @@
                     <span class="input-group-text" id="inputGroup-sizing-lg"><i class="material-icons">collections_bookmark</i></span>
                     <input type="text" class="form-control" v-model="description" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="Introduce descripcion">
                 </div>
-                 <div class="input-group input-group-lg w-50 mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="material-icons">collections_bookmark</i></span>
-                    <input type="text" class="form-control" v-model="status" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="Escribe el estado">
-                </div>
-                <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg ms-4" @click="handleSumit">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
+                <div class="dropdown m-4">
+                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span v-if="!statusSelected.length">Estado</span>
+                        <span v-else>{{ statusSelected[0] }}</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                        <li v-for="status in statuses" :key="status.id" class="dropdown-item text-light list-click" @click="selectStatus($event, status.status)">{{ status.status }}</li>
+                    </ul>
+                    </div>
+                <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary btn-lg ms-4">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
                 <button v-else type="button" class="d-inline-flex btn btn-success btn-lg ms-4" @click="saveEdit">Guardar <i class="material-icons m-auto ms-1">edit</i></button>
                 <button v-if="editing" type="button" class="d-inline-flex btn btn-danger btn-lg ms-3" @click="clearInput">Cancelar <i class="material-icons m-auto ms-1">cancel</i></button>
             </div>
