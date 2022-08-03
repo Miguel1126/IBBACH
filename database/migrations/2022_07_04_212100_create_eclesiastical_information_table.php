@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->boolean('is_pastor')->nullable();
             $table->boolean('is_member')->nullable();
-            $table->integer('pastor_phone');
+            $table->integer('pastor_phone')->nullable();
             $table->string('church_name',60);
             $table->string('church_address',70);
             $table->integer('church_phone');
             $table->string('district',70);
-            $table->string('pastor_name',30);
+            $table->string('pastor_name',30)->nullable();
             $table->string('licence',20);
             $table->string('reference_name_one',30);
             $table->integer('reference_phone_one');
