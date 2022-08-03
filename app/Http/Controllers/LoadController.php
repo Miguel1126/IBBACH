@@ -64,7 +64,9 @@ class LoadController extends Controller
                 'cycles.cycle',
                 'subjects.subject',
                 'users.name as teacher',
-                'schedules.start_time as schedule'
+                'users.last_name',
+                'schedules.start_time',
+                'schedules.end_time'
             )
             ->orderBy('id', 'asc')
             ->get();

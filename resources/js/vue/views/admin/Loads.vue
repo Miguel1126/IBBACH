@@ -331,7 +331,8 @@ export default {
                                 <th scope="col">Ciclo</th>
                                 <th scope="col">Materia</th>
                                 <th scope="col">Docente</th>
-                                <th scope="col">Horario</th>
+                                <th scope="col">HoraInicio</th>
+                                <th scope="col">HoraFinal</th>
                                 <th scope="col" class="w-25">Acciones</th>
                             </tr>
                         </thead>
@@ -340,8 +341,9 @@ export default {
                                 <th scope="row">{{ load.id }}</th>
                                 <td>{{ load.cycle }}</td>
                                 <td>{{ load.subject }}</td>
-                                <td>{{ load.teacher }}</td>
-                                <td>{{ load.schedule }}</td>
+                                <td>{{ load.teacher }} {{ load.last_name }}</td>
+                                <td>{{ load.start_time }}</td>
+                                <td>{{ load.end_time }}</td>
                                 <td class="d-flex justify-content-center">
                                     <button type="button" class="btn btn-primary me-2"
                                         @click="selectLoad($event, load)">Modificar</button>
