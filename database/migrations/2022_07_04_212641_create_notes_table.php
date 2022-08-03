@@ -27,11 +27,6 @@ return new class extends Migration
             $table->float('percentege5',);
             $table->float('finalAverage',);
             $table->string('status',10);
-            $table->foreignId('load_id')
-            ->nullable()
-            ->constrained('loads')
-            ->cascadeOnUpdate()
-            ->nullOndelete();
             $table->foreignId('inscription_id')
             ->nullable()
             ->constrained('inscriptions')
