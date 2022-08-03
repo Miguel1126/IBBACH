@@ -62,3 +62,9 @@ Route::get('/ciclos/get',[CycleController::class,'show']);
 
 Route::get('getDocentes', [UserController::class, 'getTeacher']);
 Route::get('students', [UserController::class, 'getStudent']);
+
+Route::any('{path}', function() {
+    return response()->json([
+        'message' => 'The specified route was not found'
+    ], 404);
+})->where('path', '.*');

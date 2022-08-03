@@ -6,17 +6,17 @@
             ecclesiasticalInfo:{
                 is_pastor: null,
                 is_member: null,
-                pastor_phone: null,
+                pastor_phone: '',
                 church_name: '',
                 church_address: '',
-                church_phone: null,
+                church_phone: '',
                 district: '',
                 pastor_name: '',
                 licence: '',
                 reference_name_one: '',
-                reference_phone_one: null,
+                reference_phone_one: '',
                 reference_name_two: '',
-                reference_phone_two: null,
+                reference_phone_two: '',
                 christ_accepted: '',
                 christening_date: '',
                 time_being_member:'',
@@ -32,55 +32,102 @@
     },
     methods: {
         passData() {
-            this.ecclesiasticalInfo.pastor_phone = document.querySelector('#phone3').value.replace('-', '')
-            this.ecclesiasticalInfo.church_phone = document.querySelector('#phone2').value.replace('-', '')
-            this.ecclesiasticalInfo.reference_phone_one = document.querySelector('#phone4').value.replace('-', '')
-            this.ecclesiasticalInfo.reference_phone_two = document.querySelector('#phone5').value.replace('-', '')
+            const referenceObject = this.ecclesiasticalInfo
+            referenceObject.pastor_phone = referenceObject.pastor_phone ? referenceObject.pastor_phone.replace('-', '') : ''
+            referenceObject.church_phone = referenceObject.church_phone ? referenceObject.church_phone.replace('-', '') : ''
+            referenceObject.reference_phone_one = referenceObject.reference_phone_one ? referenceObject.reference_phone_one.replace('-', '') : ''
+            referenceObject.reference_phone_two = referenceObject.reference_phone_two ? referenceObject.reference_phone_two.replace('-', '') : ''
             this.$emit('ecclesiasticalInfo', this.ecclesiasticalInfo)
         },
         clearInputs() {
             this.ecclesiasticalInfo.is_pastor = null
             this.ecclesiasticalInfo.is_member = null
-            this.ecclesiasticalInfo.pastor_phone = null
+            this.ecclesiasticalInfo.pastor_phone = ''
             this.ecclesiasticalInfo.church_name = ''
             this.ecclesiasticalInfo.church_address = ''
-            this.ecclesiasticalInfo.church_phone = null
+            this.ecclesiasticalInfo.church_phone = ''
             this.ecclesiasticalInfo.district = ''
             this.ecclesiasticalInfo.pastor_name = ''
             this.ecclesiasticalInfo.licence = ''
             this.ecclesiasticalInfo.reference_name_one = ''
-            this.ecclesiasticalInfo.reference_phone_one = null
+            this.ecclesiasticalInfo.reference_phone_one = ''
             this.ecclesiasticalInfo.reference_name_two = ''
-            this.ecclesiasticalInfo.reference_phone_two = null
+            this.ecclesiasticalInfo.reference_phone_two = ''
             this.ecclesiasticalInfo.christ_accepted = ''
             this.ecclesiasticalInfo.christening_date = ''
             this.ecclesiasticalInfo.time_being_member = ''
             this.ecclesiasticalInfo.privileges_held = ''
             this.ecclesiasticalInfo.denomination = ''
             this.ecclesiasticalInfo.study_reason = ''
-            document.querySelector('#phone3').value = ''
-            document.querySelector('#phone2').value = ''
-            document.querySelector('#phone4').value = ''
-            document.querySelector('#phone5').value = ''
-        },
-        formatPhone(id) {
-        let phoneNumber = document.getElementById(id).value
-        if (phoneNumber.length === 8) {
-            let cleaned = ('' + phoneNumber).replace(/\D/g, '')
-            let match = cleaned.match(/^(\d{4})(\d{4})$/)
-            if (match) {
-                document.querySelector(`#${id}`).value = match[1] + '-' + match[2]
-            }
-            else {
-                document.querySelector(`#${id}`).value = ""
-            }
-            }
-        if (phoneNumber.length > 9) {
-            document.querySelector(`#${id}`).value = phoneNumber.slice(0, -1)
-            }
         }
     },
-    expose: ['passData','clearInputs']
+    expose: ['passData','clearInputs'],
+    watch: {
+        'ecclesiasticalInfo.pastor_phone'(value) {
+            //let phoneNumber = value
+            if (value.length === 8) {
+                let cleaned = ('' + value).replace(/\D/g, '')
+                let match = cleaned.match(/^(\d{4})(\d{4})$/)
+                if (match) {
+                    this.ecclesiasticalInfo.pastor_phone = match[1] + '-' + match[2]
+                }
+                else {
+                    this.ecclesiasticalInfo.pastor_phone = ''
+                }
+            }
+            if (value.length > 9) {
+                this.ecclesiasticalInfo.pastor_phone = value.slice(0, -1)
+            }
+        },
+        'ecclesiasticalInfo.church_phone'(value) {
+            let phoneNumber = value
+            if (phoneNumber.length === 8) {
+                let cleaned = ('' + phoneNumber).replace(/\D/g, '')
+                let match = cleaned.match(/^(\d{4})(\d{4})$/)
+                if (match) {
+                    this.ecclesiasticalInfo.church_phone = match[1] + '-' + match[2]
+                }
+                else {
+                    this.ecclesiasticalInfo.church_phone = ''
+                }
+            }
+            if (phoneNumber.length > 9) {
+                this.ecclesiasticalInfo.church_phone = phoneNumber.slice(0, -1)
+            }
+        },
+        'ecclesiasticalInfo.reference_phone_one'(value) {
+            let phoneNumber = value
+            if (phoneNumber.length === 8) {
+                let cleaned = ('' + phoneNumber).replace(/\D/g, '')
+                let match = cleaned.match(/^(\d{4})(\d{4})$/)
+                if (match) {
+                    this.ecclesiasticalInfo.reference_phone_one = match[1] + '-' + match[2]
+                }
+                else {
+                    this.ecclesiasticalInfo.reference_phone_one = ''
+                }
+            }
+            if (phoneNumber.length > 9) {
+                this.ecclesiasticalInfo.reference_phone_one = phoneNumber.slice(0, -1)
+            }
+        },
+        'ecclesiasticalInfo.reference_phone_two'(value) {
+            let phoneNumber = value
+            if (phoneNumber.length === 8) {
+                let cleaned = ('' + phoneNumber).replace(/\D/g, '')
+                let match = cleaned.match(/^(\d{4})(\d{4})$/)
+                if (match) {
+                    this.ecclesiasticalInfo.reference_phone_two = match[1] + '-' + match[2]
+                }
+                else {
+                    this.ecclesiasticalInfo.reference_phone_two = ''
+                }
+            }
+            if (phoneNumber.length > 9) {
+                this.ecclesiasticalInfo.reference_phone_two = phoneNumber.slice(0, -1)
+            }
+        }
+    }
     
 }
 </script>
@@ -113,7 +160,7 @@
             </div>
             <div class="mb-3">
                 <label for="phone2" class="form-label">Teléfono de la iglesia</label>
-                <input type="text" class="form-control" id="phone2" placeholder="6458-5955" @input="formatPhone('phone2')" required>
+                <input type="text" class="form-control" id="phone2" placeholder="6458-5955" v-model="ecclesiasticalInfo.church_phone" required>
             </div>
             <div class="mb-3">
                 <label for="district" class="form-label">Distrito</label>
@@ -131,7 +178,7 @@
                 <div class="mb-3">
                     <label for="phone3" class="form-label">Teléfono</label>
                     <input type="text" class="form-control" id="phone3" placeholder="6458-5955"
-                        @input="formatPhone('phone3')" required>
+                        v-model="ecclesiasticalInfo.pastor_phone" required>
                 </div>
             </div>
             <br />
@@ -147,7 +194,7 @@
                 <div class="mb-3">
                     <label for="phone4" class="form-label">Teléfono</label>
                     <input type="text" class="form-control" id="phone4" placeholder="6458-5955"
-                        @input="formatPhone('phone4')" required>
+                        v-model="ecclesiasticalInfo.reference_phone_one" required>
                 </div>
             </div>
             <div class="d-flex">
@@ -158,7 +205,7 @@
                 <div class="mb-3">
                     <label for="phone5" class="form-label">Teléfono</label>
                     <input type="text" class="form-control" id="phone5" placeholder="6458-5955"
-                        @input="formatPhone('phone5')" required>
+                        v-model="ecclesiasticalInfo.reference_phone_two" required>
                 </div>
             </div>
             <br />

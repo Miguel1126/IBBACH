@@ -19,14 +19,15 @@ export default {
     },
     methods: {
         passData() {
-            this.personalInfo.phone = document.querySelector('#phone1').value.replace('-', '')
+            let checkPhone = this.personalInfo.phone ? this.personalInfo.phone.replace('-', '') : null  
+            this.personalInfo.phone = checkPhone
             this.$emit('personalInfo', this.personalInfo)
         },
         clearInputs() {
             this.personalInfo.name = ''
             this.personalInfo.last_name = ''
             this.personalInfo.email = ''
-            this.personalInfo.phone = null
+            this.personalInfo.phone = ''
             this.personalInfo.address = ''
             this.personalInfo.nationality = ''
             this.personalInfo.birth_date = ''
@@ -34,26 +35,27 @@ export default {
             this.personalInfo.mate_name = ''
             this.personalInfo.secular_degree = ''
             this.personalInfo.current_ocupation = ''
-            document.querySelector('#phone1').value = ''
-        },
-        formatPhone(id) {
-            let phoneNumber = document.getElementById(id).value
+        }
+    },
+    expose: ['passData', 'clearInputs'],
+    watch: {
+        'personalInfo.phone'(newValue) {
+            let phoneNumber = newValue
             if (phoneNumber.length === 8) {
                 let cleaned = ('' + phoneNumber).replace(/\D/g, '')
                 let match = cleaned.match(/^(\d{4})(\d{4})$/)
                 if (match) {
-                    document.querySelector(`#${id}`).value = match[1] + '-' + match[2]
+                    this.personalInfo.phone = match[1] + '-' + match[2]
                 }
                 else {
-                    document.querySelector(`#${id}`).value = ""
+                    this.personalInfo.phone = ''
                 }
             }
             if (phoneNumber.length > 9) {
-                document.querySelector(`#${id}`).value = phoneNumber.slice(0, -1)
+                this.personalInfo.phone = phoneNumber.slice(0, -1)
             }
         }
-    },
-    expose: ['passData', 'clearInputs']
+    }
 }
 </script>
 
@@ -75,7 +77,7 @@ export default {
             </div>
             <div class="mb-3">
                 <label for="phone1" class="form-label">Teléfono</label>
-                <input type="text" class="form-control" id="phone1" placeholder="6458-5955" @input="formatPhone('phone1')" required>
+                <input type="text" class="form-control" id="phone1" placeholder="6458-5955" v-model="personalInfo.phone" required>
             </div>
             <div class="mb-3">
                 <label for="address" class="form-label">Dirección donde reside</label>
