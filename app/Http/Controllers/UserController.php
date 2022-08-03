@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function getTeacher() {
         try {
-            $teacher = User::select('users.id', 'users.name as teacher')
+            $teacher = User::select('users.id', 'users.name as teacher', 'users.last_name', 'users.code', 'users.status')
             ->where('users.role', '=', 'docente')
             ->orderBy('id','asc')->get();
             return $teacher;
@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function getStudent() {
         try {
-            $student = User::select('users.id', 'users.name as student')
+            $student = User::select('users.id', 'users.name as student', 'last_name', 'code')
             ->where('users.role', '=', 'alumno')
             ->orderBy('id','asc')->get();
             return $student;

@@ -54,6 +54,11 @@ import Inscriptions from '../views/student/Inscriptions.vue'
 import Login from '../components/Login.vue'
  import Register from '../views/secretary/Register.vue'
 
+ /**
+  * Administrator's reports
+  */
+ import TeachersReport from '../views/admin/reports/TeachersReport.vue'
+
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -101,6 +106,11 @@ export const router = createRouter({
           path: 'reporte-cargas',
           name: 'LoadsReport',
           component: LoadsReport
+        },
+        {
+          path: 'reporte_docentes',
+          name: 'TeachersReport',
+          component: TeachersReport
         }
       ]
     },
