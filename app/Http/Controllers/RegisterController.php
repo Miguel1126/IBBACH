@@ -14,7 +14,8 @@ class RegisterController extends Controller
                 'last_name' => 'required',
                 'code' => 'required|unique:users',
                 'password' => 'required|confirmed',
-                'role' => 'required'
+                'role' => 'required',
+                'status' => 'required'
             ]);
 
             $user = new User();
@@ -23,6 +24,8 @@ class RegisterController extends Controller
             $user->code = $request->code;
             $user->password = Hash::make($request->password);
             $user->role = $request->role;
+            $user->status = $request->status;
+            $user->applicant_id = $request->applicant_id;
             $user->save();
         
             return response()->json([
