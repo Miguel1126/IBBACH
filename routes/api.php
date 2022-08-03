@@ -15,6 +15,7 @@ use App\Http\Controllers\AssistanceController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CycleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,7 @@ use App\Http\Controllers\UserController;
 */
 
 Route::resource('/aplicante', ApplicantController::class);
-Route::get('/aplicante/get', [ApplicantController::class, 'show']);
+Route::get('getAplicante', [ApplicantController::class, 'show']);
 
 Route::resource('/grupos', GroupController::class);
 Route::get('/grupos/get', [GroupController::class, 'show']);
@@ -62,3 +63,6 @@ Route::get('/ciclos/get',[CycleController::class,'show']);
 
 Route::get('getDocentes', [UserController::class, 'getTeacher']);
 Route::get('students', [UserController::class, 'getStudent']);
+
+Route::resource('/notas', NoteController::class);
+Route::get('getNotas', [NoteController::class, 'show']);
