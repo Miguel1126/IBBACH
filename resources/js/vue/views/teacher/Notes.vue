@@ -33,7 +33,7 @@ export default{
     },
     methods: {
          async handleSubmit(){
-           const response = await this.axios.post('/api/register', {
+           const response = await this.axios.post('/api/notas', {
             ev1: this.ev1,
             percentege1: this.percentege1,
             ev2: this.ev2,
@@ -48,7 +48,6 @@ export default{
             status: this.statusSelected[0]
             });
             console.log(response);
-            console.log(this.applicantSelected[0].id)
             if (response.status === 200) {
                 this.$swal.fire(
                         'Listo',
