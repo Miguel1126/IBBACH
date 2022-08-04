@@ -24,7 +24,6 @@ import Groups from '../views/admin/Groups.vue'
 import Subjects from '../views/admin/Subjects.vue'
 import Cycles from '../views/admin/Cycles.vue'
 import Schedules from '../views/admin/Schedules.vue'
-import LoadsReport from '../views/admin/reports/LoadsReport.vue'
 
 /**
  * Components for secretary view
@@ -52,12 +51,14 @@ import Inscriptions from '../views/student/Inscriptions.vue'
  * Components for login
  */
 import Login from '../components/Login.vue'
- import Register from '../views/secretary/Register.vue'
+import Register from '../views/secretary/Register.vue'
 
- /**
-  * Administrator's reports
-  */
- import TeachersReport from '../views/admin/reports/TeachersReport.vue'
+/**
+ * Administrator's reports
+ */
+import TeachersReport from '../views/admin/reports/TeachersReport.vue'
+import LoadsReport from '../views/admin/reports/LoadsReport.vue'
+import SubjectsReport from '../views/admin/reports/SubjectsReport.vue'
 
 
 export const router = createRouter({
@@ -111,6 +112,11 @@ export const router = createRouter({
           path: 'reporte_docentes',
           name: 'TeachersReport',
           component: TeachersReport
+        },
+        {
+          path: 'reporte_asignaturas',
+          name: 'SubjectsReport',
+          component: SubjectsReport
         }
       ]
     },
