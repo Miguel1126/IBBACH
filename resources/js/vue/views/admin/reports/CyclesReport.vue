@@ -1,23 +1,24 @@
 <script>
     export default{
         mounted() {
-            this.getSubjects()
+            this.getCycles()
         },
         data() {
         return {
-            subjects: [],
-            description: [],
+            cycles: [],
+            start_date: [],
+            end_date: [],
             status: [],
+            groups:[],
         }
     },
         methods: {
-        
-            async getSubjects() {
+            async getCycles() {
                 try {
-                    const response = await this.axios.get('/api/asignaturas/get')
+                    const response = await this.axios.get('/api/ciclos/get')
                     if (response.status === 200) {
                         if (typeof (response.data) === 'object') {
-                            this.subjects = response.data
+                            this.cycles = response.data
                         }
                         else {
                             console.log(response)
@@ -27,7 +28,7 @@
                 catch (error) {
                     console.error(error);
                 }
-            }
+            },
         }
         
     }        
@@ -38,23 +39,27 @@
         </section>
         <section class="p-3">
             <div class="table-container p-3 mb-5 table-color rounded">
-                <h3 class="h3 fw-semibold mb-3 text-black">Listado de asignaturas</h3>
+                <h3 class="h3 fw-semibold mb-3 text-black">Listado de ciclos</h3>
                 <table class="table table-bordered border-dark bg-light">
                         <thead class="table-success table-bordered border-dark">
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Asignaturas</th>
-                                <th scope="col">Descripcion</th>
-                                <th scope="col">Estado</th>
+                            <th scope="col">#</th>
+                            <th scope="col">Ciclos</th>
+                            <th scope="col">Fecha de inicio</th>
+                            <th scope="col">Fecha de finalización</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Grupo</th>
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
-                            <tr v-for="subject in subjects" :key="subject.id">
-                                <th scope="row">{{ subject.id }}</th>
-                                <td>{{ subject.subject }}</td>
-                                <td>{{ subject.description }}</td>
-                                <td>{{ subject.status }}</td>
-                            </tr>
+                        <tr v-for="cycle in cycles" :key="cycle.id">
+                        <th scope="row">{{ cycle.id }}</th>
+                        <td>{{ cycle.cycle }}</td>
+                        <td>{{ cycle.start_date }}</td>
+                        <td>{{ cycle.end_date }}</td>
+                        <td>{{ cycle.status }}</td>
+                        <td>{{ cycle.group }}</td>
+                        </tr>
                         </tbody>
                     </table>
             </div>
@@ -63,4 +68,5 @@
 </template>
 
 <style scoped>
+
 </style>

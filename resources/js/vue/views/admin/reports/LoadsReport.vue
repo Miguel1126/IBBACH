@@ -109,10 +109,10 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Ciclo</th>
-                                <th scope="col">Materia</th>
+                                <th scope="col">Asignaturas</th>
                                 <th scope="col">Docente</th>
-                                <th scope="col">HoraInicio</th>
-                                <th scope="col">HoraFinal</th>
+                                <th scope="col">Hora de inicio</th>
+                                <th scope="col">Hora de finalizacion</th>
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">

@@ -136,11 +136,11 @@
 
 <template>
     <main>
-        <h1 class="h1 fs-1 fw-bold">Administrador de Materias</h1>
+        <h1 class="h1 fs-1 fw-bold">Administrador de Asignaturas</h1>
         <br />
         <section class=" p-3 ">
             <form @submit.prevent="handleSumit">
-            <h3 class="h3 fw-semibold">Crea una nueva materia</h3>
+            <h3 class="h3 fw-semibold">Crea una nueva Asignatura</h3>
             <div>
                 <div class="input-group input-group-lg w-50 mb-3">
                     <span class="input-group-text" id="inputGroup-sizing-lg"><i class="material-icons">collections_bookmark</i></span>
@@ -168,12 +168,12 @@
         <hr class="separator"/>
         <section class="p-3">
             <div class="table-container p-3 mb-5 table-color rounded">
-                <h3 class="h3 fw-semibold mb-3 text-black">Listado de materias</h3>
+                <h3 class="h3 fw-semibold mb-3 text-black">Listado de asignaturas</h3>
                 <table class="table table-bordered border-dark">
                     <thead class="table-info table-bordered border-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Materias</th>
+                            <th scope="col">Asignaturas</th>
                             <th scope="col">Descripcion</th>
                             <th scope="col">Estado</th>
                             <th scope="col" class="w-25">Acciones</th>
