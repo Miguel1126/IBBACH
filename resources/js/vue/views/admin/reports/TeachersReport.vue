@@ -1,9 +1,9 @@
 <script>
 export default {
-    mounted(){
+    mounted() {
         this.getTeachers();
     },
-    data(){
+    data() {
         return {
             teachers: [],
             teaSelected: [],
@@ -34,9 +34,8 @@ export default {
 }
 </script>
 <template>
-<main>
-
-    <hr class="separator"/>
+    <main>
+        <hr class="separator" />
         <section class="p-3">
             <div class="table-container p-3 mb-5 table-color rounded">
                 <h3 class="h3 fw-semibold mb-3 text-black">Listado </h3>
@@ -67,5 +66,5 @@ export default {
                 </table>
             </div>
         </section>
-</main>
+    </main>
 </template>

@@ -1,9 +1,9 @@
 <script>
 export default {
-     mounted(){
+    mounted() {
         this.getApplicant();
     },
-    data(){
+    data() {
         return {
             applicants: [],
             applicantSelected: []
@@ -14,7 +14,7 @@ export default {
             try {
                 const response = await this.axios.get('/api/getAplicante')
                 if (response.status === 200) {
-                    if (typeof(response.data) === 'object') {
+                    if (typeof (response.data) === 'object') {
                         this.applicants = response.data
                         console.log(response)
                     }
@@ -25,7 +25,7 @@ export default {
                 }
             }
             catch {
-                (error) => console.error(error) 
+                (error) => console.error(error)
             }
         },
         selectApplicant(event, applicants) {
@@ -38,7 +38,7 @@ export default {
 
 <template>
     <main>
-        <hr class="separator"/>
+        <hr class="separator" />
         <section class="p-3 mb-4">
             <div class="table-container p-3 mb-5 table-color rounded">
                 <h3 class="h3 fw-semibold mb-3 text-black">Informacion personal </h3>

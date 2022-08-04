@@ -174,17 +174,18 @@ export default {
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <span v-if="!inscriptionSelected.length">Inscripcion</span>
                         <span v-else>
-                        Fecha de registro: {{ inscriptionSelected[0].registration_date }} |
-                        Alumno: {{ inscriptionSelected[0].name }} {{ inscriptionSelected[0].last_name }} |
-                        Código: {{ inscriptionSelected[0].code }} |
-                        Materia: {{ inscriptionSelected[0].subject }} </span>
+                            Fecha de registro: {{ inscriptionSelected[0].registration_date }} |
+                            Alumno: {{ inscriptionSelected[0].name }} {{ inscriptionSelected[0].last_name }} |
+                            Código: {{ inscriptionSelected[0].code }} |
+                            Materia: {{ inscriptionSelected[0].subject }} </span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="inscription in inscriptions" :key="inscription.id" class="dropdown-item text-light list-click" @click="selectInscription($event, inscription)">
-                        Fecha de registro: {{ inscription.registration_date }} |
-                        Alumno: {{ inscription.name }} {{ inscription.last_name }} |
-                        Código: {{ inscription.code }} |
-                        Materia: {{ inscription.subject }} 
+                        <li v-for="inscription in inscriptions" :key="inscription.id"
+                            class="dropdown-item text-light list-click" @click="selectInscription($event, inscription)">
+                            Fecha de registro: {{ inscription.registration_date }} |
+                            Alumno: {{ inscription.name }} {{ inscription.last_name }} |
+                            Código: {{ inscription.code }} |
+                            Materia: {{ inscription.subject }}
                         </li>
                     </ul>
                 </div>
@@ -242,7 +243,7 @@ export default {
                             <td>{{ note.code }}</td>
                             <td class="d-flex justify-content-center">
                                 <button type="button" class="btn btn-primary me-2"
-                                    @click="selectGroup($event, note.note )">Modificar</button>
+                                    @click="selectGroup($event, note.note)">Modificar</button>
                                 <button type="button" class="btn btn-danger"
                                     @click="confirmDelete($event, note.id)">Eliminar</button>
                             </td>

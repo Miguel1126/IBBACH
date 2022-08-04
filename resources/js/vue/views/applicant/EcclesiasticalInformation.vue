@@ -1,9 +1,9 @@
 <script>
-    export default{
+export default {
     data() {
         return {
-            
-            ecclesiasticalInfo:{
+
+            ecclesiasticalInfo: {
                 is_pastor: null,
                 is_member: null,
                 pastor_phone: '',
@@ -19,7 +19,7 @@
                 reference_phone_two: '',
                 christ_accepted: '',
                 christening_date: '',
-                time_being_member:'',
+                time_being_member: '',
                 privileges_held: '',
                 denomination: '',
                 study_reason: ''
@@ -61,7 +61,7 @@
             this.ecclesiasticalInfo.study_reason = ''
         }
     },
-    expose: ['passData','clearInputs'],
+    expose: ['passData', 'clearInputs'],
     watch: {
         'ecclesiasticalInfo.pastor_phone'(value) {
             //let phoneNumber = value
@@ -128,7 +128,7 @@
             }
         }
     }
-    
+
 }
 </script>
 
@@ -147,33 +147,39 @@
                 <select class="form-select" v-model="ecclesiasticalInfo.is_member">
                     <option selected>-- --</option>
                     <option value="1">Si</option>
-                    <option value="0">No</option>   
+                    <option value="0">No</option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="churchName" class="form-label">¿De qué iglesia?</label>
-                <input type="text" class="form-control" id="churchName" placeholder="Nombre" v-model="ecclesiasticalInfo.church_name" required>
+                <input type="text" class="form-control" id="churchName" placeholder="Nombre"
+                    v-model="ecclesiasticalInfo.church_name" required>
             </div>
             <div class="mb-3">
                 <label for="churchAddress" class="form-label">Dirección de la iglesia</label>
-                <input type="text" class="form-control" id="churchAddress" placeholder=" municipio, departamento" v-model="ecclesiasticalInfo.church_address" required>
+                <input type="text" class="form-control" id="churchAddress" placeholder=" municipio, departamento"
+                    v-model="ecclesiasticalInfo.church_address" required>
             </div>
             <div class="mb-3">
                 <label for="phone2" class="form-label">Teléfono de la iglesia</label>
-                <input type="text" class="form-control" id="phone2" placeholder="6458-5955" v-model="ecclesiasticalInfo.church_phone" required>
+                <input type="text" class="form-control" id="phone2" placeholder="6458-5955"
+                    v-model="ecclesiasticalInfo.church_phone" required>
             </div>
             <div class="mb-3">
                 <label for="district" class="form-label">Distrito</label>
-                <input type="text" class="form-control" id="district" placeholder="Distrito" v-model="ecclesiasticalInfo.district" required>
+                <input type="text" class="form-control" id="district" placeholder="Distrito"
+                    v-model="ecclesiasticalInfo.district" required>
             </div>
             <div class="mb-3" v-if="ecclesiasticalInfo.is_member === '1'">
                 <label for="MemOrPas" class="form-label">Si es miembro escriba el nombre de su pastor</label>
-                <input type="text" class="form-control" id="MemOrPas" placeholder="Nombre" v-model="ecclesiasticalInfo.pastor_name" required>
+                <input type="text" class="form-control" id="MemOrPas" placeholder="Nombre"
+                    v-model="ecclesiasticalInfo.pastor_name" required>
             </div>
             <div class="d-flex" v-if="ecclesiasticalInfo.is_member === '1'">
                 <div>
                     <label for="licence" class="form-label">Licencia</label>
-                    <input type="text" class="form-control" id="licence" placeholder="licencia" v-model="ecclesiasticalInfo.licence" required>
+                    <input type="text" class="form-control" id="licence" placeholder="licencia"
+                        v-model="ecclesiasticalInfo.licence" required>
                 </div>
                 <div class="mb-3">
                     <label for="phone3" class="form-label">Teléfono</label>
@@ -189,7 +195,8 @@
             <div class="d-flex">
                 <div>
                     <label for="pastor1" class="form-label">Nombre del Pastor</label>
-                    <input type="text" class="form-control" id="pastor1" placeholder="Nombre" v-model="ecclesiasticalInfo.reference_name_one" required>
+                    <input type="text" class="form-control" id="pastor1" placeholder="Nombre"
+                        v-model="ecclesiasticalInfo.reference_name_one" required>
                 </div>
                 <div class="mb-3">
                     <label for="phone4" class="form-label">Teléfono</label>
@@ -200,7 +207,8 @@
             <div class="d-flex">
                 <div class="mb-3">
                     <label for="pastor2" class="form-label">Nombre del Pastor</label>
-                    <input type="text" class="form-control" id="pastor2" placeholder="Nombre" v-model="ecclesiasticalInfo.reference_name_two" required>
+                    <input type="text" class="form-control" id="pastor2" placeholder="Nombre"
+                        v-model="ecclesiasticalInfo.reference_name_two" required>
                 </div>
                 <div class="mb-3">
                     <label for="phone5" class="form-label">Teléfono</label>
@@ -211,30 +219,36 @@
             <br />
             <div class="mb-3">
                 <label for="lgsus" class="form-label">¿Cuando aceptó a Jesucristo?</label>
-                <textarea class="form-control" id="lgsus" placeholder="Aproximado" v-model="ecclesiasticalInfo.christ_accepted" required></textarea>
+                <textarea class="form-control" id="lgsus" placeholder="Aproximado"
+                    v-model="ecclesiasticalInfo.christ_accepted" required></textarea>
             </div>
             <div class="mb-3">
                 <label for="christeningDate" class="form-label">¿Cuando se bautizó?</label>
-                <input type="date" class="form-control" id="christeningDate" v-model="ecclesiasticalInfo.christening_date" required>
+                <input type="date" class="form-control" id="christeningDate"
+                    v-model="ecclesiasticalInfo.christening_date" required>
             </div>
             <div class="mb-3">
                 <label for="timeBeingMember" class="form-label">¿Cuanto tiempo tiene de ser miembro de su
                     iglesia?</label>
-                <input type="text" class="form-control" id="timeBeingMember" placeholder="Aproximado" v-model="ecclesiasticalInfo.time_being_member" required>
+                <input type="text" class="form-control" id="timeBeingMember" placeholder="Aproximado"
+                    v-model="ecclesiasticalInfo.time_being_member" required>
             </div>
             <div class="mb-3">
                 <label for="privilegesHeld" class="form-label">¿Cuales son los privilegios en que se ha
                     desempeñado?</label>
-                <textarea type="text" class="form-control" id="privilegesHeld" placeholder="Aproximado" v-model="ecclesiasticalInfo.privileges_held" required></textarea>
+                <textarea type="text" class="form-control" id="privilegesHeld" placeholder="Aproximado"
+                    v-model="ecclesiasticalInfo.privileges_held" required></textarea>
             </div>
             <div class="mb-3">
                 <label for="denomination" class="form-label">¿A qué denominación pertenece?</label>
-                <input type="text" class="form-control" id="denomination" placeholder="Aproximado" v-model="ecclesiasticalInfo.denomination" required>
+                <input type="text" class="form-control" id="denomination" placeholder="Aproximado"
+                    v-model="ecclesiasticalInfo.denomination" required>
             </div>
             <div class="mb-3">
                 <label for="studyReason" class="form-label">¿Cuál es el interés de estudiar en el Instituto Bíblico
                     Betel Anexo? </label>
-                <textarea type="text" class="form-control" id="studyReason" placeholder="Aproximado" v-model="ecclesiasticalInfo.study_reason" required></textarea>
+                <textarea type="text" class="form-control" id="studyReason" placeholder="Aproximado"
+                    v-model="ecclesiasticalInfo.study_reason" required></textarea>
             </div>
         </div>
     </section>

@@ -57,32 +57,32 @@ export default {
             try {
                 const response = await this.axios.post('/api/aplicante', this.formData)
                 if (response.status === 201) {
-                    if (typeof(response.data) === 'object') {
+                    if (typeof (response.data) === 'object') {
                         this.$swal.fire(
                             'Listo',
                             '¡El Formulario de ingreso se ha enviado correctamente!',
                             'success'
                         )
                     }
-                }    
+                }
                 else {
                     this.$swal.fire(
-                            'Error',
-                            'Ocurrió un error, intentalo de nuevo',
-                            'error'
-                        )
+                        'Error',
+                        'Ocurrió un error, intentalo de nuevo',
+                        'error'
+                    )
                     console.log(response)
                 }
-            } 
+            }
             catch (error) {
                 this.$swal.fire(
-                            'Error',
-                            'Ocurrió un error, intentalo de nuevo',
-                            'error'
-                        )
+                    'Error',
+                    'Ocurrió un error, intentalo de nuevo',
+                    'error'
+                )
                 console.error(error)
             }
-            
+
             button.value = `Enviar formulario`
             button.disabled = ''
             this.clearInputs()
