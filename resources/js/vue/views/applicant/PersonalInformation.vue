@@ -19,7 +19,7 @@ export default {
     },
     methods: {
         passData() {
-            let checkPhone = this.personalInfo.phone ? this.personalInfo.phone.replace('-', '') : null  
+            let checkPhone = this.personalInfo.phone ? this.personalInfo.phone.replace('-', '') : null
             this.personalInfo.phone = checkPhone
             this.$emit('personalInfo', this.personalInfo)
         },
@@ -65,28 +65,34 @@ export default {
         <div class="questions-container">
             <div class="mb-3">
                 <label for="name" class="form-label">Nombres</label>
-                <input type="text" class="form-control" id="name" placeholder="Juan José" v-model="personalInfo.name" required>
+                <input type="text" class="form-control" id="name" placeholder="Juan José" v-model="personalInfo.name"
+                    required>
             </div>
             <div class="mb-3">
                 <label for="lastname" class="form-label">Apellidos</label>
-                <input type="text" class="form-control" id="lastname" placeholder="Perez López" v-model="personalInfo.last_name" required>
+                <input type="text" class="form-control" id="lastname" placeholder="Perez López"
+                    v-model="personalInfo.last_name" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Correo electrónico</label>
-                <input type="email" class="form-control" id="email" placeholder="juanperez@gmail.com" v-model="personalInfo.email" required>
+                <input type="email" class="form-control" id="email" placeholder="juanperez@gmail.com"
+                    v-model="personalInfo.email" required>
             </div>
             <div class="mb-3">
                 <label for="phone1" class="form-label">Teléfono</label>
-                <input type="text" class="form-control" id="phone1" placeholder="6458-5955" v-model="personalInfo.phone" required>
+                <input type="text" class="form-control" id="phone1" placeholder="6458-5955" v-model="personalInfo.phone"
+                    required>
             </div>
             <div class="mb-3">
                 <label for="address" class="form-label">Dirección donde reside</label>
                 <input type="text" class="form-control" id="address"
-                    placeholder="Barrio el centro, Chalatenango, Chalatenango, El Salvador" v-model="personalInfo.address" required>
+                    placeholder="Barrio el centro, Chalatenango, Chalatenango, El Salvador"
+                    v-model="personalInfo.address" required>
             </div>
             <div class="mb-3">
                 <label for="nationality" class="form-label">Nacionalidad</label>
-                <input type="text" class="form-control" id="nationality" placeholder="Salvadoreñe" v-model="personalInfo.nationality" required>
+                <input type="text" class="form-control" id="nationality" placeholder="Salvadoreñe"
+                    v-model="personalInfo.nationality" required>
             </div>
             <div class="mb-3">
                 <label for="birthDate" class="form-label">Fecha de nacimiento</label>
@@ -104,15 +110,18 @@ export default {
             </div>
             <div class="mb-3" v-if="personalInfo.marital_status === 'Casado/a'">
                 <label for="mateName" class="form-label">Nombre del cónyuge</label>
-                <input type="text" class="form-control" id="mateName" placeholder="Juan Perez" v-model="personalInfo.mate_name" required>
+                <input type="text" class="form-control" id="mateName" placeholder="Juan Perez"
+                    v-model="personalInfo.mate_name" required>
             </div>
             <div class="mb-3">
                 <label for="secularDegree" class="form-label">Último grado secular estudiado</label>
-                <input type="text" class="form-control" id="secularDegree" placeholder="Bachillerato stop" v-model="personalInfo.secular_degree" required>
+                <input type="text" class="form-control" id="secularDegree" placeholder="Bachillerato stop"
+                    v-model="personalInfo.secular_degree" required>
             </div>
             <div class="mb-3">
                 <label for="currentOcupation" class="form-label">Ocupación actual</label>
-                <input type="text" class="form-control" id="currentOcupation" placeholder="Corralero" v-model="personalInfo.current_ocupation" required>
+                <input type="text" class="form-control" id="currentOcupation" placeholder="Corralero"
+                    v-model="personalInfo.current_ocupation" required>
             </div>
         </div>
     </section>

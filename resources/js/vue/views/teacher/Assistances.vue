@@ -149,11 +149,14 @@ export default {
                         <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <span v-if="!noteSelected.length">Alumno</span>
-                            <span v-else>Alumno: {{ noteSelected[0].name }} {{ noteSelected[0].last_name }} - {{ noteSelected[0].code }}  Materia: {{ noteSelected[0].subject }}</span>
+                            <span v-else>Alumno: {{ noteSelected[0].name }} {{ noteSelected[0].last_name }} - {{
+                                    noteSelected[0].code
+                            }} Materia: {{ noteSelected[0].subject }}</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
                             <li v-for="note in notes" :key="note.id" class="dropdown-item text-light list-click"
-                                @click="selectNote($event, note)">{{ note.name }} {{ note.last_name }} - {{ note.code }}  Materia: {{ note.subject }}</li>
+                                @click="selectNote($event, note)">{{ note.name }} {{ note.last_name }} - {{ note.code }}
+                                Materia: {{ note.subject }}</li>
                         </ul>
                     </div>
                     <div class="m-4">
