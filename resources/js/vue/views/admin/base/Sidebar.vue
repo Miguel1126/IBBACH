@@ -38,6 +38,7 @@ const ToggleMenu = () => {
 			<Link url="TeachersReport" name="Docentes" icon="person"></Link>
 			<Link url="SubjectsReport" name="Asignaturas" icon="book"></Link>
 			<Link url="CyclesReport" name="Ciclos" icon="autorenew"></Link>
+			<Link url="ApplicantsReport" name="Aplicantes" icon="account_circle"></Link>
 		</div>
 	</aside>
 </template>
