@@ -37,6 +37,7 @@ const ToggleMenu = () => {
 			<Link url="LoadsReport" name="Cargas" icon="summarize"></Link>
 			<Link url="TeachersReport" name="Docentes" icon="person"></Link>
 			<Link url="SubjectsReport" name="Asignaturas" icon="book"></Link>
+			<Link url="CyclesReport" name="Ciclos" icon="autorenew"></Link>
 		</div>
 	</aside>
 </template>
