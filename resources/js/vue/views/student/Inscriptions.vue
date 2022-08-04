@@ -9,8 +9,8 @@
             return {
                date: '',
                statuses: [
-                {id: 1, status: 'activo'},
-                {id: 2, status: 'inactivo'}
+                {id: 1, status: 'Inscrito'},
+                {id: 2, status: 'Sin inscribir'}
                ],
                statusSelected:[],
                students: [],
@@ -29,7 +29,7 @@
                     registration_date: this.date,
                     status: this.statusSelected[0],
                     user_id: this.studentSelected[0].id,
-                    subject_id: this.subjectSelected[0].id
+                    load_id: this.subjectSelected[0].id
                     });
                     console.log(response);
                 if (response.status === 201) {
@@ -46,10 +46,11 @@
             },
             async getInscriptions() {
                 try {
-                    const response = await this.axios.get('/api/inscripciones/get')
+                    const response = await this.axios.get('/api/getInscripciones')
                     if (response.status === 200) {
                         if (typeof(response.data) === 'object') {
                             this.inscriptions = response.data
+                            console.log(response)
                         }
                         else {
                             console.log(response)
@@ -143,19 +144,19 @@
                     <div class="dropdown m-4">
                     <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
                         <span v-if="!studentSelected.length">Alumnos</span>
-                        <span v-else>{{ studentSelected[0].student }}</span>
+                        <span v-else>{{ studentSelected[0].student }} {{ studentSelected[0].last_name }} - {{ studentSelected[0].code }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="student in students" :key="student.id" class="dropdown-item text-light list-click" @click="selectStudent($event, student)">{{ student.student }}</li>
+                        <li v-for="student in students" :key="student.id" class="dropdown-item text-light list-click" @click="selectStudent($event, student)">{{ student.student }} {{ student.last_name }} - {{ student.code }}</li>
                     </ul>
                     </div>
                     <div class="dropdown m-4">
                     <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span v-if="!subjectSelected.length">Materia</span>
-                        <span v-else>{{ subjectSelected[0].subject }}</span>
+                        <span v-if="!subjectSelected.length">Asignaturas</span>
+                        <span v-else>{{ subjectSelected[0].subject }} {{ subjectSelected[0].description }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="subject in subjects" :key="subject.id" class="dropdown-item text-light list-click" @click="selectSubject($event, subject)">{{ subject.subject }}</li>
+                        <li v-for="subject in subjects" :key="subject.id" class="dropdown-item text-light list-click" @click="selectSubject($event, subject)">{{ subject.subject }} {{ subject.description }}</li>
                     </ul>
                     </div>
                     <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary btn-lg ms-4">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
@@ -173,16 +174,18 @@
                             <th scope="col">Fecha de Registro</th>
                             <th scope="col">Estado</th>
                             <th scope="col">Alumnos</th>
-                            <th scope="col">Cargas</th>
+                            <th scope="col">Codigo</th>
+                            <th scope="col">Asignaturas</th>
                             <th scope="col" class="w-25">Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
                         <tr v-for="inscription in inscriptions" :key="inscription.id">
                             <th scope="row">{{ inscription.id }}</th>
-                            <td>{{ inscription.date }}</td>
+                            <td>{{ inscription.registration_date }}</td>
                             <td>{{ inscription.status }}</td>
-                            <td>{{ inscription.student }}</td>
+                            <td>{{ inscription.name }} {{ inscription.last_name }}</td>
+                            <td>{{ inscription.code }}</td>
                             <td>{{ inscription.subject}}</td>
                             <td class="d-flex justify-content-center">
                                 <button type="button" class="btn btn-primary me-2" @click="selectGroup($event, inscription.inscription )">Modificar</button>

@@ -40,7 +40,7 @@ class InscriptionController extends Controller
             $inscription->registration_date = $request->registration_date;
             $inscription->status = $request->status;
             $inscription-> user_id = $request-> user_id;
-            $inscription-> subject_id = $request-> subject_id;
+            $inscription-> load_id = $request-> load_id;
             if ($inscription->save()>=1) {
                 return response()->json(['status'=>'OK','data'=>$inscription],201);
             }
@@ -65,10 +65,12 @@ class InscriptionController extends Controller
             ->select(
                 'inscriptions.id',
                 'inscriptions.registration_date',
+                'inscriptions.status',
                 'users.name',
                 'users.last_name',
                 'users.code',
-                'subjects.subject'
+                'subjects.subject',
+                'subjects.description'
             )
             ->where('inscriptions.status', '=', 'inscrito')
             ->orderBy('id', 'asc')
