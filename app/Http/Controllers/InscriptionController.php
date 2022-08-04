@@ -46,7 +46,7 @@ class InscriptionController extends Controller
             }
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 
@@ -60,20 +60,23 @@ class InscriptionController extends Controller
     {
         try {
             $inscriptions = Inscription::join('users', 'inscriptions.user_id', '=', 'users.id')
-            ->join('subjects', 'inscriptions.subject_id', '=', 'subjects.id')
+            ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+            ->join('subjects', 'loads.subject_id', 'subjects.id')
             ->select(
                 'inscriptions.id',
-                'inscriptions.registration_date as date',
-                'inscriptions.status',
-                'users.name as student',
-                'subjects.subject',
+                'inscriptions.registration_date',
+                'users.name',
+                'users.last_name',
+                'users.code',
+                'subjects.subject'
             )
+            ->where('inscriptions.status', '=', 'inscrito')
             ->orderBy('id', 'asc')
             ->get();
             return $inscriptions;
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 

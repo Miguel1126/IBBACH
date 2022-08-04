@@ -18,22 +18,19 @@ class AuthController extends Controller
             if(Hash::check($request->password, $user->password)) {
                 $token = $user->createToken("auth_token")->plainTextToken;
                 return response()->json([
-                    "status" => 1,
                     "role" => $user->role,
                     "access_token" => $token
-                ]);
+                ],200);
             }
             else {
                 return response()->json([
-                    "status" => 0,
-                    "msg" => "La password es incorrecta"
+                    "message" => "El usuario o la contraseña son incorrectos"
                 ], 404);
             }
         }
         else {
             return response()->json([
-                "status" => 0,
-                "msg" => "Usuario no registrado"
+                "message" => "El usuario o la contraseña son incorrectos"
             ], 404);
         }
     }

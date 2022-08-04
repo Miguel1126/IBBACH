@@ -45,7 +45,7 @@ class RateController extends Controller
             }
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 
@@ -62,7 +62,7 @@ class RateController extends Controller
             return $rate;
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 

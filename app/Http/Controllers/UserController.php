@@ -15,7 +15,7 @@ class UserController extends Controller
             return $teacher;
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 
@@ -27,7 +27,7 @@ class UserController extends Controller
             return $student;
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 }

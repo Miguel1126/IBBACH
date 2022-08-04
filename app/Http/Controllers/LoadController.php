@@ -42,7 +42,7 @@ class LoadController extends Controller
             }
             $load->save();
         }catch(\Exception $e){
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 
@@ -73,7 +73,7 @@ class LoadController extends Controller
             return $loads;
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 

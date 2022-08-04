@@ -54,7 +54,7 @@ class NoteController extends Controller
                 return response()->json(['status' => 'ok', 'data' => $notes], 201);
             }
         } catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
     /**
@@ -93,7 +93,7 @@ class NoteController extends Controller
                 ->get();
             return $notes;
         } catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 

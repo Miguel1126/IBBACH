@@ -46,7 +46,7 @@ class AssistanceController extends Controller
             }
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 
@@ -60,13 +60,25 @@ class AssistanceController extends Controller
     {
         try {
             $assistance = Assistance::join('notes', 'assistances.note_id', '=', 'notes.id')
-            ->select('assistances.id', 'assistances.date', 'assistances.status', 'notes.inscription_id')
+            ->join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')
+            ->join('users', 'inscriptions.user_id', '=', 'users.id')
+            ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+            ->join('subjects', 'loads.subject_id', '=', 'subjects.id')
+            ->select(
+                'assistances.id', 
+                'assistances.date', 
+                'subjects.subject',
+                'assistances.status', 
+                'users.name',
+                'users.last_name',
+                'users.code'
+            )
             ->orderBy('id', 'asc')
             ->get();
             return $assistance;
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
   
     }

@@ -43,7 +43,7 @@ class GroupController extends Controller
             }
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 
@@ -60,7 +60,7 @@ class GroupController extends Controller
             return $group;
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 
