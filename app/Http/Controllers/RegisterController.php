@@ -23,7 +23,6 @@ class RegisterController extends Controller
             $user->code = $request->code;
             $user->password = Hash::make($request->password);
             $user->role = $request->role;
-            $user->status = $request->status;
             $user->applicant_id = $request->applicant_id;
             $user->save();
         

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('password');
             $table->string('role');
-            $table->string('status')->default('active');
+            $table->string('status')->default('activo');
             $table->foreignId('applicant_id')
             ->nullable()
             ->constrained('applicants')

@@ -23,17 +23,18 @@
     },
         methods: {
            async handleSubmit(){
+            let hasApplicant = this.applicantSelected[0] ? this.applicantSelected[0].id : null
            const response = await this.axios.post('/api/register', {
                 name: this.name,
                 last_name: this.last_name,
                 code: this.code,
                 password: this.password,
                 password_confirmation: this.password_confirmation,
+                status: '',
                 role: this.roleSelected[0],
-                applicant_id: this.applicantSelected[0].id 
+                applicant_id: hasApplicant
             });
             console.log(response);
-            console.log(this.applicantSelected[0].id)
             if (response.status === 200) {
                 this.$swal.fire(
                         'Listo',
