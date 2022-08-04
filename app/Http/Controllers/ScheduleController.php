@@ -46,7 +46,7 @@ class ScheduleController extends Controller
             }
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 
@@ -63,7 +63,7 @@ class ScheduleController extends Controller
             return $schedule;
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 

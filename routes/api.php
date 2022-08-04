@@ -38,7 +38,7 @@ Route::resource('/asignaturas', SubjectController::class);
 Route::get('/asignaturas/get', [SubjectController::class, 'show']);
 
 Route::resource('/inscripciones', InscriptionController::class);
-Route::get('/inscripciones/get', [InscriptionController::class, 'show']); 
+Route::get('/getInscripciones', [InscriptionController::class, 'show']); 
 
 Route::resource('/horarios', ScheduleController::class);
 Route::get('/horarios/get', [ScheduleController::class, 'show']); 
@@ -47,7 +47,7 @@ Route::resource('/tarifas', RateController::class);
 Route::get('/tarifas/get', [RateController::class, 'show']);
 
 Route::resource('/asistencias', AssistanceController::class);
-Route::get('/asistencias/get', [AssistanceController::class, 'show']);
+Route::get('/getAsistencias', [AssistanceController::class, 'show']);
 
 Route::resource('/pagos', PaymentController::class);
 Route::get('/pagos/get', [PaymentController::class, 'show']);

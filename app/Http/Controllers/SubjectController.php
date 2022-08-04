@@ -48,7 +48,7 @@ class SubjectController extends Controller
 
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 
@@ -65,7 +65,7 @@ class SubjectController extends Controller
             return $subject;
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
   
     }

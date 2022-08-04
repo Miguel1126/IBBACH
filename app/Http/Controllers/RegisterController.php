@@ -15,7 +15,6 @@ class RegisterController extends Controller
                 'code' => 'required|unique:users',
                 'password' => 'required|confirmed',
                 'role' => 'required',
-                'status' => 'required'
             ]);
 
             $user = new User();
@@ -24,17 +23,15 @@ class RegisterController extends Controller
             $user->code = $request->code;
             $user->password = Hash::make($request->password);
             $user->role = $request->role;
-            $user->status = $request->status;
             $user->applicant_id = $request->applicant_id;
             $user->save();
         
             return response()->json([
-                "status" => 1,
                 "msg" => "Registro de usuario existoso"
             ]);
         
         }catch(\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 }

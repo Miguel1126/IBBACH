@@ -50,7 +50,7 @@ class CycleController extends Controller
                 }
             }
         }catch(\Exception $e){
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
     /**
@@ -70,7 +70,7 @@ class CycleController extends Controller
             return $cycle;
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 
