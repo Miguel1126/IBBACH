@@ -1,84 +1,88 @@
 <script>
-    export default{
-          mounted() {
-            this.getSchedule();
-        },
-        data(){
-            return {
-               start_time: '',
-               end_time: '',
-               statuses: [
-                {id: 1, status: 'activo'},
-                {id: 2, status: 'inactivo'}
-               ],
-               statusSelected: [],
-               schedules:[],
-               editing: false
-
-            }
-        },
-        methods:{
-            async handleSubmit(){
-                if (this.validateInput()) {
-                    const response = await this.axios.post('/api/horarios', {
+import DataTable from '../../components/DataTable.vue';
+    export default {
+    mounted() {
+        this.getSchedule();
+    },
+    data() {
+        return {
+            start_time: "",
+            end_time: "",
+            statuses: [
+                { id: 1, status: "activo" },
+                { id: 2, status: "inactivo" }
+            ],
+            statusSelected: [],
+            schedules: [],
+            editing: false,
+            headers: [
+                { title: "Id" },
+                { title: "Hora de inicio" },
+                { title: "Hora de finalización" },
+                { title: "Estado" },
+                { title: "Acciones" }
+            ],
+        };
+    },
+    methods: {
+        async handleSubmit() {
+            if (this.validateInput()) {
+                const response = await this.axios.post("/api/horarios", {
                     start_time: this.start_time,
                     end_time: this.end_time,
                     status: this.statusSelected[0]
-                    });
+                });
                 console.log(response);
                 if (response.status === 201) {
                     this.getSchedule();
                     this.clearInput();
-                    this.$swal.fire(
-                        'Listo',
-                        'Se registró el Horario',
-                        'success'
-                    )
+                    this.$swal.fire("Listo", "Se registró el Horario", "success");
                 }
-                }
-                else {
-                    const Toast = this.$swal.mixin({
+            }
+            else {
+                const Toast = this.$swal.mixin({
                     toast: true,
-                    position: 'top',
+                    position: "top",
                     showConfirmButton: false,
                     timer: 3000,
                     timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', this.$swal.stopTimer)
-                            toast.addEventListener('mouseleave', this.$swal.resumeTimer)
-                        }
-                    })
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Debes rellenar el campo'
-                    })
-                }
-            },
-            selectStatus(event, statuses) {
-                this.statusSelected = [];
-                this.statusSelected.push(statuses);
-            },
-            getSchedule(){
-                this.axios.get('/api/horarios/show')
+                    didOpen: (toast) => {
+                        toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                        toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+                    }
+                });
+                Toast.fire({
+                    icon: "error",
+                    title: "Debes rellenar el campo"
+                });
+            }
+        },
+        selectStatus(event, statuses) {
+            this.statusSelected = [];
+            this.statusSelected.push(statuses);
+        },
+        getSchedule() {
+            this.axios.get("/api/getHorarios")
                 .then(response => {
-                    this.schedules = response.data;
-                })
+                this.schedules = response.data;
+            })
                 .catch(error => {
-                    console.error(error);
-                })
-            },
-            clearInput() {
-                this.start_time = null
-                this.end_time = null
-                this.statusSelected = []
-                this.editing = false
-            },
-            validateInput() {
-                let valid = this.start_time && this.end_time && this.statusSelected  ? true : false
-                return valid
-            },
-        }
-    }
+                console.error(error);
+            });
+        },
+        clearInput() {
+            this.start_time = null;
+            this.end_time = null;
+            this.statusSelected = [];
+            this.editing = false;
+        },
+        validateInput() {
+            let valid = this.start_time && this.end_time && this.statusSelected ? true : false;
+            return valid;
+        },
+    },
+    components: { DataTable }
+}
 </script>
 <template>
     <main>
@@ -109,32 +113,16 @@
         </section>
         <hr class="separator"/>
         <section class="p-3">
-            <div class="table-container p-3 mb-5 table-color rounded">
-                <table class="table table-bordered border-dark">
-                    <thead class="table-info table-bordered border-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Hora de inicio</th>
-                            <th scope="col">Hora de finalización</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col" class="w-25">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        <tr v-for="schedule in schedules" :key="schedule.id">
-                            <th scope="row">{{ schedule.id }}</th>
-                            <td>{{ schedule.start_time }}</td>
-                            <td>{{ schedule.end_time }}</td>
-                            <td>{{ schedule.status }}</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary me-2" @click="selectGroup($event, group.group )">Modificar</button>
-                                <button type="button" class="btn btn-danger" @click="confirmDelete($event, group.id)">Eliminar</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
+            <DataTable
+            title="Listado de horarios"
+            :headers="headers"
+            :items="schedules"
+            >
+                <template #actions>
+                    <button type="button" class="btn btn-primary me-2">Modificar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </template>
+            </DataTable>
         </section>
     </main>    
 </template>

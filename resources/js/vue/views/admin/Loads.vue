@@ -1,3 +1,6 @@
+<script setup>
+import DataTable from '../../components/DataTable.vue'
+</script>
 <script>
 export default {
     data() {
@@ -11,7 +14,17 @@ export default {
             subSelected: [],
             teaSelected: [],
             schSelected: [],
-            editing: false
+            editing: false,
+            tableHeaders: [
+                {title: 'Id'},
+                {title: 'Ciclo'},
+                {title: 'Asignatura'},
+                {title: 'Docente'},
+                {title: 'Apellidos'},
+                {title: 'Hora de inicio'},
+                {title: 'Hora de fin'},
+                {title: 'Acciones'}
+            ],
         }
     },
     methods: {
@@ -182,14 +195,15 @@ export default {
             }
         },
         selectLoad(event, load) {
-            this.clearDropdown()
+           /*  this.clearDropdown()
             this.editing = true
             this.cySelected.push(load)
             this.subSelected.push(load)
             this.teaSelected.push(load)
             this.schSelected.push(load)
             console.log(this.subSelected)
-            console.log(this.teaSelected)
+            console.log(this.teaSelected) */
+            console.log(load)
         },
         saveEdit() {
             this.editing = false
@@ -307,54 +321,16 @@ export default {
         </section>
         <hr class="separator" />
         <section class="p-3">
-            <div class="p-3 table-color rounded">
-                <h3 class="h3 fw-semibold mb-3 text-black">Listado de cargas</h3>
-                <div v-if="loads[0] === 'loading'" class="d-flex justify-content-center">
-                    <div class="waveform">
-                        <div class="waveform__bar"></div>
-                        <div class="waveform__bar"></div>
-                        <div class="waveform__bar"></div>
-                        <div class="waveform__bar"></div>
-                    </div>
-                </div>
-                <div v-else-if="!loads.length" class="d-flex justify-content-center">
-                    <h4 class="text-black">No hay datos para mostrar</h4>
-                </div>
-                <div v-else-if="loads[0] === 'error'" class="d-flex justify-content-center">
-                    <h4 class="text-black">Ups... Ocurrió un error, inténtalo de nuevo más tarde.</h4>
-                </div>
-                <div class="table-container" v-else>
-                    <table class="table table-bordered border-dark bg-light">
-                        <thead class="table-success table-bordered border-dark">
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Ciclo</th>
-                                <th scope="col">Materia</th>
-                                <th scope="col">Docente</th>
-                                <th scope="col">HoraInicio</th>
-                                <th scope="col">HoraFinal</th>
-                                <th scope="col" class="w-25">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-group-divider">
-                            <tr v-for="load in loads" :key="load.id">
-                                <th scope="row">{{ load.id }}</th>
-                                <td>{{ load.cycle }}</td>
-                                <td>{{ load.subject }}</td>
-                                <td>{{ load.teacher }} {{ load.last_name }}</td>
-                                <td>{{ load.start_time }}</td>
-                                <td>{{ load.end_time }}</td>
-                                <td class="d-flex justify-content-center">
-                                    <button type="button" class="btn btn-primary me-2"
-                                        @click="selectLoad($event, load)">Modificar</button>
-                                    <button type="button" class="btn btn-danger"
-                                        @click="confirmDelete($event, load.id)">Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <DataTable
+            title="Listado de cargas"
+            :headers="tableHeaders"
+            :items="loads"
+            >
+                <template #actions="{ item }">
+                    <button type="button" class="btn btn-primary me-2" @click="selectLoad($event, item)">Modificar</button>
+                    <button type="button" class="btn btn-danger" @click="confirmDelete($event, load.id)">Eliminar</button>
+                </template>
+            </DataTable>
         </section>
     </main>
 </template>

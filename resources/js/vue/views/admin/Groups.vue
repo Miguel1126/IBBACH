@@ -1,111 +1,106 @@
 <script>
+import DataTable from '../../components/DataTable.vue';
     export default {
-         mounted() {
-            this.getGroups()
-        },
-        data() {
-            return {
-                groups: [],
-                group: null,
-                editing: false
-            }
-        },
-        methods: {
-             async handleSumit(){
-                if (this.validateInput()) {
-                    const response = await this.axios.post('/api/grupos', {
+    mounted() {
+        this.getGroups();
+    },
+    data() {
+        return {
+            groups: [],
+            group: null,
+            editing: false,
+            headers: [
+                {title: 'Id'},
+                {title: 'Grupo'},
+                {title: 'Acciones'}
+            ]
+        };
+    },
+    methods: {
+        async handleSumit() {
+            if (this.validateInput()) {
+                const response = await this.axios.post("/api/grupos", {
                     group: this.group,
-                    });
-                    console.log(response);
+                });
+                console.log(response);
                 if (response.status === 201) {
-                    this.clearInput()
-                    this.getGroups() 
-                    this.$swal.fire(
-                        'Listo',
-                        'Se registró la materia',
-                        'success'
-                    )
+                    this.clearInput();
+                    this.getGroups();
+                    this.$swal.fire("Listo", "Se registró la materia", "success");
                 }
-                }
-                else {
-                    const Toast = this.$swal.mixin({
+            }
+            else {
+                const Toast = this.$swal.mixin({
                     toast: true,
-                    position: 'top',
+                    position: "top",
                     showConfirmButton: false,
                     timer: 3000,
                     timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', this.$swal.stopTimer)
-                            toast.addEventListener('mouseleave', this.$swal.resumeTimer)
-                        }
-                    })
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Debes rellenar el campo'
-                    })
-                }
-            },
-            getGroups(){
-                this.axios.get('/api/grupos/show')
-                .then(response => {
-                    this.groups = response.data
-                })
-                .catch(error => {
-                    console.error(error)
-                })
-            },
-            clearInput() {
-                this.group = null
-                this.editing = false
-            },
-            validateInput() {
-                let valid = this.group ? true : false
-                return valid
-            },
-            selectGroup(event, group) {
-                const app = this
-                app.editing = true
-                app.group = group
-            },
-            saveEdit() {
-                this.editing = false
-                this.clearInput()
-                this.$swal.fire(
-                        'Listo',
-                        'Se editó el grupo',
-                        'success'
-                    )
-            },
-            deleteGroup(id){
-                this.groups = this.groups.filter(group => group.id != id);
-                this.groups = [... this.groups];
-            },
-            confirmDelete(event, id) {
-                this.$swal.fire({
-                    title: '¿Estas seguro de querer borrar este grupo?',
-                    text: "Si lo borras, no podrás recuperarlo",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Borrar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    this.deleteGroup(id)
-                    this.$swal.fire(
-                        'Listo',
-                        'El grupo ha sido eliminado',
-                        'success'
-                    )
-                }
-                })
+                    didOpen: (toast) => {
+                        toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                        toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+                    }
+                });
+                Toast.fire({
+                    icon: "error",
+                    title: "Debes rellenar el campo"
+                });
             }
         },
-        setup() {
-            document.title = "IBBACH | Grupos"
+        getGroups() {
+            this.axios.get("/api/grupos/show")
+                .then(response => {
+                this.groups = response.data;
+            })
+                .catch(error => {
+                console.error(error);
+            });
+        },
+        clearInput() {
+            this.group = null;
+            this.editing = false;
+        },
+        validateInput() {
+            let valid = this.group ? true : false;
+            return valid;
+        },
+        selectGroup(event, group) {
+            const app = this;
+            app.editing = true;
+            app.group = group;
+        },
+        saveEdit() {
+            this.editing = false;
+            this.clearInput();
+            this.$swal.fire("Listo", "Se editó el grupo", "success");
+        },
+        deleteGroup(id) {
+            this.groups = this.groups.filter(group => group.id != id);
+            this.groups = [...this.groups];
+        },
+        confirmDelete(event, id) {
+            this.$swal.fire({
+                title: "¿Estas seguro de querer borrar este grupo?",
+                text: "Si lo borras, no podrás recuperarlo",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Borrar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.deleteGroup(id);
+                    this.$swal.fire("Listo", "El grupo ha sido eliminado", "success");
+                }
+            });
         }
-    }
+    },
+    setup() {
+        document.title = "IBBACH | Grupos";
+    },
+    components: { DataTable }
+}
 </script>
 
 <template>
@@ -128,28 +123,16 @@
         </section>
         <hr class="separator"/>
         <section class="p-3">
-            <div class="table-container p-3 mb-5 table-color rounded">
-                <h3 class="h3 fw-semibold mb-3 text-black">Listado de grupos</h3>
-                <table class="table table-bordered border-dark">
-                    <thead class="table-info table-bordered border-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Grupo</th>
-                            <th scope="col" class="w-25">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        <tr v-for="group in groups" :key="group.id">
-                            <th scope="row">{{ group.id }}</th>
-                            <td>{{ group.group }}</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary me-2" @click="selectGroup($event, group.group )">Modificar</button>
-                                <button type="button" class="btn btn-danger" @click="confirmDelete($event, group.id)">Eliminar</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <DataTable
+            title="Listado de grupos"
+            :headers="headers"
+            :items="groups"
+            >
+                <template #actions>
+                    <button type="button" class="btn btn-primary me-2">Modificar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </template>
+            </DataTable>
         </section>
     </main>    
 </template>
