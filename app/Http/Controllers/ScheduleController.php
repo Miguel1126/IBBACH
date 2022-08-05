@@ -56,10 +56,11 @@ class ScheduleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
         try {
-            $schedule = Schedule::orderBy('id','asc')->get();
+            $schedule = Schedule::select('schedules.id','schedules.start_time','schedules.end_time','schedules.status')
+            ->orderBy('id','asc')->get();
             return $schedule;
         }
         catch (\Exception $e) {

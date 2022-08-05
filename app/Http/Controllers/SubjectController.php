@@ -61,7 +61,8 @@ class SubjectController extends Controller
     public function show()
     {
         try {
-            $subject = Subject::orderBy('id','asc')->get();
+            $subject = Subject::select('subjects.id','subjects.subject','subjects.description','subjects.status')
+            ->orderBy('id','asc')->get();
             return $subject;
         }
         catch (\Exception $e) {

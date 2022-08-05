@@ -1,30 +1,39 @@
 <script>
-export default {
+import DataTable from '../../components/DataTable.vue';
+    export default{
     mounted() {
         this.getCycles();
         this.getGroups();
     },
     data() {
         return {
-            cycle: '',
-            start_date: '',
-            end_date: '',
+            cycle: "",
+            start_date: "",
+            end_date: "",
             statuses: [
-                { id: 1, status: 'activo' },
-                { id: 2, status: 'inactivo' }
+                { id: 1, status: "activo" },
+                { id: 2, status: "inactivo" }
             ],
             statusSelected: [],
             groups: [],
             groupSelected: [],
             cycles: [],
-            editing: false
-
-        }
+            editing: false,
+            headers: [
+                {title: 'Id'},
+                {title: 'Ciclo'},
+                {title: 'Fecha de inicio'},
+                {title: 'Fecha de finalización'},
+                {title: 'Estado'},
+                {title: 'Grupo'},
+                {title: 'Acciones'},
+            ]
+        };
     },
     methods: {
         async handleSubmit() {
             if (this.validateInput()) {
-                const response = await this.axios.post('/api/ciclos', {
+                const response = await this.axios.post("/api/ciclos", {
                     cycle: this.cycle,
                     start_date: this.start_date,
                     end_date: this.end_date,
@@ -33,85 +42,77 @@ export default {
                 });
                 console.log(response);
                 if (response.data.status === 302) {
-                    this.$swal.fire(
-                        'Error',
-                        `${response.data.message}`,
-                        'error'
-                    )
+                    this.$swal.fire("Error", `${response.data.message}`, "error");
                 }
                 else if (response.status === 201) {
-                    this.clearInput()
+                    this.clearInput();
                     this.getCycles();
-                    this.$swal.fire(
-                        'Listo',
-                        '¡Se ha registrado el ciclo correctamente!',
-                        'success'
-                    )
+                    this.$swal.fire("Listo", "¡Se ha registrado el ciclo correctamente!", "success");
                 }
             }
             else {
                 const Toast = this.$swal.mixin({
                     toast: true,
-                    position: 'top',
+                    position: "top",
                     showConfirmButton: false,
                     timer: 3000,
                     timerProgressBar: true,
                     didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
-                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                        toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                        toast.addEventListener("mouseleave", this.$swal.resumeTimer);
                     }
-                })
+                });
                 Toast.fire({
-                    icon: 'error',
-                    title: 'Debes rellenar el campo'
-                })
+                    icon: "error",
+                    title: "Debes rellenar el campo"
+                });
             }
         },
         async getCycles() {
             try {
-                const response = await this.axios.get('/api/ciclos/get')
+                const response = await this.axios.get("/api/getCiclos");
                 if (response.status === 200) {
-                    if (typeof (response.data) === 'object') {
-                        this.cycles = response.data
-                        console.log(response)
+                    if (typeof (response.data) === "object") {
+                        this.cycles = response.data;
+                        console.log(response);
                     }
                     else {
-                        this.cycles[0] = 'error'
-                        console.log(response)
+                        this.cycles[0] = "error";
+                        console.log(response);
                     }
                 }
             }
             catch {
-                (error) => console.error(error)
+                (error) => console.error(error);
             }
         },
         async getGroups() {
             try {
-                const response = await this.axios.get('/api/grupos/get')
+                const response = await this.axios.get("/api/getGrupos");
                 if (response.status === 200) {
-                    if (typeof (response.data) === 'object') {
-                        this.groups = response.data
+                    if (typeof (response.data) === "object") {
+                        this.groups = response.data;
                     }
                     else {
-                        this.groups[0] = 'error'
+                        this.groups[0] = "error";
                     }
                 }
             }
             catch {
-                (error) => console.error(error)
+                (error) => console.error(error);
             }
         },
         clearInput() {
-            this.cycle = null
-            this.start_date = null
-            this.end_date = null
-            this.statusSelected = []
-            this.groupSelected = []
-            this.editing = false
+            this.cycle = null;
+            this.start_date = null;
+            this.end_date = null;
+            this.statusSelected = [];
+            this.groupSelected = [];
+            this.editing = false;
         },
         validateInput() {
-            let valid = this.cycle && this.start_date && this.end_date && this.statusSelected && this.groupSelected ? true : false
-            return valid
+            let valid = this.cycle && this.start_date && this.end_date && this.statusSelected && this.groupSelected ? true : false;
+            return valid;
         },
         selectStatus(event, statuses) {
             this.statusSelected = [];
@@ -121,7 +122,8 @@ export default {
             this.groupSelected = [];
             this.groupSelected.push(groups);
         },
-    }
+    },
+    components: { DataTable }
 }
 </script>
 <template>
@@ -172,38 +174,16 @@ export default {
         </section>
         <hr class="separator" />
         <section class="p-3">
-            <div class="table-container p-3 mb-5 table-color rounded">
-                <h3 class="h3 fw-semibold mb-3 text-black">Listado </h3>
-                <table class="table table-bordered border-dark">
-                    <thead class="table-info table-bordered border-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Ciclos</th>
-                            <th scope="col">Fecha de inicio</th>
-                            <th scope="col">Fecha de finalización</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col">Grupo</th>
-                            <th scope="col" class="w-25">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        <tr v-for="cycle in cycles" :key="cycle.id">
-                            <th scope="row">{{ cycle.id }}</th>
-                            <td>{{ cycle.cycle }}</td>
-                            <td>{{ cycle.start_date }}</td>
-                            <td>{{ cycle.end_date }}</td>
-                            <td>{{ cycle.status }}</td>
-                            <td>{{ cycle.group }}</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary me-2"
-                                    @click="selectGroup($event, cycle.cycle )">Modificar</button>
-                                <button type="button" class="btn btn-danger"
-                                    @click="confirmDelete($event, cycle.id)">Eliminar</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <DataTable
+            title="Listado de ciclos"
+            :headers="headers"
+            :items="cycles"
+            >
+                <template #actions>
+                    <button type="button" class="btn btn-primary me-2">Modificar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </template>
+            </DataTable>
         </section>
     </main>
 </template>

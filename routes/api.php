@@ -32,16 +32,16 @@ Route::resource('/aplicante', ApplicantController::class);
 Route::get('getAplicante', [ApplicantController::class, 'show']);
 
 Route::resource('/grupos', GroupController::class);
-Route::get('/grupos/get', [GroupController::class, 'show']);
+Route::get('/getGrupos', [GroupController::class, 'show']);
 
 Route::resource('/asignaturas', SubjectController::class);
-Route::get('/asignaturas/get', [SubjectController::class, 'show']);
+Route::get('/getAsignaturas', [SubjectController::class, 'show']);
 
 Route::resource('/inscripciones', InscriptionController::class);
 Route::get('/getInscripciones', [InscriptionController::class, 'show']); 
 
 Route::resource('/horarios', ScheduleController::class);
-Route::get('/horarios/get', [ScheduleController::class, 'show']); 
+Route::get('/getHorarios', [ScheduleController::class, 'show']); 
 
 Route::resource('/tarifas', RateController::class);
 Route::get('/tarifas/get', [RateController::class, 'show']);
@@ -59,7 +59,7 @@ Route::post('login', [AuthController::class,'login']);
 Route::post('register', [RegisterController::class,'register']);
 
 Route::resource('/ciclos', CycleController::class);
-Route::get('/ciclos/get',[CycleController::class,'show']);
+Route::get('/getCiclos',[CycleController::class,'show']);
 
 Route::get('getDocentes', [UserController::class, 'getTeacher']);
 Route::get('students', [UserController::class, 'getStudent']);
