@@ -204,6 +204,9 @@ export default {
                         <tr>
                             <th scope="col" class="w-10">#</th>
                             <th scope="col" class="w-10">Asignatura</th>
+                            <th scope="col" class="w-10">Nombre</th>
+                            <th scope="col" class="w-10">Apellido</th>
+                            <th scope="col" class="w-10">Codigo</th>
                             <th scope="col" class="w-10">Evalucion #1</th>
                             <th scope="col" class="w-10">Porcentaje</th>
                             <th scope="col" class="w-10">Evalucion #2</th>
@@ -216,16 +219,15 @@ export default {
                             <th scope="col" class="w-10">Porcentaje</th>
                             <th scope="col" class="w-10">Resultado Final</th>
                             <th scope="col" class="w-10">Estado</th>
-                            <th scope="col" class="w-10">Nombre</th>
-                            <th scope="col" class="w-10">Apellido</th>
-                            <th scope="col" class="w-10">Codigo</th>
-                            <th scope="col" class="w-15">Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
                         <tr v-for="note in notes" :key="note.id">
                             <th scope="row">{{ note.id }}</th>
                             <td>{{ note.subject }}</td>
+                            <td>{{ note.name }}</td>
+                            <td>{{ note.last_name }}</td>
+                            <td>{{ note.code }}</td>
                             <td>{{ note.ev1 }}</td>
                             <td>{{ note.percentege1 }}</td>
                             <td>{{ note.ev2 }}</td>
@@ -238,15 +240,6 @@ export default {
                             <td>{{ note.percentege5 }}</td>
                             <td>{{ note.finalAverage }}</td>
                             <td>{{ note.status }}</td>
-                            <td>{{ note.name }}</td>
-                            <td>{{ note.last_name }}</td>
-                            <td>{{ note.code }}</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary me-2"
-                                    @click="selectGroup($event, note.note)">Modificar</button>
-                                <button type="button" class="btn btn-danger"
-                                    @click="confirmDelete($event, note.id)">Eliminar</button>
-                            </td>
                         </tr>
                     </tbody>
                 </table>
