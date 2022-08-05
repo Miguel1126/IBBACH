@@ -174,17 +174,18 @@ export default {
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <span v-if="!inscriptionSelected.length">Inscripcion</span>
                         <span v-else>
-                        Fecha de registro: {{ inscriptionSelected[0].registration_date }} |
-                        Alumno: {{ inscriptionSelected[0].name }} {{ inscriptionSelected[0].last_name }} |
-                        Código: {{ inscriptionSelected[0].code }} |
-                        Materia: {{ inscriptionSelected[0].subject }} </span>
+                            Fecha de registro: {{ inscriptionSelected[0].registration_date }} |
+                            Alumno: {{ inscriptionSelected[0].name }} {{ inscriptionSelected[0].last_name }} |
+                            Código: {{ inscriptionSelected[0].code }} |
+                            Materia: {{ inscriptionSelected[0].subject }} </span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="inscription in inscriptions" :key="inscription.id" class="dropdown-item text-light list-click" @click="selectInscription($event, inscription)">
-                        Fecha de registro: {{ inscription.registration_date }} |
-                        Alumno: {{ inscription.name }} {{ inscription.last_name }} |
-                        Código: {{ inscription.code }} |
-                        Materia: {{ inscription.subject }} 
+                        <li v-for="inscription in inscriptions" :key="inscription.id"
+                            class="dropdown-item text-light list-click" @click="selectInscription($event, inscription)">
+                            Fecha de registro: {{ inscription.registration_date }} |
+                            Alumno: {{ inscription.name }} {{ inscription.last_name }} |
+                            Código: {{ inscription.code }} |
+                            Materia: {{ inscription.subject }}
                         </li>
                     </ul>
                 </div>
@@ -203,6 +204,9 @@ export default {
                         <tr>
                             <th scope="col" class="w-10">#</th>
                             <th scope="col" class="w-10">Asignatura</th>
+                            <th scope="col" class="w-10">Nombre</th>
+                            <th scope="col" class="w-10">Apellido</th>
+                            <th scope="col" class="w-10">Codigo</th>
                             <th scope="col" class="w-10">Evalucion #1</th>
                             <th scope="col" class="w-10">Porcentaje</th>
                             <th scope="col" class="w-10">Evalucion #2</th>
@@ -215,16 +219,15 @@ export default {
                             <th scope="col" class="w-10">Porcentaje</th>
                             <th scope="col" class="w-10">Resultado Final</th>
                             <th scope="col" class="w-10">Estado</th>
-                            <th scope="col" class="w-10">Nombre</th>
-                            <th scope="col" class="w-10">Apellido</th>
-                            <th scope="col" class="w-10">Codigo</th>
-                            <th scope="col" class="w-15">Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
                         <tr v-for="note in notes" :key="note.id">
                             <th scope="row">{{ note.id }}</th>
                             <td>{{ note.subject }}</td>
+                            <td>{{ note.name }}</td>
+                            <td>{{ note.last_name }}</td>
+                            <td>{{ note.code }}</td>
                             <td>{{ note.ev1 }}</td>
                             <td>{{ note.percentege1 }}</td>
                             <td>{{ note.ev2 }}</td>
@@ -237,15 +240,6 @@ export default {
                             <td>{{ note.percentege5 }}</td>
                             <td>{{ note.finalAverage }}</td>
                             <td>{{ note.status }}</td>
-                            <td>{{ note.name }}</td>
-                            <td>{{ note.last_name }}</td>
-                            <td>{{ note.code }}</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary me-2"
-                                    @click="selectGroup($event, note.note )">Modificar</button>
-                                <button type="button" class="btn btn-danger"
-                                    @click="confirmDelete($event, note.id)">Eliminar</button>
-                            </td>
                         </tr>
                     </tbody>
                 </table>

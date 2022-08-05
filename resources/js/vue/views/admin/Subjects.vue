@@ -130,7 +130,7 @@ export default {
 
 <template>
     <main>
-        <h1 class="h1 fs-1 fw-bold">Administrador de Materias</h1>
+        <h1 class="h1 fs-1 fw-bold">Administrador de Asignaturas</h1>
         <br />
         <section class=" p-3 ">
             <form @submit.prevent="handleSumit">
@@ -159,13 +159,16 @@ export default {
                                 @click="selectStatus($event, status.status)">{{ status.status }}</li>
                         </ul>
                     </div>
-                    <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary btn-lg ms-4">Agregar <i
+                        <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary btn-lg ms-4">Agregar <i
+                           
                             class="material-icons m-auto ms-1">add_box</i></button>
-                    <button v-else type="button" class="d-inline-flex btn btn-success btn-lg ms-4"
+                        <button v-else type="button" class="d-inline-flex btn btn-success btn-lg ms-4"
+                       
                         @click="saveEdit">Guardar <i class="material-icons m-auto ms-1">edit</i></button>
-                    <button v-if="editing" type="button" class="d-inline-flex btn btn-danger btn-lg ms-3"
+                        <button v-if="editing" type="button" class="d-inline-flex btn btn-danger btn-lg ms-3"
+                       
                         @click="clearInput">Cancelar <i class="material-icons m-auto ms-1">cancel</i></button>
-                </div>
+                    </div>
             </form>
         </section>
         <hr class="separator" />

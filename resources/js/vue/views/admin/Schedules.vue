@@ -89,29 +89,33 @@ import DataTable from '../../components/DataTable.vue';
         <h1 class="h1 fs-1 fw-bold mb-3">Horarios</h1>
         <section class=" p-3 ">
             <h3 class="h3 fw-semibold">Crear nuevo horario</h3>
-             <form class="w-25" @submit.prevent="handleSubmit">
-                    <div class="form-group mb-3">
-                        <label>Hora de inicio</label>
-                        <input type="time" class="form-control" v-model="start_time" placeholder="Nuevo ciclo"/>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label>Hora de finalización</label>
-                        <input type="time" class="form-control" v-model="end_time"/>
-                    </div>
-                    <div class="dropdown m-4">
-                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+            <form class="w-25" @submit.prevent="handleSubmit">
+                <div class="form-group mb-3">
+                    <label>Hora de inicio</label>
+                    <input type="time" class="form-control" v-model="start_time" placeholder="Nuevo ciclo" />
+                </div>
+                <div class="form-group mb-3">
+                    <label>Hora de finalización</label>
+                    <input type="time" class="form-control" v-model="end_time" />
+                </div>
+                <div class="dropdown m-4">
+                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         <span v-if="!statusSelected.length">Estado</span>
                         <span v-else>{{ statusSelected[0] }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="status in statuses" :key="status.id" class="dropdown-item text-light list-click" @click="selectStatus($event, status.status)">{{ status.status }}</li>
+                        <li v-for="status in statuses" :key="status.id" class="dropdown-item text-light list-click"
+                            @click="selectStatus($event, status.status)">{{ status.status }}</li>
                     </ul>
-                    </div>
-                    <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary btn-lg ms-4">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
-                    <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning btn-lg ms-3" @click="clearInput">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
-                </form>
+                </div>
+                <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary btn-lg ms-4">Agregar <i
+                        class="material-icons m-auto ms-1">add_box</i></button>
+                <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning btn-lg ms-3"
+                    @click="clearInput">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
+            </form>
         </section>
-        <hr class="separator"/>
+        <hr class="separator" />
         <section class="p-3">
             <DataTable
             title="Listado de horarios"
@@ -124,11 +128,11 @@ import DataTable from '../../components/DataTable.vue';
                 </template>
             </DataTable>
         </section>
-    </main>    
+    </main>
 </template>
 
 <style scoped>
-    .list-click {
-        cursor: pointer;
-    }
+.list-click {
+    cursor: pointer;
+}
 </style>

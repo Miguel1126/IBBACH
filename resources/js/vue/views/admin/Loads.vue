@@ -274,7 +274,7 @@ export default {
                 <div class="dropdown m-4">
                     <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <span v-if="!subSelected.length">Materia</span>
+                        <span v-if="!subSelected.length">Asignaturas</span>
                         <span v-else>{{ subSelected[0].subject }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">

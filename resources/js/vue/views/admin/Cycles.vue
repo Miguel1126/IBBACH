@@ -131,42 +131,48 @@ import DataTable from '../../components/DataTable.vue';
         <h1 class="h1 fs-1 fw-bold mb-3">Registro de ciclos</h1>
         <section class="p-3">
             <h3 class="h3 fw-semibold">Crear nuevo ciclo</h3>
-                <form class="w-25" @submit.prevent="handleSubmit">
-                    <div class="form-group mb-3">
-                        <label>Ciclo</label>
-                        <input type="text" class="form-control" v-model="cycle" placeholder="Nuevo ciclo"/>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label>Fecha de inicio</label>
-                        <input type="date" class="form-control" v-model="start_date"/>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label>fecha de finalización</label>
-                        <input type="date" class="form-control" v-model="end_date"/>
-                    </div>
-                    <div class="dropdown m-4">
-                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+            <form class="w-25" @submit.prevent="handleSubmit">
+                <div class="form-group mb-3">
+                    <label>Ciclo</label>
+                    <input type="text" class="form-control" v-model="cycle" placeholder="Nuevo ciclo" />
+                </div>
+                <div class="form-group mb-3">
+                    <label>Fecha de inicio</label>
+                    <input type="date" class="form-control" v-model="start_date" />
+                </div>
+                <div class="form-group mb-3">
+                    <label>fecha de finalización</label>
+                    <input type="date" class="form-control" v-model="end_date" />
+                </div>
+                <div class="dropdown m-4">
+                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         <span v-if="!statusSelected.length">Estado</span>
                         <span v-else>{{ statusSelected[0] }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="status in statuses" :key="status.id" class="dropdown-item text-light list-click" @click="selectStatus($event, status.status)">{{ status.status }}</li>
+                        <li v-for="status in statuses" :key="status.id" class="dropdown-item text-light list-click"
+                            @click="selectStatus($event, status.status)">{{ status.status }}</li>
                     </ul>
-                    </div>
-                    <div class="dropdown m-4">
-                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                </div>
+                <div class="dropdown m-4">
+                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         <span v-if="!groupSelected.length">Grupos</span>
                         <span v-else>{{ groupSelected[0].group }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="group in groups" :key="group.id" class="dropdown-item text-light list-click" @click="selectGroup($event, group)">{{ group.group }}</li>
+                        <li v-for="group in groups" :key="group.id" class="dropdown-item text-light list-click"
+                            @click="selectGroup($event, group)">{{ group.group }}</li>
                     </ul>
-                    </div>
-                    <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg ms-4" @click="handleSubmit">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
-                    <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning btn-lg ms-3" @click="clearInput">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
-                </form>
+                </div>
+                <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg ms-4"
+                    @click="handleSubmit">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
+                <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning btn-lg ms-3"
+                    @click="clearInput">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
+            </form>
         </section>
-        <hr class="separator"/>
+        <hr class="separator" />
         <section class="p-3">
             <DataTable
             title="Listado de ciclos"

@@ -109,19 +109,24 @@ import DataTable from '../../components/DataTable.vue';
         <br />
         <section class=" p-3 ">
             <form @submit.prevent="handleSumit">
-            <h3 class="h3 fw-semibold">Crea un nuevo grupo</h3>
-            <div class="d-flex">
-                <div class="input-group input-group-lg w-25">
-                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="material-icons">workspaces</i></span>
-                    <input type="text" class="form-control" v-model="group" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="e.j Diurno">
+                <h3 class="h3 fw-semibold">Crea un nuevo grupo</h3>
+                <div class="d-flex">
+                    <div class="input-group input-group-lg w-25">
+                        <span class="input-group-text" id="inputGroup-sizing-lg"><i
+                                class="material-icons">workspaces</i></span>
+                        <input type="text" class="form-control" v-model="group" aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-lg" placeholder="e.j Diurno">
+                    </div>
+                    <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg ms-4"
+                        @click="handleSumit">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
+                    <button v-else type="button" class="d-inline-flex btn btn-success btn-lg ms-4"
+                        @click="postGroups">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
+                    <button v-if="editing" type="button" class="d-inline-flex btn btn-danger btn-lg ms-3"
+                        @click="clearInput">Cancelar <i class="material-icons m-auto ms-1">cancel</i></button>
                 </div>
-                <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg ms-4" @click="handleSumit">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
-                <button v-else type="button" class="d-inline-flex btn btn-success btn-lg ms-4" @click="postGroups">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
-                <button v-if="editing" type="button" class="d-inline-flex btn btn-danger btn-lg ms-3" @click="clearInput">Cancelar <i class="material-icons m-auto ms-1">cancel</i></button>
-            </div>
             </form>
         </section>
-        <hr class="separator"/>
+        <hr class="separator" />
         <section class="p-3">
             <DataTable
             title="Listado de grupos"
@@ -134,11 +139,11 @@ import DataTable from '../../components/DataTable.vue';
                 </template>
             </DataTable>
         </section>
-    </main>    
+    </main>
 </template>
 
 <style scoped>
-    .load {
-        border-radius: 15px !important;
-    }
+.load {
+    border-radius: 15px !important;
+}
 </style>

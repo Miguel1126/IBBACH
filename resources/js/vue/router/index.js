@@ -24,7 +24,6 @@ import Groups from '../views/admin/Groups.vue'
 import Subjects from '../views/admin/Subjects.vue'
 import Cycles from '../views/admin/Cycles.vue'
 import Schedules from '../views/admin/Schedules.vue'
-import LoadsReport from '../views/admin/reports/LoadsReport.vue'
 
 /**
  * Components for secretary view
@@ -52,12 +51,17 @@ import Inscriptions from '../views/student/Inscriptions.vue'
  * Components for login
  */
 import Login from '../components/Login.vue'
- import Register from '../views/secretary/Register.vue'
+import Register from '../views/secretary/Register.vue'
 
- /**
-  * Administrator's reports
-  */
- import TeachersReport from '../views/admin/reports/TeachersReport.vue'
+/**
+ * Administrator's reports
+ */
+import TeachersReport from '../views/admin/reports/TeachersReport.vue'
+import LoadsReport from '../views/admin/reports/LoadsReport.vue'
+import SubjectsReport from '../views/admin/reports/SubjectsReport.vue'
+import CyclesReport from '../views/admin/reports/CyclesReport.vue'
+import ApplicantsReport from '../views/admin/reports/ApplicantsReport.vue'
+import NotesReport from '../views/admin/reports/NotesReport.vue'
 
 
 export const router = createRouter({
@@ -103,7 +107,12 @@ export const router = createRouter({
           component: Schedules
         },
         {
-          path: 'reporte-cargas',
+          path: 'reporte_aplicantes',
+          name: 'ApplicantsReport',
+          component: ApplicantsReport
+        },
+        {
+          path: 'reporte_cargas',
           name: 'LoadsReport',
           component: LoadsReport
         },
@@ -111,6 +120,21 @@ export const router = createRouter({
           path: 'reporte_docentes',
           name: 'TeachersReport',
           component: TeachersReport
+        },
+        {
+          path: 'reporte_asignaturas',
+          name: 'SubjectsReport',
+          component: SubjectsReport
+        },
+        {
+          path: 'reporte_ciclos',
+          name: 'CyclesReport',
+          component: CyclesReport
+        },
+        {
+          path: 'reporte_notas',
+          name: 'NotesReport',
+          component: NotesReport
         }
       ]
     },
