@@ -70,6 +70,8 @@ class NoteController extends Controller
                 ->join('users', 'inscriptions.user_id', '=', 'users.id')
                 ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
                 ->join('subjects', 'Loads.subject_id', '=', 'subjects.id')
+                ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
+                ->join('groups', 'cycles.group_id', '=', 'groups.id')
                 ->select(
                     'notes.id',
                     'notes.ev1',
@@ -87,7 +89,9 @@ class NoteController extends Controller
                     'users.name',
                     'users.last_name',
                     'users.code',
-                    'subjects.subject'
+                    'subjects.subject',
+                    'groups.group',
+                    'cycles.cycle'
                 )
                 ->orderBy('notes.id', 'asc')
                 ->get();
