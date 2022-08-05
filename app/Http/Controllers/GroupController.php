@@ -56,7 +56,8 @@ class GroupController extends Controller
     public function show()
     {
         try {
-            $group = Group::orderBy('id','asc')->get();
+            $group = Group::select('groups.id','groups.group')
+            ->orderBy('id','asc')->get();
             return $group;
         }
         catch (\Exception $e) {
