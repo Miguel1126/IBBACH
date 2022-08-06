@@ -31,3 +31,6 @@ body {
 	position: relative;
 	z-index: 99;
 }
+.table-container {
+    overflow-x: scroll;
+}
