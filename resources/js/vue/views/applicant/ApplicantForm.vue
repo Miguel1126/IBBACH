@@ -42,7 +42,7 @@ export default {
             this.$refs.ecclesiasticalInfo.clearInputs()
             this.$refs.ministerialInfo.clearInputs()
         },
-        async sendForm() {
+        async submitForm() {
             const button = document.querySelector('#submit-btn')
             button.disabled = 'true'
             button.value = 'Enviando...'
@@ -99,7 +99,7 @@ export default {
                 enviarla.</h4>
         </div>
         <div class="m-5 rounded form-container">
-            <form @submit.prevent="sendForm" class="d-block p-5" action="">
+            <form @submit.prevent="submitForm" class="d-block p-5" action="">
                 <PersonalInformation ref="personalInfo" @personalInfo="getPersonalInformation($event)" />
                 <EcclesiasticalInformation ref="ecclesiasticalInfo"
                     @ecclesiasticalInfo="getEcclesiasticalInfo($event)" />
