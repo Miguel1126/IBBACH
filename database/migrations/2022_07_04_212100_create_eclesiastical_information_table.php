@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('church_phone');
             $table->string('district',70);
             $table->string('pastor_name',30)->nullable();
-            $table->string('licence',20);
+            $table->string('licence',20)->nullable();
             $table->string('reference_name_one',30);
             $table->integer('reference_phone_one');
             $table->string('reference_name_two',30);
