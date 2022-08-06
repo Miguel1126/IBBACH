@@ -19,7 +19,9 @@ body {
     background: linear-gradient(90deg, rgba(26,46,73,1) 25%, rgba(70,58,140,1) 100%); 
     color: var(--light);
 }
-
+.table-color {
+    background-color: #eee;
+}
 .separator {
 	border: 1.5px solid;
 	color: rgb(197, 197, 197);
@@ -29,4 +31,3 @@ body {
 	position: relative;
 	z-index: 99;
 }
-
