@@ -63,6 +63,8 @@ Route::get('/getCiclos',[CycleController::class,'show']);
 
 Route::get('getDocentes', [UserController::class, 'getTeacher']);
 Route::get('students', [UserController::class, 'getStudent']);
+Route::get('getEstadoA', [UserController::class, 'getStudentA']);
+Route::get('getEstadoR', [UserController::class, 'getStudentR']);
 
 Route::resource('/notas', NoteController::class);
 Route::get('getNotas', [NoteController::class, 'show']);

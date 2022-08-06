@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Note;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -25,6 +26,48 @@ class UserController extends Controller
             ->where('users.role', '=', 'alumno')
             ->orderBy('id','asc')->get();
             return $student;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+    public function getStudentA() {
+        try {
+            $student = Note::join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')
+                ->join('users', 'inscriptions.user_id', '=', 'users.id')
+                ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+                ->join('subjects', 'Loads.subject_id', '=', 'subjects.id')
+                ->select('notes.id',
+                'users.name as student',
+                'users.last_name',
+                'users.code', 
+                'subjects.subject',
+                'notes.finalAverage',
+                'notes.status',)
+                ->where('notes.status', '=', 'Aprovado')
+                ->orderBy('id','asc')->get();
+                return $student;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+    public function getStudentR() {
+        try {
+            $student = Note::join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')
+                ->join('users', 'inscriptions.user_id', '=', 'users.id')
+                ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+                ->join('subjects', 'Loads.subject_id', '=', 'subjects.id')
+                ->select('notes.id',
+                'users.name as student',
+                'users.last_name',
+                'users.code', 
+                'subjects.subject',
+                'notes.finalAverage',
+                'notes.status',)
+                ->where('notes.status', '=', 'Reprobado')
+                ->orderBy('id','asc')->get();
+                return $student;
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);

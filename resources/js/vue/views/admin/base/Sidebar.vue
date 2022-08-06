@@ -51,6 +51,10 @@ const ToggleMenu = () => {
 			</Link>
 			<Link url="NotesReport" name="Notas" icon="note_alt">
 			</Link>
+			<Link url="AssistancesReport" name="Asistencias" icon="view_cozy">
+			</Link>
+			<Link url="NoteStatusReport" name="Estado" icon="groups">
+			</Link>
 		</div>
 	</aside>
 </template>
