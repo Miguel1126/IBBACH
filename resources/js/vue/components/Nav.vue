@@ -10,10 +10,10 @@ export default {
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Login</a>
+                        <router-link class="nav-link" to="/login">Iniciar Sesión</router-link>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Sing up</a>
+                        <router-link class="nav-link" to="/secretaria/register">Registrar</router-link>
                     </li>
                 </ul>
             </div>

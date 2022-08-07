@@ -148,7 +148,7 @@ export const router = createRouter({
           component: Payments
         },
         {
-          path:'/register',
+          path:'register',
           name: 'Register',
           component: Register
         },
