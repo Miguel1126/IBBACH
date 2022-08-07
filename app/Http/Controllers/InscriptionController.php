@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Inscription;
+use App\Models\Load;
 
 class InscriptionController extends Controller
 {
@@ -81,7 +82,29 @@ class InscriptionController extends Controller
             return response()->json(["message" => $e->getMessage()],500);
         }
     }
-
+    public function getLoad()
+    {
+        try {
+            $loads = Load::join('users', 'loads.user_id', '=', 'users.id')
+            ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
+            ->join('subjects', 'loads.subject_id', '=', 'subjects.id')
+            ->join('schedules', 'loads.schedule_id', '=', 'schedules.id')
+            ->join('groups', 'cycles.group_id', '=', 'groups.id')
+            ->select(
+                'loads.id',
+                'cycles.cycle',
+                'groups.group',
+                'subjects.subject',
+                'subjects.description'
+            )
+            ->orderBy('group', 'asc')
+            ->get();
+            return $loads;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      *
