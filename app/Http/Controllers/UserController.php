@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Note;
+use App\Models\Inscription;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -68,6 +69,54 @@ class UserController extends Controller
                 ->where('notes.status', '=', 'Reprobado')
                 ->orderBy('id','asc')->get();
                 return $student;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+
+    //get student for group
+    public function getGroupD(){
+        try {
+            $inscriptions = Inscription::join('users', 'inscriptions.user_id', '=', 'users.id')
+            ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+            ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
+            ->join('groups', 'cycles.group_id', '=', 'groups.id')
+            ->select(
+                'inscriptions.id',
+                'inscriptions.registration_date',
+                'users.name',
+                'users.last_name',
+                'users.code',
+                'groups.group'
+            )
+            ->where('groups.group', '=', 'Diurno')
+            ->orderBy('id', 'asc')
+            ->get();
+            return $inscriptions;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+    public function getGroupS(){
+        try {
+            $inscriptions = Inscription::join('users', 'inscriptions.user_id', '=', 'users.id')
+            ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+            ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
+            ->join('groups', 'cycles.group_id', '=', 'groups.id')
+            ->select(
+                'inscriptions.id',
+                'inscriptions.registration_date',
+                'users.name',
+                'users.last_name',
+                'users.code',
+                'groups.group'
+            )
+            ->where('groups.group', '=', 'Sabatino')
+            ->orderBy('id', 'asc')
+            ->get();
+            return $inscriptions;
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
