@@ -29,7 +29,7 @@ use App\Http\Controllers\NoteController;
 */
 
 Route::resource('/aplicante', ApplicantController::class);
-Route::get('getAplicante', [ApplicantController::class, 'show']);
+Route::get('/getAplicante', [ApplicantController::class, 'show']);
 
 Route::resource('/grupos', GroupController::class);
 Route::get('/getGrupos', [GroupController::class, 'show']);
@@ -39,6 +39,7 @@ Route::get('/getAsignaturas', [SubjectController::class, 'show']);
 
 Route::resource('/inscripciones', InscriptionController::class);
 Route::get('/getInscripciones', [InscriptionController::class, 'show']); 
+Route::get('/getCargas', [InscriptionController::class, 'getLoad']);
 
 Route::resource('/horarios', ScheduleController::class);
 Route::get('/getHorarios', [ScheduleController::class, 'show']); 
@@ -55,19 +56,21 @@ Route::get('/pagos/get', [PaymentController::class, 'show']);
 Route::post('/cargas/save',[LoadController::class,'store']);
 Route::get('/cargas/all',[LoadController::class,'show']);
 
-Route::post('login', [AuthController::class,'login']);
-Route::post('register', [RegisterController::class,'register']);
+Route::post('/login', [AuthController::class,'login']);
+Route::post('/register', [RegisterController::class,'register']);
 
 Route::resource('/ciclos', CycleController::class);
 Route::get('/getCiclos',[CycleController::class,'show']);
 
-Route::get('getDocentes', [UserController::class, 'getTeacher']);
-Route::get('students', [UserController::class, 'getStudent']);
-Route::get('getEstadoA', [UserController::class, 'getStudentA']);
-Route::get('getEstadoR', [UserController::class, 'getStudentR']);
+Route::get('/getDocentes', [UserController::class, 'getTeacher']);
+Route::get('/students', [UserController::class, 'getStudent']);
+Route::get('/getEstadoA', [UserController::class, 'getStudentA']);
+Route::get('/getEstadoR', [UserController::class, 'getStudentR']);
+Route::get('/getGrupoD', [UserController::class, 'getGroupD']);
+Route::get('/getGrupoS', [UserController::class, 'getGroupS']);
 
 Route::resource('/notas', NoteController::class);
-Route::get('getNotas', [NoteController::class, 'show']);
+Route::get('/getNotas', [NoteController::class, 'show']);
 
 Route::any('{path}', function() {
     return response()->json([
