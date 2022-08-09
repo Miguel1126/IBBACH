@@ -65,6 +65,7 @@ import NotesReport from '../views/admin/reports/NotesReport.vue'
 import AssistancesReport from '../views/admin/reports/AssistancesReport.vue'
 import NoteStatusReport from '../views/admin/reports/NoteStatusReport.vue' 
 import UsersGroupReport from '../views/admin/reports/UsersGroupReport.vue' 
+import InscriptionsReport from '../views/admin/reports/InscriptionsReport.vue'
 
 
 export const router = createRouter({
@@ -153,6 +154,11 @@ export const router = createRouter({
           path: 'reporte_Usuario_Grupo',
           name: 'UsersGroupReport',
           component: UsersGroupReport
+        },
+        {
+          path: 'reporte_inscripciones',
+          name: 'InscriptionsReport',
+          component: InscriptionsReport
         }
       ]
     },
