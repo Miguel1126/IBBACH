@@ -40,6 +40,8 @@ Route::get('/getAsignaturas', [SubjectController::class, 'show']);
 Route::resource('/inscripciones', InscriptionController::class);
 Route::get('/getInscripciones', [InscriptionController::class, 'show']); 
 Route::get('/getCargas', [InscriptionController::class, 'getLoad']);
+Route::get('/getInscrip', [InscriptionController::class, 'getInscriptionsD']);
+Route::get('/getInscript', [InscriptionController::class, 'getInscriptionS']);
 
 Route::resource('/horarios', ScheduleController::class);
 Route::get('/getHorarios', [ScheduleController::class, 'show']); 

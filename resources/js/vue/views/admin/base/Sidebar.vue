@@ -57,6 +57,8 @@ const ToggleMenu = () => {
 			</Link>
 			<Link url="UsersGroupReport" name="UsuarioGrupo" icon="report">
 			</Link>
+			<Link url="InscriptionsReport" name="Inscripciones" icon="report">
+			</Link>
 		</div>
 	</aside>
 </template>

@@ -62,7 +62,7 @@ class InscriptionController extends Controller
         try {
             $inscriptions = Inscription::join('users', 'inscriptions.user_id', '=', 'users.id')
             ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
-            ->join('subjects', 'loads.subject_id', 'subjects.id')
+            ->join('subjects', 'loads.subject_id', '=','subjects.id')
             ->select(
                 'inscriptions.id',
                 'inscriptions.registration_date',
@@ -74,6 +74,66 @@ class InscriptionController extends Controller
                 'subjects.description'
             )
             ->where('inscriptions.status', '=', 'inscrito')
+            ->orderBy('id', 'asc')
+            ->get();
+            return $inscriptions;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+    public function getInscriptionsD()
+    {
+        try {
+            $inscriptions = Inscription::join('users', 'inscriptions.user_id', '=', 'users.id')
+            ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+            ->join('subjects', 'loads.subject_id', '=','subjects.id')
+            ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
+            ->join('groups', 'cycles.group_id', '=', 'groups.id')
+            ->select(
+                'inscriptions.id',
+                'inscriptions.registration_date',
+                'inscriptions.status',
+                'cycles.cycle',
+                'groups.group',
+                'users.name',
+                'users.last_name',
+                'users.code',
+                'subjects.subject',
+                'subjects.description'
+            )
+            ->where('inscriptions.status', '=', 'inscrito')
+            ->where('groups.group', '=', 'Diurno')
+            ->orderBy('id', 'asc')
+            ->get();
+            return $inscriptions;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+    public function getInscriptionS()
+    {
+        try {
+            $inscriptions = Inscription::join('users', 'inscriptions.user_id', '=', 'users.id')
+            ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+            ->join('subjects', 'loads.subject_id', '=','subjects.id')
+            ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
+            ->join('groups', 'cycles.group_id', '=', 'groups.id')
+            ->select(
+                'inscriptions.id',
+                'inscriptions.registration_date',
+                'inscriptions.status',
+                'cycles.cycle',
+                'groups.group',
+                'users.name',
+                'users.last_name',
+                'users.code',
+                'subjects.subject',
+                'subjects.description'
+            )
+            ->where('inscriptions.status', '=', 'inscrito')
+            ->where('groups.group', '=', 'Sabatino')
             ->orderBy('id', 'asc')
             ->get();
             return $inscriptions;
