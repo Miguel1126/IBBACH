@@ -36,17 +36,23 @@ class AssistanceController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $assistance = new Assistance();
-            $assistance->date = $request->date;
-            $assistance->status = $request->status;
-            $assistance->note_id = $request->note_id;
-            if ($assistance->save()>=1) {
-                return response()->json(['status'=>'OK','data'=>$assistance],201);
+        $userRole = auth()->user()->role;
+        if ($userRole === 'docente') {
+            try {
+                $assistance = new Assistance();
+                $assistance->date = $request->date;
+                $assistance->status = $request->status;
+                $assistance->note_id = $request->note_id;
+                if ($assistance->save()>=1) {
+                    return response()->json(['status'=>'OK','data'=>$assistance],201);
+                }
             }
+            catch (\Exception $e) {
+                return response()->json(["message" => $e->getMessage()],500);
+            }   
         }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+	    else {
+            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
         }
     }
 
@@ -58,29 +64,34 @@ class AssistanceController extends Controller
      */
     public function show()
     {
-        try {
-            $assistance = Assistance::join('notes', 'assistances.note_id', '=', 'notes.id')
-            ->join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')
-            ->join('users', 'inscriptions.user_id', '=', 'users.id')
-            ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
-            ->join('subjects', 'loads.subject_id', '=', 'subjects.id')
-            ->select(
-                'assistances.id', 
-                'assistances.date', 
-                'subjects.subject',
-                'assistances.status', 
-                'users.name',
-                'users.last_name',
-                'users.code'
-            )
-            ->orderBy('id', 'asc')
-            ->get();
-            return $assistance;
+        $userRole = auth()->user()->role;
+        if ($userRole === 'docente') {
+            try {
+                $assistance = Assistance::join('notes', 'assistances.note_id', '=', 'notes.id')
+                ->join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')
+                ->join('users', 'inscriptions.user_id', '=', 'users.id')
+                ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+                ->join('subjects', 'loads.subject_id', '=', 'subjects.id')
+                ->select(
+                    'assistances.id', 
+                    'assistances.date', 
+                    'subjects.subject',
+                    'assistances.status', 
+                    'users.name',
+                    'users.last_name',
+                    'users.code'
+                )
+                ->orderBy('id', 'asc')
+                ->get();
+                return $assistance;
+            }
+            catch (\Exception $e) {
+                return response()->json(["message" => $e->getMessage()],500);
+            }   
         }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+	    else {
+            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
         }
-  
     }
 
     /**

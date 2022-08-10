@@ -35,18 +35,24 @@ class InscriptionController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $inscription = new Inscription();
-            $inscription->registration_date = $request->registration_date;
-            $inscription->status = $request->status;
-            $inscription-> user_id = $request-> user_id;
-            $inscription-> load_id = $request-> load_id;
-            if ($inscription->save()>=1) {
-                return response()->json(['status'=>'OK','data'=>$inscription],201);
+        $userRole = auth()->user()->role;
+        if ($userRole === 'docente') {
+            try {
+                $inscription = new Inscription();
+                $inscription->registration_date = $request->registration_date;
+                $inscription->status = $request->status;
+                $inscription-> user_id = $request-> user_id;
+                $inscription-> load_id = $request-> load_id;
+                if ($inscription->save()>=1) {
+                    return response()->json(['status'=>'OK','data'=>$inscription],201);
+                }
             }
+            catch (\Exception $e) {
+                return response()->json(["message" => $e->getMessage()],500);
+            }   
         }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+	    else {
+            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
         }
     }
 
@@ -58,27 +64,33 @@ class InscriptionController extends Controller
      */
     public function show()
     {
-        try {
-            $inscriptions = Inscription::join('users', 'inscriptions.user_id', '=', 'users.id')
-            ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
-            ->join('subjects', 'loads.subject_id', 'subjects.id')
-            ->select(
-                'inscriptions.id',
-                'inscriptions.registration_date',
-                'inscriptions.status',
-                'users.name',
-                'users.last_name',
-                'users.code',
-                'subjects.subject',
-                'subjects.description'
-            )
-            ->where('inscriptions.status', '=', 'inscrito')
-            ->orderBy('id', 'asc')
-            ->get();
-            return $inscriptions;
+        $userRole = auth()->user()->role;
+        if ($userRole === 'docente') {
+            try {
+                $inscriptions = Inscription::join('users', 'inscriptions.user_id', '=', 'users.id')
+                ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+                ->join('subjects', 'loads.subject_id', 'subjects.id')
+                ->select(
+                    'inscriptions.id',
+                    'inscriptions.registration_date',
+                    'inscriptions.status',
+                    'users.name',
+                    'users.last_name',
+                    'users.code',
+                    'subjects.subject',
+                    'subjects.description'
+                )
+                ->where('inscriptions.status', '=', 'inscrito')
+                ->orderBy('id', 'asc')
+                ->get();
+                return $inscriptions;
+            }
+            catch (\Exception $e) {
+                return response()->json(["message" => $e->getMessage()],500);
+            }   
         }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+	    else {
+            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
         }
     }
 

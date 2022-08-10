@@ -36,16 +36,22 @@ class RateController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $rate = new Rate();
-            $rate->price = $request->price;
-            $rate->tuition = $request->tuition;
-            if ($rate->save()>=1) {
-                return response()->json(['status'=>'OK','data'=>$rate],201);
+        $userRole = auth()->user()->role;
+        if ($userRole === 'secretaria') {
+            try {
+                $rate = new Rate();
+                $rate->price = $request->price;
+                $rate->tuition = $request->tuition;
+                if ($rate->save()>=1) {
+                    return response()->json(['status'=>'OK','data'=>$rate],201);
+                }
             }
+            catch (\Exception $e) {
+                return response()->json(["message" => $e->getMessage()],500);
+            }   
         }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+	   else {
+            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
         }
     }
 
@@ -57,13 +63,19 @@ class RateController extends Controller
      */
     public function show()
     {
-        try {
-            $rate = Rate::orderBy('id', 'asc')->get();
-            return $rate;
+        $userRole = auth()->user()->role;
+        if ($userRole === 'secretaria') {
+            try {
+                $rate = Rate::orderBy('id', 'asc')->get();
+                return $rate;
+            }
+            catch (\Exception $e) {
+                return response()->json(["message" => $e->getMessage()],500);
+            }
         }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
-        }
+	    else {
+            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
+        }   
     }
 
     /**
