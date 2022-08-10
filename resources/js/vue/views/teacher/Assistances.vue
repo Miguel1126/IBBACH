@@ -64,7 +64,7 @@ export default {
         },
         async getAssistances() {
             try {
-                const response = await this.axios.get('/api/getAsistencias')
+                const response = await this.axios.get('/api/getAsistencia')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.assistances = response.data
@@ -81,7 +81,7 @@ export default {
         },
         async getNotes() {
             try {
-                const response = await this.axios.get('/api/getNotas')
+                const response = await this.axios.get('/api/getNota')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.notes = response.data
