@@ -62,6 +62,11 @@ import SubjectsReport from '../views/admin/reports/SubjectsReport.vue'
 import CyclesReport from '../views/admin/reports/CyclesReport.vue'
 import ApplicantsReport from '../views/admin/reports/ApplicantsReport.vue'
 import NotesReport from '../views/admin/reports/NotesReport.vue'
+import AssistancesReport from '../views/admin/reports/AssistancesReport.vue'
+import NoteStatusReport from '../views/admin/reports/NoteStatusReport.vue' 
+import UsersGroupReport from '../views/admin/reports/UsersGroupReport.vue' 
+import InscriptionsReport from '../views/admin/reports/InscriptionsReport.vue'
+import UsersReport from '../views/admin/reports/UsersReport.vue'
 
 
 export const router = createRouter({
@@ -140,6 +145,31 @@ export const router = createRouter({
           path: 'reporte_notas',
           name: 'NotesReport',
           component: NotesReport
+        },
+        {
+          path: 'reporte_asistencias',
+          name: 'AssistancesReport',
+          component: AssistancesReport
+        },
+        {
+          path: 'reporte_estado',
+          name: 'NoteStatusReport',
+          component: NoteStatusReport
+        },
+        {
+          path: 'reporte_Usuario_Grupo',
+          name: 'UsersGroupReport',
+          component: UsersGroupReport
+        },
+        {
+          path: 'reporte_inscripciones',
+          name: 'InscriptionsReport',
+          component: InscriptionsReport
+        },
+        {
+          path: 'reporte_usuarios',
+          name: 'UsersReport',
+          component: UsersReport
         }
       ]
     },
