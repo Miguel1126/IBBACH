@@ -60,7 +60,7 @@ export default {
         },
         async getPayments() {
             try {
-                const response = await this.axios.get('/api/pagos/get')
+                const response = await this.axios.get('/api/getPagos')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.payments = response.data
@@ -72,8 +72,8 @@ export default {
                     }
                 }
             }
-            catch {
-                (error) => console.error(error)
+            catch(error) {
+                console.log(error)
             }
         },
         async getStudents() {
@@ -89,13 +89,13 @@ export default {
                     }
                 }
             }
-            catch {
-                (error) => console.error(error)
+            catch(error) {
+                console.log(error)
             }
         },
         async getRates() {
             try {
-                const response = await this.axios.get('/api/tarifas/get')
+                const response = await this.axios.get('/api/getTarifas')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.rates = response.data

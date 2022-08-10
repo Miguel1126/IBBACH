@@ -31,7 +31,7 @@ export default {
         async getLoads() {
             try {
                 this.loads[0] = 'loading'
-                const response = await this.axios.get('/api/cargas/all')
+                const response = await this.axios.get('/api/getCargas')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.loads = response.data
@@ -43,11 +43,12 @@ export default {
             }
             catch (error) {
                 console.error(error);
+                this.loads[0] = 'error'
             }
         },
         async getCycles() {
             try {
-                const response = await this.axios.get('/api/ciclos/get')
+                const response = await this.axios.get('/api/getCiclos')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.cycles = response.data
@@ -63,7 +64,7 @@ export default {
         },
         async getSubjects() {
             try {
-                const response = await this.axios.get('/api/asignaturas/get')
+                const response = await this.axios.get('/api/getAsignaturas')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.subjects = response.data
@@ -95,7 +96,7 @@ export default {
         },
         async getSchedules() {
             try {
-                const response = await this.axios.get('/api/horarios/get')
+                const response = await this.axios.get('/api/getHorarios')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.schedules = response.data
@@ -144,7 +145,7 @@ export default {
             if (this.validateDropdowns()) {
                 button.innerText = 'Cargando...'
                 try {
-                    const response = await this.axios.post('/api/cargas/save',
+                    const response = await this.axios.post('/api/saveCarga',
                         {
                             status: 'D',
                             user_id: this.teaSelected[0].id,
@@ -177,6 +178,7 @@ export default {
                 button.disabled = ''
             }
             else {
+                button.disabled = ''
                 const Toast = this.$swal.mixin({
                     toast: true,
                     position: 'top',
@@ -338,54 +340,5 @@ export default {
 <style scoped>
 .list-click {
     cursor: pointer;
-}
-
-/**loader styles */
-.waveform {
-    --uib-size: 40px;
-    --uib-speed: 1s;
-    --uib-color: black;
-    --uib-line-weight: 3.5px;
-
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: space-between;
-    width: var(--uib-size);
-    height: calc(var(--uib-size) * 0.9);
-}
-
-.waveform__bar {
-    width: var(--uib-line-weight);
-    height: 100%;
-    background-color: var(--uib-color);
-}
-
-.waveform__bar:nth-child(1) {
-    animation: grow var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.45) infinite;
-}
-
-.waveform__bar:nth-child(2) {
-    animation: grow var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.3) infinite;
-}
-
-.waveform__bar:nth-child(3) {
-    animation: grow var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.15) infinite;
-}
-
-.waveform__bar:nth-child(4) {
-    animation: grow var(--uib-speed) ease-in-out infinite;
-}
-
-@keyframes grow {
-
-    0%,
-    100% {
-        transform: scaleY(0.3);
-    }
-
-    50% {
-        transform: scaleY(1);
-    }
 }
 </style>
