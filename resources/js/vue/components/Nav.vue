@@ -1,6 +1,32 @@
 <script>
 export default {
-    name: 'Nav'
+    mounted() {
+        this.showUserLogged()
+    },
+    data() {
+        return {
+            user : 'null'
+        }
+    },
+    methods: {
+        showUserLogged() {
+            if (localStorage.getItem('auth')) {
+                this.user = 'Admin'
+            }
+    
+            if (localStorage.getItem('access')) {
+                this.user = 'Secretaria'
+            }
+
+            if (localStorage.getItem('permission')) {
+                this.user = 'Docente'
+            }
+
+            if (localStorage.getItem('token')) {
+                this.user = 'Alumno'
+            }
+        }
+    }
 }
 </script>
 
@@ -15,6 +41,9 @@ export default {
                     <li class="nav-item">
                         <router-link class="nav-link" to="/secretaria/register">Registrar</router-link>
                     </li>
+                    <div class="position-absolute top-0 end-0 m-3">
+                        <p class="fs-4">Has iniciado sesión como: {{ user }}</p>
+                    </div>
                 </ul>
             </div>
         </div>

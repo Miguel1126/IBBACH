@@ -36,17 +36,23 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $schedule = new Schedule();
-            $schedule->start_time = $request->start_time;
-            $schedule->end_time = $request->end_time;
-            $schedule->status = $request->status;
-            if ($schedule->save()>=1) {
-                return response()->json(['status'=>'OK','data'=>$schedule],201);
+        $userRole = auth()->user()->role;
+        if ($userRole === 'admin') {
+            try {
+                $schedule = new Schedule();
+                $schedule->start_time = $request->start_time;
+                $schedule->end_time = $request->end_time;
+                $schedule->status = $request->status;
+                if ($schedule->save()>=1) {
+                    return response()->json(['status'=>'OK','data'=>$schedule],201);
+                }
+            }
+            catch (\Exception $e) {
+                return response()->json(["message" => $e->getMessage()],500);
             }
         }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+        else {
+            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
         }
     }
 
@@ -58,13 +64,19 @@ class ScheduleController extends Controller
      */
     public function show()
     {
-        try {
-            $schedule = Schedule::select('schedules.id','schedules.start_time','schedules.end_time','schedules.status')
-            ->orderBy('id','asc')->get();
-            return $schedule;
+        $userRole = auth()->user()->role;
+        if ($userRole === 'admin') {
+            try {
+                $schedule = Schedule::select('schedules.id','schedules.start_time','schedules.end_time','schedules.status')
+                ->orderBy('id','asc')->get();
+                return $schedule;
+            }
+            catch (\Exception $e) {
+                return response()->json(["message" => $e->getMessage()],500);
+            }
         }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+        else {
+            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
         }
     }
 

@@ -36,19 +36,25 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $payment = new Payment();
-            $payment->payment_date = $request->payment_date;
-            $payment->last_pay_date = $request->last_pay_date;
-            $payment->sourcharge = $request->sourcharge;
-            $payment->rate_id = $request->rate_id;
-            $payment->user_id = $request->user_id;
-            if ($payment->save()>=1) {
-                return response()->json(['status'=>'OK','data'=>$payment],201);
+        $userRole = auth()->user()->role;
+        if ($userRole === 'secretaria') {
+            try {
+                $payment = new Payment();
+                $payment->payment_date = $request->payment_date;
+                $payment->last_pay_date = $request->last_pay_date;
+                $payment->sourcharge = $request->sourcharge;
+                $payment->rate_id = $request->rate_id;
+                $payment->user_id = $request->user_id;
+                if ($payment->save()>=1) {
+                    return response()->json(['status'=>'OK','data'=>$payment],201);
+                }
             }
+            catch (\Exception $e) {
+                return response()->json(["message" => $e->getMessage()],500);
+            }   
         }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+	    else {
+            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
         }
     }
 
@@ -60,23 +66,29 @@ class PaymentController extends Controller
      */
     public function show()
     {
-        try {
-            $rates = Payment::join('users', 'payments.user_id', '=', 'users.id')
-            ->join('rates', 'payments.rate_id', '=', 'rates.id')
-            ->select(
-                'payments.id',
-                'payments.payment_date',
-                'payments.last_pay_date',
-                'payments.sourcharge',
-                'users.name as student',
-                'rates.price'
-            )
-            ->orderBy('id', 'asc')
-            ->get();
-            return $rates;
+        $userRole = auth()->user()->role;
+        if ($userRole === 'secretaria') {
+            try {
+                $rates = Payment::join('users', 'payments.user_id', '=', 'users.id')
+                ->join('rates', 'payments.rate_id', '=', 'rates.id')
+                ->select(
+                    'payments.id',
+                    'payments.payment_date',
+                    'payments.last_pay_date',
+                    'payments.sourcharge',
+                    'users.name as student',
+                    'rates.price'
+                )
+                ->orderBy('id', 'asc')
+                ->get();
+                return $rates;
+            }
+            catch (\Exception $e) {
+                return response()->json(["message" => $e->getMessage()],500);
+            }
         }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+	    else {
+            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
         }
     }
 

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 class Applicant extends Model
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens;
 
     public function personalInformation() {
         return $this->belongsTo(PersonalInformation::class,'personal_information_id');

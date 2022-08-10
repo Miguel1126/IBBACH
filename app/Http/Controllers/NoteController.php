@@ -35,26 +35,32 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $notes = new Note();
-            $notes->ev1 = $request->ev1;
-            $notes->percentege1 = $request->percentege1;
-            $notes->ev2 = $request->ev2;
-            $notes->percentege2 = $request->percentege2;
-            $notes->ev3 = $request->ev3;
-            $notes->percentege3 = $request->percentege3;
-            $notes->ev4 = $request->ev4;
-            $notes->percentege4 = $request->percentege4;
-            $notes->ev5 = $request->ev5;
-            $notes->percentege5 = $request->percentege5;
-            $notes->finalAverage = $request->finalAverage;
-            $notes->status = $request->status;
-            $notes->inscription_id = $request->inscription_id;
-            if ($notes->save() >= 1) {
-                return response()->json(['status' => 'ok', 'data' => $notes], 201);
-            }
-        } catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+        $userRole = auth()->user()->role;
+        if ($userRole === 'docente') {
+            try {
+                $notes = new Note();
+                $notes->ev1 = $request->ev1;
+                $notes->percentege1 = $request->percentege1;
+                $notes->ev2 = $request->ev2;
+                $notes->percentege2 = $request->percentege2;
+                $notes->ev3 = $request->ev3;
+                $notes->percentege3 = $request->percentege3;
+                $notes->ev4 = $request->ev4;
+                $notes->percentege4 = $request->percentege4;
+                $notes->ev5 = $request->ev5;
+                $notes->percentege5 = $request->percentege5;
+                $notes->finalAverage = $request->finalAverage;
+                $notes->status = $request->status;
+                $notes->inscription_id = $request->inscription_id;
+                if ($notes->save() >= 1) {
+                    return response()->json(['status' => 'ok', 'data' => $notes], 201);
+                }
+            } catch (\Exception $e) {
+                return response()->json(["message" => $e->getMessage()],500);
+            }   
+        }
+	    else {
+            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
         }
     }
     /**
@@ -65,39 +71,45 @@ class NoteController extends Controller
      */
     public function show()
     {
-        try {
-            $notes = Note::join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')
-                ->join('users', 'inscriptions.user_id', '=', 'users.id')
-                ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
-                ->join('subjects', 'Loads.subject_id', '=', 'subjects.id')
-                ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
-                ->join('groups', 'cycles.group_id', '=', 'groups.id')
-                ->select(
-                    'notes.id',
-                    'notes.ev1',
-                    'notes.percentege1',
-                    'notes.ev2',
-                    'notes.percentege2',
-                    'notes.ev3',
-                    'notes.percentege3',
-                    'notes.ev4',
-                    'notes.percentege4',
-                    'notes.ev5',
-                    'notes.percentege5',
-                    'notes.finalAverage',
-                    'notes.status',
-                    'users.name',
-                    'users.last_name',
-                    'users.code',
-                    'subjects.subject',
-                    'groups.group',
-                    'cycles.cycle'
-                )
-                ->orderBy('notes.id', 'asc')
-                ->get();
-            return $notes;
-        } catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+        $userRole = auth()->user()->role;
+        if ($userRole === 'docente' || $userRole === 'admin') {
+            try {
+                $notes = Note::join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')
+                    ->join('users', 'inscriptions.user_id', '=', 'users.id')
+                    ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+                    ->join('subjects', 'Loads.subject_id', '=', 'subjects.id')
+                    ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
+                    ->join('groups', 'cycles.group_id', '=', 'groups.id')
+                    ->select(
+                        'notes.id',
+                        'notes.ev1',
+                        'notes.percentege1',
+                        'notes.ev2',
+                        'notes.percentege2',
+                        'notes.ev3',
+                        'notes.percentege3',
+                        'notes.ev4',
+                        'notes.percentege4',
+                        'notes.ev5',
+                        'notes.percentege5',
+                        'notes.finalAverage',
+                        'notes.status',
+                        'users.name',
+                        'users.last_name',
+                        'users.code',
+                        'subjects.subject',
+                        'groups.group',
+                        'cycles.cycle'
+                    )
+                    ->orderBy('notes.id', 'asc')
+                    ->get();
+                return $notes;
+            } catch (\Exception $e) {
+                return response()->json(["message" => $e->getMessage()],500);
+            }
+        }
+	    else {
+            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
         }
     }
 

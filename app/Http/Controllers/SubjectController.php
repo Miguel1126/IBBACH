@@ -31,24 +31,24 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $subject = new Subject();
-            $subject->subject = $request->subject;
-            $subject->description = $request->description;
-            $subject->status = $request->status;
+        $userRole = auth()->user()->role;
+        if ($userRole === 'admin') {
+            try {
+                $subject = new Subject();
+                $subject->subject = $request->subject;
+                $subject->description = $request->description;
+                $subject->status = $request->status;
 
-            if ($subject->save()>=1) {
-                return response()->json(['status'=>'OK','data'=>$subject],201);
+                if ($subject->save()>=1) {
+                    return response()->json(['status'=>'OK','data'=>$subject],201);
+                }
             }
-
-            $subject->save();
-            
-            return response()->json([
-                'status'=>'OK','data'=>$subject],201);
-
+            catch (\Exception $e) {
+                return response()->json(["message" => $e->getMessage()],500);
+            }
         }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+        else {
+            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
         }
     }
 
@@ -60,15 +60,20 @@ class SubjectController extends Controller
      */
     public function show()
     {
-        try {
-            $subject = Subject::select('subjects.id','subjects.subject','subjects.description','subjects.status')
-            ->orderBy('id','asc')->get();
-            return $subject;
+        $userRole = auth()->user()->role;
+        if ($userRole === 'admin') {
+            try {
+                $subject = Subject::select('subjects.id','subjects.subject','subjects.description','subjects.status')
+                ->orderBy('id','asc')->get();
+                return $subject;
+            }
+            catch (\Exception $e) {
+                return response()->json(["message" => $e->getMessage()],500);
+            }
         }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+        else {
+            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
         }
-  
     }
 
     /**

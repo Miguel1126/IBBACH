@@ -22,7 +22,6 @@ import DataTable from '../../components/DataTable.vue';
                 const response = await this.axios.post("/api/grupos", {
                     group: this.group,
                 });
-                console.log(response);
                 if (response.status === 201) {
                     this.clearInput();
                     this.getGroups();
@@ -47,14 +46,22 @@ import DataTable from '../../components/DataTable.vue';
                 });
             }
         },
-        getGroups() {
-            this.axios.get("/api/grupos/show")
-                .then(response => {
-                this.groups = response.data;
-            })
-                .catch(error => {
-                console.error(error);
-            });
+        async getGroups() {
+            this.groups[0] = 'loading'
+            try {
+                const response = await this.axios.get("/api/getGrupos")
+                if (response.status === 200) {
+                    this.groups = response.data
+                }
+                else {
+                    console.log(response)
+                    this.groups[0] = 'error'
+                }
+            } 
+            catch (error) {
+                console.log(error)
+                this.groups[0] = 'error'
+            }
         },
         clearInput() {
             this.group = null;
