@@ -23,10 +23,58 @@ class UserController extends Controller
 
     public function getStudent() {
         try {
-            $student = User::select('users.id', 'users.name as student', 'last_name', 'code')
+            $student = User::select('users.id', 'users.name as student', 'users.last_name', 'users.code', 'users.status')
             ->where('users.role', '=', 'alumno')
             ->orderBy('id','asc')->get();
             return $student;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+
+    public function getteachers() {
+        try {
+            $teacher = User::select('users.id', 'users.name as admin', 'users.last_name', 'users.code', 'users.status', 'role')
+            ->where('users.role', '=', 'docente')
+            ->orderBy('id','asc')->get();
+            return $teacher;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+
+    public function getStudents() {
+        try {
+            $teacher = User::select('users.id', 'users.name as admin', 'users.last_name', 'users.code', 'users.status', 'role')
+            ->where('users.role', '=', 'alumno')
+            ->orderBy('id','asc')->get();
+            return $teacher;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+
+    public function getAdmin() {
+        try {
+            $teacher = User::select('users.id', 'users.name as admin', 'users.last_name', 'users.code', 'users.status', 'role')
+            ->where('users.role', '=', 'admin')
+            ->orderBy('id','asc')->get();
+            return $teacher;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+
+    public function getSecre() {
+        try {
+            $teacher = User::select('users.id', 'users.name as secretary', 'users.last_name', 'users.code', 'users.status', 'role')
+            ->where('users.role', '=', 'secretaria')
+            ->orderBy('id','asc')->get();
+            return $teacher;
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
