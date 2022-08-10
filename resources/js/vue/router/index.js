@@ -80,6 +80,11 @@ export const router = createRouter({
     {
       path: '/admin',
       component: Admin,
+      beforeEnter: async (to, from) => {
+        if (!localStorage.getItem('auth')) {
+          router.push('/login')
+        }
+      },
       children: [
         {
           path: 'cargas',
@@ -141,6 +146,11 @@ export const router = createRouter({
     {
       path: '/secretaria',
       component: Secretary,
+      beforeEnter: async (to, from) => {
+        if (!localStorage.getItem('access')) {
+          router.push('/login')
+        }
+      },
       children: [
         {
           path: 'pagos',
@@ -162,6 +172,11 @@ export const router = createRouter({
     {
       path: '/docente',
       component: Teacher,
+      beforeEnter: async (to, from) => {
+        if (!localStorage.getItem('permission')) {
+          router.push('/login')
+        }
+      },
       children: [
         {
           path: '',
@@ -183,6 +198,11 @@ export const router = createRouter({
     {
       path: '/alumno',
       component: Student,
+      beforeEnter: async (to, from) => {
+        if (!localStorage.getItem('token')) {
+          router.push('/login')
+        }
+      },
       children: [
         {
           path: '',
