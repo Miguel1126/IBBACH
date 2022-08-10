@@ -70,6 +70,10 @@ Route::get('/getEstadoA', [UserController::class, 'getStudentA']);
 Route::get('/getEstadoR', [UserController::class, 'getStudentR']);
 Route::get('/getGrupoD', [UserController::class, 'getGroupD']);
 Route::get('/getGrupoS', [UserController::class, 'getGroupS']);
+Route::get('/getAdmin' , [UserController::class, 'getAdmin']);
+Route::get('/getSecre' , [UserController::class, 'getSecre']);
+Route::get('/getteachers' , [UserController::class, 'getteachers']);
+Route::get('/getStudents' , [UserController::class, 'getStudents']);
 
 Route::resource('/notas', NoteController::class);
 Route::get('/getNotas', [NoteController::class, 'show']);
