@@ -31,29 +31,23 @@ class CycleController extends Controller
      */
     public function store(Request $request)
     {
-        $userRole = auth()->user()->role;
-        if ($userRole === 'admin') {
-            try{
-                $cycle = new Cycle();
-                if (Cycle::where('cycle', '=', $request->input('cycle'))->where('group_id', '=', $request->input('group_id'))->exists()) {
-                    return response()->json(["status" => 302,"message" => "El ciclo ya existe"],200);
-                }
-                else {
-                    $cycle->cycle = $request->cycle;
-                    $cycle->start_date = $request->start_date;
-                    $cycle->end_date = $request->end_date;
-                    $cycle->status = $request->status;
-                    $cycle->group_id = $request->group_id;
-                    if($cycle->save()>=1){
-                        return response()->json(['status'=>'ok','data'=>$cycle],201);
-                    }
-                }
-            }catch(\Exception $e){
-                return response()->json(["message" => $e->getMessage()],500);
+        try{
+            $cycle = new Cycle();
+            if (Cycle::where('cycle', '=', $request->input('cycle'))->where('group_id', '=', $request->input('group_id'))->exists()) {
+                return response()->json(["status" => 302,"message" => "El ciclo ya existe"],200);
             }
-        }
-        else {
-            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
+            else {
+                $cycle->cycle = $request->cycle;
+                $cycle->start_date = $request->start_date;
+                $cycle->end_date = $request->end_date;
+                $cycle->status = $request->status;
+                $cycle->group_id = $request->group_id;
+                if($cycle->save()>=1){
+                    return response()->json(['status'=>'ok','data'=>$cycle],201);
+                }
+            }
+        }catch(\Exception $e){
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
     /**
@@ -65,21 +59,15 @@ class CycleController extends Controller
 
     public function show()
     {
-        $userRole = auth()->user()->role;
-        if ($userRole === 'admin') {
-            try {
-                $cycle = Cycle::join('groups', 'cycles.group_id', '=', 'groups.id')
-                ->select('cycles.id', 'cycles.cycle', 'cycles.start_date', 'cycles.end_date', 'cycles.status', 'groups.group')
-                ->orderBy('id', 'asc')
-                ->get();
-                return $cycle;
-            }
-            catch (\Exception $e) {
-                return response()->json(["message" => $e->getMessage()],500);
-            }
+        try {
+            $cycle = Cycle::join('groups', 'cycles.group_id', '=', 'groups.id')
+            ->select('cycles.id', 'cycles.cycle', 'cycles.start_date', 'cycles.end_date', 'cycles.status', 'groups.group')
+            ->orderBy('id', 'asc')
+            ->get();
+            return $cycle;
         }
-        else {
-            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 

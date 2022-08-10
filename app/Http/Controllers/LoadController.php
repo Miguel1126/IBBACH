@@ -30,25 +30,19 @@ class LoadController extends Controller
      */
     public function store(Request $request)
     {
-        $userRole = auth()->user()->role;
-        if ($userRole === 'admin') {
-            try{
-                $load = new Load();
-                $load->status = $request->status;
-                $load->user_id = $request->user_id;
-                $load->cycle_id = $request->cycle_id;
-                $load->subject_id = $request->subject_id;
-                $load->schedule_id = $request->schedule_id;
-                if($load->save()>=1){
-                    return response()->json(['status'=>'ok','data'=>$load],201);
-                }
-                $load->save();
-            }catch(\Exception $e){
-                return response()->json(["message" => $e->getMessage()],500);
+        try{
+            $load = new Load();
+            $load->status = $request->status;
+            $load->user_id = $request->user_id;
+            $load->cycle_id = $request->cycle_id;
+            $load->subject_id = $request->subject_id;
+            $load->schedule_id = $request->schedule_id;
+            if($load->save()>=1){
+                return response()->json(['status'=>'ok','data'=>$load],201);
             }
-        }
-        else {
-            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
+            $load->save();
+        }catch(\Exception $e){
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 
@@ -60,32 +54,26 @@ class LoadController extends Controller
      */
     public function show()
     {
-        $userRole = auth()->user()->role;
-        if ($userRole === 'admin') {
-            try {
-                $loads = Load::join('users', 'loads.user_id', '=', 'users.id')
-                ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
-                ->join('subjects', 'loads.subject_id', '=', 'subjects.id')
-                ->join('schedules', 'loads.schedule_id', '=', 'schedules.id')
-                ->select(
-                    'loads.id',
-                    'cycles.cycle',
-                    'subjects.subject',
-                    'users.name as teacher',
-                    'users.last_name',
-                    'schedules.start_time',
-                    'schedules.end_time'
-                )
-                ->orderBy('id', 'asc')
-                ->get();
-                return $loads;
-            }
-            catch (\Exception $e) {
-                return response()->json(["message" => $e->getMessage()],500);
-            }
+        try {
+            $loads = Load::join('users', 'loads.user_id', '=', 'users.id')
+            ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
+            ->join('subjects', 'loads.subject_id', '=', 'subjects.id')
+            ->join('schedules', 'loads.schedule_id', '=', 'schedules.id')
+            ->select(
+                'loads.id',
+                'cycles.cycle',
+                'subjects.subject',
+                'users.name as teacher',
+                'users.last_name',
+                'schedules.start_time',
+                'schedules.end_time'
+            )
+            ->orderBy('id', 'asc')
+            ->get();
+            return $loads;
         }
-        else {
-            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 
