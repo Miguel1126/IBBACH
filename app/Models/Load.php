@@ -3,10 +3,11 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 class Load extends Model
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens;
 
     public function users(){
         return $this->hasMany(User::class,'id');
