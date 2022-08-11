@@ -29,7 +29,10 @@ use App\Http\Controllers\NoteController;
 */
 
 Route::resource('/aplicante', ApplicantController::class);
-Route::get('getAplicante', [ApplicantController::class, 'show']);
+Route::get('/getApplicant', [ApplicantController::class, 'show']);
+Route::get('/getPersonalInfo', [ApplicantController::class, 'getPersonalInfo']);
+Route::get('/getEcclesiasticalInfo', [ApplicantController::class, 'getEcclesiasticalInfo']);
+Route::get('/getMinisterialInfo', [ApplicantController::class, 'getMinisterialInfo']);
 
 Route::resource('/grupos', GroupController::class);
 Route::get('/getGrupos', [GroupController::class, 'show']);
