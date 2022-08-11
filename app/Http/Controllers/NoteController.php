@@ -74,6 +74,12 @@ class NoteController extends Controller
                 ->join('groups', 'cycles.group_id', '=', 'groups.id')
                 ->select(
                     'notes.id',
+                    'cycles.cycle',
+                    'subjects.subject',
+                    'users.name',
+                    'users.last_name',
+                    'users.code',
+                    'groups.group',
                     'notes.ev1',
                     'notes.percentege1',
                     'notes.ev2',
@@ -86,12 +92,6 @@ class NoteController extends Controller
                     'notes.percentege5',
                     'notes.finalAverage',
                     'notes.status',
-                    'users.name',
-                    'users.last_name',
-                    'users.code',
-                    'subjects.subject',
-                    'groups.group',
-                    'cycles.cycle'
                 )
                 ->orderBy('notes.id', 'asc')
                 ->get();
