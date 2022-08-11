@@ -35,21 +35,15 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        $userRole = auth()->user()->role;
-        if ($userRole === 'admin') {
-            try {
-                $group = new Group();
-                $group->group = $request->group;
-                if ($group->save()>=1) {
-                    return response()->json(['status'=>'OK','data'=>$group],201);
-                }
-            }
-            catch (\Exception $e) {
-                return response()->json(["message" => $e->getMessage()],500);
+        try {
+            $group = new Group();
+            $group->group = $request->group;
+            if ($group->save()>=1) {
+                return response()->json(['status'=>'OK','data'=>$group],201);
             }
         }
-        else {
-            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 
@@ -61,19 +55,13 @@ class GroupController extends Controller
      */
     public function show()
     {
-        $userRole = auth()->user()->role;
-        if ($userRole === 'admin') {
-            try {
-                $group = Group::select('groups.id','groups.group')
-                ->orderBy('id','asc')->get();
-                return $group;
-            }
-            catch (\Exception $e) {
-                return response()->json(["message" => $e->getMessage()],500);
-            }
+        try {
+            $group = Group::select('groups.id','groups.group')
+            ->orderBy('id','asc')->get();
+            return $group;
         }
-        else {
-            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
         }
     }
 

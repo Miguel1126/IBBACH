@@ -78,7 +78,7 @@ export default {
         },
         async getStudents() {
             try {
-                const response = await this.axios.get('/api/students')
+                const response = await this.axios.get('/api/getStudents')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.students = response.data
