@@ -54,6 +54,8 @@ Route::get('/getAsistencias', [AssistanceController::class, 'show']);
 
 Route::resource('/pagos', PaymentController::class);
 Route::get('/pagos/get', [PaymentController::class, 'show']);
+Route::get('/getPaymentsp', [PaymentController::class, 'getPaymentsP']);
+Route::get('/getPaymentsS', [PaymentController::class, 'getPaymentsS']);
 
 Route::post('/cargas/save',[LoadController::class,'store']);
 Route::get('/cargas/all',[LoadController::class,'show']);
