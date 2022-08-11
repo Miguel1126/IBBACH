@@ -55,6 +55,8 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::get('/getAplicantes', [ApplicantController::class, 'show']);
     Route::get('getNotas', [NoteController::class, 'show']);
     Route::get('/getAsistencias', [AssistanceController::class, 'show']);
+    Route::get('/getPaymentsp', [PaymentController::class, 'getPaymentsP']);
+    Route::get('/getPaymentsS', [PaymentController::class, 'getPaymentsS']);
 });
 
     
@@ -108,6 +110,7 @@ Route::middleware(['auth:sanctum', 'docente'])->group(function(){
 |
 */
 
+
 Route::middleware(['auth:sanctum', 'alumno'])->group(function(){
     
     Route::get('students', [UserController::class, 'getStudent']);
@@ -115,6 +118,7 @@ Route::middleware(['auth:sanctum', 'alumno'])->group(function(){
     Route::resource('/inscripciones', InscriptionController::class);
     Route::get('/getInscripciones', [InscriptionController::class, 'show']);  
 });
+
 
 
 
