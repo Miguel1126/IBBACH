@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
     public function getTeacher() {
         try {
             $teacher = User::select('users.id', 'users.name as teacher', 'users.last_name', 'users.code', 'users.status')

@@ -62,7 +62,7 @@ class InscriptionController extends Controller
         try {
             $inscriptions = Inscription::join('users', 'inscriptions.user_id', '=', 'users.id')
             ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
-            ->join('subjects', 'loads.subject_id', '=','subjects.id')
+            ->join('subjects', 'loads.subject_id', 'subjects.id')
             ->select(
                 'inscriptions.id',
                 'inscriptions.registration_date',

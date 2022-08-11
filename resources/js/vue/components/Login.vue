@@ -1,4 +1,5 @@
 <script>
+import { clearTokens } from '../js/clear_tokens'
 export default {
   data() {
     return {
@@ -58,15 +59,23 @@ export default {
           this.axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.token
           let role = data.role
           if (role === "admin") {
+            clearTokens()
+            localStorage.setItem('auth', data.token)
             this.$router.push('/admin')
           }
           if (role === "secretaria") {
+            clearTokens()
+            localStorage.setItem('access', data.token)
             this.$router.push('/secretaria')
           }
           if (role === "docente") {
+            clearTokens()
+            localStorage.setItem('permission', data.token)
             this.$router.push('/docente')
           }
           if (role === "alumno") {
+            clearTokens()
+            localStorage.setItem('token', data.token)
             this.$router.push('/alumno')
           }
           break;

@@ -77,7 +77,7 @@ export default {
         async getLoads() {
             try {
                 this.subjects[0] = "loading";
-                const response = await this.axios.get("/api/getCargas");
+                const response = await this.axios.get("/api/getCarga");
                 if (response.status === 200) {
                     if (typeof (response.data) === "object") {
                         this.subjects = response.data;

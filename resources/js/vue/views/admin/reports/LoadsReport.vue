@@ -15,7 +15,7 @@ export default {
     methods: {
         async getLoads() {
             try {
-                const response = await this.axios.get('/api/cargas/all')
+                const response = await this.axios.get('/api/getCargas')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.loads = response.data
@@ -31,7 +31,7 @@ export default {
         },
         async getCycles() {
             try {
-                const response = await this.axios.get('/api/ciclos/get')
+                const response = await this.axios.get('/api/getCiclos')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.cycles = response.data
@@ -47,7 +47,7 @@ export default {
         },
         async getSubjects() {
             try {
-                const response = await this.axios.get('/api/asignaturas/get')
+                const response = await this.axios.get('/api/getAsignaturas')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.subjects = response.data
@@ -79,7 +79,7 @@ export default {
         },
         async getSchedules() {
             try {
-                const response = await this.axios.get('/api/horarios/get')
+                const response = await this.axios.get('/api/getHorarios')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.schedules = response.data

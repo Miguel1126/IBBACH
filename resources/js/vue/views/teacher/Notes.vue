@@ -57,7 +57,7 @@ export default {
         },
         async getNotes() {
             try {
-                const response = await this.axios.get('/api/getNotas')
+                const response = await this.axios.get('/api/getNota')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.notes = response.data
@@ -73,7 +73,7 @@ export default {
         },
         async getInscriptions() {
             try {
-                const response = await this.axios.get('/api/getInscripciones')
+                const response = await this.axios.get('/api/getInscriptions')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.inscriptions = response.data

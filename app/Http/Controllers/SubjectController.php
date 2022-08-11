@@ -40,12 +40,6 @@ class SubjectController extends Controller
             if ($subject->save()>=1) {
                 return response()->json(['status'=>'OK','data'=>$subject],201);
             }
-
-            $subject->save();
-            
-            return response()->json([
-                'status'=>'OK','data'=>$subject],201);
-
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
@@ -68,7 +62,6 @@ class SubjectController extends Controller
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
         }
-  
     }
 
     /**

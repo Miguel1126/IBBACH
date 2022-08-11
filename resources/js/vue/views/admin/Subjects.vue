@@ -60,14 +60,22 @@ export default {
                 this.$swal.fire("Listo", "Se registró la materia", "success");
             }
         },
-        getSubjects() {
-            this.axios.get("/api/getAsignaturas")
-                .then(response => {
-                    this.subjects = response.data;
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+        async getSubjects() {
+            try {
+                this.subjects[0] = 'loading'
+                const response = await this.axios.get("/api/getAsignaturas")
+                if (response.status === 200) {
+                    this.subjects = response.data
+                }
+                else {
+                    console.log(response)
+                    this.subjects[0] = 'error'
+                }
+            } 
+            catch (error) {
+                console.log(error)
+                this.subjects[0] = 'error'
+            }
         },
         clearInput() {
             this.subject = null;
@@ -173,7 +181,7 @@ export default {
         </section>
         <hr class="separator" />
         <section>
-            <DataTable title="Listado de materias" :headers="headers" :items="subjects">
+            <DataTable title="Listado de asignaturas" :headers="headers" :items="subjects">
                 <template #actions>
                     <button type="button" class="btn btn-primary me-2">Modificar</button>
                     <button type="button" class="btn btn-danger">Eliminar</button>
