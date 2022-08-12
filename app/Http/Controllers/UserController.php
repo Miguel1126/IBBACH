@@ -96,7 +96,7 @@ class UserController extends Controller
                 'notes.status',)
                 ->where('notes.status', '=', 'Aprovado')
                 ->orderBy('id','asc')->get();
-                return $student;
+            return $student;
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
@@ -117,7 +117,7 @@ class UserController extends Controller
                 'notes.status',)
                 ->where('notes.status', '=', 'Reprobado')
                 ->orderBy('id','asc')->get();
-                return $student;
+            return $student;
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);

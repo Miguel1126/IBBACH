@@ -69,6 +69,13 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
 |
 */
 
+
+Route::resource('/aplicante', ApplicantController::class);
+Route::get('/getApplicant', [ApplicantController::class, 'show']);
+Route::get('/getPersonalInfo', [ApplicantController::class, 'getPersonalInfo']);
+Route::get('/getEcclesiasticalInfo', [ApplicantController::class, 'getEcclesiasticalInfo']);
+Route::get('/getMinisterialInfo', [ApplicantController::class, 'getMinisterialInfo']);
+=======
 Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     
     Route::resource('/pagos', PaymentController::class);
@@ -80,6 +87,7 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     Route::post('/register', [RegisterController::class,'register']);
 
 });
+
 
 
 /*
