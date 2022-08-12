@@ -17,17 +17,14 @@ return new class extends Migration
             $table->id();
             $table->date('registration_date');
             $table->foreignId('personal_information_id')
-            ->nullable()
             ->constrained('personal_information')
             ->cascadeOnUpdate()
             ->nullOnDelete();
             $table->foreignId('ecclesiastical_information_id')
-            ->nullable()
             ->constrained('ecclesiastical_information')
             ->cascadeOnUpdate()
             ->nullOnDelete();
             $table->foreignId('ministerial_information_id')
-            ->nullable()
             ->constrained('ministerial_information')
             ->cascadeOnUpdate()
             ->nullOnDelete();

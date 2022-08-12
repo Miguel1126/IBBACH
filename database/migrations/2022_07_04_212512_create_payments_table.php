@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->date('payment_date');
             $table->date('last_pay_date');
+            $table->string( 'status')->default('pendiente');
             $table->decimal('sourcharge',8,2);
             $table->foreignId('rate_id')
             ->nullable()

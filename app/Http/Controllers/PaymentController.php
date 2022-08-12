@@ -80,6 +80,57 @@ class PaymentController extends Controller
         }
     }
 
+    public function getPaymentsP()
+    {
+        try {
+            $rates = Payment::join('users', 'payments.user_id', '=', 'users.id')
+            ->join('rates', 'payments.rate_id', '=', 'rates.id')
+            ->select(
+                'payments.id',
+                'payments.payment_date',
+                'payments.last_pay_date',
+                'payments.status',
+                'payments.sourcharge',
+                'users.name as student',
+                'users.last_name',
+                'users.code',
+                'rates.price'
+            )
+            ->where('payments.status', '=', 'pendiente')
+            ->orderBy('id', 'asc')
+            ->get();
+            return $rates;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+    public function getPaymentsS()
+    {
+        try {
+            $rates = Payment::join('users', 'payments.user_id', '=', 'users.id')
+            ->join('rates', 'payments.rate_id', '=', 'rates.id')
+            ->select(
+                'payments.id',
+                'payments.payment_date',
+                'payments.last_pay_date',
+                'payments.status',
+                'payments.sourcharge',
+                'users.name as student',
+                'users.last_name',
+                'users.code',
+                'rates.price'
+            )
+            ->where('payments.status', '=', 'solvente')
+            ->orderBy('id', 'asc')
+            ->get();
+            return $rates;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

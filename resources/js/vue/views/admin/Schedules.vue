@@ -1,6 +1,6 @@
 <script>
 import DataTable from '../../components/DataTable.vue';
-    export default {
+export default {
     mounted() {
         this.getSchedule();
     },
@@ -27,17 +27,23 @@ import DataTable from '../../components/DataTable.vue';
     methods: {
         async handleSubmit() {
             if (this.validateInput()) {
-                const response = await this.axios.post("/api/horarios", {
-                    start_time: this.start_time,
-                    end_time: this.end_time,
-                    status: this.statusSelected[0]
-                });
-                console.log(response);
-                if (response.status === 201) {
-                    this.getSchedule();
-                    this.clearInput();
-                    this.$swal.fire("Listo", "Se registró el Horario", "success");
+                try {
+                    const response = await this.axios.post("/api/horarios", {
+                        start_time: this.start_time,
+                        end_time: this.end_time,
+                        status: this.statusSelected[0]
+                    });
+                    if (response.status === 201) {
+                        this.getSchedule();
+                        this.clearInput();
+                        this.$swal.fire("Listo", "Se registró el Horario", "success");
+                    }
                 }
+                catch (error) {
+                    this.$swal.fire("Error", "Hubo un error", "error");
+                    console.log(error)
+                }
+
             }
             else {
                 const Toast = this.$swal.mixin({
@@ -64,11 +70,11 @@ import DataTable from '../../components/DataTable.vue';
         getSchedule() {
             this.axios.get("/api/getHorarios")
                 .then(response => {
-                this.schedules = response.data;
-            })
+                    this.schedules = response.data;
+                })
                 .catch(error => {
-                console.error(error);
-            });
+                    console.error(error);
+                });
         },
         clearInput() {
             this.start_time = null;
@@ -117,11 +123,7 @@ import DataTable from '../../components/DataTable.vue';
         </section>
         <hr class="separator" />
         <section class="p-3">
-            <DataTable
-            title="Listado de horarios"
-            :headers="headers"
-            :items="schedules"
-            >
+            <DataTable title="Listado de horarios" :headers="headers" :items="schedules">
                 <template #actions>
                     <button type="button" class="btn btn-primary me-2">Modificar</button>
                     <button type="button" class="btn btn-danger">Eliminar</button>

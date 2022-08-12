@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Inscription;
+use App\Models\Load;
 
 class InscriptionController extends Controller
 {
@@ -81,7 +82,89 @@ class InscriptionController extends Controller
             return response()->json(["message" => $e->getMessage()],500);
         }
     }
-
+    public function getInscriptionsD()
+    {
+        try {
+            $inscriptions = Inscription::join('users', 'inscriptions.user_id', '=', 'users.id')
+            ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+            ->join('subjects', 'loads.subject_id', '=','subjects.id')
+            ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
+            ->join('groups', 'cycles.group_id', '=', 'groups.id')
+            ->select(
+                'inscriptions.id',
+                'inscriptions.registration_date',
+                'inscriptions.status',
+                'cycles.cycle',
+                'groups.group',
+                'users.name',
+                'users.last_name',
+                'users.code',
+                'subjects.subject',
+                'subjects.description'
+            )
+            ->where('inscriptions.status', '=', 'inscrito')
+            ->where('groups.group', '=', 'Diurno')
+            ->orderBy('id', 'asc')
+            ->get();
+            return $inscriptions;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+    public function getInscriptionS()
+    {
+        try {
+            $inscriptions = Inscription::join('users', 'inscriptions.user_id', '=', 'users.id')
+            ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+            ->join('subjects', 'loads.subject_id', '=','subjects.id')
+            ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
+            ->join('groups', 'cycles.group_id', '=', 'groups.id')
+            ->select(
+                'inscriptions.id',
+                'inscriptions.registration_date',
+                'inscriptions.status',
+                'cycles.cycle',
+                'groups.group',
+                'users.name',
+                'users.last_name',
+                'users.code',
+                'subjects.subject',
+                'subjects.description'
+            )
+            ->where('inscriptions.status', '=', 'inscrito')
+            ->where('groups.group', '=', 'Sabatino')
+            ->orderBy('id', 'asc')
+            ->get();
+            return $inscriptions;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+    public function getLoad()
+    {
+        try {
+            $loads = Load::join('users', 'loads.user_id', '=', 'users.id')
+            ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
+            ->join('subjects', 'loads.subject_id', '=', 'subjects.id')
+            ->join('schedules', 'loads.schedule_id', '=', 'schedules.id')
+            ->join('groups', 'cycles.group_id', '=', 'groups.id')
+            ->select(
+                'loads.id',
+                'cycles.cycle',
+                'groups.group',
+                'subjects.subject',
+                'subjects.description'
+            )
+            ->orderBy('group', 'asc')
+            ->get();
+            return $loads;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      *

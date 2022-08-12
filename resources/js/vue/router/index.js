@@ -64,6 +64,10 @@ import ApplicantsReport from '../views/admin/reports/ApplicantsReport.vue'
 import NotesReport from '../views/admin/reports/NotesReport.vue'
 import AssistancesReport from '../views/admin/reports/AssistancesReport.vue'
 import NoteStatusReport from '../views/admin/reports/NoteStatusReport.vue' 
+import UsersGroupReport from '../views/admin/reports/UsersGroupReport.vue' 
+import InscriptionsReport from '../views/admin/reports/InscriptionsReport.vue'
+import UsersReport from '../views/admin/reports/UsersReport.vue'
+import PaymentsPReport from '../views/admin/reports/PaymentsReport.vue'
 
 
 export const router = createRouter({
@@ -82,6 +86,11 @@ export const router = createRouter({
     {
       path: '/admin',
       component: Admin,
+      beforeEnter: async (to, from) => {
+        if (!localStorage.getItem('auth')) {
+          router.push('/login')
+        }
+      },
       children: [
         {
           path: 'cargas',
@@ -147,12 +156,37 @@ export const router = createRouter({
           path: 'reporte_estado',
           name: 'NoteStatusReport',
           component: NoteStatusReport
+        },
+        {
+          path: 'reporte_Usuario_Grupo',
+          name: 'UsersGroupReport',
+          component: UsersGroupReport
+        },
+        {
+          path: 'reporte_inscripciones',
+          name: 'InscriptionsReport',
+          component: InscriptionsReport
+        },
+        {
+          path: 'reporte_usuarios',
+          name: 'UsersReport',
+          component: UsersReport
+        },
+        {
+          path: 'reporte_pagos',
+          name: 'PaymentsPReport',
+          component: PaymentsPReport
         }
       ]
     },
     {
       path: '/secretaria',
       component: Secretary,
+      beforeEnter: async (to, from) => {
+        if (!localStorage.getItem('access')) {
+          router.push('/login')
+        }
+      },
       children: [
         {
           path: 'pagos',
@@ -160,7 +194,7 @@ export const router = createRouter({
           component: Payments
         },
         {
-          path:'/register',
+          path:'register',
           name: 'Register',
           component: Register
         },
@@ -174,6 +208,11 @@ export const router = createRouter({
     {
       path: '/docente',
       component: Teacher,
+      beforeEnter: async (to, from) => {
+        if (!localStorage.getItem('permission')) {
+          router.push('/login')
+        }
+      },
       children: [
         {
           path: '',
@@ -195,6 +234,11 @@ export const router = createRouter({
     {
       path: '/alumno',
       component: Student,
+      beforeEnter: async (to, from) => {
+        if (!localStorage.getItem('token')) {
+          router.push('/login')
+        }
+      },
       children: [
         {
           path: '',

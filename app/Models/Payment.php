@@ -4,17 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
+
 //use Illuminate\Foundation\Auth\User;
 
 class Payment extends Model
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens;
 
     public function rate() {
         return $this->belongsTo(Rate::class,'rate_id');
     }
-    // Cuando esté lista la tabla de users le quitan el comentario al código de abajo
-    /* public function user() {
+    public function user() {
         return $this->belongsTo(User::class,'user_id');
-    } */
+    }
 }
