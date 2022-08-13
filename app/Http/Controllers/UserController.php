@@ -48,10 +48,10 @@ class UserController extends Controller
 
     public function getStudents() {
         try {
-            $teacher = User::select('users.id', 'users.name as admin', 'users.last_name', 'users.code', 'users.status', 'role')
+            $student = User::select('users.id', 'users.name as admin', 'users.last_name', 'users.code', 'users.status', 'role')
             ->where('users.role', '=', 'alumno')
             ->orderBy('id','asc')->get();
-            return $teacher;
+            return $student;
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
