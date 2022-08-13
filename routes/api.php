@@ -75,7 +75,7 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     Route::get('/getPagos', [PaymentController::class, 'show']);
     Route::resource('/tarifas', RateController::class);
     Route::get('/getTarifas', [RateController::class, 'show']);
-    Route::get('/getStudents', [UserController::class, 'getStudent']);
+    Route::get('/getStudent', [UserController::class, 'getStudent']);
     Route::get('/getAplicante', [ApplicantController::class, 'show']);
     Route::post('/register', [RegisterController::class,'register']);
 
