@@ -38,8 +38,8 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::get('/getCiclos',[CycleController::class,'show']);
     Route::resource('/horarios', ScheduleController::class);
     Route::get('/getHorarios', [ScheduleController::class, 'show']); 
-    Route::get('/getInscripciones', [InscriptionController::class, 'show']); 
-    Route::get('/getCargas', [InscriptionController::class, 'getLoad']);
+    Route::get('/getInscripciones', [InscriptionController::class, 'show']);
+    Route::get('/getCargas', [LoadController::class, 'show']);
     Route::get('/getInscrip', [InscriptionController::class, 'getInscriptionsD']);
     Route::get('/getInscript', [InscriptionController::class, 'getInscriptionS']);
     Route::get('getDocentes', [UserController::class, 'getTeacher']);
@@ -57,6 +57,12 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::get('/getAsistencias', [AssistanceController::class, 'show']);
     Route::get('/getPaymentsp', [PaymentController::class, 'getPaymentsP']);
     Route::get('/getPaymentsS', [PaymentController::class, 'getPaymentsS']);
+    Route::get('/getTeacher1', [UserController::class, 'getTeacher1']);
+    Route::resource('/aplicante', ApplicantController::class);
+    Route::get('/getPersonalInfo', [ApplicantController::class, 'getPersonalInfo']);
+    Route::get('/getEcclesiasticalInfo', [ApplicantController::class, 'getEcclesiasticalInfo']);
+    Route::get('/getMinisterialInfo', [ApplicantController::class, 'getMinisterialInfo']);
+    
 });
 
     
@@ -70,12 +76,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
 */
 
 
-Route::resource('/aplicante', ApplicantController::class);
-Route::get('/getApplicant', [ApplicantController::class, 'show']);
-Route::get('/getPersonalInfo', [ApplicantController::class, 'getPersonalInfo']);
-Route::get('/getEcclesiasticalInfo', [ApplicantController::class, 'getEcclesiasticalInfo']);
-Route::get('/getMinisterialInfo', [ApplicantController::class, 'getMinisterialInfo']);
-=======
+
 Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     
     Route::resource('/pagos', PaymentController::class);
@@ -85,6 +86,7 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     Route::get('/getStudent', [UserController::class, 'getStudent']);
     Route::get('/getAplicante', [ApplicantController::class, 'show']);
     Route::post('/register', [RegisterController::class,'register']);
+    Route::resource('/aplicante', ApplicantController::class);
 
 });
 
@@ -124,7 +126,7 @@ Route::middleware(['auth:sanctum', 'alumno'])->group(function(){
     Route::get('students', [UserController::class, 'getStudent']);
     Route::get('/getCarga', [InscriptionController::class, 'getLoad']);
     Route::resource('/inscripciones', InscriptionController::class);
-    Route::get('/getInscripciones', [InscriptionController::class, 'show']);  
+    Route::get('/getInscripcion', [InscriptionController::class, 'show']);
 });
 
 
@@ -134,7 +136,7 @@ Route::middleware(['auth:sanctum', 'alumno'])->group(function(){
 
 Route::post('/aplicante', [ApplicantController::class]);
 
-Route::post('login', [AuthController::class,'login']);
+Route::post('/login', [AuthController::class,'login']);
 
 Route::any('{path}', function() {
     return response()->json([

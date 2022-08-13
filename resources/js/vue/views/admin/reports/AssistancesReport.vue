@@ -64,7 +64,7 @@ export default {
                 {title:'Apellido'},
                 {title:'Codigo'},
 
-            ]" :items="assistances">>
+            ]" :items="assistances">
             </DataTable>
         </section>
     </main>
