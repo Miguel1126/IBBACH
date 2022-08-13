@@ -4,21 +4,19 @@ export default {
     mounted() {
         this.getCycles();
         this.getSubjects();
-        this.getTeachers();
+        this.getTeacher();
         this.getSchedules();
         this.getLoads();
     },
     data() {
         return {
             loads: [],
+            teachers: []
         };
     },
     methods: {
         async getLoads() {
             try {
-
-                const response = await this.axios.get("/api/cargas/all");
-
                 const response = await this.axios.get('/api/getCargas')
 
                 if (response.status === 200) {
@@ -36,9 +34,6 @@ export default {
         },
         async getCycles() {
             try {
-
-                const response = await this.axios.get("/api/ciclos/get");
-
                 const response = await this.axios.get('/api/getCiclos')
 
                 if (response.status === 200) {
@@ -57,8 +52,6 @@ export default {
         async getSubjects() {
             try {
 
-                const response = await this.axios.get("/api/asignaturas/get");
-
                 const response = await this.axios.get('/api/getAsignaturas')
 
                 if (response.status === 200) {
@@ -74,9 +67,9 @@ export default {
                 console.error(error);
             }
         },
-        async getTeachers() {
+        async getTeacher() {
             try {
-                const response = await this.axios.get("/api/getDocentes");
+                const response = await this.axios.get("/api/getTeacher1");
                 if (response.status === 200) {
                     if (typeof (response.data) === "object") {
                         this.teachers = response.data;
@@ -92,9 +85,6 @@ export default {
         },
         async getSchedules() {
             try {
-
-                const response = await this.axios.get("/api/horarios/get");
-
                 const response = await this.axios.get('/api/getHorarios')
 
                 if (response.status === 200) {

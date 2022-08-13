@@ -102,6 +102,17 @@ class UserController extends Controller
             return response()->json(["message" => $e->getMessage()],500);
         }
     }
+    public function getTeacher1() {
+        try {
+            $teacher = User::select('users.id', 'users.name as admin', 'users.last_name', 'users.code', 'users.status', 'role')
+            ->where('users.role', '=', 'docente')
+            ->orderBy('id','asc')->get();
+            return $teacher;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
     public function getStudentR() {
         try {
             $student = Note::join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')

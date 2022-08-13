@@ -20,9 +20,6 @@ export default {
             try {
 
                 const response = await this.axios.get("/api/getApplicant");
-
-                const response = await this.axios.get('/api/getAplicantes')
-
                 if (response.status === 200) {
                     if (typeof (response.data) === "object") {
                         this.applicants = response.data;
