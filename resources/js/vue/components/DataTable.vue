@@ -1,12 +1,43 @@
 <script setup>
-    defineProps({
-        title: String,
-        headers: Array,
-        items: Array
-    })
-    const getValues = (item) => {
+import { onMounted } from "@vue/runtime-core"
+
+const props = defineProps({
+    title: String,
+    personalized: {
+        type: Boolean,
+        default: false
+    },
+    headers: Array,
+    items: Array,
+})
+const getValues = (item) => {
+
+    if (props.personalized) {
+        const headers = props.headers
+
+        let filteredItem = []
+
+        headers.forEach(header => {
+            filteredItem.push(Object.keys(item).filter((key) => key.includes(header.value)).reduce((cur, key) => { return Object.assign(item[key]) }, {}))
+        })
+        return filteredItem
+    }
+    else {
         return Object.values(item)
-    } 
+    }
+}
+const checkPersonalized = () => {
+    if (props.personalized) {
+        console.log("Los datos de la tabla estan personalizados")
+    }
+    else {
+        console.log("Los datos de la tabla no estan personalizados")
+    }
+}
+
+onMounted(() => {
+    checkPersonalized()
+})
 </script>
 <template>
     <div class="p-3 table-color rounded">
@@ -29,12 +60,14 @@
             <table class="styled-table">
                 <thead>
                     <tr>
-                        <th class="text-center" v-for="header in headers" :key="header" scope="col">{{ header.title }}</th>
+                        <th class="text-center" v-for="header in headers" :key="header" scope="col">{{ header.title }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="item in items" :key="item">
-                        <td class="text-center" v-for="itemValue in getValues(item)" :key="itemValue">{{ itemValue }}</td>
+                        <td class="text-center" v-for="itemValue in getValues(item)" :key="itemValue">{{ itemValue }}
+                        </td>
                         <td class="actions-row" v-if="headers[headers.length - 1].title == 'Acciones'">
                             <slot :item="item" name="actions"></slot>
                         </td>
