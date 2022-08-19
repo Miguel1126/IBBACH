@@ -47,8 +47,14 @@ export default {
       try {
         const response = await this.axios.post('/api/login', this.credentials)
         this.statusActions(response.data.status, response.data)
+
       }
       catch (error) {
+        this.$swal.fire(
+            'Error',
+            'Ocurrió un error, inténtalo de nuevo',
+            'error'
+          )
         console.log(error)
       }
       this.loading = false
