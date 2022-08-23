@@ -182,4 +182,25 @@ class UserController extends Controller
             return response()->json(["message" => $e->getMessage()],500);
         }
     }
+
+    public function getStudentsPerYear() {
+        try {
+            $currentYear = date('Y');
+
+            $startYearDate = mktime(0,0,0,1,1,$currentYear);
+            $endYearDate = mktime(0,0,0,12,31,$currentYear);
+
+            $formatedSartYearDate = date("Y-m-d h:i:s", $startYearDate);
+            $formatedEndYearDate = date("Y-m-d h:i:s", $endYearDate);
+
+            $student = User::where('users.role', '=', 'alumno')
+            ->whereBetween('users.created_at',[$formatedSartYearDate, $formatedEndYearDate])
+            ->orderBy('id','asc')
+            ->get();
+            return $student;
+        } 
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
 }
