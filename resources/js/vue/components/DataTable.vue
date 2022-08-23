@@ -18,7 +18,7 @@ const getValues = (item) => {
         let filteredItem = []
 
         headers.forEach(header => {
-            filteredItem.push(Object.keys(item).filter((key) => key.includes(header.value)).reduce((cur, key) => { return Object.assign(item[key]) }, {}))
+            filteredItem.push(Object.keys(item).filter((key) => key == header.value).reduce((cur, key) => { return Object.assign(item[key]) }, {}))
         })
         return filteredItem
     }
