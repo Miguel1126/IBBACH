@@ -63,6 +63,7 @@ const ToggleMenu = () => {
 			</Link>
 			<Link url="PaymentsPReport" name="Pagos" icon="report">
 			</Link>
+			<Link url="RatesReport" name="Cuotas" icon="report">
 			<Link url="StudentsPerYearReport" name="Estudiantes por año" icon="report">
 			</Link>
 		</div>
