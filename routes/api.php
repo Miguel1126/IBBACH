@@ -63,7 +63,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::get('/getEcclesiasticalInfo', [ApplicantController::class, 'getEcclesiasticalInfo']);
     Route::get('/getMinisterialInfo', [ApplicantController::class, 'getMinisterialInfo']);
     Route :: get('/getRate', [RateController::class, 'getRate']);
-    
+    Route::get('/getStudentsByYear', [UserController::class, 'getStudentsPerYear']);
 });
 
     
