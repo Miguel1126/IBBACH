@@ -65,7 +65,24 @@ class RateController extends Controller
             return response()->json(["message" => $e->getMessage()],500);
         }
     }
-
+    public function getRate()
+    {
+        try {
+            $rate = Rate:: 
+            select(
+                'rates.id',
+                'rates.price',
+                'rates.tuition'
+            )
+            ->orderBy('id','asc')
+            ->get();
+            return $rate;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+    
     /**
      * Show the form for editing the specified resource.
      *

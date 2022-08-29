@@ -68,6 +68,7 @@ import UsersGroupReport from '../views/admin/reports/UsersGroupReport.vue'
 import InscriptionsReport from '../views/admin/reports/InscriptionsReport.vue'
 import UsersReport from '../views/admin/reports/UsersReport.vue'
 import PaymentsPReport from '../views/admin/reports/PaymentsReport.vue'
+import RatesReport from '../views/admin/reports/RatesReport.vue'
 
 
 export const router = createRouter({
@@ -176,6 +177,12 @@ export const router = createRouter({
           path: 'reporte_pagos',
           name: 'PaymentsPReport',
           component: PaymentsPReport
+        },
+
+        {
+          path: 'reporte_Cuotas',
+          name: 'RatesReport',
+          component: RatesReport
         }
       ]
     },
