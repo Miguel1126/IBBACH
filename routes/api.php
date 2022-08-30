@@ -88,7 +88,7 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     Route::post('/register', [RegisterController::class,'register']);
     Route::resource('/aplicante', ApplicantController::class);
     Route::post('/inscribir', [UserController::class, 'registerStudent']);
-    Route::get('/applicantes-pendientes', [ApplicantController::class, 'getPendingApplicants']);
+    Route::get('/aplicantes-pendientes', [ApplicantController::class, 'getPendingApplicants']);
 });
 
 
@@ -138,6 +138,7 @@ Route::middleware(['auth:sanctum', 'alumno'])->group(function(){
 Route::post('/aplicante', [ApplicantController::class, 'store']);
 
 Route::post('/login', [AuthController::class,'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::any('{path}', function() {
     return response()->json([

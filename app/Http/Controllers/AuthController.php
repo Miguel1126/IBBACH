@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use phpDocumentor\Reflection\Types\ArrayKey;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -36,5 +34,26 @@ class AuthController extends Controller
                 "message" => "El usuario o la contraseña son incorrectos"
             ], 200);
         }
+    }
+
+    public function logout(Request $request) {
+        try {
+            $accessToken = $request->bearerToken();
+            $token = PersonalAccessToken::findToken($accessToken);
+            $token->delete();
+            $success = true;
+            $message = "Se cerró la sesión correctamente";
+        }
+        catch (\Exception $ex) {
+            $success = false;
+            $message = $ex->getMessage();
+        }
+
+        $response = [
+            'success' => $success,
+            'message' => $message
+        ];
+
+        return response()->json($response);
     }
 }
