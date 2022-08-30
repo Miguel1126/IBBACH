@@ -31,6 +31,8 @@ const ToggleMenu = () => {
 			</Link>
 			<Link url="Rate" name="Cuotas" icon="request_quote">
 			</Link>
+			<Link url="RegisterStudent" name="Registrar estudiante" icon="person_add">
+			</Link>
 		</div>
 
 		<div class="flex"></div>
