@@ -183,6 +183,7 @@ export const router = createRouter({
           path: 'reporte_Cuotas',
           name: 'RatesReport',
           component: RatesReport
+        },
         {
           path: 'reporte-estudiantes-por-a%C3%B1o',
           name:  'StudentsPerYearReport',
