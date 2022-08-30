@@ -16,18 +16,13 @@ return new class extends Migration
         Schema::create('applicants', function (Blueprint $table) {
             $table->id();
             $table->date('registration_date');
+            $table->string('status', 1)->default('P');
             $table->foreignId('personal_information_id')
-            ->constrained('personal_information')
-            ->cascadeOnUpdate()
-            ->nullOnDelete();
+            ->constrained('personal_information');
             $table->foreignId('ecclesiastical_information_id')
-            ->constrained('ecclesiastical_information')
-            ->cascadeOnUpdate()
-            ->nullOnDelete();
+            ->constrained('ecclesiastical_information');
             $table->foreignId('ministerial_information_id')
-            ->constrained('ministerial_information')
-            ->cascadeOnUpdate()
-            ->nullOnDelete();
+            ->constrained('ministerial_information');
             $table->timestamps();
         });
     }
