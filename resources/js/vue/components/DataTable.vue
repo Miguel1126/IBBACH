@@ -13,9 +13,13 @@ const props = defineProps({
 const getValues = (item) => {
 
     if (props.personalized) {
-        const headers = props.headers
+        let headers = [...props.headers]
 
         let filteredItem = []
+
+        if (headers.at(-1).title == 'Acciones') {
+            headers = headers.slice(0, -1)
+        }
 
         headers.forEach(header => {
             filteredItem.push(Object.keys(item).filter((key) => key == header.value).reduce((cur, key) => { return Object.assign(item[key]) }, {}))
@@ -129,6 +133,10 @@ onMounted(() => {
 
 .table-container {
     overflow-x: scroll;
+}
+
+tr:hover {
+    background-color: #dddddd;
 }
 
 /**loader styles */
