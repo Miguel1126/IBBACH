@@ -39,7 +39,7 @@ export default {
     <section class=" p-3 ">
         </section>
         <section class="p-3">
-            <DataTable title="Listado de Docentes" :headers="[
+            <DataTable :title="'Listado de Docentes - Total: ' + teachers.length" :headers="[
                 {title:'Id'},
                 {title:'Nombre'},
                 {title:'Apellido'},
