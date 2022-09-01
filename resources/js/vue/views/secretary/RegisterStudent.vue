@@ -38,9 +38,8 @@ export default {
 }
 </script>
 <template>
-    <main>
-        <div class="modal fade text-black text-opacity-75" id="staticBackdrop" data-bs-backdrop="static"
-            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <section>
+        <div class="modal fade text-black text-opacity-75" id="applicantModal" tabindex="-1" aria-labelledby="applicantModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -255,8 +254,8 @@ export default {
         </div>
 
         <div>
-            <h1 class="m-2">Registro de Estudiantes</h1>
-            <h4 class="m-3 mb-4">Selecciona o busca el aplicante que vayas a inscribir</h4>
+            <h3 class="m-3">Registro de Estudiantes</h3>
+            <h5 class="m-3 mb-4">Selecciona o busca el aplicante que vayas a inscribir</h5>
         </div>
         <div class="container-fluid">
             <DataTable title="Aplicantes disponibles" personalized :headers="[
@@ -271,11 +270,11 @@ export default {
                 <template #actions="item">
                     <button type="button" @click.prevent="showApplicant(item)"
                         class="btn btn-primary d-flex justify-content-center" title="Ver información detallada"
-                        data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        data-bs-toggle="modal" data-bs-target="#applicantModal">
                         <span class="material-icons">account_box</span>
                     </button>
                 </template>
             </DataTable>
         </div>
-    </main>
+    </section>
 </template>

@@ -31,7 +31,7 @@ import Schedules from '../views/admin/Schedules.vue'
 import Secretary from '../views/secretary/base/Secretary.vue'
 import Payments from '../views/secretary/Payments.vue'
 import Rates from '../views/secretary/Rates.vue'
-import RegisterStudent from '../views/secretary/RegisterStudent.vue'
+import ManageAccounts from '../views/secretary/ManageAccounts.vue'
 
 /**
  * Components for teacher view
@@ -52,7 +52,6 @@ import Inscriptions from '../views/student/Inscriptions.vue'
  * Components for login
  */
 import Login from '../components/Login.vue'
-import Register from '../views/secretary/Register.vue'
 
 /**
  * Administrator's reports
@@ -201,19 +200,14 @@ export const router = createRouter({
           component: Payments
         },
         {
-          path:'register',
-          name: 'Register',
-          component: Register
-        },
-        {
           path: 'cuotas',
           name: 'Rate',
           component: Rates
         },
         {
-          path: 'registro-de-estudiantes',
-          name: 'RegisterStudent',
-          component: RegisterStudent
+          path: 'gestion-de-cuentas',
+          name: 'ManageAccounts',
+          component: ManageAccounts
         }
       ]
     },
