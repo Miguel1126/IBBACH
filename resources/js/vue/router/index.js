@@ -31,7 +31,7 @@ import Schedules from '../views/admin/Schedules.vue'
 import Secretary from '../views/secretary/base/Secretary.vue'
 import Payments from '../views/secretary/Payments.vue'
 import Rates from '../views/secretary/Rates.vue'
-import ManageAccounts from '../views/secretary/ManageAccounts.vue'
+import AccountManagement from '../views/secretary/AccountManagement.vue'
 
 /**
  * Components for teacher view
@@ -212,8 +212,8 @@ export const router = createRouter({
         },
         {
           path: 'gestion-de-cuentas',
-          name: 'ManageAccounts',
-          component: ManageAccounts
+          name: 'AccountManagement',
+          component: AccountManagement
         }
       ]
     },

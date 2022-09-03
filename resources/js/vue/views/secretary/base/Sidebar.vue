@@ -29,7 +29,7 @@ const ToggleMenu = () => {
 			</Link>
 			<Link url="Rate" name="Cuotas" icon="request_quote">
 			</Link>
-			<Link url="ManageAccounts" name="Gestión de cuentas" icon="manage_accounts">
+			<Link url="AccountManagement" name="Gestión de cuentas" icon="manage_accounts">
 			</Link>
 		</div>
 
