@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Note;
 use App\Models\Inscription;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -208,6 +209,10 @@ class UserController extends Controller
 
     public function registerStudent(Request $request) {
         try {
+
+            $errors = 0;
+            DB::beginTransaction();
+
             // Getting the applicant by the id
             $applicant = Applicant::join('personal_information', 'applicants.personal_information_id', '=', 'personal_information.id')
             ->select('personal_information.name', 'personal_information.last_name')
@@ -225,9 +230,26 @@ class UserController extends Controller
             $newStudent->role = 'alumno';
             $newStudent->status = 'active';
             $newStudent->applicant_id = $request->applicant_id;
-            if ($newStudent->save() >= 1) {
+            if ($newStudent->save() <= 0) {
+                $errors++;
+            }
+
+            $id = $request->applicant_id;
+            $registeredApplicant = Applicant::findOrFail($id);
+            $registeredApplicant->status = "I";
+            if ($registeredApplicant->save() <= 0) {
+                $errors++;
+            }
+
+            if($errors == 0) {
+                DB::commit();
                 return response()->json(["user" => $newStudent, "pass" => $pass], 201);
             }
+            else {
+                DB::rollBack();
+                return response()->json(['message'=>'No se pudo registrar el alumno'],500);
+            }
+
         } 
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);

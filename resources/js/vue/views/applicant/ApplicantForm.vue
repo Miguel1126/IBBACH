@@ -51,7 +51,7 @@ export default {
             this.getData()
 
             const date = new Date()
-            const formatedDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+            const formatedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
             this.formData.registration_date = formatedDate
 
             try {

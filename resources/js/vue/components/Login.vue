@@ -123,7 +123,7 @@ export default {
         <div class="card bg-dark mt-5 text-white" style="border-radius: 1rem;">
           <div class="card-body p-5 text-center">
             <form @submit.prevent="handleSubmit" class="mb-md-2 mt-md-4 pb-5">
-              <h2 class="fw-bold mb-5 text-uppercase">Iniciar Sesión</h2>
+              <h2 class="fw-bold fs-2 mb-5 text-uppercase">Iniciar Sesión</h2>
               <div class="form-outline form-white mb-4">
                 <input type="text" id="code" class="form-control form-control-lg" maxlength="8" placeholder="Código"
                   v-model="credentials.code" required />

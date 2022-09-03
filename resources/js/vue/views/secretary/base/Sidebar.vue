@@ -27,11 +27,9 @@ const ToggleMenu = () => {
 		<div class="menu">
 			<Link url="Payments" name="Pagos" icon="payments">
 			</Link>
-			<Link url="Register" name="register" icon="person">
-			</Link>
 			<Link url="Rate" name="Cuotas" icon="request_quote">
 			</Link>
-			<Link url="RegisterStudent" name="Registrar estudiante" icon="person_add">
+			<Link url="AccountManagement" name="Gestión de cuentas" icon="manage_accounts">
 			</Link>
 		</div>
 
@@ -54,7 +52,7 @@ aside {
 	overflow: hidden;
 	min-height: 100vh;
 	padding: 1rem;
-	z-index: 9999;
+	z-index: 1050;
 	transition: 0.2s ease-in-out;
 
 	.flex {
