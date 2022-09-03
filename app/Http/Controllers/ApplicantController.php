@@ -326,12 +326,23 @@ class ApplicantController extends Controller
                 'qualities_religious_worker'
             )
             ->where('applicants.status', '=', 'P')
-            ->orderBy('id','asc')->get();
+            ->orderBy('id','desc')
+            ->paginate(5)->onEachSide(1);
             return $applicant;
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
         }
+    }
+
+    public function denyApplicant(Request $request) {
+
+        $deniedApplicant = Applicant::findOrFail($request->applicant_id);
+        $deniedApplicant->status = "R";
+        if ($deniedApplicant->save() >= 1) {
+            return response()->json(["message" => "Aplicante rechazado"],202);
+        }
+
     }
 
     /**
