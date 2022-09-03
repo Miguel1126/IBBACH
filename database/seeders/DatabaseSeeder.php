@@ -23,11 +23,35 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $user = new User();
-        $user->name = "Secretaria";
-        $user->last_name = "...";
-        $user->code = "secre000";
-        $user->password = Hash::make("0007");
+        $user->name = "admin";
+        $user->last_name = "admin";
+        $user->code = "admin";
+        $user->password = Hash::make("admin");
+        $user->role = "admin";
+        $user->save();
+
+        $user = new User();
+        $user->name = "secretaria";
+        $user->last_name = "secretaria";
+        $user->code = "secretaria";
+        $user->password = Hash::make("secretaria");
         $user->role = "secretaria";
+        $user->save();
+
+        $user = new User();
+        $user->name = "docente";
+        $user->last_name = "docente";
+        $user->code = "docente";
+        $user->password = Hash::make("docente");
+        $user->role = "docente";
+        $user->save();
+
+        $user = new User();
+        $user->name = "alumno";
+        $user->last_name = "alumno";
+        $user->code = "alumno";
+        $user->password = Hash::make("alumno");
+        $user->role = "alumno";
         $user->save();
 
         $rate = new Rate();
@@ -40,10 +64,10 @@ class DatabaseSeeder extends Seeder
         $rate->tuition = "0";
         $rate->save();
 
-        PersonalInformation::factory(20)->create();
-        EcclesiasticalInformation::factory(20)->create();
-        MinisterialInformation::factory(20)->create();
-        Applicant::factory(20)->create();
+        PersonalInformation::factory(100)->create();
+        EcclesiasticalInformation::factory(100)->create();
+        MinisterialInformation::factory(100)->create();
+        Applicant::factory(100)->create();
 
     }
 }
