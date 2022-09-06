@@ -55,11 +55,11 @@ export default {
             <div class="row">
                 <div class="col-6 col-lg-3">
                     <label class="form-label mt-1">Nombres</label>
-                    <input type="text" class="form-control" v-model="name" placeholder="Nombres" pattern="^[A-Za-z\s]+[A-Za-z\s]+" title="Solo debes escribir letras" required />
+                    <input type="text" class="form-control" v-model="name" placeholder="Nombres" pattern="^[a-zA-Z\u00C0-\u017F\s]+$" title="Solo debes escribir letras" required />
                 </div>
                 <div class="col col-lg-3">
                     <label class="form-label mt-1">Apellidos</label>
-                    <input type="text" class="form-control" v-model="last_name" placeholder="Apellidos" pattern="^[A-Za-z\s]+[A-Za-z\s]+" title="Solo debes escribir letras" required />
+                    <input type="text" class="form-control" v-model="last_name" placeholder="Apellidos" pattern="^[a-zA-Z\u00C0-\u017F\s]+$" title="Solo debes escribir letras" required />
                 </div>
             </div>
             <div class="row">
