@@ -147,7 +147,6 @@ export default {
                 try {
                     const response = await this.axios.post('/api/saveCarga',
                         {
-                            status: 'D',
                             user_id: this.teaSelected[0].id,
                             cycle_id: this.cySelected[0].id,
                             subject_id: this.subSelected[0].id,
