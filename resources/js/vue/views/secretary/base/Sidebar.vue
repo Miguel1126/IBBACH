@@ -87,7 +87,6 @@ aside {
 
 			&:hover {
 				.material-icons {
-					color: var(--primary);
 					transform: translateX(0.5rem);
 				}
 			}
@@ -130,7 +129,7 @@ aside {
 			}
 
 			&:hover {
-				background-color: var(--dark-alt);
+				background-color: var(--dark-background);
 
 				.material-icons,
 				.text {
@@ -139,7 +138,7 @@ aside {
 			}
 
 			&.router-link-exact-active {
-				background-color: var(--dark-alt);
+				background-color: var(--dark-background);
 				border-right: 5px solid var(--primary);
 
 				.material-icons,
