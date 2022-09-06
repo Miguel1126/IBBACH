@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 :root {
-	--primary: #4ade80;
+	--primary: #eee;
 	--primary-alt: #22c55e;
 	--grey: #64748b;
-	--dark: #1e293b;
-	--dark-alt: #334155;
+	--dark: #42414d;
+	--dark-alt: #272525;
+	--dark-background:#2b2a33 ;
 	--light: #f1f5f9;
 	--sidebar-width: 200px;
 	--background: #181818;
@@ -17,8 +18,7 @@
 	font-family: 'Roboto', arial;
 }
 body {
-    background: rgb(26,46,73);
-    background: linear-gradient(90deg, rgba(26,46,73,1) 25%, rgba(70,58,140,1) 100%); 
+    background-color: var(--dark-background);
     color: var(--light);
 }
 .table-color {
