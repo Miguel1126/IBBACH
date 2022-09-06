@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('cycle');
             $table->Date('start_date');
             $table->Date('end_date');
-            $table->string('status',10);
+            $table->string('status',1)->default('A');
             $table->foreignId('group_id')
             ->nullable()
             ->constrained('groups')

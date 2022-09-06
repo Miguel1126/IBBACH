@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->time('start_time');
             $table->time('end_time');
-            $table->string('status');
+            $table->string('status',1)->default('D');
             $table->timestamps();
         });
     }

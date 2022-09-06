@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('loads', function (Blueprint $table) {
             $table->id();
-            $table->string('status',10);
+            $table->string('status',10)->default('D');
             $table->foreignId('user_id')
             ->nullable()
             ->constrained('users')
