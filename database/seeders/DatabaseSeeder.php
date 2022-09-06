@@ -8,6 +8,11 @@ use App\Models\MinisterialInformation;
 use App\Models\PersonalInformation;
 use App\Models\User;
 use App\Models\Rate;
+use App\Models\Load;
+use App\Models\Group;
+use App\Models\Subject;
+use App\Models\Cycle;
+use App\Models\Schedule;
 use Illuminate\Console\Application;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -64,10 +69,23 @@ class DatabaseSeeder extends Seeder
         $rate->tuition = "0";
         $rate->save();
 
+        $group = new Group();
+        $group->group = "Sabatino";
+        $group->save();
+
+        $group = new Group();
+        $group->group = "Diurno";
+        $group->save();
+
         PersonalInformation::factory(100)->create();
         EcclesiasticalInformation::factory(100)->create();
         MinisterialInformation::factory(100)->create();
         Applicant::factory(100)->create();
+        User::factory(10)->create();
+        Subject::factory(10)->create();
+        Cycle::factory(10)->create();
+        Schedule::factory(10)->create();
+        Load::factory(10)->create();
 
     }
 }
