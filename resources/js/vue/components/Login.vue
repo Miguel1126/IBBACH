@@ -125,11 +125,11 @@ export default {
             <form @submit.prevent="handleSubmit" class="mb-md-2 mt-md-4 pb-5">
               <h2 class="fw-bold fs-2 mb-5 text-uppercase">Iniciar Sesión</h2>
               <div class="form-outline form-white mb-4">
-                <input type="text" id="code" class="form-control form-control-lg" maxlength="8" placeholder="Código"
+                <input type="text" id="code" class="form-control form-control-lg" maxlength="15" placeholder="Código"
                   v-model="credentials.code" required />
               </div>
               <div class="form-outline form-white mb-4 d-flex">
-                <input :type="type" id="passwd" class="form-control form-control-lg" maxlength="8" placeholder="Contraseña"
+                <input :type="type" id="passwd" class="form-control form-control-lg" maxlength="15" placeholder="Contraseña"
                   v-model="credentials.password" required />
                 <span class="text-black visibility-btn" :title="title" @click="toggleVisibility"><i
                     class="material-icons d-flex align-items-center justify-content-center">{{ icon }}</i></span>
