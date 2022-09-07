@@ -26,7 +26,7 @@ return new class extends Migration
             $table->float('ev5',);
             $table->float('percentege5',);
             $table->float('finalAverage',);
-            $table->string('status',10);
+            $table->string('status',1)->default('A');
             $table->foreignId('inscription_id')
             ->nullable()
             ->constrained('inscriptions')

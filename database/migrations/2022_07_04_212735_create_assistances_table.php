@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('assistances', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->string('status',10);
+            $table->string('status',1)->default('P');
             $table->foreignId('note_id')
             ->nullable()
             ->constrained('notes')
