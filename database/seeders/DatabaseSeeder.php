@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Applicant;
+use App\Models\Assistance;
 use App\Models\EcclesiasticalInformation;
 use App\Models\MinisterialInformation;
 use App\Models\PersonalInformation;
@@ -12,6 +13,9 @@ use App\Models\Load;
 use App\Models\Group;
 use App\Models\Subject;
 use App\Models\Cycle;
+use App\Models\Inscription;
+use App\Models\Note;
+use App\Models\Payment;
 use App\Models\Schedule;
 use Illuminate\Console\Application;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -86,6 +90,10 @@ class DatabaseSeeder extends Seeder
         Cycle::factory(10)->create();
         Schedule::factory(10)->create();
         Load::factory(10)->create();
+        Payment::factory(10)->create();
+        Inscription::factory(10)->create();
+        Note::factory(10)->create();
+        Assistance::factory(10)->create();
 
     }
 }
