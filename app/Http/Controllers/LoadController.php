@@ -32,6 +32,7 @@ class LoadController extends Controller
     {
         try{
             $load = new Load();
+            $load->status = $request->status;
             $load->user_id = $request->user_id;
             $load->cycle_id = $request->cycle_id;
             $load->subject_id = $request->subject_id;
@@ -60,6 +61,7 @@ class LoadController extends Controller
             ->join('schedules', 'loads.schedule_id', '=', 'schedules.id')
             ->select(
                 'loads.id',
+                'loads.status',
                 'cycles.cycle',
                 'subjects.subject',
                 'users.name as teacher',

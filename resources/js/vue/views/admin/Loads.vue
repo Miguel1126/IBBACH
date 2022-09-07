@@ -17,6 +17,7 @@ export default {
             editing: false,
             tableHeaders: [
                 {title: 'Id'},
+                {title: 'Estatus'},
                 {title: 'Ciclo'},
                 {title: 'Asignatura'},
                 {title: 'Docente'},

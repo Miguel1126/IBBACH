@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('subject');
             $table->text('description');
-            $table->string('status')->default('D');
+            $table->string('status',1)->default('D');
             $table->timestamps();
         });
     }
