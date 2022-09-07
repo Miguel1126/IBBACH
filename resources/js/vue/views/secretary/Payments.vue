@@ -188,6 +188,7 @@ export default {
                             <th scope="col">#</th>
                             <th scope="col">Fecha de pago</th>
                             <th scope="col">Ultima fecha de pago</th>
+                            <th scope="col">Estado</th>
                             <th scope="col">Sobrecargo</th>
                             <th scope="col">Cuota</th>
                             <th scope="col">Alumno</th>
@@ -199,6 +200,7 @@ export default {
                             <th scope="row">{{ payment.id }}</th>
                             <td>{{ payment.payment_date }}</td>
                             <td>{{ payment.last_pay_date }}</td>
+                            <td>{{payment.status}}</td>
                             <td>{{ payment.sourcharge }}</td>
                             <td>{{ payment.price }}</td>
                             <td>{{ payment.student }}</td>
