@@ -111,6 +111,7 @@ export default {
         <section class="p-3">
             <DataTable title="Listado de Carga Academica" :headers="[
                 { title: 'Id' },
+                { title: 'Estado'},
                 { title: 'Ciclo' },
                 { title: 'Asignaturas' },
                 { title: 'Docente' },
