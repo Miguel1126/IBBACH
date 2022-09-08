@@ -2,86 +2,92 @@
 import DataTable from '../../../components/DataTable.vue';
 export default {
     mounted() {
-        this.getApplicant();
-        this.getPersonalInfo();
-        this.getEcclesiasticalInfo();
-        this.getMinisterialInfo();
+        //this.getApplicant();
+        this.getPersonalInfo(1, true);
+        this.getEcclesiasticalInfo(1, true);
+        this.getMinisterialInfo(1, true);
     },
     data() {
         return {
-            Applicant:[],
+            //Applicant:[],
             PersonalInfo:[],
             EcclesiasticalInfo:[],
-            MinisterialInfo:[]
+            MinisterialInfo:[],
+            paginationLinks:[],
+            paginationLinks2:[],
+            paginationLinks3:[]
         };
     },
     methods: {
-        async getApplicant() {
-            try {
+        async getPersonalInfo(pageNumber, firstLoad = false) {
+            if (firstLoad) this.PersonalInfo[0] = 'loading'
 
-                const response = await this.axios.get("/api/getApplicant");
+            if (typeof (pageNumber) == 'string') {
+                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+            }
+
+            try {
+                const response = await this.axios.get('/api/getPersonalInfo?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === "object") {
-                        this.applicants = response.data;
-                        console.log(response);
+                        this.PersonalInfo = response.data.data;
+                        this.paginationLinks = response.data.links
                     }
                      else {
-                        console.log(response);
+                        this.PersonalInfo[0] = 'error'
                     }
                 }
             }
             catch (error) {
+                this.PersonalInfo[0] = 'error'
                 console.error(error);
             }
         },
-        async getPersonalInfo() {
+        async getEcclesiasticalInfo(pageNumber, firstLoad = false) {
+            if (firstLoad) this.EcclesiasticalInfo[0] = 'loading'
+
+            if (typeof (pageNumber) == 'string') {
+                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+            }
+
             try {
-                const response = await this.axios.get("/api/getPersonalInfo");
+                const response = await this.axios.get('/api/getEcclesiasticalInfo?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === "object") {
-                        this.PersonalInfo = response.data;
+                        this.EcclesiasticalInfo = response.data.data;
+                        this.paginationLinks2 = response.data.links
                         console.log(response);
                     }
                      else {
-                        console.log(response);
+                        this.PersonalInfo[0] = 'error'
                     }
                 }
             }
             catch (error) {
+                this.PersonalInfo[0] = 'error'
                 console.error(error);
             }
         },
-        async getEcclesiasticalInfo() {
+        async getMinisterialInfo(pageNumber, firstLoad = false) {
+            if (firstLoad) this.MinisterialInfo[0]= 'loading'
+            if(typeof(pageNumber) == 'string'){
+                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+            }
             try {
-                const response = await this.axios.get("/api/getEcclesiasticalInfo");
+                const response = await this.axios.get('/api/getMinisterialInfo?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === "object") {
-                        this.EcclesiasticalInfo = response.data;
-                        console.log(response);
-                    }
-                     else {
-                        console.log(response);
-                    }
-                }
-            }
-            catch (error) {
-                console.error(error);
-            }
-        },
-        async getMinisterialInfo() {
-            try {
-                const response = await this.axios.get("/api/getMinisterialInfo");
-                if (response.status === 200) {
-                    if (typeof (response.data) === "object") {
-                        this.MinisterialInfo = response.data;
+                        this.MinisterialInfo = response.data.data;
+                        this.paginationLinks3 = response.data.links
                         console.log(response);
                     }
                     else {
-                        console.log(response);
+                        this.MinisterialInfo[0] = 'error'
                     }
                 }
             }
             catch (error) {
+                this.MinisterialInfo[0] = 'error'
                 console.error(error);
             }
         },
@@ -97,7 +103,7 @@ export default {
         </section>
         <section class="p-3">
             <DataTable title="Informacion Personal" :headers="[
-                 { title: 'Id' },
+                { title: '#', value: 'id' },
                 { title: 'Nombre' },
                 { title: 'Apellido' },
                 { title: 'Correo' },
@@ -111,10 +117,20 @@ export default {
                 { title: 'Ocupacion actual' },
             ]" :items="PersonalInfo">
             </DataTable>
+            <nav aria-label="Page navigation example" v-if="paginationLinks.length">
+                <ul class="pagination">
+                    <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                        v-for="page in paginationLinks" :key="page">
+                        <span class="page-link" @click.prevent="getPersonalInfo(page.url)">{{ page.label == 'pagination.previous'
+                                ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        }}</span>
+                    </li>
+                </ul>
+                </nav>
         </section>
         <section class="p-3">
             <DataTable title="Informacion Eclesiastica" :headers="[
-                { title: 'Id' },
+                { title: '#', value: 'id' },
                 { title: 'Nombre' },
                 { title: 'Apellido' },
                 { title: 'Es pastor' },
@@ -138,10 +154,20 @@ export default {
                 { title: 'Interes de estudio' },
             ]" :items="EcclesiasticalInfo">
             </DataTable>
+            <nav aria-label="Page navigation example" v-if="paginationLinks2.length">
+                <ul class="pagination">
+                    <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                        v-for="page in paginationLinks2" :key="page">
+                        <span class="page-link" @click.prevent="getEcclesiasticalInfo(page.url)">{{ page.label == 'pagination.previous'
+                                ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        }}</span>
+                    </li>
+                </ul>
+                </nav>
         </section>
         <section class="p-3">
             <DataTable title="Informacion Ministerial" :headers="[
-                { title: 'Id' },
+                { title: '#', value: 'id' },
                 { title: 'Nombre' },
                 { title: 'Apellido' },
                 { title: 'Miniserios desempeñados' },
@@ -156,6 +182,16 @@ export default {
                 { title: 'Cualidades' },
             ]" :items="MinisterialInfo">
             </DataTable>
+            <nav aria-label="Page navigation example" v-if="paginationLinks3.length">
+                <ul class="pagination">
+                    <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                        v-for="page in paginationLinks3" :key="page">
+                        <span class="page-link" @click.prevent="getMinisterialInfo(page.url)">{{ page.label == 'pagination.previous'
+                                ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        }}</span>
+                    </li>
+                </ul>
+            </nav>
         </section>
     </main>
 </template>

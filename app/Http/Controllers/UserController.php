@@ -97,7 +97,7 @@ class UserController extends Controller
                 'subjects.subject',
                 'notes.finalAverage',
                 'notes.status',)
-                ->where('notes.status', '=', 'Aprovado')
+                //->where('notes.status', '=', 'Aprovado')
                 ->orderBy('id','asc')->get();
             return $student;
         }
@@ -153,7 +153,7 @@ class UserController extends Controller
                 'users.code',
                 'groups.group'
             )
-            ->where('groups.group', '=', 'Diurno')
+            //->where('groups.group', '=', 'Diurno')
             ->orderBy('id', 'asc')
             ->get();
             return $inscriptions;
@@ -176,7 +176,7 @@ class UserController extends Controller
                 'users.code',
                 'groups.group'
             )
-            ->where('groups.group', '=', 'Sabatino')
+            //->where('groups.group', '=', 'Sabatino')
             ->orderBy('id', 'asc')
             ->get();
             return $inscriptions;

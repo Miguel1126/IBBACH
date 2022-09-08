@@ -73,7 +73,7 @@ class InscriptionController extends Controller
                 'subjects.subject',
                 'subjects.description'
             )
-            ->where('inscriptions.status', '=', 'inscrito')
+            //->where('inscriptions.status', '=', 'inscrito')
             ->orderBy('id', 'asc')
             ->get();
             return $inscriptions;
@@ -102,7 +102,7 @@ class InscriptionController extends Controller
                 'subjects.subject',
                 'subjects.description'
             )
-            ->where('inscriptions.status', '=', 'inscrito')
+            //->where('inscriptions.status', '=', 'inscrito')
             ->where('groups.group', '=', 'Diurno')
             ->orderBy('id', 'asc')
             ->get();
@@ -132,7 +132,7 @@ class InscriptionController extends Controller
                 'subjects.subject',
                 'subjects.description'
             )
-            ->where('inscriptions.status', '=', 'inscrito')
+            //->where('inscriptions.status', '=', 'inscrito')
             ->where('groups.group', '=', 'Sabatino')
             ->orderBy('id', 'asc')
             ->get();
