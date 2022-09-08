@@ -98,7 +98,7 @@ class PaymentController extends Controller
                 'users.code',
                 'rates.price'
             )
-            //->where('payments.status', '=', 'pendiente')
+            ->where('payments.status', '=', 'pendiente')
             ->orderBy('id', 'asc')
             ->get();
             return $rates;
