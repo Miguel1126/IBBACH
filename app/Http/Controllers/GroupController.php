@@ -57,7 +57,7 @@ class GroupController extends Controller
     {
         try {
             $group = Group::select('groups.id','groups.group')
-            ->orderBy('id','asc')->get();
+            ->orderBy('id','asc')->paginate(5)->onEachSide(1);
             return $group;
         }
         catch (\Exception $e) {

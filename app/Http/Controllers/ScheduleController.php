@@ -60,7 +60,7 @@ class ScheduleController extends Controller
     {
         try {
             $schedule = Schedule::select('schedules.id','schedules.start_time','schedules.end_time','schedules.status')
-            ->orderBy('id','asc')->get();
+            ->orderBy('id','asc')->paginate(5)->onEachSide(1);
             return $schedule;
         }
         catch (\Exception $e) {

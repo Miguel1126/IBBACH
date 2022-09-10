@@ -56,7 +56,7 @@ class SubjectController extends Controller
     {
         try {
             $subject = Subject::select('subjects.id','subjects.subject','subjects.description','subjects.status')
-            ->orderBy('id','asc')->get();
+            ->orderBy('id','asc')->paginate(5)->onEachSide(1);
             return $subject;
         }
         catch (\Exception $e) {

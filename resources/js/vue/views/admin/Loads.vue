@@ -3,6 +3,13 @@ import DataTable from '../../components/DataTable.vue'
 </script>
 <script>
 export default {
+    mounted() {
+        this.getCycles(1, true);
+        this.getSubjects(1, true);
+        this.getTeacher(1, true);
+        this.getSchedules(1, true);
+        this.getLoads(1, true)
+    },
     data() {
         return {
             cycles: [],
@@ -10,6 +17,7 @@ export default {
             teachers: [],
             schedules: [],
             loads: [],
+            paginationLinks: [],
             cySelected: [],
             subSelected: [],
             teaSelected: [],
@@ -29,13 +37,19 @@ export default {
         }
     },
     methods: {
-        async getLoads() {
+        async getLoads(pageNumber, firtsLoad = false) {
+            if(firtsLoad) this.loads[0] = 'loading'
+
+            if (typeof (pageNumber) == 'string') {
+                    pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+                }
             try {
                 this.loads[0] = 'loading'
-                const response = await this.axios.get('/api/getCargas')
+                const response = await this.axios.get('/api/getCargas?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
-                        this.loads = response.data
+                        this.loads = response.data.data;
+                        this.paginationLinks = response.data.links
                     }
                     else {
                         this.loads[0] = 'error'
@@ -262,16 +276,11 @@ export default {
         <section class="p-3">
             <h3 class="h3 fw-semibold">Asignar una nueva carga</h3>
             <div class="d-flex flex-wrap">
-                <div class="dropdown m-4">
-                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <span v-if="!cySelected.length">Ciclo</span>
-                        <span v-else>{{ cySelected[0].cycle }}</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="cycle in cycles" :key="cycle.id" class="dropdown-item text-light list-click"
-                            @click="selectCy($event, cycle)">{{ cycle.cycle }}</li>
-                    </ul>
+                <div class="form-control">
+                    <select class="form-select" id="roles" v-model="roleSelected" required>
+                        <!--<option v-for="cycle in cycles" :key="cycle.id" :value="cycle.cycle">{{ cycle.cycle }}
+                        </option>-->
+                    </select>
                 </div>
                 <div class="dropdown m-4">
                     <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2"
@@ -280,8 +289,8 @@ export default {
                         <span v-else>{{ subSelected[0].subject }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="subject in subjects" :key="subject.id" class="dropdown-item text-light list-click"
-                            @click="selectSub($event, subject)">{{ subject.subject }}</li>
+                       <!-- <li v-for="subject in subjects" :key="subject.id" class="dropdown-item text-light list-click"
+                            @click="selectSub($event, subject)">{{ subject.subject }}</li>-->
                     </ul>
                 </div>
                 <div class="dropdown m-4">
@@ -291,8 +300,8 @@ export default {
                         <span v-else>{{ teaSelected[0].teacher }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="teacher in teachers" :key="teacher.id" class="dropdown-item text-light list-click"
-                            @click="selectTea($event, teacher)">{{ teacher.teacher }}</li>
+                       <!-- <li v-for="teacher in teachers" :key="teacher.id" class="dropdown-item text-light list-click"
+                            @click="selectTea($event, teacher)">{{ teacher.teacher }}</li>-->
                     </ul>
                 </div>
                 <div class="dropdown m-4">
@@ -304,9 +313,9 @@ export default {
                         }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="schedule in schedules" :key="schedule.id" class="dropdown-item text-light list-click"
+                        <!--<li v-for="schedule in schedules" :key="schedule.id" class="dropdown-item text-light list-click"
                             @click="selectSch($event, schedule)">{{ schedule.start_time }} - {{ schedule.end_time }}
-                        </li>
+                        </li>-->
                     </ul>
                 </div>
                 <div class="m-4">
@@ -333,6 +342,16 @@ export default {
                     <button type="button" class="btn btn-danger" @click="confirmDelete($event, load.id)">Eliminar</button>
                 </template>
             </DataTable>
+            <nav aria-label="Page navigation example" v-if="paginationLinks.length">
+                    <ul class="pagination">
+                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                            v-for="page in paginationLinks" :key="page">
+                            <span class="page-link" @click="getLoads(page.url)">{{ page.label == 'pagination.previous'
+                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                            }}</span>
+                         </li>
+                    </ul>
+                </nav>
         </section>
     </main>
 </template>

@@ -70,7 +70,7 @@ class LoadController extends Controller
                 'schedules.end_time'
             )
             ->orderBy('id', 'asc')
-            ->get();
+            ->paginate(5)->onEachSide(1);
             return $loads;
         }
         catch (\Exception $e) {
