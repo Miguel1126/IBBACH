@@ -1,8 +1,9 @@
 <script>
+import { getgroups } from 'process';
 import DataTable from '../../components/DataTable.vue';
 export default {
     mounted() {
-        this.getSubjects();
+        this.getSubjects(1, true);
     },
     data() {
         return {
@@ -10,6 +11,7 @@ export default {
             subject: null,
             descriptions: [],
             description: null,
+            paginationLinks: [],
             statuses: [
                 { id: 1, status: "disponible" },
                 { id: 2, status: "ocupado" }
@@ -60,20 +62,25 @@ export default {
                 this.$swal.fire("Listo", "Se registró la materia", "success");
             }
         },
-        async getSubjects() {
+        async getSubjects(pageNumber, firstSubjects = false) {
+            if (firstSubjects) this.subjects[0] = 'loading'
+    
+                if (typeof (pageNumber) == 'string') {
+                    pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+                }
             try {
                 this.subjects[0] = 'loading'
-                const response = await this.axios.get("/api/getAsignaturas")
+                const response = await this.axios.get('/api/getAsignaturas?page=' + pageNumber);
                 if (response.status === 200) {
-                    this.subjects = response.data
+                    this.subjects = response.data.data;
+                    this.paginationLinks = response.data.links
                 }
                 else {
-                    console.log(response)
                     this.subjects[0] = 'error'
                 }
             } 
             catch (error) {
-                console.log(error)
+                console.log(error);
                 this.subjects[0] = 'error'
             }
         },
@@ -187,6 +194,16 @@ export default {
                     <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
             </DataTable>
+            <nav aria-label="Page navigation example" v-if="paginationLinks.length">
+                    <ul class="pagination">
+                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                            v-for="page in paginationLinks" :key="page">
+                            <span class="page-link" @click="getSubjects(page.url)">{{ page.label == 'pagination.previous'
+                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                            }}</span>
+                        </li>
+                    </ul>
+                </nav>
         </section>
     </main>
 </template>

@@ -2,8 +2,8 @@
 import DataTable from '../../components/DataTable.vue';
     export default{
     mounted() {
-        this.getCycles();
-        this.getGroups();
+        this.getCycles(1, true);
+        this.getGroups(1, true);
     },
     data() {
         return {
@@ -18,6 +18,7 @@ import DataTable from '../../components/DataTable.vue';
             groups: [],
             groupSelected: [],
             cycles: [],
+            paginationLinks: [],
             editing: false,
             headers: [
                 {title: 'Id'},
@@ -68,22 +69,29 @@ import DataTable from '../../components/DataTable.vue';
                 });
             }
         },
-        async getCycles() {
-            try {
-                const response = await this.axios.get("/api/getCiclos");
+        async getCycles(pageNumber, firstCycle = false) {
+            if (firstCycle) this.cycles[0] = 'loading'
+    
+                if (typeof (pageNumber) == 'string') {
+                    pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+                }
+                try {
+                    this.cycles[0] = 'loading'
+                const response = await this.axios.get('/api/getCiclos?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === "object") {
-                        this.cycles = response.data;
-                        console.log(response);
+                        this.cycles = response.data.data;
+                        this.paginationLinks = response.data.links
                     }
                     else {
                         this.cycles[0] = "error";
-                        console.log(response);
                     }
                 }
             }
-            catch {
-                (error) => console.error(error);
+            catch {(error) 
+                console.error(error);
+                this.cycles[0] = "error";
+
             }
         },
         async getGroups() {
@@ -162,8 +170,8 @@ import DataTable from '../../components/DataTable.vue';
                         <span v-else>{{ groupSelected[0].group }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="group in groups" :key="group.id" class="dropdown-item text-light list-click"
-                            @click="selectGroup($event, group)">{{ group.group }}</li>
+                        <!--<li v-for="group in groups" :key="group.id" class="dropdown-item text-light list-click"
+                            @click="selectGroup($event, group)">{{ group.group }}</li>-->
                     </ul>
                 </div>
                 <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg ms-4"
@@ -184,6 +192,16 @@ import DataTable from '../../components/DataTable.vue';
                     <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
             </DataTable>
+           <nav aria-label="Page navigation example" v-if="paginationLinks.length">
+                    <ul class="pagination">
+                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                            v-for="page in paginationLinks" :key="page">
+                            <span class="page-link" @click="getCycles(page.url)">{{ page.label == 'pagination.previous'
+                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                            }}</span>
+                         </li>
+                    </ul>
+                </nav>
         </section>
     </main>
 </template>

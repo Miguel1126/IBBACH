@@ -2,7 +2,7 @@
 import DataTable from '../../components/DataTable.vue';
 export default {
     mounted() {
-        this.getSchedule();
+        this.getSchedules(1, true);
     },
     data() {
         return {
@@ -14,6 +14,7 @@ export default {
             ],
             statusSelected: [],
             schedules: [],
+            paginationLinks: [],
             editing: false,
             headers: [
                 { title: "Id" },
@@ -67,24 +68,27 @@ export default {
             this.statusSelected = [];
             this.statusSelected.push(statuses);
         },
-        getSchedule() {
-            this.axios.get("/api/getHorarios")
-                .then(response => {
-                    this.schedules = response.data;
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        },
-        clearInput() {
-            this.start_time = null;
-            this.end_time = null;
-            this.statusSelected = [];
-            this.editing = false;
-        },
-        validateInput() {
-            let valid = this.start_time && this.end_time && this.statusSelected ? true : false;
-            return valid;
+        async getSchedules(pageNumber, firstSchedule = false) {
+            if (firstSchedule) this.schedules[0] = 'loading'
+    
+                if (typeof (pageNumber) == 'string') {
+                    pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+                }
+                try {
+                    this.schedules[0] = 'loading'
+                const response = await this.axios.get('/api/getHorarios?page=' + pageNumber);
+                if (response.status === 200) {
+                    this.schedules = response.data.data;
+                    this.paginationLinks = response.data.links
+                }
+                else {
+                    this.schedules[0] = 'error'
+                }
+            } 
+            catch (error) {
+                console.log(error);
+                this.schedules[0] = 'error'
+            }
         },
     },
     components: { DataTable }
@@ -129,6 +133,16 @@ export default {
                     <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
             </DataTable>
+            <nav aria-label="Page navigation example" v-if="paginationLinks.length">
+                    <ul class="pagination">
+                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                            v-for="page in paginationLinks" :key="page">
+                            <span class="page-link" @click="getSchedules(page.url)">{{ page.label == 'pagination.previous'
+                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                            }}</span>
+                        </li>
+                    </ul>
+                </nav>
         </section>
     </main>
 </template>

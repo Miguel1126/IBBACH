@@ -2,12 +2,13 @@
 import DataTable from '../../components/DataTable.vue';
     export default {
     mounted() {
-        this.getGroups();
+        this.getGroups(1, true);
     },
     data() {
         return {
             groups: [],
             group: null,
+            paginationLinks: [],
             editing: false,
             headers: [
                 {title: 'Id'},
@@ -46,20 +47,25 @@ import DataTable from '../../components/DataTable.vue';
                 });
             }
         },
-        async getGroups() {
-            this.groups[0] = 'loading'
-            try {
-                const response = await this.axios.get("/api/getGrupos")
+        async getGroups(pageNumber, firstGroup = false) {
+            if (firstGroup) this.groups[0] = 'loading'
+    
+                if (typeof (pageNumber) == 'string') {
+                    pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+                }
+                try {
+                    this.groups[0] = 'loading'
+                const response = await this.axios.get('/api/getGrupos?page=' + pageNumber);
                 if (response.status === 200) {
-                    this.groups = response.data
+                    this.groups = response.data.data;
+                    this.paginationLinks = response.data.links
                 }
                 else {
-                    console.log(response)
                     this.groups[0] = 'error'
                 }
             } 
             catch (error) {
-                console.log(error)
+                console.log(error);
                 this.groups[0] = 'error'
             }
         },
@@ -145,6 +151,16 @@ import DataTable from '../../components/DataTable.vue';
                     <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
             </DataTable>
+            <nav aria-label="Page navigation example" v-if="paginationLinks.length">
+                    <ul class="pagination">
+                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                            v-for="page in paginationLinks" :key="page">
+                            <span class="page-link" @click="getGroups(page.url)">{{ page.label == 'pagination.previous'
+                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                            }}</span>
+                        </li>
+                    </ul>
+                </nav>
         </section>
     </main>
 </template>
