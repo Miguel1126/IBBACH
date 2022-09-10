@@ -19,8 +19,8 @@ export default {
         };
     },
     methods: {
-        async getPersonalInfo(pageNumber, firstLoad = false) {
-            if (firstLoad) this.PersonalInfo[0] = 'loading'
+        async getPersonalInfo(pageNumber, firstPersonalInfo = false) {
+            if (firstPersonalInfo) this.PersonalInfo[0] = 'loading'
 
             if (typeof (pageNumber) == 'string') {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
@@ -43,8 +43,8 @@ export default {
                 console.error(error);
             }
         },
-        async getEcclesiasticalInfo(pageNumber, firstLoad = false) {
-            if (firstLoad) this.EcclesiasticalInfo[0] = 'loading'
+        async getEcclesiasticalInfo(pageNumber, firstEcclesiasticalInfo = false) {
+            if (firstEcclesiasticalInfo) this.EcclesiasticalInfo[0] = 'loading'
 
             if (typeof (pageNumber) == 'string') {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
@@ -68,8 +68,8 @@ export default {
                 console.error(error);
             }
         },
-        async getMinisterialInfo(pageNumber, firstLoad = false) {
-            if (firstLoad) this.MinisterialInfo[0]= 'loading'
+        async getMinisterialInfo(pageNumber, firstMinisterialInfo = false) {
+            if (firstMinisterialInfo) this.MinisterialInfo[0]= 'loading'
             if(typeof(pageNumber) == 'string'){
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
