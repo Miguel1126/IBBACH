@@ -39,33 +39,7 @@ const ToggleMenu = () => {
 
 		<h3>Reportes</h3>
 		<div class="menu">
-			<Link url="LoadsReport" name="Cargas" icon="summarize">
-			</Link>
-			<Link url="TeachersReport" name="Docentes" icon="person">
-			</Link>
-			<Link url="SubjectsReport" name="Asignaturas" icon="book">
-			</Link>
-			<Link url="CyclesReport" name="Ciclos" icon="autorenew">
-			</Link>
-			<Link url="ApplicantsReport" name="Aplicantes" icon="account_circle">
-			</Link>
-			<Link url="NotesReport" name="Notas" icon="note_alt">
-			</Link>
-			<Link url="AssistancesReport" name="Asistencias" icon="view_cozy">
-			</Link>
-			<Link url="NoteStatusReport" name="Estado" icon="groups">
-			</Link>
-			<Link url="UsersGroupReport" name="UsuarioGrupo" icon="report">
-			</Link>
-			<Link url="InscriptionsReport" name="Inscripciones" icon="report">
-			</Link>
-			<Link url="UsersReport" name="Usuarios" icon="report">
-			</Link>
-			<Link url="PaymentsPReport" name="Pagos" icon="report">
-			</Link>
-			<Link url="RatesReport" name="Cuotas" icon="report">
-			</Link>
-			<Link url="StudentsPerYearReport" name="Estudiantes por año" icon="report">
+			<Link url="Reports" name="Reportes" icon="folder_open">
 			</Link>
 		</div>
 	</aside>
