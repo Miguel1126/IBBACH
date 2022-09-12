@@ -24,6 +24,7 @@ import Groups from '../views/admin/Groups.vue'
 import Subjects from '../views/admin/Subjects.vue'
 import Cycles from '../views/admin/Cycles.vue'
 import Schedules from '../views/admin/Schedules.vue'
+import Reports from '../views/admin/Reports.vue'
 
 /**
  * Components for secretary view
@@ -120,7 +121,12 @@ export const router = createRouter({
           component: Schedules
         },
         {
-          path: 'reporte_aplicantes',
+          path: 'reportes',
+          name: 'Reports',
+          component: Reports
+        },
+        {
+          path: 'reporte-aplicantes',
           name: 'ApplicantsReport',
           component: ApplicantsReport
         },

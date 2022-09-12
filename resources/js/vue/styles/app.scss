@@ -8,6 +8,7 @@ button {
 .app {
 	width: 100vw;
 	main {
+		overflow-x: hidden;
 		margin-left: 45px;
 		flex: 1 1 0;
 		padding: 2rem;
