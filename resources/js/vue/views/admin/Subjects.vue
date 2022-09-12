@@ -209,6 +209,7 @@ export default {
 </template>
 
 <style scoped>
+
 .load {
     border-radius: 15px !important;
 }

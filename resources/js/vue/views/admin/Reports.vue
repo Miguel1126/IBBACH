@@ -48,10 +48,6 @@ export default {
     </main>
 </template>
 <style scoped>
-main {
-    height: 100vh;
-    margin-left: 0px;
-}
 .card {
     background-color: var(--dark);
     transition: all 300ms ease;
