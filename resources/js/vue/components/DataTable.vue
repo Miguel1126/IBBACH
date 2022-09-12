@@ -81,7 +81,21 @@ onMounted(() => {
         </div>
     </div>
 </template>
+
 <style scoped>
+.table-container {
+    scrollbar-color: #eee #eee;
+    scrollbar-width: thin;
+}
+:-webkit-scrollbar {
+    width: 0.25rem;
+}
+::-webkit-scrollbar-track {
+    background: #eee;
+}
+::-webkit-scrollbar-thumb {
+    background: #eee;
+}
 .styled-table {
     color: #000;
     border-collapse: collapse;
