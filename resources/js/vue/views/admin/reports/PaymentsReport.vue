@@ -2,49 +2,62 @@
 import DataTable from '../../../components/DataTable.vue';
 export default {
     mounted() {
-       this.getPaymentsP();
-       this.getPaymentsS()
+       this.getPaymentsP(1, true);
+       this.getPaymentsS(1, true)
 
     },
     data() {
         return {
             PaymentsP: [],
             PaymentsS: [],
+            paginationLinksP: [],
+            paginationLinksS: []
         };
     },
     methods: {
-         async getPaymentsP() {
+         async getPaymentsP(pageNumber, firstPaymentsP = false) {
+            if(firstPaymentsP) this.PaymentsP[0] = 'loading'
+            if(typeof (pageNumber) == 'string'){
+                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+            }
             try {
-                const response = await this.axios.get('/api/getPaymentsp')
+                this.PaymentsP[0] = 'loading'
+                const response = await this.axios.get('/api/getPaymentsp?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
-                        this.PaymentsP = response.data
-                        console.log(response)
+                        this.PaymentsP = response.data.data;
+                        this.paginationLinksP = response.data.links
                     }
                     else {
-                        console.log(response);
+                        this.PaymentsP[0] = 'error'
                     }
                 }
             }
             catch (error) {
                 console.error(error);
+                this.PaymentsP[0] = 'error'
             }
         },
-         async getPaymentsS() {
+         async getPaymentsS(pageNumber, firstPaymentsS = false) {
+            if(firstPaymentsS) this.PaymentsS[0] = 'loading'
+            if(typeof (pageNumber) == 'string'){
+                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+            }
             try {
-                const response = await this.axios.get('/api/getPaymentsS')
+                const response = await this.axios.get('/api/getPaymentsS?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
-                        this.PaymentsS = response.data
-                        console.log(response)
+                        this.PaymentsS = response.data.data;
+                        this.paginationLinksS = response.data.links
                     }
                     else {
-                        console.log(response);
+                        this.PaymentsS[0] = 'error'
                     }
                 }
             }
             catch (error) {
                 console.error(error);
+                this.PaymentsS[0] = 'error'
             }
         },
     },
@@ -66,6 +79,16 @@ export default {
                 { title: 'Cuota'}
             ]" :items="PaymentsP">
             </DataTable>
+            <nav aria-label="Page navigation example" v-if="paginationLinksP.length">
+                    <ul class="pagination">
+                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                            v-for="page in paginationLinksP" :key="page">
+                            <span class="page-link" @click="getPaymentsP(page.url)">{{ page.label == 'pagination.previous'
+                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                            }}</span>
+                        </li>
+                    </ul>
+                </nav>
         </section>
         <section class="p-3">
             <DataTable title="Listado de pagos solventes" :headers="[
@@ -80,6 +103,16 @@ export default {
                 { title: 'Cuota'}
             ]" :items="PaymentsS">
             </DataTable>
+            <nav aria-label="Page navigation example" v-if="paginationLinksS.length">
+                    <ul class="pagination">
+                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                            v-for="page in paginationLinksS" :key="page">
+                            <span class="page-link" @click="getPaymentsS(page.url)">{{ page.label == 'pagination.previous'
+                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                            }}</span>
+                        </li>
+                    </ul>
+                </nav>
         </section>
     </main>
 </template>

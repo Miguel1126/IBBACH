@@ -100,7 +100,7 @@ class PaymentController extends Controller
             )
             ->where('payments.status', '=', 'pendiente')
             ->orderBy('id', 'asc')
-            ->get();
+            ->paginate(5)->onEachSide(1);
             return $rates;
         }
         catch (\Exception $e) {
@@ -125,7 +125,7 @@ class PaymentController extends Controller
             )
             //->where('payments.status', '=', 'solvente')
             ->orderBy('id', 'asc')
-            ->get();
+            ->paginate(5)->onEachSide(1);
             return $rates;
         }
         catch (\Exception $e) {
