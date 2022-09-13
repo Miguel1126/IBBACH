@@ -64,6 +64,10 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::get('/getMinisterialInfo', [ApplicantController::class, 'getMinisterialInfo']);
     Route :: get('/getRate', [RateController::class, 'getRate']);
     Route::get('/getStudentsByYear', [UserController::class, 'getStudentsPerYear']);
+    Route::get('/getCyclesReport', [CycleController::class, 'getCyclesReport']);
+    Route::get('/getSubjectsReport', [SubjectController::class, 'getSubjectsReport']);
+    Route::get('/getNotesReport', [NoteController::class, 'getNotesReport']);
+    Route:: get('/getAssistancesReport', [AssistanceController::class, 'getAssistances']);
 });
 
     
