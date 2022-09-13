@@ -71,6 +71,20 @@ class CycleController extends Controller
         }
     }
 
+    public function getCyClesReport()
+    {
+        try {
+            $cycle = Cycle::join('groups', 'cycles.group_id', '=', 'groups.id')
+            ->select('cycles.id', 'cycles.cycle', 'cycles.start_date', 'cycles.end_date', 'cycles.status', 'groups.group')
+            ->orderBy('id', 'asc')
+            ->paginate(5)->onEachSide(1);
+            return $cycle;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
