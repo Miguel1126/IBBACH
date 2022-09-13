@@ -75,7 +75,7 @@ class RateController extends Controller
                 'rates.tuition'
             )
             ->orderBy('id','asc')
-            ->get();
+            ->paginate(5)->onEachSide(1);
             return $rate;
         }
         catch (\Exception $e) {

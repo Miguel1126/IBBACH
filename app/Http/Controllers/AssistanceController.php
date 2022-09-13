@@ -73,14 +73,40 @@ class AssistanceController extends Controller
                 'users.last_name',
                 'users.code'
             )
-            ->orderBy('id', 'asc')
-            ->get();
+            ->orderBy('id', 'asc')->get();
             return $assistance;
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
         }
     }
+
+    public function getAssistances()
+    {
+        try {
+            $assistance = Assistance::join('notes', 'assistances.note_id', '=', 'notes.id')
+            ->join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')
+            ->join('users', 'inscriptions.user_id', '=', 'users.id')
+            ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+            ->join('subjects', 'loads.subject_id', '=', 'subjects.id')
+            ->select(
+                'assistances.id', 
+                'assistances.date', 
+                'subjects.subject',
+                'assistances.status', 
+                'users.name',
+                'users.last_name',
+                'users.code'
+            )
+            ->orderBy('id', 'asc')
+            ->paginate(5)->onEachSide(1);
+            return $assistance;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+
 
     /**
      * Show the form for editing the specified resource.

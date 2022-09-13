@@ -9,8 +9,9 @@ export default {
     data() {
         return {
             formData: {
-                registration_date: ''
-            }
+            },
+            img: '',
+            thumbnailImage: ''
         }
     },
     methods: {
@@ -41,6 +42,8 @@ export default {
             this.$refs.personalInfo.clearInputs()
             this.$refs.ecclesiasticalInfo.clearInputs()
             this.$refs.ministerialInfo.clearInputs()
+            this.thumbnailImage = null
+            this.img = null
         },
         async submitForm() {
             const button = document.querySelector('#submit-btn')
@@ -50,12 +53,13 @@ export default {
 
             this.getData()
 
-            const date = new Date()
-            const formatedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-            this.formData.registration_date = formatedDate
-
             try {
-                const response = await this.axios.post('/api/aplicante', this.formData)
+                let data = new FormData;
+                data.append('img', this.img);
+                Object.keys(this.formData).forEach(form => {
+                    data.append(form, this.formData[form]);
+                });
+                const response = await this.axios.post('/api/aplicante', data);
                 if (response.status === 201) {
                     if (typeof (response.data) === 'object') {
                         this.$swal.fire(
@@ -86,6 +90,25 @@ export default {
             button.value = `Enviar formulario`
             button.disabled = ''
             this.clearInputs()
+        },
+        getImage(e){
+            let file = e.target.files[0];
+            console.log(file);
+            this.img = file;
+            this.showImage(file);
+        },
+        showImage(file){
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                this.thumbnailImage = e.target.result;
+
+            }
+            reader.readAsDataURL(file);
+        }
+    },
+    computed: {
+        images(){
+            return this.thumbnailImage;
         }
     }
 }
@@ -99,7 +122,12 @@ export default {
                 enviarla.</h4>
         </div>
         <div class="m-5 rounded form-container">
-            <form @submit.prevent="submitForm" class="d-block p-5" action="">
+            <form @submit.prevent="submitForm" class="d-block p-5" action="" enctype="multipart/form-data">
+                <div>
+                    <label for="formFile" class="btn btn-success">Select Image</label>
+                    <input class="d-none" type="file" id="formFile" @change="getImage">
+                    <div class="m-3"><img :src="images" class="img-fluid"/></div>
+                </div>
                 <PersonalInformation ref="personalInfo" @personalInfo="getPersonalInformation($event)" />
                 <EcclesiasticalInformation ref="ecclesiasticalInfo"
                     @ecclesiasticalInfo="getEcclesiasticalInfo($event)" />
