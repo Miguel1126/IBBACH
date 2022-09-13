@@ -56,48 +56,10 @@ export default {
             try {
                 let data = new FormData;
                 data.append('img', this.img);
-                data.append('name', this.formData.name);
-                data.append('last_name', this.formData.last_name);
-                data.append('email', this.formData.email);
-                data.append('phone', this.formData.phone);
-                data.append('address', this.formData.address);
-                data.append('nationality', this.formData.nationality);
-                data.append('birth_date', this.formData.birth_date);
-                data.append('marital_status', this.formData.marital_status);
-                data.append('mate_name', this.formData.mate_name);
-                data.append('secular_degree', this.formData.secular_degree);
-                data.append('current_ocupation', this.formData.current_ocupation);
-                data.append('is_pastor', this.formData.is_pastor);
-                data.append('is_member', this.formData.is_member);
-                data.append('pastor_phone', this.formData.pastor_phone);
-                data.append('church_name', this.formData.church_name);
-                data.append('church_address', this.formData.church_address);
-                data.append('church_phone', this.formData.church_phone);
-                data.append('district', this.formData.district);
-                data.append('pastor_name', this.formData.pastor_name);
-                data.append('licence', this.formData.licence);
-                data.append('reference_name_one', this.formData.reference_name_one);
-                data.append('reference_phone_one', this.formData.reference_phone_one);
-                data.append('reference_name_two', this.formData.reference_name_two);
-                data.append('reference_phone_two', this.formData.reference_phone_two);
-                data.append('christ_accepted', this.formData.christ_accepted);
-                data.append('christening_date', this.formData.christening_date);
-                data.append('time_being_member', this.formData.time_being_member);
-                data.append('privileges_held', this.formData.privileges_held);
-                data.append('denomination', this.formData.denomination);
-                data.append('study_reason', this.formData.study_reason);
-                data.append('ministry_performed', this.formData.ministry_performed);
-                data.append('current_ministry', this.formData.current_ministry);
-                data.append('full_time', this.formData.full_time);
-                data.append('ministry_qualification', this.formData.ministry_qualification);
-                data.append('aspirated_ministry', this.formData.aspirated_ministry);
-                data.append('reason_aspiring_ministry', this.formData.reason_aspiring_ministry);
-                data.append('cicle_to_be_taken', this.formData.cicle_to_be_taken);
-                data.append('previous_institution', this.formData.previous_institution);
-                data.append('last_year_studied', this.formData.last_year_studied);
-                data.append('qualities_religious_worker', this.formData.qualities_religious_worker);
-                const response = await this.axios.post('/api/aplicante', data,{
+                Object.keys(this.formData).forEach(form => {
+                    data.append(form, this.formData[form]);
                 });
+                const response = await this.axios.post('/api/aplicante', data);
                 if (response.status === 201) {
                     if (typeof (response.data) === 'object') {
                         this.$swal.fire(
