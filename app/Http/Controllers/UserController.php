@@ -17,7 +17,7 @@ class UserController extends Controller
         try {
             $teacher = User::select('users.id', 'users.name as teacher', 'users.last_name', 'users.code', 'users.status')
             ->where('users.role', '=', 'docente')
-            ->orderBy('id','asc')->get();
+            ->orderBy('id','asc')->paginate(5)->onEachSide(1);
             return $teacher;
         }
         catch (\Exception $e) {
@@ -41,7 +41,7 @@ class UserController extends Controller
         try {
             $teacher = User::select('users.id', 'users.name as admin', 'users.last_name', 'users.code', 'users.status', 'role')
             ->where('users.role', '=', 'docente')
-            ->orderBy('id','asc')->get();
+            ->orderBy('id','asc') ->paginate(5)->onEachSide(1);
             return $teacher;
         }
         catch (\Exception $e) {
@@ -53,7 +53,7 @@ class UserController extends Controller
         try {
             $student = User::select('users.id', 'users.name as admin', 'users.last_name', 'users.code', 'users.status', 'role')
             ->where('users.role', '=', 'alumno')
-            ->orderBy('id','asc')->get();
+            ->orderBy('id','asc') ->paginate(5)->onEachSide(1);
             return $student;
         }
         catch (\Exception $e) {
@@ -65,7 +65,7 @@ class UserController extends Controller
         try {
             $teacher = User::select('users.id', 'users.name as admin', 'users.last_name', 'users.code', 'users.status', 'role')
             ->where('users.role', '=', 'admin')
-            ->orderBy('id','asc')->get();
+            ->orderBy('id','asc') ->paginate(5)->onEachSide(1);
             return $teacher;
         }
         catch (\Exception $e) {
@@ -77,7 +77,7 @@ class UserController extends Controller
         try {
             $teacher = User::select('users.id', 'users.name as secretary', 'users.last_name', 'users.code', 'users.status', 'role')
             ->where('users.role', '=', 'secretaria')
-            ->orderBy('id','asc')->get();
+            ->orderBy('id','asc') ->paginate(5)->onEachSide(1);
             return $teacher;
         }
         catch (\Exception $e) {
@@ -98,7 +98,7 @@ class UserController extends Controller
                 'notes.finalAverage',
                 'notes.status',)
                 //->where('notes.status', '=', 'Aprovado')
-                ->orderBy('id','asc')->get();
+                ->orderBy('id','asc')->paginate(5)->onEachSide(1);
             return $student;
         }
         catch (\Exception $e) {
@@ -130,7 +130,7 @@ class UserController extends Controller
                 'notes.finalAverage',
                 'notes.status',)
                 ->where('notes.status', '=', 'Reprobado')
-                ->orderBy('id','asc')->get();
+                ->orderBy('id','asc')->paginate(5)->onEachSide(1);
             return $student;
         }
         catch (\Exception $e) {
