@@ -103,7 +103,12 @@ class ApplicantController extends Controller
 
             // saving applicant information and making relations with previous information tables
             $applicant = new Applicant();
-            $applicant->registration_date = $request->registration_date;
+            $request->validate(['img' => 'image|max:2048']);
+            $img = $request->file('img');
+            $route = 'images/';
+            $imgName = time() . '-' . str_replace(' ', '', $img->getClientOriginalName());
+            $request->file('img')->move($route, $imgName);
+            $applicant->img = $route . $imgName;
             $applicant->personal_information_id = $personalInfo->id;
             $applicant->ecclesiastical_information_id = $ecclesiasticalInfo->id;
             $applicant->ministerial_information_id = $ministerialInfo->id;
