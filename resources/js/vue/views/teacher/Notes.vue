@@ -1,4 +1,5 @@
 <script>
+    import DataTable from '../../components/DataTable.vue';
 export default {
     mounted() {
         this.getNotes();
@@ -95,7 +96,9 @@ export default {
             this.statusSelected = [];
             this.statusSelected.push(statuses);
         }
-    }
+    }, 
+    
+    components: { DataTable}
 }
 </script>
 <template>
@@ -195,55 +198,31 @@ export default {
                     @click="clearInput">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
             </form>
         </section>
-        <hr class="separator" />
+        <section class=" p-3 ">
+        </section>
         <section class="p-3">
-            <div class="table-container p-3 mb-5 bg-body rounded">
-                <h3 class="h3 fw-semibold mb-3 text-black">Listado </h3>
-                <table class="table table-bordered border-dark">
-                    <thead class="table-info table-bordered border-dark">
-                        <tr>
-                            <th scope="col" class="w-10">#</th>
-                            <th scope="col" class="w-10">Asignatura</th>
-                            <th scope="col" class="w-10">Nombre</th>
-                            <th scope="col" class="w-10">Apellido</th>
-                            <th scope="col" class="w-10">Codigo</th>
-                            <th scope="col" class="w-10">Evalucion #1</th>
-                            <th scope="col" class="w-10">Porcentaje</th>
-                            <th scope="col" class="w-10">Evalucion #2</th>
-                            <th scope="col" class="w-10">Porcentaje</th>
-                            <th scope="col" class="w-10">Evalucion #3</th>
-                            <th scope="col" class="w-10">Porcentaje</th>
-                            <th scope="col" class="w-10">Evalucion #4</th>
-                            <th scope="col" class="w-10">Porcentaje</th>
-                            <th scope="col" class="w-10">Evalucion #5</th>
-                            <th scope="col" class="w-10">Porcentaje</th>
-                            <th scope="col" class="w-10">Resultado Final</th>
-                            <th scope="col" class="w-10">Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        <tr v-for="note in notes" :key="note.id">
-                            <th scope="row">{{ note.id }}</th>
-                            <td>{{ note.subject }}</td>
-                            <td>{{ note.name }}</td>
-                            <td>{{ note.last_name }}</td>
-                            <td>{{ note.code }}</td>
-                            <td>{{ note.ev1 }}</td>
-                            <td>{{ note.percentege1 }}</td>
-                            <td>{{ note.ev2 }}</td>
-                            <td>{{ note.percentege2 }}</td>
-                            <td>{{ note.ev3 }}</td>
-                            <td>{{ note.percentege3 }}</td>
-                            <td>{{ note.ev4 }}</td>
-                            <td>{{ note.percentege4 }}</td>
-                            <td>{{ note.ev5 }}</td>
-                            <td>{{ note.percentege5 }}</td>
-                            <td>{{ note.finalAverage }}</td>
-                            <td>{{ note.status }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <DataTable title="Listado de notas" :headers="[
+                {title:'Id'},
+                {title:'Ciclo'},
+                {title:'Asignatura'},
+                {title:'Nombre'},
+                {title:'Apellido'},
+                {title:'Codigo'},
+                {title:'Grupo'},
+                {title:'Evalucion #1'},
+                {title:'Porcentaje'},
+                {title:'Evalucion #2'},
+                {title:'Porcentaje'},
+                {title:'Evalucion #3'},
+                {title:'Porcentaje'},
+                {title:'Evalucion #4'},
+                {title:'Porcentaje'},
+                {title:'Evalucion #5'},
+                {title:'Porcentaje'},
+                {title:'Resultado Final'},
+                {title:'Estado'},
+            ]" :items="notes">
+            </DataTable>
         </section>
     </main>
 </template>
