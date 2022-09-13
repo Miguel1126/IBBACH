@@ -1,4 +1,5 @@
 <script>
+    import DataTable from '../../components/DataTable.vue';
 export default {
     mounted() {
         this.getAssistances();
@@ -15,7 +16,7 @@ export default {
             date: '',
             statusSelected: [],
             noteSelected: [],
-            assistances: []
+            assistances: [],
         }
     },
     methods: {
@@ -117,7 +118,9 @@ export default {
         document.title = "IBBACH | Asistencias"
 
 
-    }
+    },
+
+    components: { DataTable}
 }
 
 </script>
@@ -154,9 +157,9 @@ export default {
                             }} Materia: {{ noteSelected[0].subject }}</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                            <li v-for="note in notes" :key="note.id" class="dropdown-item text-light list-click"
+                            <!--<li v-for="note in notes" :key="note.id" class="dropdown-item text-light list-click"
                                 @click="selectNote($event, note)">{{ note.name }} {{ note.last_name }} - {{ note.code }}
-                                Materia: {{ note.subject }}</li>
+                                Materia: {{ note.subject }}</li>-->
                         </ul>
                     </div>
                     <div class="m-4">
@@ -168,40 +171,20 @@ export default {
                 </div>
             </form>
         </section>
+        <section class=" p-3 ">
+        </section>
         <section class="p-3">
-            <div class="table-container p-3 mb-5 bg-body rounded">
-                <h3 class="h3 fw-semibold mb-3 text-black">Listado de cargas</h3>
-                <table class="table table-bordered border-dark bg-light">
-                    <thead class="table-success table-bordered border-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Fecha de asistencia</th>
-                            <th scope="col">Asignatura</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col">Alumno</th>
-                            <th scope="col">Codigo</th>
-                            <th scope="col">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        <tr v-for="assistance in assistances" :key="assistance.id">
-                            <th scope="row">{{ assistance.id }}</th>
-                            <td>{{ assistance.date }}</td>
-                            <td>{{ assistance.subject }}</td>
-                            <td>{{ assistance.status }}</td>
-                            <td>{{ assistance.name }} {{ assistance.last_name }}</td>
-                            <td>{{ assistance.code }}</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary me-2"
-                                    @click="selectAssistance($event, assistance.assistance, assistance.statu, assistance.note)">Modificar</button>
-                                <button type="button" class="btn btn-danger"
-                                    @click="confirmDelete($event, assistance.id)">Eliminar</button>
-                            </td>
-                        </tr>
-                    </tbody>
+            <DataTable title="Listado de asistencia" :headers="[
+                {title:'Id'},
+                {title:'Fecha de asistencia'},
+                {title:'Asignatura'},
+                {title:'Estado'},
+                {title:'Alumno'},
+                {title:'Apellido'},
+                {title:'Codigo'},
 
-                </table>
-            </div>
+            ]" :items="assistances">
+            </DataTable>
         </section>
     </main>
 </template>

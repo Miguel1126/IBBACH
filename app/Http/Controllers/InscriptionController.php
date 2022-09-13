@@ -105,7 +105,7 @@ class InscriptionController extends Controller
             //->where('inscriptions.status', '=', 'inscrito')
             ->where('groups.group', '=', 'Diurno')
             ->orderBy('id', 'asc')
-            ->get();
+            ->paginate(5)->onEachSide(1);
             return $inscriptions;
         }
         catch (\Exception $e) {
@@ -135,7 +135,7 @@ class InscriptionController extends Controller
             //->where('inscriptions.status', '=', 'inscrito')
             ->where('groups.group', '=', 'Sabatino')
             ->orderBy('id', 'asc')
-            ->get();
+            ->paginate(5)->onEachSide(1);
             return $inscriptions;
         }
         catch (\Exception $e) {

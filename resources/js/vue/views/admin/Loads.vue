@@ -265,7 +265,8 @@ export default {
         this.getTeachers()
         this.getSchedules()
         this.getLoads()
-    }
+    },
+    components: {DataTable}
 }
 </script>
 

@@ -64,6 +64,18 @@ class SubjectController extends Controller
         }
     }
 
+    public function getSubjectsReport()
+    {
+        try {
+            $subject = Subject::select('subjects.id','subjects.subject','subjects.description','subjects.status')
+            ->orderBy('id','asc')->paginate(5)->onEachSide(1);
+            return $subject;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
