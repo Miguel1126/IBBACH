@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('applicants', function (Blueprint $table) {
             $table->id();
-            $table->date('registration_date');
+            $table->string('img', 200);
             $table->string('status', 1)->default('P');
             $table->foreignId('personal_information_id')
             ->constrained('personal_information');
