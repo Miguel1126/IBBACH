@@ -20,6 +20,17 @@
 body {
     background-color: var(--dark-background);
     color: var(--light);
+	scrollbar-color: #42414d #272525;
+    scrollbar-width: thin;
+}
+::-webkit-scrollbar {
+    width: 0.25rem;
+}
+::-webkit-scrollbar-track {
+    background: #272525;
+}
+::-webkit-scrollbar-thumb {
+    background: #42414d;
 }
 .table-color {
     background-color: #eee;
