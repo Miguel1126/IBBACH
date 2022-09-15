@@ -74,7 +74,7 @@ class PaymentController extends Controller
                 'rates.price'
             )
             ->orderBy('id', 'asc')
-            ->get();
+            ->paginate(5)->onEachSide(1);
             return $rates;
         }
         catch (\Exception $e) {

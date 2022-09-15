@@ -2,7 +2,7 @@
 import DataTable from '../../../components/DataTable.vue';
 export default {
     mounted() {
-       this.getrates();
+       this.getrates(1, true);
         
     },
     data() {
@@ -15,10 +15,10 @@ export default {
          async getrates(pageNumber, firstrates = false) {
             if(firstrates) this.Rates[0] = 'loading'
             if(typeof(pageNumber) == 'string'){
-                pageNumber = new URL(pageNumber).searchParams.getAll(0)[0]
+                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
-                const response = await this.axios.get('/api/getRate?pahe=' + pageNumber)
+                const response = await this.axios.get('/api/getrates?page=' + pageNumber)
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.Rates = response.data.data;

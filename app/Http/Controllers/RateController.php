@@ -58,14 +58,22 @@ class RateController extends Controller
     public function show()
     {
         try {
-            $rate = Rate::orderBy('id', 'asc')->get();
+            $rate = Rate:: 
+            select(
+                'rates.id',
+                'rates.price',
+                'rates.tuition'
+            )
+            ->orderBy('id','asc')
+            ->paginate(5)->onEachSide(1);
+            
             return $rate;
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
         }
     }
-    public function getRate()
+    public function getrates()
     {
         try {
             $rate = Rate:: 
