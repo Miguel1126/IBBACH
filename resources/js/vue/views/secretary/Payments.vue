@@ -1,9 +1,10 @@
 <script>
+    import DataTable from '../../components/DataTable.vue';
 export default {
     mounted() {
-        this.getPayments();
-        this.getRates();
-        this.getStudents();
+        this.getPayments(1, true);
+        this.getRates(1, true);
+        this.getStudents(1, true);
     },
     data() {
         return {
@@ -15,6 +16,7 @@ export default {
             students: [],
             studentSelected: [],
             payments: [],
+            paginationLinks: [],
             editing: false
 
         }
@@ -58,27 +60,31 @@ export default {
                 })
             }
         },
-        async getPayments() {
+        async getPayments(pageNumber, firstPayments = false) {
+            if(firstPayments) this.payments[0] = 'loading'
+            if(typeof (pageNumber) == 'string'){
+                pageNumber = new URL(pageNumber).searchParams.getAll('page') [0]
+            }
             try {
-                const response = await this.axios.get('/api/getPagos')
+                const response = await this.axios.get('/api/getPagos?page=' + pageNumber)
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
-                        this.payments = response.data
-                        console.log(response)
+                        this.payments = response.data.data;
+                        this.paginationLinks = response.data.links
                     }
                     else {
                         this.payments[0] = 'error'
-                        console.log(response)
                     }
                 }
             }
             catch(error) {
-                console.log(error)
+                console.log(error);
+                this.payments[0] = 'error'
             }
         },
         async getStudents() {
             try {
-                const response = await this.axios.get('/api/getStudents')
+                const response = await this.axios.get('/api/getStudent')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.students = response.data
@@ -129,7 +135,8 @@ export default {
             this.rateSelected = [];
             this.rateSelected.push(rates);
         },
-    }
+    },
+    components: {DataTable}
 }
 </script>
 <template>
@@ -157,8 +164,8 @@ export default {
                         <span v-else>{{ rateSelected[0].price }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="price in rates" :key="price.id" class="dropdown-item text-light list-click"
-                            @click="selectRate($event, price)">{{ price.price }}</li>
+                        <!--<li v-for="price in rates" :key="price.id" class="dropdown-item text-light list-click"
+                        @click="selectRate($event, price)">{{ price.price }}</li>-->
                     </ul>
                 </div>
                 <div class="dropdown m-4">
@@ -178,42 +185,32 @@ export default {
                     @click="clearInput">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
             </form>
         </section>
-        <hr class="separator" />
         <section class="p-3">
-            <div class="table-container p-3 mb-5 bg-body rounded">
-                <h3 class="h3 fw-semibold mb-3 text-black">Listado </h3>
-                <table class="table table-bordered border-dark">
-                    <thead class="table-info table-bordered border-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Fecha de pago</th>
-                            <th scope="col">Ultima fecha de pago</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col">Sobrecargo</th>
-                            <th scope="col">Cuota</th>
-                            <th scope="col">Alumno</th>
-                            <th scope="col" class="w-25">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        <tr v-for="payment in payments" :key="payment.id">
-                            <th scope="row">{{ payment.id }}</th>
-                            <td>{{ payment.payment_date }}</td>
-                            <td>{{ payment.last_pay_date }}</td>
-                            <td>{{payment.status}}</td>
-                            <td>{{ payment.sourcharge }}</td>
-                            <td>{{ payment.price }}</td>
-                            <td>{{ payment.student }}</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary me-2"
-                                    @click="selectGroup($event, payment.payment )">Modificar</button>
-                                <button type="button" class="btn btn-danger"
-                                    @click="confirmDelete($event, payment.id)">Eliminar</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <DataTable title="Listado de pagos" :headers="[
+                {title:'Id'},
+                {title:'Fecha de pago'},
+                {title:'Ultima fecha de pago'},
+                {title:'Estado'},
+                {title:'Sobrecargo'},
+                {title:'Alumno'},
+                {title:'Cuota'},
+                {title: 'Acciones'}
+            ]" :items="payments">
+            <template #actions>
+                    <button type="button" class="btn btn-primary me-2">Modificar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </template>
+            </DataTable>
+            <nav aria-label="Page navigation example" v-if="paginationLinks.length">
+                    <ul class="pagination">
+                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                            v-for="page in paginationLinks" :key="page">
+                            <span class="page-link" @click="getPayments(page.url)">{{ page.label == 'pagination.previous'
+                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                            }}</span>
+                         </li>
+                    </ul>
+                </nav>
         </section>
     </main>
 </template>

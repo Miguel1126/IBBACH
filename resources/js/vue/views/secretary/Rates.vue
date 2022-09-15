@@ -1,7 +1,8 @@
 <script>
+    import DataTable from '../../components/DataTable.vue';
 export default {
     mounted() {
-        this.getRates();
+        this.getRates(1, true);
     },
     data() {
         return {
@@ -10,6 +11,7 @@ export default {
                 price: null,
                 tuition: ''
             },
+            paginationLinks: [],
             editing: false
         }
     },
@@ -31,21 +33,26 @@ export default {
                 console.error(error)
             }
         },
-        async getRates() {
+        async getRates(pageNumber, firstRates = false) {
+            if(firstRates) this.rates[0] = 'loading'
+            if(typeof(pageNumber) == 'string'){
+                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+            }
             try {
-                const response = await this.axios.get('/api/getTarifas')
+                const response = await this.axios.get('/api/getTarifas?page=' + pageNumber)
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
-                        this.rates = response.data
-                        console.log(response)
+                        this.rates = response.data.data;
+                        this.paginationLinks = response.data.links
                     }
                     else {
-                        console.log(response)
+                        this.rates[0] = 'error'
                     }
                 }
             }
             catch (error) {
-                console.error(error)
+                console.error(error);
+                this.rates[0] = 'error'
             }
         },
         clearDropdown() {
@@ -100,7 +107,8 @@ export default {
         setup() {
             document.title = "IBBACH | Cuotas"
         }
-    }
+    },
+    components: {DataTable}
 
 
 }
@@ -134,34 +142,28 @@ export default {
                 </div>
             </form>
         </section>
-        <hr class="separator" />
         <section class="p-3">
-            <div class="table-container p-3 mb-5 bg-body rounded">
-                <h3 class="h3 fw-semibold mb-3 text-black">Listado de ciclos</h3>
-                <table class="table table-bordered border-dark">
-                    <thead class="table-info table-bordered border-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Precio</th>
-                            <th scope="col">Matricula</th>
-                            <th scope="col">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        <tr v-for="rate in rates" :key="rate.id">
-                            <th scope="row">{{ rate.id }}</th>
-                            <td>{{ rate.price }}</td>
-                            <td>{{ rate.tuition }}</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary me-2"
-                                    @click="selectRate($event, rate.rate, rate.price, rate.tuition)">Modificar</button>
-                                <button type="button" class="btn btn-danger"
-                                    @click="confirmDelete($event, rate.id)">Eliminar</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <DataTable title="Listado de cuotas" :headers="[
+                {title:'Id'},
+                {title:'Precio'},
+                {title:'Matricula'},
+                {title:'Acciones'}
+            ]" :items="rates">
+                <template #actions>
+                    <button type="button" class="btn btn-primary me-2">Modificar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </template>
+            </DataTable>
+            <nav aria-label="Page navigation example" v-if="paginationLinks.length">
+                    <ul class="pagination">
+                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                            v-for="page in paginationLinks" :key="page">
+                            <span class="page-link" @click="getRates(page.url)">{{ page.label == 'pagination.previous'
+                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                            }}</span>
+                        </li>
+                    </ul>
+                </nav>
         </section>
     </main>
 </template>
