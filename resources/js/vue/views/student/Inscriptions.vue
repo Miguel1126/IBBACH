@@ -143,8 +143,13 @@ export default {
                 { title: 'Apellido' },
                 { title: 'Codigo' },
                 { title: 'Asignatura' },
-                { title: 'Descripcion' }
+                { title: 'Descripcion' },
+                {title: 'Acciones'}
             ]" :items="inscriptions">
+            <template #actions>
+                    <button type="button" class="btn btn-primary me-2">Modificar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </template>
             </DataTable>
         </section>
     </main>
