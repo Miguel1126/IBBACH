@@ -221,7 +221,12 @@ export default {
                 {title:'Porcentaje'},
                 {title:'Resultado Final'},
                 {title:'Estado'},
+                {title: 'Acciones'}
             ]" :items="notes">
+            <template #actions>
+                    <button type="button" class="btn btn-primary me-2">Modificar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </template>
             </DataTable>
         </section>
     </main>

@@ -182,8 +182,13 @@ export default {
                 {title:'Alumno'},
                 {title:'Apellido'},
                 {title:'Codigo'},
+                {title: 'Acciones'}
 
             ]" :items="assistances">
+            <template #actions>
+                    <button type="button" class="btn btn-primary me-2">Modificar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </template>
             </DataTable>
         </section>
     </main>
