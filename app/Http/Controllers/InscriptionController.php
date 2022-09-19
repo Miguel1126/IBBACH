@@ -75,7 +75,7 @@ class InscriptionController extends Controller
             )
             //->where('inscriptions.status', '=', 'inscrito')
             ->orderBy('id', 'asc')
-            ->get();
+            ->paginate(5)->onEachSide(1);
             return $inscriptions;
         }
         catch (\Exception $e) {

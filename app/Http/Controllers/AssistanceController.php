@@ -73,7 +73,7 @@ class AssistanceController extends Controller
                 'users.last_name',
                 'users.code'
             )
-            ->orderBy('id', 'asc')->get();
+            ->orderBy('id', 'asc') ->paginate(5)->onEachSide(1);
             return $assistance;
         }
         catch (\Exception $e) {

@@ -2,8 +2,8 @@
     import DataTable from '../../components/DataTable.vue';
 export default {
     mounted() {
-        this.getNotes();
-        this.getInscriptions()
+        this.getNotes(1, true);
+        this.getInscriptions(1, true)
     },
     data() {
         return {
@@ -26,6 +26,7 @@ export default {
             inscriptions: [],
             inscriptionSelected: [],
             notes: [],
+            paginationLinks: [],
             editing: false
         }
     },
@@ -56,20 +57,26 @@ export default {
                 this.getNotes()
             }
         },
-        async getNotes() {
+        async getNotes(pageNumber, firstNotes = false) {
+            if(firstNotes) this.notes[0] = 'loading'
+            if(typeof (pageNumber) == 'string'){
+                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+            }
             try {
-                const response = await this.axios.get('/api/getNota')
+                const response = await this.axios.get('/api/getNota?page=' + pageNumber)
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
-                        this.notes = response.data
+                        this.notes = response.data.data;
+                        this.paginationLinks = response.data.links
                     }
                     else {
-                        console.log(response)
+                        this.notes[0] = 'error'
                     }
                 }
             }
             catch (error) {
-                console.error(error)
+                console.error(error);
+                this.notes[0] = 'error'
             }
         },
         async getInscriptions() {
@@ -228,6 +235,16 @@ export default {
                     <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
             </DataTable>
+            <nav aria-label="Page navigation example" v-if="paginationLinks.length">
+                    <ul class="pagination">
+                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                            v-for="page in paginationLinks" :key="page">
+                            <span class="page-link" @click="getNotes(page.url)">{{ page.label == 'pagination.previous'
+                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                            }}</span>
+                         </li>
+                    </ul>
+                </nav>
         </section>
     </main>
 </template>
