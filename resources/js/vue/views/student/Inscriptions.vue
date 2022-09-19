@@ -2,9 +2,9 @@
 import DataTable from '../../components/DataTable.vue'
 export default {
     mounted() {
-        this.getStudents();
-        this.getLoads();
-        this.getInscriptions();
+        this.getStudents(1, true);
+        this.getLoads(1, true);
+        this.getInscriptions(1, true);
     },
     data() {
         return {
@@ -19,6 +19,7 @@ export default {
             subjects: [],
             subjectSelected: [],
             inscriptions: [],
+            paginationLinks: [],
             editing: false
         };
     },
@@ -40,22 +41,26 @@ export default {
             }
         },
 
-        async getInscriptions() {
+        async getInscriptions(pageNumber, firstInscriptions = false) {
+            if(firstInscriptions) this.inscriptions[0] = 'loading'
+            if(typeof (pageNumber) == 'string'){
+                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+            }
             try {
-                const response = await this.axios.get("/api/getInscripcion");
+                const response = await this.axios.get('/api/getInscripcion?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === "object") {
-                        this.inscriptions = response.data;
-                        console.log(response);
+                        this.inscriptions = response.data.data;
+                        this.paginationLinks = response.data.links
                     }
                     else {
-                        console.log(response);
-                        this.inscriptions[0] = "error";
+                        this.inscriptions[0] = 'error'
                     }
                 }
             }
             catch (error) {
                 console.error(error);
+                this.inscriptions[0] = 'error'
             }
         },
         async getStudents() {
@@ -151,6 +156,16 @@ export default {
                     <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
             </DataTable>
+            <nav aria-label="Page navigation example" v-if="paginationLinks.length">
+                    <ul class="pagination">
+                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                            v-for="page in paginationLinks" :key="page">
+                            <span class="page-link" @click="getInscriptions(page.url)">{{ page.label == 'pagination.previous'
+                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                            }}</span>
+                         </li>
+                    </ul>
+                </nav>
         </section>
     </main>
 </template>
