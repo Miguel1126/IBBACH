@@ -94,9 +94,20 @@ class SubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try {
+            $subject = Subject::findOrFail($request->id);
+            $subject->subject = $request->subject;
+            $subject->description = $request->description;
+            $subject->status = $request->status;
+            if ($subject->save()>=1) {
+                return response()->json(['status'=>'OK','data'=>$subject],202);
+            }
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
     }
 
     /**

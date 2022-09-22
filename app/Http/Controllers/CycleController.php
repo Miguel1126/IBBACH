@@ -103,9 +103,26 @@ class CycleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try{
+            $cycle = Cycle:: findOrFail($request->id);
+            if (Cycle::where('cycle', '=', $request->input('cycle'))->where('group_id', '=', $request->input('group_id'))->exists()) {
+                return response()->json(["status" => 302,"message" => "El ciclo ya existe"],200);
+            }
+            else {
+                $cycle->cycle = $request->cycle;
+                $cycle->start_date = $request->start_date;
+                $cycle->end_date = $request->end_date;
+                $cycle->status = $request->status;
+                $cycle->group_id = $request->group_id;
+                if($cycle->save()>=1){
+                    return response()->json(['status'=>'ok','data'=>$cycle],202);
+                }
+            }
+        }catch(\Exception $e){
+            return response()->json(["message" => $e->getMessage()],500);
+        }
     }
 
     /**
