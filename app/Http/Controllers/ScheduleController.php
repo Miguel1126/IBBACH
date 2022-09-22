@@ -86,9 +86,20 @@ class ScheduleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try {
+            $schedule = Schedule::findOrFail($request->id);
+            $schedule->start_time = $request->start_time;
+            $schedule->end_time = $request->end_time;
+            $schedule->status = $request->status;
+            if ($schedule->save()>=1) {
+                return response()->json(['status'=>'OK','data'=>$schedule],202);
+            }
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
     }
 
     /**
