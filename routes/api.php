@@ -62,12 +62,16 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::get('/getPersonalInfo', [ApplicantController::class, 'getPersonalInfo']);
     Route::get('/getEcclesiasticalInfo', [ApplicantController::class, 'getEcclesiasticalInfo']);
     Route::get('/getMinisterialInfo', [ApplicantController::class, 'getMinisterialInfo']);
-    Route :: get('/getrates', [RateController::class, 'getrates']);
+    Route::get('/getrates', [RateController::class, 'getrates']);
     Route::get('/getStudentsByYear', [UserController::class, 'getStudentsPerYear']);
     Route::get('/getCyclesReport', [CycleController::class, 'getCyclesReport']);
     Route::get('/getSubjectsReport', [SubjectController::class, 'getSubjectsReport']);
     Route::get('/getNotesReport', [NoteController::class, 'getNotesReport']);
-    Route:: get('/getAssistancesReport', [AssistanceController::class, 'getAssistances']);
+    Route::get('/getAssistancesReport', [AssistanceController::class, 'getAssistances']);
+    Route::put('/updateGroup', [GroupController::class, 'update']);
+    Route::put('updateSubject', [SubjectController::class, 'update']);
+    Route::put('/updateCycle', [CycleController::class, 'update']);
+    Route::put('/updateSchedule', [ScheduleController::class, 'update']);
 });
 
     
