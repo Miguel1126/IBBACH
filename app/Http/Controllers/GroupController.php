@@ -83,9 +83,18 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try {
+            $group = Group::findOrFail($request->id);
+            $group->group = $request->group;
+            if ($group->save()>=1) {
+                return response()->json(['status'=>'OK','data'=>$group],202);
+            }
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
     }
 
     /**
