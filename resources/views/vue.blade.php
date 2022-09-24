@@ -23,7 +23,7 @@
         </style>
 </head>
 <body>
-    <div id="app" class="overflow-auto app"></div>
+    <div id="app" class="app"></div>
     <script type="module" src="{{ mix('js/main.js') }}"></script>
     <script type="module" src="{{ mix('js/app.js') }}"></script>
 </body>
