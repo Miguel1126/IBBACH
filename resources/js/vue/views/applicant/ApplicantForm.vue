@@ -91,13 +91,13 @@ export default {
             button.disabled = ''
             this.clearInputs()
         },
-        getImage(e){
+        getImage(e) {
             let file = e.target.files[0];
             console.log(file);
             this.img = file;
             this.showImage(file);
         },
-        showImage(file){
+        showImage(file) {
             let reader = new FileReader();
             reader.onload = (e) => {
                 this.thumbnailImage = e.target.result;
@@ -107,7 +107,7 @@ export default {
         }
     },
     computed: {
-        images(){
+        images() {
             return this.thumbnailImage;
         }
     }
@@ -116,32 +116,30 @@ export default {
 
 <template>
     <div class="container-fluid d-block">
-        <div class="m-auto">
-            <h2 class="text-center m-4 form-title">Formulario de inscripción</h2>
-            <h4 class="text-center m-3">Ingresa tus datos a continación, revisa muy bien la información antes de
+        <div class="m-0 rounded form-container">
+            <h2 class="text-center m-4 text-black">Formulario de inscripción</h2>
+            <h4 class="text-center m-3 text-black">Ingresa tus datos a continación, revisa muy bien la información antes de
                 enviarla.</h4>
-        </div>
-        <div class="m-5 rounded form-container">
             <form @submit.prevent="submitForm" class="d-block p-5" action="" enctype="multipart/form-data">
-                <div>
-                    <label for="formFile" class="btn btn-success">Select Image</label>
-                    <input class="d-none" type="file" id="formFile" @change="getImage">
-                    <div class="m-3"><img :src="images" class="img-fluid"/></div>
-                </div>
+                    <div class="d-flex justify-content-center">
+                        <label for="formFile" class="btn btn-success m-3">Selecciona una foto</label>
+                        <input class="d-none" type="file" id="formFile" @change="getImage">
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="m-3" v-if="thumbnailImage"><img :src="images" class="img-fluid rounded shadow" style="width: 200px; height: 200px"/>
+                        </div>
+                    </div>
                 <PersonalInformation ref="personalInfo" @personalInfo="getPersonalInformation($event)" />
                 <EcclesiasticalInformation ref="ecclesiasticalInfo"
                     @ecclesiasticalInfo="getEcclesiasticalInfo($event)" />
                 <MinisterialInformation ref="ministerialInfo" @ministerialInfo="getMinisterialInformation($event)" />
-                <input type="submit" id="submit-btn" class="btn btn-primary text-light" value="Enviar formulario" />
+                <input type="submit" id="submit-btn" class="btn btn-primary m-3 text-light" value="Enviar formulario" />
             </form>
         </div>
     </div>
 </template>
 
 <style scoped>
-.form-title {
-    text-shadow: 2px 2px 3px rgb(0, 0, 0);
-}
 
 .form-container {
     background: var(--bs-gray-400);
