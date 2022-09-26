@@ -36,6 +36,23 @@ class AuthController extends Controller
         }
     }
 
+    public function getLoggedUser() {
+        try {
+            return response()->json([
+                'id' => auth()->user()->id,
+                'name' => auth()->user()->name,
+                'last_name' => auth()->user()->last_name,
+                'code' => auth()->user()->code,
+                'role' => auth()->user()->role,
+                'status' => auth()->user()->status,
+                'applicant_id' => auth()->user()->applicant_id,
+            ],200);
+        }
+        catch (\Exception $ex) {
+            return response()->json([$ex->getMessage()],500);
+        }
+    }
+
     public function logout(Request $request) {
         try {
             $accessToken = $request->bearerToken();
