@@ -1,5 +1,6 @@
 <script>
 import DataTable from '../../../components/DataTable.vue';
+import { handleErrors } from '../../../js/handle_error';
 export default {
     mounted() {
         //this.getApplicant();
@@ -10,12 +11,12 @@ export default {
     data() {
         return {
             //Applicant:[],
-            PersonalInfo:[],
-            EcclesiasticalInfo:[],
-            MinisterialInfo:[],
-            paginationLinks:[],
-            paginationLinks2:[],
-            paginationLinks3:[]
+            PersonalInfo: [],
+            EcclesiasticalInfo: [],
+            MinisterialInfo: [],
+            paginationLinks: [],
+            paginationLinks2: [],
+            paginationLinks3: []
         };
     },
     methods: {
@@ -33,14 +34,14 @@ export default {
                         this.PersonalInfo = response.data.data;
                         this.paginationLinks = response.data.links
                     }
-                     else {
+                    else {
                         this.PersonalInfo[0] = 'error'
                     }
                 }
             }
             catch (error) {
                 this.PersonalInfo[0] = 'error'
-                console.error(error);
+                handleErrors(error)
             }
         },
         async getEcclesiasticalInfo(pageNumber, firstEcclesiasticalInfo = false) {
@@ -58,19 +59,19 @@ export default {
                         this.paginationLinks2 = response.data.links
                         console.log(response);
                     }
-                     else {
+                    else {
                         this.PersonalInfo[0] = 'error'
                     }
                 }
             }
             catch (error) {
                 this.PersonalInfo[0] = 'error'
-                console.error(error);
+                handleErrors(error)
             }
         },
         async getMinisterialInfo(pageNumber, firstMinisterialInfo = false) {
-            if (firstMinisterialInfo) this.MinisterialInfo[0]= 'loading'
-            if(typeof(pageNumber) == 'string'){
+            if (firstMinisterialInfo) this.MinisterialInfo[0] = 'loading'
+            if (typeof (pageNumber) == 'string') {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
@@ -88,10 +89,10 @@ export default {
             }
             catch (error) {
                 this.MinisterialInfo[0] = 'error'
-                console.error(error);
+                handleErrors(error)
             }
         },
-        
+
     },
     components: { DataTable }
 }
@@ -121,12 +122,13 @@ export default {
                 <ul class="pagination">
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinks" :key="page">
-                        <span class="page-link" @click.prevent="getPersonalInfo(page.url)">{{ page.label == 'pagination.previous'
-                                ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        <span class="page-link" @click.prevent="getPersonalInfo(page.url)">{{ page.label ==
+                        'pagination.previous'
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
                     </li>
                 </ul>
-                </nav>
+            </nav>
         </section>
         <section class="p-3">
             <DataTable title="Informacion Eclesiastica" :headers="[
@@ -158,12 +160,13 @@ export default {
                 <ul class="pagination">
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinks2" :key="page">
-                        <span class="page-link" @click.prevent="getEcclesiasticalInfo(page.url)">{{ page.label == 'pagination.previous'
-                                ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        <span class="page-link" @click.prevent="getEcclesiasticalInfo(page.url)">{{ page.label ==
+                        'pagination.previous'
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
                     </li>
                 </ul>
-                </nav>
+            </nav>
         </section>
         <section class="p-3">
             <DataTable title="Informacion Ministerial" :headers="[
@@ -186,8 +189,9 @@ export default {
                 <ul class="pagination">
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinks3" :key="page">
-                        <span class="page-link" @click.prevent="getMinisterialInfo(page.url)">{{ page.label == 'pagination.previous'
-                                ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        <span class="page-link" @click.prevent="getMinisterialInfo(page.url)">{{ page.label ==
+                        'pagination.previous'
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
                     </li>
                 </ul>

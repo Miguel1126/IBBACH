@@ -5,25 +5,25 @@ export default {
     },
     data() {
         return {
-            user : 'null'
+            user : ''
         }
     },
     methods: {
         showUserLogged() {
             if (localStorage.getItem('auth')) {
-                this.user = 'Admin'
+                this.user += 'Admin, '
             }
     
             if (localStorage.getItem('access')) {
-                this.user = 'Secretaria'
+                this.user += 'Secretaria, '
             }
 
             if (localStorage.getItem('permission')) {
-                this.user = 'Docente'
+                this.user += 'Docente, '
             }
 
             if (localStorage.getItem('token')) {
-                this.user = 'Alumno'
+                this.user += 'Alumno, '
             }
         }
     }

@@ -1,5 +1,6 @@
 <script>
 import DataTable from '../../../components/DataTable.vue';
+import { handleErrors } from '../../../js/handle_error';
 export default {
     mounted() {
         this.getGroupD();
@@ -26,7 +27,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
             }
         },
         async getGroupS() {
@@ -42,7 +43,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
             }
         },
     }

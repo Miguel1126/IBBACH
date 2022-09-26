@@ -13,6 +13,7 @@
 .nav div span {
 	margin-left: 2rem;
 	font-size: 1.5em;
+	color: #fff;
 }
 
 .navbar-reduced {
@@ -54,7 +55,7 @@
 	}
 }
 
-@media (max-width: 342px) {
+@media (max-width: 400px) {
 	.navbar-reduced {
 		margin-left: 0px !important;
 	}
