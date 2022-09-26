@@ -1,5 +1,6 @@
 <script>
 import DataTable from '../../../components/DataTable.vue'
+import { handleErrors } from '../../../js/handle_error';
 export default {
     mounted() {
         this.getCycles(1, true);
@@ -17,11 +18,11 @@ export default {
     },
     methods: {
         async getLoads(pageNumber, firtsLoad = false) {
-            if(firtsLoad) this.loads[0] = 'loading'
-            
+            if (firtsLoad) this.loads[0] = 'loading'
+
             if (typeof (pageNumber) == 'string') {
-                    pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
-                }
+                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+            }
             try {
                 this.loads[0] = 'loading'
                 const response = await this.axios.get('/api/getCargas?page=' + pageNumber);
@@ -36,7 +37,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
                 this.loads[0] = 'error'
             }
         },
@@ -54,7 +55,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
             }
         },
         async getSubjects() {
@@ -72,7 +73,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
             }
         },
         async getTeacher() {
@@ -88,7 +89,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
             }
         },
         async getSchedules() {
@@ -105,7 +106,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
             }
         },
     },
@@ -127,18 +128,19 @@ export default {
             ]" :items="loads">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">
-                    <ul class="pagination">
-                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
-                            v-for="page in paginationLinks" :key="page">
-                            <span class="page-link" @click="getLoads(page.url)">{{ page.label == 'pagination.previous'
-                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
-                            }}</span>
-                         </li>
-                    </ul>
-                </nav>
+                <ul class="pagination">
+                    <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                        v-for="page in paginationLinks" :key="page">
+                        <span class="page-link" @click="getLoads(page.url)">{{ page.label == 'pagination.previous'
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        }}</span>
+                    </li>
+                </ul>
+            </nav>
         </section>
     </main>
 </template>
 
 <style scoped>
+
 </style>

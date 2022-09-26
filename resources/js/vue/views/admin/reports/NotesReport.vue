@@ -1,5 +1,6 @@
 <script>
 import DataTable from '../../../components/DataTable.vue';
+import { handleErrors } from '../../../js/handle_error';
 export default {
     mounted() {
         this.getNotesReport(1, true);
@@ -13,8 +14,8 @@ export default {
     },
     methods: {
         async getNotesReport(pageNumber, firstNota = false) {
-            if(firstNota) this.notes[0] = 'loading'
-            if(typeof (pageNumber) == 'string'){
+            if (firstNota) this.notes[0] = 'loading'
+            if (typeof (pageNumber) == 'string') {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
@@ -30,7 +31,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
                 this.notes[0] = 'error'
             }
         },
@@ -73,12 +74,13 @@ export default {
                 <ul class="pagination">
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinks" :key="page">
-                        <span class="page-link" @click.prevent="getNotesReport(page.url)">{{ page.label == 'pagination.previous'
-                                ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        <span class="page-link" @click.prevent="getNotesReport(page.url)">{{ page.label ==
+                        'pagination.previous'
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
                     </li>
                 </ul>
-                </nav>
+            </nav>
         </section>
     </main>
 </template>

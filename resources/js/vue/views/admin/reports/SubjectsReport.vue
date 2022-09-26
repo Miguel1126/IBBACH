@@ -1,5 +1,6 @@
 <script>
 import DataTable from '../../../components/DataTable.vue'
+import { handleErrors } from '../../../js/handle_error';
 export default {
     mounted() {
         this.getSubjectsReport(1, true);
@@ -31,7 +32,7 @@ export default {
                 }
             } 
             catch (error) {
-                console.log(error);
+                handleErrors(error)
                 this.subjects[0] = 'error'
             }
         },

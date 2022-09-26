@@ -1,6 +1,7 @@
 <script>
 import { getgroups } from 'process';
 import DataTable from '../../components/DataTable.vue';
+import { handleErrors } from '../../js/handle_error';
 export default {
     mounted() {
         this.getSubjects(1, true);
@@ -29,12 +30,20 @@ export default {
     },
     methods: {
         async handleSumit() {
-            const response = await this.axios.post("/api/asignaturas", {
-                subject: this.subject,
-                subject: this.subject,
-                description: this.description,
-                status: this.statusSelected[0],
-            });
+
+            try {
+
+                const response = await this.axios.post("/api/asignaturas", {
+                    subject: this.subject,
+                    subject: this.subject,
+                    description: this.description,
+                    status: this.statusSelected[0],
+                });
+
+            } catch (error) {
+                handleErrors(error)
+            }
+
             if (this.validateInput()) {
                 this.clearInput();
             }
@@ -64,10 +73,10 @@ export default {
         },
         async getSubjects(pageNumber, firstSubjects = false) {
             if (firstSubjects) this.subjects[0] = 'loading'
-    
-                if (typeof (pageNumber) == 'string') {
-                    pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
-                }
+
+            if (typeof (pageNumber) == 'string') {
+                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+            }
             try {
                 this.subjects[0] = 'loading'
                 const response = await this.axios.get('/api/getAsignaturas?page=' + pageNumber);
@@ -78,9 +87,9 @@ export default {
                 else {
                     this.subjects[0] = 'error'
                 }
-            } 
+            }
             catch (error) {
-                console.log(error);
+                handleErrors(error)
                 this.subjects[0] = 'error'
             }
         },
@@ -174,16 +183,13 @@ export default {
                                 @click="selectStatus($event, status.status)">{{ status.status }}</li>
                         </ul>
                     </div>
-                        <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary btn-lg ms-4">Agregar <i
-                           
+                    <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary btn-lg ms-4">Agregar <i
                             class="material-icons m-auto ms-1">add_box</i></button>
-                        <button v-else type="button" class="d-inline-flex btn btn-success btn-lg ms-4"
-                       
+                    <button v-else type="button" class="d-inline-flex btn btn-success btn-lg ms-4"
                         @click="saveEdit">Guardar <i class="material-icons m-auto ms-1">edit</i></button>
-                        <button v-if="editing" type="button" class="d-inline-flex btn btn-danger btn-lg ms-3"
-                       
+                    <button v-if="editing" type="button" class="d-inline-flex btn btn-danger btn-lg ms-3"
                         @click="clearInput">Cancelar <i class="material-icons m-auto ms-1">cancel</i></button>
-                    </div>
+                </div>
             </form>
         </section>
         <hr class="separator" />
@@ -195,21 +201,20 @@ export default {
                 </template>
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">
-                    <ul class="pagination">
-                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
-                            v-for="page in paginationLinks" :key="page">
-                            <span class="page-link" @click="getSubjects(page.url)">{{ page.label == 'pagination.previous'
-                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
-                            }}</span>
-                        </li>
-                    </ul>
-                </nav>
+                <ul class="pagination">
+                    <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                        v-for="page in paginationLinks" :key="page">
+                        <span class="page-link" @click="getSubjects(page.url)">{{ page.label == 'pagination.previous'
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        }}</span>
+                    </li>
+                </ul>
+            </nav>
         </section>
     </main>
 </template>
 
 <style scoped>
-
 .load {
     border-radius: 15px !important;
 }

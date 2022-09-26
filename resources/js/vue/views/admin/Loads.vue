@@ -1,4 +1,5 @@
 <script setup>
+import { handleErrors } from '../../js/handle_error'
 import DataTable from '../../components/DataTable.vue'
 </script>
 <script>
@@ -57,7 +58,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
                 this.loads[0] = 'error'
             }
         },
@@ -74,7 +75,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
             }
         },
         async getSubjects() {
@@ -90,7 +91,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
             }
         },
         async getTeachers() {
@@ -106,7 +107,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error)
+                handleErrors(error)
             }
         },
         async getSchedules() {
@@ -122,7 +123,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error)
+                handleErrors(error)
             }
         },
         selectCy(event, cycle) {
@@ -185,7 +186,7 @@ export default {
                         console.log(response)
                     }
                 } catch (error) {
-                    console.error(error)
+                    handleErrors(error)
                 }
                 this.clearDropdown()
                 button.innerHTML = `Agregar <i class="material-icons m-auto ms-1">add_box</i>`

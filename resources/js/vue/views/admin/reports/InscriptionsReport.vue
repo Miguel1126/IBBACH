@@ -1,5 +1,6 @@
 <script>
 import DataTable from '../../../components/DataTable.vue';
+import { handleErrors } from '../../../js/handle_error';
 export default {
     mounted() {
         this.getInscriptionsD(1, true);
@@ -16,8 +17,8 @@ export default {
     },
     methods: {
         async getInscriptionsD(pageNumber, firstInscriptionsD = false) {
-            if(firstInscriptionsD) this.inscriptionsD[0] = 'loading'
-            if(typeof (pageNumber) == 'string'){
+            if (firstInscriptionsD) this.inscriptionsD[0] = 'loading'
+            if (typeof (pageNumber) == 'string') {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
@@ -28,18 +29,18 @@ export default {
                         this.paginationLinksD = response.data.links
                     }
                     else {
-                       this.inscriptionsD[0] = 'error'
+                        this.inscriptionsD[0] = 'error'
                     }
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
                 this.inscriptionsD[0] = 'error'
             }
         },
-         async getInscriptionsS(pageNumber, firstInscriptionsS = false) {
-            if(firstInscriptionsS) this.inscriptionsS[0] = 'loading'
-            if(typeof(pageNumber) == 'string'){
+        async getInscriptionsS(pageNumber, firstInscriptionsS = false) {
+            if (firstInscriptionsS) this.inscriptionsS[0] = 'loading'
+            if (typeof (pageNumber) == 'string') {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
@@ -50,12 +51,12 @@ export default {
                         this.paginationLinksS = response.data.links
                     }
                     else {
-                       this.inscriptionsS[0] = 'error'
+                        this.inscriptionsS[0] = 'error'
                     }
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
                 this.inscriptionsS[0] = 'error'
             }
         },
@@ -83,12 +84,13 @@ export default {
                 <ul class="pagination">
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinksD" :key="page">
-                        <span class="page-link" @click.prevent="getInscriptionsD(page.url)">{{ page.label == 'pagination.previous'
-                                ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        <span class="page-link" @click.prevent="getInscriptionsD(page.url)">{{ page.label ==
+                        'pagination.previous'
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
                     </li>
                 </ul>
-                </nav>
+            </nav>
         </section>
         <section class="p-3">
             <DataTable title="Listado de alumnos inscritos en el grupo sabatino" :headers="[
@@ -108,15 +110,17 @@ export default {
                 <ul class="pagination">
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinksS" :key="page">
-                        <span class="page-link" @click.prevent="getInscriptionsS(page.url)">{{ page.label == 'pagination.previous'
-                                ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        <span class="page-link" @click.prevent="getInscriptionsS(page.url)">{{ page.label ==
+                        'pagination.previous'
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
                     </li>
                 </ul>
-                </nav>
+            </nav>
         </section>
     </main>
 </template>
 
 <style scoped>
+
 </style>

@@ -1,4 +1,5 @@
 <script>
+import { handleErrors } from '../../../js/handle_error';
 export default {
     mounted() {
         this.getTeachers();
@@ -25,7 +26,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error)
+                handleErrors(error)
             }
         },
         async getStudents() {
@@ -42,7 +43,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
             }
         },
         async getAdmins() {
@@ -59,7 +60,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
             }
         },
         async getSecretaries() {
@@ -76,7 +77,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
             }
         },
 

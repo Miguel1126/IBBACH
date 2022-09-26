@@ -1,6 +1,7 @@
 <script>
 import DataTable from '../../components/DataTable.vue';
-    export default {
+import { handleErrors } from '../../js/handle_error';
+export default {
     mounted() {
         this.getGroups(1, true);
     },
@@ -11,23 +12,31 @@ import DataTable from '../../components/DataTable.vue';
             paginationLinks: [],
             editing: false,
             headers: [
-                {title: 'Id'},
-                {title: 'Grupo'},
-                {title: 'Acciones'}
+                { title: 'Id' },
+                { title: 'Grupo' },
+                { title: 'Acciones' }
             ]
         };
     },
     methods: {
         async handleSumit() {
             if (this.validateInput()) {
-                const response = await this.axios.post("/api/grupos", {
-                    group: this.group,
-                });
-                if (response.status === 201) {
-                    this.clearInput();
-                    this.getGroups();
-                    this.$swal.fire("Listo", "Se registró la materia", "success");
+
+                try {
+
+                    const response = await this.axios.post("/api/grupos", {
+                        group: this.group,
+                    });
+                    if (response.status === 201) {
+                        this.clearInput();
+                        this.getGroups();
+                        this.$swal.fire("Listo", "Se registró la materia", "success");
+                    }
+
+                } catch (error) {
+                    handleErrors(error)
                 }
+
             }
             else {
                 const Toast = this.$swal.mixin({
@@ -49,12 +58,12 @@ import DataTable from '../../components/DataTable.vue';
         },
         async getGroups(pageNumber, firstGroup = false) {
             if (firstGroup) this.groups[0] = 'loading'
-    
-                if (typeof (pageNumber) == 'string') {
-                    pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
-                }
-                try {
-                    this.groups[0] = 'loading'
+
+            if (typeof (pageNumber) == 'string') {
+                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+            }
+            try {
+                this.groups[0] = 'loading'
                 const response = await this.axios.get('/api/getGrupos?page=' + pageNumber);
                 if (response.status === 200) {
                     this.groups = response.data.data;
@@ -63,9 +72,9 @@ import DataTable from '../../components/DataTable.vue';
                 else {
                     this.groups[0] = 'error'
                 }
-            } 
+            }
             catch (error) {
-                console.log(error);
+                handleErrors(error)
                 this.groups[0] = 'error'
             }
         },
@@ -141,26 +150,22 @@ import DataTable from '../../components/DataTable.vue';
         </section>
         <hr class="separator" />
         <section class="p-3">
-            <DataTable
-            title="Listado de grupos"
-            :headers="headers"
-            :items="groups"
-            >
+            <DataTable title="Listado de grupos" :headers="headers" :items="groups">
                 <template #actions>
                     <button type="button" class="btn btn-primary me-2">Modificar</button>
                     <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">
-                    <ul class="pagination">
-                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
-                            v-for="page in paginationLinks" :key="page">
-                            <span class="page-link" @click="getGroups(page.url)">{{ page.label == 'pagination.previous'
-                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
-                            }}</span>
-                        </li>
-                    </ul>
-                </nav>
+                <ul class="pagination">
+                    <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                        v-for="page in paginationLinks" :key="page">
+                        <span class="page-link" @click="getGroups(page.url)">{{ page.label == 'pagination.previous'
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        }}</span>
+                    </li>
+                </ul>
+            </nav>
         </section>
     </main>
 </template>

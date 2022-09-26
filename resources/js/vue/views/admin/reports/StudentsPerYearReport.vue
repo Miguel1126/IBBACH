@@ -1,5 +1,6 @@
 <script>
 import DataTable from '../../../components/DataTable.vue';
+import { handleErrors } from '../../../js/handle_error';
 export default {
     mounted() {
         this.getStudents()
@@ -24,25 +25,21 @@ export default {
             }
             catch (error) {
                 this.students[0] = 'error'
-                console.log(error)
+                handleErrors(error)
             }
         }
     },
-    components: {DataTable}
+    components: { DataTable }
 }
 </script>
 <template>
     <main>
-        <DataTable
-        :title="'Estudiantes por año actual: ' + new Date().getFullYear() + ' - Total: ' + students.length"
-        personalized
-        :headers="[
-            {title: 'Nombre', value: 'name'},
-            {title: 'Apellidos', value: 'last_name'},
-            {title: 'Código', value: 'code'},
-            {title: 'Fecha de inscripción', value: 'created_at'}
-        ]"
-        :items="students"
-        ></DataTable>
+        <DataTable :title="'Estudiantes por año actual: ' + new Date().getFullYear() + ' - Total: ' + students.length"
+            personalized :headers="[
+                {title: 'Nombre', value: 'name'},
+                {title: 'Apellidos', value: 'last_name'},
+                {title: 'Código', value: 'code'},
+                {title: 'Fecha de inscripción', value: 'created_at'}
+            ]" :items="students"></DataTable>
     </main>
 </template>

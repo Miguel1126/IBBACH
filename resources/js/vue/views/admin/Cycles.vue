@@ -1,6 +1,7 @@
 <script>
 import DataTable from '../../components/DataTable.vue';
-    export default{
+import { handleErrors } from '../../js/handle_error';
+export default {
     mounted() {
         this.getCycles(1, true);
         this.getGroups(1, true);
@@ -21,35 +22,41 @@ import DataTable from '../../components/DataTable.vue';
             paginationLinks: [],
             editing: false,
             headers: [
-                {title: 'Id'},
-                {title: 'Ciclo'},
-                {title: 'Fecha de inicio'},
-                {title: 'Fecha de finalización'},
-                {title: 'Estado'},
-                {title: 'Grupo'},
-                {title: 'Acciones'},
+                { title: 'Id' },
+                { title: 'Ciclo' },
+                { title: 'Fecha de inicio' },
+                { title: 'Fecha de finalización' },
+                { title: 'Estado' },
+                { title: 'Grupo' },
+                { title: 'Acciones' },
             ]
         };
     },
     methods: {
         async handleSubmit() {
             if (this.validateInput()) {
-                const response = await this.axios.post("/api/ciclos", {
-                    cycle: this.cycle,
-                    start_date: this.start_date,
-                    end_date: this.end_date,
-                    status: this.statusSelected[0],
-                    group_id: this.groupSelected[0].id
-                });
-                console.log(response);
-                if (response.data.status === 302) {
-                    this.$swal.fire("Error", `${response.data.message}`, "error");
+
+                try {
+                    const response = await this.axios.post("/api/ciclos", {
+                        cycle: this.cycle,
+                        start_date: this.start_date,
+                        end_date: this.end_date,
+                        status: this.statusSelected[0],
+                        group_id: this.groupSelected[0].id
+                    });
+                    console.log(response);
+                    if (response.data.status === 302) {
+                        this.$swal.fire("Error", `${response.data.message}`, "error");
+                    }
+                    else if (response.status === 201) {
+                        this.clearInput();
+                        this.getCycles();
+                        this.$swal.fire("Listo", "¡Se ha registrado el ciclo correctamente!", "success");
+                    }
+                } catch (error) {
+                    handleErrors(error)
                 }
-                else if (response.status === 201) {
-                    this.clearInput();
-                    this.getCycles();
-                    this.$swal.fire("Listo", "¡Se ha registrado el ciclo correctamente!", "success");
-                }
+
             }
             else {
                 const Toast = this.$swal.mixin({
@@ -71,12 +78,12 @@ import DataTable from '../../components/DataTable.vue';
         },
         async getCycles(pageNumber, firstCycle = false) {
             if (firstCycle) this.cycles[0] = 'loading'
-    
-                if (typeof (pageNumber) == 'string') {
-                    pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
-                }
-                try {
-                    this.cycles[0] = 'loading'
+
+            if (typeof (pageNumber) == 'string') {
+                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+            }
+            try {
+                this.cycles[0] = 'loading'
                 const response = await this.axios.get('/api/getCiclos?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === "object") {
@@ -88,8 +95,8 @@ import DataTable from '../../components/DataTable.vue';
                     }
                 }
             }
-            catch {(error) 
-                console.error(error);
+            catch (error) {
+                handleErrors(error)
                 this.cycles[0] = "error";
 
             }
@@ -106,8 +113,8 @@ import DataTable from '../../components/DataTable.vue';
                     }
                 }
             }
-            catch {
-                (error) => console.error(error);
+            catch (error) {
+                handleErrors(error)
             }
         },
         clearInput() {
@@ -182,26 +189,22 @@ import DataTable from '../../components/DataTable.vue';
         </section>
         <hr class="separator" />
         <section class="p-3">
-            <DataTable
-            title="Listado de ciclos"
-            :headers="headers"
-            :items="cycles"
-            >
+            <DataTable title="Listado de ciclos" :headers="headers" :items="cycles">
                 <template #actions>
                     <button type="button" class="btn btn-primary me-2">Modificar</button>
                     <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
             </DataTable>
-           <nav aria-label="Page navigation example" v-if="paginationLinks.length">
-                    <ul class="pagination">
-                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
-                            v-for="page in paginationLinks" :key="page">
-                            <span class="page-link" @click="getCycles(page.url)">{{ page.label == 'pagination.previous'
-                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
-                            }}</span>
-                         </li>
-                    </ul>
-                </nav>
+            <nav aria-label="Page navigation example" v-if="paginationLinks.length">
+                <ul class="pagination">
+                    <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                        v-for="page in paginationLinks" :key="page">
+                        <span class="page-link" @click="getCycles(page.url)">{{ page.label == 'pagination.previous'
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        }}</span>
+                    </li>
+                </ul>
+            </nav>
         </section>
     </main>
 </template>
