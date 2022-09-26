@@ -156,9 +156,29 @@ class NoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try {
+            $notes = Note::findOrFail($request->id);
+            $notes->ev1 = $request->ev1;
+            $notes->percentege1 = $request->percentege1;
+            $notes->ev2 = $request->ev2;
+            $notes->percentege2 = $request->percentege2;
+            $notes->ev3 = $request->ev3;
+            $notes->percentege3 = $request->percentege3;
+            $notes->ev4 = $request->ev4;
+            $notes->percentege4 = $request->percentege4;
+            $notes->ev5 = $request->ev5;
+            $notes->percentege5 = $request->percentege5;
+            $notes->finalAverage = $request->finalAverage;
+            $notes->status = $request->status;
+            $notes->inscription_id = $request->inscription_id;
+            if ($notes->save() >= 1) {
+                return response()->json(['status' => 'ok', 'data' => $notes], 202);
+            }
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
     }
 
     /**
