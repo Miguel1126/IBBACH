@@ -151,9 +151,23 @@ class PaymentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try {
+            $payment = Payment::findOrFail($request->id);
+            $payment->payment_date = $request->payment_date;
+            $payment->last_pay_date = $request->last_pay_date;
+            $payment->status = $request->status;
+            $payment->sourcharge = $request->sourcharge;
+            $payment->rate_id = $request->rate_id;
+            $payment->user_id = $request->user_id;
+            if ($payment->save()>=1) {
+                return response()->json(['status'=>'OK','data'=>$payment],202);
+            }
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
     }
 
     /**

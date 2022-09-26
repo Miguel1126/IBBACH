@@ -109,9 +109,19 @@ class RateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try {
+            $rate = Rate:: findOrFail($request->id);
+            $rate->price = $request->price;
+            $rate->tuition = $request->tuition;
+            if ($rate->save()>=1) {
+                return response()->json(['status'=>'OK','data'=>$rate],202);
+            }
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
     }
 
     /**

@@ -99,6 +99,8 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     Route::post('/inscribir', [UserController::class, 'registerStudent']);
     Route::put('/rechazar', [ApplicantController::class, 'denyApplicant']);
     Route::get('/aplicantes-pendientes', [ApplicantController::class, 'getPendingApplicants']);
+    Route::put('/updatePayment', [PaymentController::class, 'update']);
+    Route::put('/updateRate', [RateController::class, 'update']);
 });
 
 
@@ -119,6 +121,8 @@ Route::middleware(['auth:sanctum', 'docente'])->group(function(){
     Route::resource('/notas', NoteController::class);
     Route::get('/getNota', [NoteController::class, 'show']);
     Route::get('/getInscriptions', [InscriptionController::class, 'show']);  
+    Route::put('/updateAssistance',[AssistanceController::class, 'update']);
+    Route::put('/updateNote',[NoteController::class, 'update']);
 });
 
 
@@ -138,6 +142,7 @@ Route::middleware(['auth:sanctum', 'alumno'])->group(function(){
     Route::get('/getCarga', [InscriptionController::class, 'getLoad']);
     Route::resource('/inscripciones', InscriptionController::class);
     Route::get('/getInscripcion', [InscriptionController::class, 'show']);
+    Route::put('/updateInscription',[InscriptionController::class, 'update']);
 });
 
 

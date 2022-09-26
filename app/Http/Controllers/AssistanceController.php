@@ -126,9 +126,20 @@ class AssistanceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try {
+            $assistance = Assistance:: findOrFail($request->id);
+            $assistance->date = $request->date;
+            $assistance->status = $request->status;
+            $assistance->note_id = $request->note_id;
+            if ($assistance->save()>=1) {
+                return response()->json(['status'=>'OK','data'=>$assistance],202);
+            }
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
     }
 
     /**
@@ -137,8 +148,7 @@ class AssistanceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
     }
 }

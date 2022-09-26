@@ -183,9 +183,21 @@ class InscriptionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try {
+            $inscription = Inscription::findOrFail($request->id);
+            $inscription->registration_date = $request->registration_date;
+            $inscription->status = $request->status;
+            $inscription-> user_id = $request-> user_id;
+            $inscription-> load_id = $request-> load_id;
+            if ($inscription->save()>=1) {
+                return response()->json(['status'=>'OK','data'=>$inscription],202);
+            }
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
     }
 
     /**
