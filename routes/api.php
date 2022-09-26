@@ -141,6 +141,7 @@ Route::middleware(['auth:sanctum', 'alumno'])->group(function(){
 });
 
 
+Route::get('/getUser', [AuthController::class, 'getLoggedUser'])->middleware('auth:sanctum');
 
 
 // Open routes
