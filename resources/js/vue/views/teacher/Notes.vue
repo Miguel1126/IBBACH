@@ -190,13 +190,13 @@ export default {
                             Materia: {{ inscriptionSelected[0].subject }} </span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="inscription in inscriptions" :key="inscription.id"
+                       <!-- <li v-for="inscription in inscriptions" :key="inscription.id"
                             class="dropdown-item text-light list-click" @click="selectInscription($event, inscription)">
                             Fecha de registro: {{ inscription.registration_date }} |
                             Alumno: {{ inscription.name }} {{ inscription.last_name }} |
                             Código: {{ inscription.code }} |
                             Materia: {{ inscription.subject }}
-                        </li>
+                        </li>-->
                     </ul>
                 </div>
                 <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary btn-lg ms-4">Agregar <i
