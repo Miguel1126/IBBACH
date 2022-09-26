@@ -21,8 +21,13 @@ export const handleToken = async (role) => {
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
         try {
             const response = await axios.get(endPoint, token);
-            userStore.setUser(response.data);
-            return { status: "authenticated", token: token };
+            if (response.data.role !== role) {
+                router.push("/login");
+            }
+            else {
+                userStore.setUser(response.data);
+                return { status: "authenticated", token: token };
+            }
         } catch (error) {
             if (error.response.status === 401) {
                 router.push("/login");
@@ -34,4 +39,6 @@ export const handleToken = async (role) => {
     } else {
         router.push("/login");
     }
+
+    return ''
 };
