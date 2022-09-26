@@ -124,7 +124,7 @@ export default {
                         </div>
                         <div class="formgrid grid row">
                             <div class="field col-6 w-100 mb-2">
-                                <label><b>Fecha en que aplicó: </b>{{ applicant.registration_date }}</label>
+                                <label><b>Fecha en que aplicó: </b>{{ applicant.created_at }}</label>
                             </div>
                         </div>
                         <div class="formgrid grid row">
@@ -345,7 +345,7 @@ export default {
                 { title: 'Telefono', value: 'phone' },
                 { title: 'Correo', value: 'email' },
                 { title: 'Dirección', value: 'address' },
-                { title: 'Fecha de registro', value: 'registration_date' },
+                { title: 'Fecha de registro', value: 'created_at' },
                 { title: 'Acciones' }
             ]" :items="applicants">
                 <template #actions="item">
