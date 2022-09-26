@@ -30,18 +30,6 @@ const getValues = (item) => {
         return Object.values(item)
     }
 }
-const checkPersonalized = () => {
-    if (props.personalized) {
-        console.log("Los datos de la tabla estan personalizados")
-    }
-    else {
-        console.log("Los datos de la tabla no estan personalizados")
-    }
-}
-
-onMounted(() => {
-    checkPersonalized()
-})
 </script>
 <template>
     <div class="p-3 table-color rounded">
