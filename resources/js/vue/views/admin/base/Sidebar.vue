@@ -3,6 +3,7 @@ import '../../../styles/side-nav-bar.scss'
 import Link from '../../../components/Link.vue'
 import { ref } from 'vue'
 import logoURL from '../../../assets/logo.jpg'
+import ProfileInfo from '../../../components/ProfileInfo.vue';
 const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
 const ToggleMenu = () => {
 	is_expanded.value = !is_expanded.value
@@ -12,15 +13,16 @@ const ToggleMenu = () => {
 
 <template>
 	<div class="d-flex">
-		<nav class="navbar nav w-100" :class="`${is_expanded ? 'navbar-reduced' : ''}`">
+		<nav class="navbar nav w-100 d-flex justify-content-between" :class="`${is_expanded ? 'navbar-reduced' : ''}`">
 			<div class="d-flex align-items-center">
 				<div class="navbar-toggle menu-toggle-wrap mx-3">
 					<button class="menu-toggle d-flex" @click="ToggleMenu">
 						<span class="material-icons fs-1 text-light">keyboard_double_arrow_right</span>
 					</button>
 				</div>
-				<span class="navbar-title navbar-brand mb-0">Instituto Bíblico Betel Anexo Chalatenango</span>
+				<span class="navbar-title mb-0">Instituto Bíblico Betel Anexo Chalatenango</span>
 			</div>
+			<ProfileInfo></ProfileInfo>
 		</nav>
 		<aside :class="`${is_expanded ? 'is-expanded' : ''}`">
 			<div class="logo">
