@@ -96,9 +96,22 @@ class LoadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try{
+            $load = Load::findOrFail($request->id);
+            $load->status = $request->status;
+            $load->user_id = $request->user_id;
+            $load->cycle_id = $request->cycle_id;
+            $load->subject_id = $request->subject_id;
+            $load->schedule_id = $request->schedule_id;
+            if($load->save()>=1){
+                return response()->json(['status'=>'ok','data'=>$load],201);
+            }
+            $load->save();
+        }catch(\Exception $e){
+            return response()->json(["message" => $e->getMessage()],500);
+        }
     }
 
     /**

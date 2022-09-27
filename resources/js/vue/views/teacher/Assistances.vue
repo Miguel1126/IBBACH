@@ -1,5 +1,6 @@
 <script>
     import DataTable from '../../components/DataTable.vue';
+import { handleErrors } from '../../js/handle_error';
 export default {
     mounted() {
         this.getAssistances(1, true);
@@ -23,6 +24,7 @@ export default {
     methods: {
         async handleSubmit() {
             if (this.validateInput()) {
+                try{
                 const response = await this.axios.post('/api/asistencias', {
                     date: this.date,
                     status: this.statusSelected[0],
@@ -38,6 +40,11 @@ export default {
                     )
                     this.getAssistances()
                 }
+            }
+            catch(error){
+                handleErrors(error)
+            }
+
             }
             else {
                 const Toast = this.$swal.mixin({
@@ -82,7 +89,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
                 this.assistances[0] = 'error'
             }
         },
@@ -100,7 +107,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error)
+                handleErrors(error)
             }
         },
         validateInput() {

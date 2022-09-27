@@ -1,5 +1,6 @@
 <script>
 import DataTable from '../../components/DataTable.vue'
+import { handleErrors } from '../../js/handle_error';
 export default {
     mounted() {
         this.getStudents(1, true);
@@ -26,6 +27,7 @@ export default {
     methods: {
         async handleSubmit() {
             if (this.validateInput()) {
+                try{
                 const response = await this.axios.post("/api/inscripciones", {
                     registration_date: this.date,
                     status: this.statusSelected[0],
@@ -38,6 +40,9 @@ export default {
                     this.getInscriptions();
                     this.$swal.fire("Listo", "La inscripcion fue exitosa", "success");
                 }
+            }catch(error){
+                handleErrors(error)
+            }
             }
         },
 
@@ -59,7 +64,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
                 this.inscriptions[0] = 'error'
             }
         },
@@ -77,7 +82,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
             }
         },
         async getLoads() {
@@ -96,7 +101,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
             }
         },
         clearInput() {

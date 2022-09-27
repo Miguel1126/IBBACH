@@ -1,5 +1,6 @@
 <script>
     import DataTable from '../../components/DataTable.vue';
+import { handleErrors } from '../../js/handle_error';
 export default {
     mounted() {
         this.getPayments(1, true);
@@ -24,6 +25,7 @@ export default {
     methods: {
         async handleSubmit() {
             if (this.validateInput()) {
+                try {
                 const response = await this.axios.post('/api/pagos', {
                     payment_date: this.payment_date,
                     last_pay_date: this.last_pay_date,
@@ -38,8 +40,10 @@ export default {
                     this.$swal.fire(
                         'Listo',
                         'Se registró el pago',
-                        'success'
-                    )
+                        'success')
+                }
+            } catch (error) {
+                    handleErrors(error)
                 }
             }
             else {
@@ -78,7 +82,7 @@ export default {
                 }
             }
             catch(error) {
-                console.log(error);
+                handleErrors(error)
                 this.payments[0] = 'error'
             }
         },
@@ -96,7 +100,7 @@ export default {
                 }
             }
             catch(error) {
-                console.log(error)
+                handleErrors(error)
             }
         },
         async getRates() {
@@ -113,7 +117,7 @@ export default {
                 }
             }
             catch {
-                (error) => console.error(error)
+                handleErrors(error)
             }
         },
         clearInput() {

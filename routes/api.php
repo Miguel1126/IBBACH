@@ -72,6 +72,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::put('updateSubject', [SubjectController::class, 'update']);
     Route::put('/updateCycle', [CycleController::class, 'update']);
     Route::put('/updateSchedule', [ScheduleController::class, 'update']);
+    Route::put('/updateLoad', [LoadController::class, 'update']);
 });
 
     

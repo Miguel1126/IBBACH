@@ -1,5 +1,6 @@
 <script>
     import DataTable from '../../components/DataTable.vue';
+import { handleErrors } from '../../js/handle_error';
 export default {
     mounted() {
         this.getNotes(1, true);
@@ -32,6 +33,9 @@ export default {
     },
     methods: {
         async handleSubmit() {
+            try{
+
+            
             const response = await this.axios.post('/api/notas', {
                 ev1: this.ev1,
                 percentege1: this.percentege1,
@@ -56,6 +60,9 @@ export default {
                 )
                 this.getNotes()
             }
+        }catch(error){
+            handleErrors(error)
+        }
         },
         async getNotes(pageNumber, firstNotes = false) {
             if(firstNotes) this.notes[0] = 'loading'
@@ -75,7 +82,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
                 this.notes[0] = 'error'
             }
         },
@@ -92,7 +99,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error)
+                handleErrors(error)
             }
         },
         selectInscription(event, inscription) {
