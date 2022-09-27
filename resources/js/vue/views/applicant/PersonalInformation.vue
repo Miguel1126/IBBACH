@@ -138,10 +138,6 @@ export default {
     border: 6px solid #ccc;
 }
 
-.section-title {
-    text-decoration: underline;
-}
-
 .questions-container {
     display: grid;
     justify-content: left;

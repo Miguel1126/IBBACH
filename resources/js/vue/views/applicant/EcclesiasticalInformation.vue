@@ -136,7 +136,6 @@ export default {
     <section class="w-100 text-black">
         <h3 class="fw-bold text-center mb-5 section-title">Datos Eclesiásticos</h3>
         <div class="questions-container">
-            <!-- start 1st container -->
             <div class="row g-3">
                 <div class="col-6 col-md-4">
                     <label class="form-label ">¿Es pastor?</label>
@@ -256,10 +255,6 @@ export default {
 <style scoped>
 .form-title {
     text-shadow: 2px 2px 3px rgb(0, 0, 0);
-}
-
-.section-title {
-    text-decoration: underline;
 }
 
 .questions-container {
