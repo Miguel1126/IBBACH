@@ -38,7 +38,6 @@ class InscriptionController extends Controller
     {
         try {
             $inscription = new Inscription();
-            $inscription->registration_date = $request->registration_date;
             $inscription->status = $request->status;
             $inscription-> user_id = $request-> user_id;
             $inscription-> load_id = $request-> load_id;
@@ -65,7 +64,7 @@ class InscriptionController extends Controller
             ->join('subjects', 'loads.subject_id', 'subjects.id')
             ->select(
                 'inscriptions.id',
-                'inscriptions.registration_date',
+                'inscriptions.created_at',
                 'inscriptions.status',
                 'users.name',
                 'users.last_name',
@@ -92,7 +91,7 @@ class InscriptionController extends Controller
             ->join('groups', 'cycles.group_id', '=', 'groups.id')
             ->select(
                 'inscriptions.id',
-                'inscriptions.registration_date',
+                'inscriptions.created_at',
                 'inscriptions.status',
                 'cycles.cycle',
                 'groups.group',
@@ -122,7 +121,7 @@ class InscriptionController extends Controller
             ->join('groups', 'cycles.group_id', '=', 'groups.id')
             ->select(
                 'inscriptions.id',
-                'inscriptions.registration_date',
+                'inscriptions.created_at',
                 'inscriptions.status',
                 'cycles.cycle',
                 'groups.group',
@@ -187,7 +186,6 @@ class InscriptionController extends Controller
     {
         try {
             $inscription = Inscription::findOrFail($request->id);
-            $inscription->registration_date = $request->registration_date;
             $inscription->status = $request->status;
             $inscription-> user_id = $request-> user_id;
             $inscription-> load_id = $request-> load_id;

@@ -115,9 +115,6 @@ export default {
     border: 6px solid #ccc;
 }
 
-.section-title {
-    text-decoration: underline;
-}
 .col-6{
     min-width: 300px;
 }

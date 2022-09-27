@@ -146,7 +146,7 @@ class ApplicantController extends Controller
             ->join('ministerial_information','applicants.ministerial_information_id','=','ministerial_information.id')
             ->select(
                 'applicants.id',
-                'registration_date',
+                'applicants.created_at',
                 'personal_information.name',
                 'last_name',
                 'email',
@@ -292,7 +292,7 @@ class ApplicantController extends Controller
             ->join('ministerial_information','applicants.ministerial_information_id','=','ministerial_information.id')
             ->select(
                 'applicants.id',
-                'registration_date',
+                'applicants.created_at',
                 'personal_information.name',
                 'last_name',
                 'email',
