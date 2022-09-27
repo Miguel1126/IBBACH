@@ -1,5 +1,6 @@
 <script>
     import DataTable from '../../components/DataTable.vue';
+import { handleErrors } from '../../js/handle_error';
 export default {
     mounted() {
         this.getRates(1, true);
@@ -30,7 +31,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error)
+                handleErrors(error)
             }
         },
         async getRates(pageNumber, firstRates = false) {
@@ -51,7 +52,7 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error);
+                handleErrors(error)
                 this.rates[0] = 'error'
             }
         },
