@@ -108,7 +108,7 @@ class ApplicantController extends Controller
             $route = 'images/';
             $imgName = time() . '-' . str_replace(' ', '', $img->getClientOriginalName());
             $request->file('img')->move($route, $imgName);
-            $applicant->img = $route . $imgName;
+            $applicant->img = '../'. $route . $imgName;
             $applicant->personal_information_id = $personalInfo->id;
             $applicant->ecclesiastical_information_id = $ecclesiasticalInfo->id;
             $applicant->ministerial_information_id = $ministerialInfo->id;
@@ -292,6 +292,7 @@ class ApplicantController extends Controller
             ->join('ministerial_information','applicants.ministerial_information_id','=','ministerial_information.id')
             ->select(
                 'applicants.id',
+                'applicants.img',
                 'applicants.created_at',
                 'personal_information.name',
                 'last_name',
@@ -372,9 +373,28 @@ class ApplicantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try{
+        $personalInfo = PersonalInformation:: findOrFail($request->id);
+            $personalInfo->name = $request->name;
+            $personalInfo->last_name = $request->last_name;
+            $personalInfo->email = $request->email;
+            $personalInfo->phone = $request->phone;
+            $personalInfo->address = $request->address;
+            $personalInfo->nationality = $request->nationality;
+            $personalInfo->birth_date = $request->birth_date;
+            $personalInfo->marital_status = $request->marital_status;
+            $personalInfo->mate_name = $request->mate_name;
+            $personalInfo->secular_degree = $request->secular_degree;
+            $personalInfo->current_ocupation = $request->current_ocupation;
+            if ($personalInfo->save() <= 0) {
+                return response()->json(['status'=>'OK','data'=>$personalInfo],202);
+            }
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }  
     }
 
     /**
