@@ -120,6 +120,9 @@ export default {
                     <div class="modal-body">
                         <h5 class="fs-4 fw-bold">Información Personal</h5>
                         <div class="field w-100 mb-2">
+                            <img style="width: 200px; height: 200px" class="img-fluid" :src="applicant.img"/>
+                        </div>
+                        <div class="field w-100 mb-2">
                             <label><b>Nombre completo: </b>{{ applicant.name }} {{ applicant.last_name }}</label>
                         </div>
                         <div class="formgrid grid row">

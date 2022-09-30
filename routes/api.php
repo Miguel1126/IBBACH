@@ -144,6 +144,7 @@ Route::middleware(['auth:sanctum', 'alumno'])->group(function(){
     Route::resource('/inscripciones', InscriptionController::class);
     Route::get('/getInscripcion', [InscriptionController::class, 'show']);
     Route::put('/updateInscription',[InscriptionController::class, 'update']);
+    Route::put('/updateApplicant', [ApplicantController::class, 'update']);
 });
 
 
