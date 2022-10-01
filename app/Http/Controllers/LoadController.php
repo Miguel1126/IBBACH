@@ -32,7 +32,6 @@ class LoadController extends Controller
     {
         try{
             $load = new Load();
-            $load->status = $request->status;
             $load->user_id = $request->user_id;
             $load->cycle_id = $request->cycle_id;
             $load->subject_id = $request->subject_id;

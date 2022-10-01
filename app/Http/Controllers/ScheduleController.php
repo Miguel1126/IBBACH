@@ -56,12 +56,23 @@ class ScheduleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($paginate = null)
     {
         try {
-            $schedule = Schedule::select('schedules.id','schedules.start_time','schedules.end_time','schedules.status')
-            ->orderBy('id','asc')->paginate(5)->onEachSide(1);
-            return $schedule;
+            if ($paginate === 'paginate') {
+                $schedule = Schedule::select('schedules.id','schedules.start_time','schedules.end_time','schedules.status')
+                ->orderBy('id','asc')->paginate(5)->onEachSide(1);
+                return $schedule;
+            }
+            else if (!$paginate) {
+                $schedule = Schedule::select('schedules.id','schedules.start_time','schedules.end_time','schedules.status')
+                ->orderBy('id','asc')
+                ->get();
+                return $schedule;
+            }
+            else {
+                return response()->json(["message" => "Argument '". $paginate . "' does not exist"],404);
+            }
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);

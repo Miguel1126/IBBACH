@@ -13,12 +13,23 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
 
-    public function getTeacher() {
+    public function getTeacher($paginate = null) {
         try {
-            $teacher = User::select('users.id', 'users.name as teacher', 'users.last_name', 'users.code', 'users.status')
-            ->where('users.role', '=', 'docente')
-            ->orderBy('id','asc')->paginate(5)->onEachSide(1);
-            return $teacher;
+            if ($paginate === 'paginate') {
+                $teacher = User::select('users.id', 'users.name as teacher', 'users.last_name', 'users.code', 'users.status')
+                ->where('users.role', '=', 'docente')
+                ->orderBy('id','asc')->paginate(5)->onEachSide(1);
+                return $teacher;
+            }
+            else if (!$paginate) {
+                $teacher = User::select('users.id', 'users.name as teacher', 'users.last_name', 'users.code', 'users.status')
+                ->where('users.role', '=', 'docente')
+                ->get();
+                return $teacher;
+            }
+            else {
+                return response()->json(["message" => "Argument '". $paginate . "' does not exist"],404);
+            }
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
