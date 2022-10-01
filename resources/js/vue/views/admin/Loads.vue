@@ -84,7 +84,7 @@ export default {
                 const response = await this.axios.get('/api/getAsignaturas')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
-                        this.subjects = response.data.data
+                        this.subjects = response.data
                     }
                     else {
                         console.log(response)
@@ -100,7 +100,7 @@ export default {
                 const response = await this.axios.get('/api/getDocentes')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
-                        this.teachers = response.data.data
+                        this.teachers = response.data
                     }
                     else {
                         console.log(response)
@@ -116,7 +116,7 @@ export default {
                 const response = await this.axios.get('/api/getHorarios')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
-                        this.schedules = response.data.data
+                        this.schedules = response.data
                     }
                     else {
                         console.log(response)
@@ -127,32 +127,15 @@ export default {
                 handleErrors(error)
             }
         },
-        selectCy(event, cycle) {
-            this.cySelected = []
-            this.cySelected.push(cycle)
-        },
-        selectSub(event, subject) {
-            this.subSelected = []
-            this.subSelected.push(subject)
-        },
-        selectTea(event, teacher) {
-            this.teaSelected = []
-            this.teaSelected.push(teacher)
-        },
-        selectSch(event, schedule) {
-            this.schSelected = []
-            this.schSelected.push(schedule)
-        },
         clearDropdown() {
-            this.cySelected = []
-            this.subSelected = []
-            this.teaSelected = []
-            this.schSelected = []
+            this.cySelected = ''
+            this.subSelected = ''
+            this.teaSelected = ''
+            this.schSelected = ''
             this.editing = false
         },
         validateDropdowns() {
-            const app = this;
-            const valid = app.cySelected.length && app.subSelected.length && app.teaSelected.length && app.schSelected.length ? true : false
+            const valid = this.cySelected && this.subSelected && this.teaSelected && this.schSelected
             return valid
         },
         async saveLoad() {
@@ -164,10 +147,10 @@ export default {
                 try {
                     const response = await this.axios.post('/api/saveCarga',
                         {
-                            user_id: this.teaSelected[0].id,
-                            cycle_id: this.cySelected[0].id,
-                            subject_id: this.subSelected[0].id,
-                            schedule_id: this.schSelected[0].id
+                            user_id: this.teaSelected,
+                            cycle_id: this.cySelected,
+                            subject_id: this.subSelected,
+                            schedule_id: this.schSelected
                         })
 
                     if (response.status === 201) {
@@ -278,7 +261,7 @@ export default {
         <br />
         <section class="p-3">
             <h3 class="h3 fw-semibold">Asignar una nueva carga</h3>
-            <form>
+            <form @submit.prevent="saveLoad">
                 <div class="d-flex flex-wrap">
                     <div class="select-input">
                         <select class="form-select select-input" v-model="cySelected">
@@ -307,6 +290,12 @@ export default {
                             formatTime(schedule.start_time) }} - {{ formatTime(schedule.end_time) }}</option>
                         </select>
                     </div>
+                </div>
+                <div class="m-3">
+                    <button type="submit" class="d-inline-flex btn btn-primary btn-lg" id="adder-btn"
+                        >Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
+                    <button type="button" class="d-inline-flex btn btn-warning btn-lg ms-3"
+                        @click.prevent="clearDropdown">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
                 </div>
             </form>
         </section>
