@@ -57,14 +57,26 @@ class CycleController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function show()
+    public function show($paginate = null)
     {
         try {
-            $cycle = Cycle::join('groups', 'cycles.group_id', '=', 'groups.id')
-            ->select('cycles.id', 'cycles.cycle', 'cycles.start_date', 'cycles.end_date', 'cycles.status', 'groups.group')
-            ->orderBy('id', 'asc')
-            ->paginate(5)->onEachSide(1);
-            return $cycle;
+            if ($paginate === 'paginate') {
+                $cycle = Cycle::join('groups', 'cycles.group_id', '=', 'groups.id')
+                ->select('cycles.id', 'cycles.cycle', 'cycles.start_date', 'cycles.end_date', 'cycles.status', 'groups.group')
+                ->orderBy('id', 'asc')
+                ->paginate(5)->onEachSide(1);
+                return $cycle;
+            }
+            else if (!$paginate) {
+                $cycle = Cycle::join('groups', 'cycles.group_id', '=', 'groups.id')
+                ->select('cycles.id', 'cycles.cycle', 'cycles.start_date', 'cycles.end_date', 'cycles.status', 'groups.group')
+                ->orderBy('id', 'asc')
+                ->get();
+                return $cycle;
+            }
+            else {
+                return response()->json(["message" => "Argument '". $paginate . "' does not exist"],404);
+            }
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);

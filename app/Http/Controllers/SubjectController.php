@@ -52,12 +52,22 @@ class SubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($paginate = null)
     {
         try {
-            $subject = Subject::select('subjects.id','subjects.subject','subjects.description','subjects.status')
-            ->orderBy('id','asc')->paginate(5)->onEachSide(1);
-            return $subject;
+            if ($paginate === 'paginate') {
+                $subject = Subject::select('subjects.id','subjects.subject','subjects.description','subjects.status')
+                ->orderBy('id','asc')->paginate(5)->onEachSide(1);
+                return $subject;
+            }
+            else if (!$paginate) {
+                $subject = Subject::select('subjects.id','subjects.subject','subjects.description','subjects.status')
+                ->get();
+                return $subject;
+            }
+            else {
+                return response()->json(["message" => "Argument '". $paginate . "' does not exist"],404);
+            }
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
