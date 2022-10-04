@@ -105,7 +105,7 @@ class ApplicantController extends Controller
             $applicant = new Applicant();
             $request->validate(['img' => 'image|max:2048']);
             $img = $request->file('img');
-            $route = 'images/';
+            $route = 'images/users/';
             $imgName = time() . '-' . str_replace(' ', '', $img->getClientOriginalName());
             $request->file('img')->move($route, $imgName);
             $applicant->img = '../'. $route . $imgName;
