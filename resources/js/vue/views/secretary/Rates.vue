@@ -40,7 +40,7 @@ export default {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
-                const response = await this.axios.get('/api/getTarifas?page=' + pageNumber)
+                const response = await this.axios.get('/api/getTarifas/paginate?page=' + pageNumber)
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.rates = response.data.data;

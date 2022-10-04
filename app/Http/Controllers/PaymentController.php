@@ -40,7 +40,7 @@ class PaymentController extends Controller
             $payment = new Payment();
             $payment->payment_date = $request->payment_date;
             $payment->last_pay_date = $request->last_pay_date;
-            $payment->status = $request->status;
+            //$payment->status = $request->status;
             $payment->sourcharge = $request->sourcharge;
             $payment->rate_id = $request->rate_id;
             $payment->user_id = $request->user_id;
