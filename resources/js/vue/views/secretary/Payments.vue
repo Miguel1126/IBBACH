@@ -3,9 +3,9 @@
 import { handleErrors } from '../../js/handle_error';
 export default {
     mounted() {
-        this.getPayments(1, true);
-        this.getRates(1, true);
-        this.getStudents(1, true);
+        this.getPayments(1, true)
+        this.getRates(1, true)
+        this.getStudents(1, true)
     },
     data() {
         return {
@@ -23,47 +23,6 @@ export default {
         }
     },
     methods: {
-        async handleSubmit() {
-            if (this.validateInput()) {
-                try {
-                const response = await this.axios.post('/api/pagos', {
-                    payment_date: this.payment_date,
-                    last_pay_date: this.last_pay_date,
-                    sourcharge: this.sourcharge,
-                    rate_id: this.rateSelected[0].id,
-                    user_id: this.studentSelected[0].id
-                });
-                console.log(response);
-                if (response.status === 201) {
-                    this.clearInput()
-                    this.getPayments();
-                    this.$swal.fire(
-                        'Listo',
-                        'Se registró el pago',
-                        'success')
-                }
-            } catch (error) {
-                    handleErrors(error)
-                }
-            }
-            else {
-                const Toast = this.$swal.mixin({
-                    toast: true,
-                    position: 'top',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
-                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
-                    }
-                })
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Debes rellenar el campo'
-                })
-            }
-        },
         async getPayments(pageNumber, firstPayments = false) {
             if(firstPayments) this.payments[0] = 'loading'
             if(typeof (pageNumber) == 'string'){
@@ -95,7 +54,7 @@ export default {
                     }
                     else {
                         console.log(response)
-                        this.students[0] = 'error'
+                        
                     }
                 }
             }
@@ -109,10 +68,10 @@ export default {
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.rates = response.data
-                        console.log(response)
+                        
                     }
                     else {
-                        this.rates[0] = 'error'
+                        console.log(response)
                     }
                 }
             }
@@ -120,27 +79,88 @@ export default {
                 handleErrors(error)
             }
         },
-        clearInput() {
+        clearDropdown() {
             this.payment_date = null
             this.sourcharge = null
             this.last_pay_date = null
             this.rateSelected = []
             this.studentSelected = []
+            this.editing = false
         },
-        validateInput() {
-            let valid = this.payment_date && this.sourcharge && this.last_pay_date && this.studentSelected && this.rateSelected ? true : false
+        validateDropdowns() {
+            const valid = this.payment_date && this.sourcharge && this.last_pay_date && this.studentSelected && this.rateSelected ? true : false
             return valid
         },
-        selectStudent(event, students) {
-            this.studentSelected = [];
-            this.studentSelected.push(students);
-        },
-        selectRate(event, rates) {
-            this.rateSelected = [];
-            this.rateSelected.push(rates);
+        
+        async savePayment() {
+            const button = document.querySelector('#adder-btn')
+            button.disabled = 'true'
+
+            if (this.validateDropdowns()) {
+                button.innerText = 'Cargando...'
+                try {
+                    const response = await this.axios.post('/api/savePago',
+                        {
+                            payment_date: this.payment_date,
+                            last_pay_date: this.last_pay_date,
+                            sourcharge: this.sourcharge,
+                            user_id: this.studentSelected,
+                            rate_id: this.rateSelected,
+                        })
+
+                    if (response.status === 201) {
+                        this.$swal.fire(
+                            'Listo',
+                            '¡Se registró el pago correctamente!',
+                            'success'
+                        )
+                        this.getPayments()
+                    }
+                    else {
+                        this.$swal.fire(
+                            'Error',
+                            'Parece que algo salió mal, intentalo de nuevo',
+                            'error'
+                        )
+                        console.log(response)
+                    }
+                } catch (error) {
+                    handleErrors(error)
+                }
+                this.clearDropdown()
+                button.innerHTML = `Agregar <i class="material-icons m-auto ms-1">add_box</i>`
+                button.disabled = ''
+            }
+            else {
+                button.disabled = ''
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes rellenar todos los campos'
+                })
+            }
         },
     },
-    components: {DataTable}
+    
+    setup() {
+        document.title = "IBBACH | Cargas"
+    },
+    mounted() {
+        this.getPayments()
+        this.getStudents()
+        this.getRates()
+    },
+    components: { DataTable }
 }
 </script>
 <template>
@@ -148,7 +168,7 @@ export default {
         <h1 class="h1 fs-1 fw-bold mb-3">Registro de pagos</h1>
         <section class="p-3">
             <h3 class="h3 fw-semibold">Registrar nuevo pago</h3>
-            <form class="w-25" @submit.prevent="handleSubmit">
+            <form class="w-25" @submit.prevent="savePayment">
                 <div class="form-group mb-3">
                     <label>Fecha de pago</label>
                     <input type="date" class="form-control" v-model="payment_date" />
@@ -161,32 +181,29 @@ export default {
                     <label>Sobrecargo</label>
                     <input type="number" class="form-control" v-model="sourcharge" />
                 </div>
-                <div class="dropdown m-4">
-                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <span v-if="!rateSelected.length">Cuota</span>
-                        <span v-else>{{ rateSelected[0].price }}</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <!--<li v-for="price in rates" :key="price.id" class="dropdown-item text-light list-click"
-                        @click="selectRate($event, price)">{{ price.price }}</li>-->
-                    </ul>
+                <div class="d-flex flex-wrap">
+                    <div class="select-input">
+                        <select class="form-select select-input" v-model="rateSelected">
+                            <option selected value="">Selecciona una cuota</option>
+                            <option v-for="price in rates" :key="price.id" :value="price.id">{{ price.price }}</option>
+                        </select>
+                    </div>
+                    <div class="select-input">
+                        <select class="form-select select-input" v-model="studentSelected">
+                            <option selected value="">Selecciona un alumno</option>
+                            <option v-for="student in students" :key="student.id" :value="student.id">{{ student.student
+                            }}</option>
+                        </select>
+                    </div>
+                    <div class="select-input">
                 </div>
-                <div class="dropdown m-4">
-                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <span v-if="!studentSelected.length">Alumno</span>
-                        <span v-else>{{ studentSelected[0].student }}</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="student in students" :key="student.id" class="dropdown-item text-light list-click"
-                            @click="selectStudent($event, student)">{{ student.student }}</li>
-                    </ul>
+                <div class="m-3">
+                    <button type="submit" class="d-inline-flex btn btn-primary btn-lg" id="adder-btn"
+                        >Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
+                    <button type="button" class="d-inline-flex btn btn-warning btn-lg ms-3"
+                        @click.prevent="clearDropdown">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
                 </div>
-                <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg ms-4"
-                    @click="handleSubmit">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
-                <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning btn-lg ms-3"
-                    @click="clearInput">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
+                </div>
             </form>
         </section>
         <section class="p-3">
@@ -218,3 +235,20 @@ export default {
         </section>
     </main>
 </template>
+
+<style scoped>
+    .select-input {
+        min-width: 300px;
+        margin: 2px;
+    }
+    
+    .list-click {
+        cursor: pointer;
+    }
+    
+    @media (max-width: 377px) {
+        .select-input {
+            min-width: 200px;
+        }
+    }
+    </style>

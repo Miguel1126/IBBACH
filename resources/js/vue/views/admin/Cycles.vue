@@ -84,7 +84,7 @@ export default {
             }
             try {
                 this.cycles[0] = 'loading'
-                const response = await this.axios.get('/api/getCiclos?page=' + pageNumber);
+                const response = await this.axios.get('/api/getCiclos/paginate?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === "object") {
                         this.cycles = response.data.data;

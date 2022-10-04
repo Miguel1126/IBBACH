@@ -79,7 +79,7 @@ export default {
             }
             try {
                 this.subjects[0] = 'loading'
-                const response = await this.axios.get('/api/getAsignaturas?page=' + pageNumber);
+                const response = await this.axios.get('/api/getAsignaturas/paginate?page=' + pageNumber);
                 if (response.status === 200) {
                     this.subjects = response.data.data;
                     this.paginationLinks = response.data.links

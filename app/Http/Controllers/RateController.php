@@ -55,19 +55,35 @@ class RateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($paginate = null)
     {
         try {
-            $rate = Rate:: 
-            select(
-                'rates.id',
-                'rates.price',
-                'rates.tuition'
-            )
-            ->orderBy('id','asc')
-            ->paginate(5)->onEachSide(1);
-            
-            return $rate;
+            if ($paginate === 'paginate'){
+                $rate = Rate:: 
+                select(
+                    'rates.id',
+                    'rates.price',
+                    'rates.tuition'
+                )
+                ->orderBy('id','asc')
+                ->paginate(5)->onEachSide(1);
+                
+                return $rate;
+            }
+            else if (!$paginate){
+                $rate = Rate:: 
+                select(
+                    'rates.id',
+                    'rates.price',
+                    'rates.tuition'
+                )
+                ->orderBy('id','asc')
+                ->get();
+                return $rate;
+            }
+            else {
+                return response()->json(["message" => "Argument '". $paginate . "' does not exist"],404);
+            }
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
