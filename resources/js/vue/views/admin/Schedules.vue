@@ -77,7 +77,7 @@ export default {
             }
             try {
                 this.schedules[0] = 'loading'
-                const response = await this.axios.get('/api/getHorarios?page=' + pageNumber);
+                const response = await this.axios.get('/api/getHorarios/paginate?page=' + pageNumber);
                 if (response.status === 200) {
                     this.schedules = response.data.data;
                     this.paginationLinks = response.data.links
