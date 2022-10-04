@@ -90,9 +90,10 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
 Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     
     Route::resource('/pagos', PaymentController::class);
+    Route::post('/savePago',[PaymentController::class,'store']);
     Route::get('/getPagos', [PaymentController::class, 'show']);
     Route::resource('/tarifas', RateController::class);
-    Route::get('/getTarifas', [RateController::class, 'show']);
+    Route::get('/getTarifas/{paginate?}', [RateController::class, 'show']);
     Route::get('/getStudent', [UserController::class, 'getStudent']);
     Route::get('/getAplicante', [ApplicantController::class, 'show']);
     Route::post('/register', [RegisterController::class,'register']);
