@@ -85,8 +85,6 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
 |
 */
 
-
-
 Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     
     Route::resource('/pagos', PaymentController::class);
@@ -103,6 +101,9 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     Route::get('/aplicantes-pendientes', [ApplicantController::class, 'getPendingApplicants']);
     Route::put('/updatePayment', [PaymentController::class, 'update']);
     Route::put('/updateRate', [RateController::class, 'update']);
+    Route::put('/restore-c-access', [UserController::class, 'restorePass']);
+    Route::put('/disable-user', [UserController::class, 'disableUser']);
+    Route::get('/users/{role}', [UserController::class, 'getUsersByRole']);
 });
 
 
