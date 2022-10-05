@@ -35,7 +35,7 @@ class SubjectController extends Controller
             $subject = new Subject();
             $subject->subject = $request->subject;
             $subject->description = $request->description;
-            $subject->status = $request->status;
+            //$subject->status = $request->status;
 
             if ($subject->save()>=1) {
                 return response()->json(['status'=>'OK','data'=>$subject],201);
