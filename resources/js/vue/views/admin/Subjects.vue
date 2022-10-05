@@ -12,12 +12,12 @@ export default {
             subject: null,
             descriptions: [],
             description: null,
-            paginationLinks: [],
             statuses: [
                 { id: 1, status: "disponible" },
                 { id: 2, status: "ocupado" }
             ],
-            statusSelected: [],
+            paginationLinks: [],
+            statusSelected: '',
             editing: false,
             headers: [
                 { title: "Id" },
@@ -29,48 +29,6 @@ export default {
         };
     },
     methods: {
-        async handleSumit() {
-
-            try {
-
-                const response = await this.axios.post("/api/asignaturas", {
-                    subject: this.subject,
-                    subject: this.subject,
-                    description: this.description,
-                    status: this.statusSelected[0],
-                });
-
-            } catch (error) {
-                handleErrors(error)
-            }
-
-            if (this.validateInput()) {
-                this.clearInput();
-            }
-            else {
-                const Toast = this.$swal.mixin({
-                    toast: true,
-                    position: "top",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener("mouseenter", this.$swal.stopTimer);
-                        toast.addEventListener("mouseleave", this.$swal.resumeTimer);
-                    }
-                });
-                Toast.fire({
-                    icon: "error",
-                    title: "Debes rellenar el campo"
-                });
-            }
-            console.log(response);
-            if (response.status === 201) {
-                this.clearInput();
-                this.getSubjects();
-                this.$swal.fire("Listo", "Se registró la materia", "success");
-            }
-        },
         async getSubjects(pageNumber, firstSubjects = false) {
             if (firstSubjects) this.subjects[0] = 'loading'
 
@@ -81,7 +39,7 @@ export default {
                 this.subjects[0] = 'loading'
                 const response = await this.axios.get('/api/getAsignaturas/paginate?page=' + pageNumber);
                 if (response.status === 200) {
-                    this.subjects = response.data.data;
+                    this.subjects = response.data.data
                     this.paginationLinks = response.data.links
                 }
                 else {
@@ -93,25 +51,72 @@ export default {
                 this.subjects[0] = 'error'
             }
         },
-        clearInput() {
+        clearDropdown() {
             this.subject = null;
             this.description = null;
-            this.status = null;
+            this.statusSelected = []
             this.editing = false;
         },
-        validateInput() {
-            let valid = this.subject && this.description && this.status ? true : false;
+        validateDropdowns() {
+            let valid = this.subject && this.description  && this.statusSelected ? true : false;
             return valid;
         },
-        selectStatus(event, statuses) {
-            this.statusSelected = [];
-            this.statusSelected.push(statuses);
-        },
-        selectGroup(event, subject, description) {
-            const app = this;
-            app.editing = true;
-            app.subject = subject;
-            app.description = description;
+        async savesubject() {
+            const button = document.querySelector('#adder-btn')
+            button.disabled = 'true'
+
+            if (this.validateDropdowns()) {
+                button.innerText = 'Cargando...'
+                try {
+                    const response = await this.axios.post('/api/saveAsignaturas',
+                        {
+                            subject: this.subject,
+                            subject: this.subject,
+                            description: this.description,
+                            statuses: this.statusSelected,
+                        })
+
+                    if (response.status === 201) {
+                        this.$swal.fire(
+                            'Listo',
+                            '¡Se registró la materia correctamente!',
+                            'success'
+                        )
+                        this.getSubjects()
+                    }
+                    else {
+                        this.$swal.fire(
+                            'Error',
+                            'Parece que algo salió mal, intentalo de nuevo',
+                            'error'
+                        )
+                        console.log(response)
+                    }
+                } catch (error) {
+                    handleErrors(error)
+                }
+                this.clearDropdown()
+                button.innerHTML = `Agregar <i class="material-icons m-auto ms-1">add_box</i>`
+                button.disabled = ''
+            }
+            else {
+                button.disabled = ''
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes rellenar todos los campos'
+                })
+            }
         },
         saveEdit() {
             this.editing = false;
@@ -146,7 +151,10 @@ export default {
         }
     },
     setup() {
-        document.title = "IBBACH | Materias";
+        document.title = "IBBACH | Cargas"
+    },
+    mounted() {
+        this.getSubjects()
     },
     components: { DataTable }
 }
@@ -157,7 +165,7 @@ export default {
         <h1 class="h1 fs-1 fw-bold">Administrador de Asignaturas</h1>
         <br />
         <section class=" p-3 ">
-            <form @submit.prevent="handleSumit">
+            <form @submit.prevent="savesubject">
                 <h3 class="h3 fw-semibold">Crea una nueva materia</h3>
                 <div>
                     <div class="input-group input-group-lg w-50 mb-3">
@@ -172,23 +180,19 @@ export default {
                         <input type="text" class="form-control" v-model="description" aria-label="Sizing example input"
                             aria-describedby="inputGroup-sizing-lg" placeholder="Introduce descripcion">
                     </div>
-                    <div class="dropdown m-4">
-                        <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <span v-if="!statusSelected.length">Estado</span>
-                            <span v-else>{{ statusSelected[0] }}</span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                            <li v-for="status in statuses" :key="status.id" class="dropdown-item text-light list-click"
-                                @click="selectStatus($event, status.status)">{{ status.status }}</li>
-                        </ul>
+                    <div class="w-25">
+                        <select class="form-select select-input" v-model="statusSelected">
+                            <option selected value="">Estado</option>
+                            <option v-for="status in statuses " :key="status.id" :value="status.id">{{ status.status
+                            }}</option>
+                        </select>
                     </div>
-                    <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary btn-lg ms-4">Agregar <i
-                            class="material-icons m-auto ms-1">add_box</i></button>
-                    <button v-else type="button" class="d-inline-flex btn btn-success btn-lg ms-4"
-                        @click="saveEdit">Guardar <i class="material-icons m-auto ms-1">edit</i></button>
-                    <button v-if="editing" type="button" class="d-inline-flex btn btn-danger btn-lg ms-3"
-                        @click="clearInput">Cancelar <i class="material-icons m-auto ms-1">cancel</i></button>
+                    <div class="m-3">
+                    <button type="submit" class="d-inline-flex btn btn-primary btn-lg" id="adder-btn"
+                        >Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
+                    <button type="button" class="d-inline-flex btn btn-warning btn-lg ms-3"
+                        @click.prevent="clearDropdown">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
+                </div>
                 </div>
             </form>
         </section>
@@ -215,7 +219,18 @@ export default {
 </template>
 
 <style scoped>
-.load {
-    border-radius: 15px !important;
-}
-</style>
+    .select-input {
+        min-width: 300px;
+        margin: 2px;
+    }
+    
+    .list-click {
+        cursor: pointer;
+    }
+    
+    @media (max-width: 377px) {
+        .select-input {
+            min-width: 200px;
+        }
+    }
+    </style>

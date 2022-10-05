@@ -28,8 +28,8 @@ use App\Http\Controllers\NoteController;
 */
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function(){
-    
     Route::post('/saveCarga',[LoadController::class,'store']);
+    Route::post('/saveAsignaturas',[SubjectController::class,'store']);
     Route::resource('/grupos', GroupController::class);
     Route::get('/getGrupos', [GroupController::class, 'show']);
     Route::resource('/asignaturas', SubjectController::class);
