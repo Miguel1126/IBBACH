@@ -9,13 +9,13 @@ export default {
     },
     data() {
         return {
-            rates: '',
-            rateSelected: [],
-            payment_date: '',
-            sourcharge: '',
-            last_pay_date: '',
+            rates: [],
+            rateSelected: '',
+            payment_date: [],
+            sourcharge: [],
+            last_pay_date: [],
             students: [],
-            studentSelected: [],
+            studentSelected: '',
             payments: [],
             paginationLinks: [],
             editing: false

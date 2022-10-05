@@ -8,16 +8,16 @@ export default {
     },
     data() {
         return {
-            cycle: "",
-            start_date: "",
-            end_date: "",
+            cycle: [],
+            start_date: [],
+            end_date: [],
             statuses: [
                 { id: 1, status: "activo" },
                 { id: 2, status: "inactivo" }
             ],
-            statusSelected: [],
+            statusSelected: '',
             groups: [],
-            groupSelected: [],
+            groupSelected: '',
             cycles: [],
             paginationLinks: [],
             editing: false,
@@ -33,49 +33,6 @@ export default {
         };
     },
     methods: {
-        async handleSubmit() {
-            if (this.validateInput()) {
-
-                try {
-                    const response = await this.axios.post("/api/ciclos", {
-                        cycle: this.cycle,
-                        start_date: this.start_date,
-                        end_date: this.end_date,
-                        status: this.statusSelected[0],
-                        group_id: this.groupSelected[0].id
-                    });
-                    console.log(response);
-                    if (response.data.status === 302) {
-                        this.$swal.fire("Error", `${response.data.message}`, "error");
-                    }
-                    else if (response.status === 201) {
-                        this.clearInput();
-                        this.getCycles();
-                        this.$swal.fire("Listo", "¡Se ha registrado el ciclo correctamente!", "success");
-                    }
-                } catch (error) {
-                    handleErrors(error)
-                }
-
-            }
-            else {
-                const Toast = this.$swal.mixin({
-                    toast: true,
-                    position: "top",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener("mouseenter", this.$swal.stopTimer);
-                        toast.addEventListener("mouseleave", this.$swal.resumeTimer);
-                    }
-                });
-                Toast.fire({
-                    icon: "error",
-                    title: "Debes rellenar el campo"
-                });
-            }
-        },
         async getCycles(pageNumber, firstCycle = false) {
             if (firstCycle) this.cycles[0] = 'loading'
 
@@ -103,10 +60,10 @@ export default {
         },
         async getGroups() {
             try {
-                const response = await this.axios.get("/api/getGrupos");
+                const response = await this.axios.get("/api/getGrupos/paginate");
                 if (response.status === 200) {
                     if (typeof (response.data) === "object") {
-                        this.groups = response.data;
+                        this.groups = response.data.data;
                     }
                     else {
                         this.groups[0] = "error";
@@ -117,7 +74,7 @@ export default {
                 handleErrors(error)
             }
         },
-        clearInput() {
+        clearDropdown() {
             this.cycle = null;
             this.start_date = null;
             this.end_date = null;
@@ -125,18 +82,76 @@ export default {
             this.groupSelected = [];
             this.editing = false;
         },
-        validateInput() {
+        validateDropdowns() {
             let valid = this.cycle && this.start_date && this.end_date && this.statusSelected && this.groupSelected ? true : false;
             return valid;
         },
-        selectStatus(event, statuses) {
-            this.statusSelected = [];
-            this.statusSelected.push(statuses);
+        async saveCiclo() {
+            const button = document.querySelector('#adder-btn')
+            button.disabled = 'true'
+
+            if (this.validateDropdowns()) {
+                button.innerText = 'Cargando...'
+                try {
+                    const response = await this.axios.post('/api/saveCiclo',
+                        {
+                            cycle: this.cycle,
+                            start_date: this.start_date,
+                            end_date: this.end_date,
+                            status: this.statusSelected,
+                            group_id: this.groupSelected
+                        })
+
+                    if (response.status === 201) {
+                        this.$swal.fire(
+                            'Listo',
+                            '¡Se registró la carga correctamente!',
+                            'success'
+                        )
+                        this.getCycles()
+                    }
+                    else {
+                        this.$swal.fire(
+                            'Error',
+                            'Parece que algo salió mal, intentalo de nuevo',
+                            'error'
+                        )
+                        console.log(response)
+                    }
+                } catch (error) {
+                    handleErrors(error)
+                }
+                this.clearDropdown()
+                button.innerHTML = `Agregar <i class="material-icons m-auto ms-1">add_box</i>`
+                button.disabled = ''
+            }
+            else {
+                button.disabled = ''
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes rellenar todos los campos'
+                })
+            }
         },
-        selectGroup(event, groups) {
-            this.groupSelected = [];
-            this.groupSelected.push(groups);
-        },
+        
+    },
+    setup() {
+        document.title = "IBBACH | Cargas"
+    },
+    mounted() {
+        this.getCycles()
+        this.getGroups()
     },
     components: { DataTable }
 }
@@ -146,7 +161,7 @@ export default {
         <h1 class="h1 fs-1 fw-bold mb-3">Registro de ciclos</h1>
         <section class="p-3">
             <h3 class="h3 fw-semibold">Crear nuevo ciclo</h3>
-            <form class="w-25" @submit.prevent="handleSubmit">
+            <form class="w-25" @submit.prevent="saveCiclo">
                 <div class="form-group mb-3">
                     <label>Ciclo</label>
                     <input type="text" class="form-control" v-model="cycle" placeholder="Nuevo ciclo" />
@@ -159,32 +174,24 @@ export default {
                     <label>fecha de finalización</label>
                     <input type="date" class="form-control" v-model="end_date" />
                 </div>
-                <div class="dropdown m-4">
-                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <span v-if="!statusSelected.length">Estado</span>
-                        <span v-else>{{ statusSelected[0] }}</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="status in statuses" :key="status.id" class="dropdown-item text-light list-click"
-                            @click="selectStatus($event, status.status)">{{ status.status }}</li>
-                    </ul>
+                <div class="select-input">
+                        <select class="form-select select-input" v-model="statusSelected">
+                            <option selected value="">Selecciona un estado</option>
+                            <option v-for="status in statuses" :key="status.id" :value="status.id">{{ status.status }}</option>
+                        </select>
+                    </div>
+                    <div class="select-input">
+                        <select class="form-select select-input" v-model="groupSelected">
+                            <option selected value="">Selecciona un grupo</option>
+                            <option v-for="group in groups" :key="group.id" :value="group.id">{{group.group}}</option>
+                        </select>
+                    </div>
+                <div class="m-3">
+                    <button type="submit" class="d-inline-flex btn btn-primary btn-lg" id="adder-btn"
+                        >Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
+                    <button type="button" class="d-inline-flex btn btn-warning btn-lg ms-3"
+                        @click.prevent="clearDropdown">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
                 </div>
-                <div class="dropdown m-4">
-                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <span v-if="!groupSelected.length">Grupos</span>
-                        <span v-else>{{ groupSelected[0].group }}</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <!--<li v-for="group in groups" :key="group.id" class="dropdown-item text-light list-click"
-                            @click="selectGroup($event, group)">{{ group.group }}</li>-->
-                    </ul>
-                </div>
-                <button v-if="!editing" type="button" class="d-inline-flex btn btn-primary btn-lg ms-4"
-                    @click="handleSubmit">Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
-                <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning btn-lg ms-3"
-                    @click="clearInput">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
             </form>
         </section>
         <hr class="separator" />
@@ -208,3 +215,19 @@ export default {
         </section>
     </main>
 </template>
+<style scoped>
+    .select-input {
+        min-width: 300px;
+        margin: 2px;
+    }
+    
+    .list-click {
+        cursor: pointer;
+    }
+    
+    @media (max-width: 377px) {
+        .select-input {
+            min-width: 200px;
+        }
+    }
+    </style>

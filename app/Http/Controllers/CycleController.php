@@ -40,7 +40,7 @@ class CycleController extends Controller
                 $cycle->cycle = $request->cycle;
                 $cycle->start_date = $request->start_date;
                 $cycle->end_date = $request->end_date;
-                $cycle->status = $request->status;
+                //$cycle->status = $request->status;
                 $cycle->group_id = $request->group_id;
                 if($cycle->save()>=1){
                     return response()->json(['status'=>'ok','data'=>$cycle],201);

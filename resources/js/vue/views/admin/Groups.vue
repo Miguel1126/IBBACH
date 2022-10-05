@@ -64,7 +64,7 @@ export default {
             }
             try {
                 this.groups[0] = 'loading'
-                const response = await this.axios.get('/api/getGrupos?page=' + pageNumber);
+                const response = await this.axios.get('/api/getGrupos/paginate?page=' + pageNumber);
                 if (response.status === 200) {
                     this.groups = response.data.data;
                     this.paginationLinks = response.data.links
