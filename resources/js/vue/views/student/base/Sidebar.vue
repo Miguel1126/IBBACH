@@ -20,7 +20,7 @@ const ToggleMenu = () => {
 						<span class="material-icons fs-1 text-light">keyboard_double_arrow_right</span>
 					</button>
 				</div>
-				<span class="navbar-title navbar-brand mb-0">Instituto Bíblico Betel Anexo Chalatenango</span>
+				<span class="navbar-title mb-0">Instituto Bíblico Betel Anexo Chalatenango</span>
 			</div>
 			<ProfileInfo></ProfileInfo>
 		</nav>

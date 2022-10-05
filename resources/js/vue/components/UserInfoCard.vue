@@ -1,17 +1,27 @@
 <script setup>
-    defineProps({
-        userinfo: {
-            required: true,
-            type: Object
-        }
-    })
+defineProps({
+    userinfo: {
+        required: true,
+        type: Object
+    },
+    changedpass: Boolean
+})
+setTimeout(() => {
+    window.scroll({
+    top: screen.height,
+    behavior: 'smooth'
+})
+}, 1000)
 </script>
 <template>
     <div class="mt-4 d-flex">
         <div class="p-4 bg-dark text-light w-75 rounded">
             <div>
                 <div class="alert alert-success alert-dismisable fade show d-flex" role="alert">
-                    <span class="material-icons d-flex align-items-center me-3">check</span> <span>¡{{ userinfo.user.role == 'admin' ? 'Admin' : userinfo.user.role == 'secretaria' ? 'Secretaria' : userinfo.user.role == 'docente' ? 'Docente' : userinfo.user.role == 'alumno' ? 'Alumno' : 'Usuario' }} registrado/a exitosamente!</span>
+                    <span class="material-icons d-flex align-items-center me-3">check</span> <span>¡{{
+                    userinfo.user.role == 'admin' ? 'Admin' : userinfo.user.role == 'secretaria' ? 'Secretaria' :
+                    userinfo.user.role == 'docente' ? 'Docente' : userinfo.user.role == 'alumno' ? 'Alumno' :
+                    'Usuario' }} {{ changedpass ? 'actualizado/a' : 'registrado/a' }} exitosamente!</span>
                 </div>
             </div>
             <div>

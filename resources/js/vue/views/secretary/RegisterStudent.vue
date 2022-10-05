@@ -1,6 +1,7 @@
 <script>
 import DataTable from '../../components/DataTable.vue';
 import UserInfoCard from '../../components/UserInfoCard.vue';
+import { formatDate } from '../../js/format_time';
 
 export default {
     mounted() {
@@ -29,7 +30,8 @@ export default {
             try {
                 const response = await this.axios.get('/api/aplicantes-pendientes?page=' + pageNumber)
                 if (response.status === 200) {
-                    this.applicants = response.data.data
+
+                    this.applicants = this.formateDate(response.data.data)
                     this.paginationLinks = response.data.links
                 }
                 else {
@@ -80,28 +82,37 @@ export default {
             }).then((result) => {
                 if (result.isConfirmed) {
                     this.axios.put('/api/rechazar', { applicant_id: applicantId })
-                    .then(response => {
-                        if (response.status === 202) {
-                        this.getApplicants()
-                        this.$swal.fire(
-                            '¡Listo!',
-                            'El aplicante ha sido rechazado',
-                            'success'
-                        )
-                        document.getElementById('close-modal').click()
-                    }
-                    else {
-                        this.$swal.fire("Error", "No se pudo rechazar el aplicante, inténtalo de nuevo", "error")
-                    }
-                    })
-                    .catch(error => {
-                        this.$swal.fire("Error", "Ocurrió un error, inténtalo de nuevo", "error")
-                    })
+                        .then(response => {
+                            if (response.status === 202) {
+                                this.getApplicants()
+                                this.$swal.fire(
+                                    '¡Listo!',
+                                    'El aplicante ha sido rechazado',
+                                    'success'
+                                )
+                                document.getElementById('close-modal').click()
+                            }
+                            else {
+                                this.$swal.fire("Error", "No se pudo rechazar el aplicante, inténtalo de nuevo", "error")
+                            }
+                        })
+                        .catch(error => {
+                            this.$swal.fire("Error", "Ocurrió un error, inténtalo de nuevo", "error")
+                        })
                 }
             })
 
             this.loading = false
+        },
+        /**
+         * 
+         * @param {Array} data 
+         */
+        formateDate(data) {
+            data.forEach( m => m.created_at = formatDate(m.created_at) )
+            return data
         }
+
     },
     components: { DataTable, UserInfoCard },
 }
@@ -121,7 +132,8 @@ export default {
                     <div class="modal-body">
                         <h5 class="fs-4 fw-bold">Información Personal</h5>
                         <div class="field w-100 mb-2">
-                            <img style="width: 200px; height: 200px" class="img-fluid" :src="`${siteUrl}/${applicant.img}`"/>
+                            <img style="width: 200px; height: 200px" class="img-fluid"
+                                :src="`${siteUrl}/${applicant.img}`" />
                         </div>
                         <div class="field w-100 mb-2">
                             <label><b>Nombre completo: </b>{{ applicant.name }} {{ applicant.last_name }}</label>
@@ -325,7 +337,8 @@ export default {
                         <button type="button" class="btn btn-success d-flex justify-content-center fs-5"
                             @click.prevent="registerStudent(applicant.id)">Inscribir <span
                                 class="material-icons ms-2 d-flex align-items-center">done</span></button>
-                        <button type="button" class="btn btn-secondary d-flex justify-content-center fs-5" @click.prevent="denyApplicant(applicant.id)">Rechazar
+                        <button type="button" class="btn btn-secondary d-flex justify-content-center fs-5"
+                            @click.prevent="denyApplicant(applicant.id)">Rechazar
                             <span class="material-icons ms-2 d-flex align-items-center">close</span></button>
                     </div>
                     <span class="d-flex justify-content-end ms-1 mb-4 px-5" v-else>
@@ -343,7 +356,6 @@ export default {
         </div>
         <div class="container-fluid">
             <DataTable title="Aplicantes disponibles" personalized :headers="[
-                { title: '#', value: 'id' },
                 { title: 'Nombres', value: 'name' },
                 { title: 'Apellidos', value: 'last_name' },
                 { title: 'Telefono', value: 'phone' },
@@ -365,7 +377,7 @@ export default {
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinks" :key="page">
                         <span class="page-link" @click="getApplicants(page.url)">{{ page.label == 'pagination.previous'
-                                ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
                     </li>
                 </ul>

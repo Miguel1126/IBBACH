@@ -239,7 +239,6 @@ class UserController extends Controller
             $newStudent->code = $this->generateStudentCode($applicant[0]->name, $applicant[0]->last_name);
             $newStudent->password = Hash::make($pass);
             $newStudent->role = 'alumno';
-            $newStudent->status = 'active';
             $newStudent->applicant_id = $request->applicant_id;
             if ($newStudent->save() <= 0) {
                 $errors++;
@@ -264,6 +263,85 @@ class UserController extends Controller
         } 
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+
+    public function getUsersByRole($role = null) {
+        try {
+            if ($role === 'admin') {
+                $admin = User::select('users.id', 'users.name', 'users.last_name', 'users.code', 'users.created_at')
+                ->where('users.role', '=', 'admin')
+                ->where('users.status', '=', 'activo')
+                ->orderBy('id','desc') 
+                ->paginate(5)->onEachSide(1);
+                return $admin;
+            }
+            else if ($role === 'secretaria') {
+                $admin = User::select('users.id', 'users.name', 'users.last_name', 'users.code', 'users.created_at')
+                ->where('users.role', '=', 'secretaria')
+                ->where('users.status', '=', 'activo')
+                ->orderBy('id','desc') 
+                ->paginate(5)->onEachSide(1);
+                return $admin;
+            }
+            else if ($role === 'docente') {
+                $admin = User::select('users.id', 'users.name', 'users.last_name', 'users.code', 'users.created_at')
+                ->where('users.role', '=', 'docente')
+                ->where('users.status', '=', 'activo')
+                ->orderBy('id','desc') 
+                ->paginate(5)->onEachSide(1);
+                return $admin;
+            }
+            else if ($role === 'alumno') {
+                $admin = User::select('users.id', 'users.name', 'users.last_name', 'users.code', 'users.created_at')
+                ->where('users.role', '=', 'alumno')
+                ->where('users.status', '=', 'activo')
+                ->orderBy('id','desc') 
+                ->paginate(5)->onEachSide(1);
+                return $admin;
+            }
+            else if (!$role) {
+                return response()->json(["message" => "Argument in path needed"],204);
+            }
+            else {
+                return response()->json(["message" => "Argument '". $role . "' does not exist"],404);
+            }
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+
+    public function restorePass(Request $request) {
+        try {
+            $user = User::findOrFail($request->id);
+
+            $newPass = $this->generatePassword();
+
+            $user->password = Hash::make($newPass);
+
+            if ($user->save() > 0) {
+                return response()->json(["user" => $user, "pass" => $newPass], 200);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],304);
+        }
+        
+    }
+
+    public function disableUser(Request $request) {
+        try {
+            $user = User::findOrFail($request->id);
+
+            $user->status = "inactivo";
+
+            if ($user->save() > 0) {
+                return response()->json(["message" => "user disabled successfully"], 200);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],304);
         }
     }
 

@@ -5,3 +5,12 @@ export const formatTime = (time) => {
 
     return `${hour}:${timeSplit[1]} ${amOrPm}`
 }
+
+export const formatDate = (date) => {
+    
+    let dateSplit = date.split("-")
+    let daySeparatedFromTime = dateSplit[2].split("T")
+    let timeSeparatedFromDay = formatTime( daySeparatedFromTime[1] )  
+
+    return `${daySeparatedFromTime[0]}/${dateSplit[1]}/${dateSplit[0]} - ${timeSeparatedFromDay}`
+}
