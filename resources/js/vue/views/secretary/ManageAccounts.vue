@@ -43,7 +43,7 @@ export default {
             }
             catch (error) {
                 console.log(error)
-                this.applicants[0] = 'error'
+                this.users[0] = 'error'
             }
         },
         showUser(user) {
