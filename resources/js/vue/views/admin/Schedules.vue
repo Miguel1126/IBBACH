@@ -1,5 +1,6 @@
 <script>
 import DataTable from '../../components/DataTable.vue';
+import { formatTime } from '../../js/format_time';
 import { handleErrors } from '../../js/handle_error';
 export default {
     mounted() {
@@ -9,11 +10,6 @@ export default {
         return {
             start_time: "",
             end_time: "",
-            statuses: [
-                { id: 1, status: "activo" },
-                { id: 2, status: "inactivo" }
-            ],
-            statusSelected: [],
             schedules: [],
             paginationLinks: [],
             editing: false,
@@ -33,7 +29,6 @@ export default {
                     const response = await this.axios.post("/api/horarios", {
                         start_time: this.start_time,
                         end_time: this.end_time,
-                        status: this.statusSelected[0]
                     });
                     if (response.status === 201) {
                         this.getSchedule();
@@ -79,7 +74,7 @@ export default {
                 this.schedules[0] = 'loading'
                 const response = await this.axios.get('/api/getHorarios/paginate?page=' + pageNumber);
                 if (response.status === 200) {
-                    this.schedules = response.data.data;
+                    this.schedules = this.formateTime(response.data.data);
                     this.paginationLinks = response.data.links
                 }
                 else {
@@ -91,39 +86,52 @@ export default {
                 this.schedules[0] = 'error'
             }
         },
+        formateTime(time) {
+            time.forEach(schedule => {
+                schedule.start_time = formatTime(schedule.start_time)
+                schedule.end_time = formatTime(schedule.end_time)
+            })
+            return time
+        },
+    },
+    watch: {
+        'start_time'(time) {
+            this.end_time = formatTime(time).split(" ")[0]
+        }
     },
     components: { DataTable }
 }
 </script>
 <template>
     <main>
-        <h1 class="h1 fs-1 fw-bold mb-3">Horarios</h1>
-        <section class=" p-3 ">
+        <h1 class="h1 fs-1 p-3 fw-bold">Horarios</h1>
+        <section class="p-3">
             <h3 class="h3 fw-semibold">Crear nuevo horario</h3>
-            <form class="w-25" @submit.prevent="handleSubmit">
-                <div class="form-group mb-3">
-                    <label>Hora de inicio</label>
-                    <input type="time" class="form-control" v-model="start_time" placeholder="Nuevo ciclo" />
+            <form @submit.prevent="handleSubmit">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="d-inline-block">Hora de inicio</label>
+                            <input type="time" class="form-control time-picker" v-model="start_time" />
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group mb-3">
-                    <label>Hora de finalización</label>
-                    <input type="time" class="form-control" v-model="end_time" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="d-inline-block">Hora de finalización</label>
+                            <input type="time" class="form-control time-picker" v-model="end_time" />
+                        </div>
+                    </div>
                 </div>
-                <div class="dropdown m-4">
-                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <span v-if="!statusSelected.length">Estado</span>
-                        <span v-else>{{ statusSelected[0] }}</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="status in statuses" :key="status.id" class="dropdown-item text-light list-click"
-                            @click="selectStatus($event, status.status)">{{ status.status }}</li>
-                    </ul>
+                <div class="row">
+                    <div class="d-flex">
+                        <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary">Agregar <i
+                            class="material-icons m-auto ms-1">add_box</i></button>
+                    <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning ms-1"
+                        @click="clearInput">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
+                    </div>
                 </div>
-                <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary btn-lg ms-4">Agregar <i
-                        class="material-icons m-auto ms-1">add_box</i></button>
-                <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning btn-lg ms-3"
-                    @click="clearInput">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
             </form>
         </section>
         <hr class="separator" />
@@ -151,5 +159,10 @@ export default {
 <style scoped>
 .list-click {
     cursor: pointer;
+}
+
+.time-picker {
+    width: 200px;
+    min-width: 200px;
 }
 </style>
