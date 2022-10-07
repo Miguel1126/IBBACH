@@ -10,7 +10,7 @@ export const formatDate = (date) => {
     
     let dateSplit = date.split("-")
     let daySeparatedFromTime = dateSplit[2].split("T")
-    let timeSeparatedFromDay = formatTime( daySeparatedFromTime[1] )  
+    let timeSeparatedFromDay = daySeparatedFromTime[1] ? formatTime(daySeparatedFromTime[1]) : ''
 
-    return `${daySeparatedFromTime[0]}/${dateSplit[1]}/${dateSplit[0]} - ${timeSeparatedFromDay}`
+    return `${daySeparatedFromTime[0]}/${dateSplit[1]}/${dateSplit[0]} ${timeSeparatedFromDay ??= timeSeparatedFromDay}`
 }
