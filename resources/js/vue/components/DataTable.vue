@@ -97,7 +97,7 @@ const getValues = (item) => {
 }
 
 .styled-table thead tr {
-    background-color: #009879;
+    background-color: #373737;
     color: #ffffff;
     text-align: left;
 }
