@@ -1,47 +1,54 @@
 <script>
 import DataTable from '../../components/DataTable.vue';
+import { formatDate, formatTime } from '../../js/format_time';
 import { handleErrors } from '../../js/handle_error';
+import LoadingDots from '../../components/LoadingDots.vue';
 export default {
     mounted() {
+        document.title = "IBBACH | Horarios"
         this.getSchedules(1, true);
     },
     data() {
         return {
             start_time: "",
             end_time: "",
-            statuses: [
-                { id: 1, status: "activo" },
-                { id: 2, status: "inactivo" }
-            ],
-            statusSelected: [],
+            start_date: "",
+            end_date: "",
+            startTimeFormatted: "00:00 AM",
+            endTimeFormatted: "00:00 AM",
             schedules: [],
             paginationLinks: [],
             editing: false,
+            loading: false,
             headers: [
-                { title: "Id" },
-                { title: "Hora de inicio" },
-                { title: "Hora de finalización" },
-                { title: "Estado" },
+                { title: "Fecha de inicio", value: 'start_date' },
+                { title: "Fecha de finalización", value: 'end_date' },
+                { title: "Hora de inicio", value: 'start_time' },
+                { title: "Hora de finalización", value: 'end_time' },
                 { title: "Acciones" }
             ],
         };
     },
     methods: {
         async handleSubmit() {
-            if (this.validateInput()) {
+            this.loading = true
+            if (this.validateInputs()) {
                 try {
                     const response = await this.axios.post("/api/horarios", {
                         start_time: this.start_time,
                         end_time: this.end_time,
-                        status: this.statusSelected[0]
+                        start_date: this.start_date,
+                        end_date: this.end_date,
                     });
                     if (response.status === 201) {
-                        this.getSchedule();
-                        this.clearInput();
+                        this.getSchedules();
+                        this.clearInputs();
                         this.$swal.fire("Listo", "Se registró el Horario", "success");
                     }
                 }
                 catch (error) {
+                    this.loading = false
+                    console.log(error)
                     this.$swal.fire("Error", "Hubo un error", "error");
                     handleErrors(error)
                 }
@@ -61,13 +68,10 @@ export default {
                 });
                 Toast.fire({
                     icon: "error",
-                    title: "Debes rellenar el campo"
+                    title: "Debes rellenar todos los campos"
                 });
             }
-        },
-        selectStatus(event, statuses) {
-            this.statusSelected = [];
-            this.statusSelected.push(statuses);
+            this.loading = false
         },
         async getSchedules(pageNumber, firstSchedule = false) {
             if (firstSchedule) this.schedules[0] = 'loading'
@@ -76,10 +80,9 @@ export default {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
-                this.schedules[0] = 'loading'
                 const response = await this.axios.get('/api/getHorarios/paginate?page=' + pageNumber);
                 if (response.status === 200) {
-                    this.schedules = response.data.data;
+                    this.schedules = this.formateTime(response.data.data);
                     this.paginationLinks = response.data.links
                 }
                 else {
@@ -87,48 +90,97 @@ export default {
                 }
             }
             catch (error) {
+                console.log(error)
                 handleErrors(error)
                 this.schedules[0] = 'error'
             }
         },
+        validateInputs() {
+            return this.start_date && this.end_date && this.start_time && this.end_time
+        },
+        clearInputs() {
+            this.start_time = ""
+            this.end_time = ""
+            this.start_date = ""
+            this.end_date = ""
+        },
+        formateTime(time) {
+            time.forEach(schedule => {
+                schedule.start_time = formatTime(schedule.start_time)
+                schedule.end_time = formatTime(schedule.end_time)
+                schedule.start_date = formatDate(schedule.start_date)
+                schedule.end_date = formatDate(schedule.end_date)
+            })
+            return time
+        },
     },
-    components: { DataTable }
+    watch: {
+        'start_time'(time) {
+            this.startTimeFormatted = time ? formatTime(time) : '00:00 AM'
+        },
+        'end_time'(time) {
+            this.endTimeFormatted = time ? formatTime(time) : '00:00 AM'
+        }
+    },
+    components: { DataTable, LoadingDots }
 }
 </script>
 <template>
     <main>
-        <h1 class="h1 fs-1 fw-bold mb-3">Horarios</h1>
-        <section class=" p-3 ">
+        <h1 class="ms-3 fs-1 fw-bold">Horarios</h1>
+        <section class="p-3">
             <h3 class="h3 fw-semibold">Crear nuevo horario</h3>
-            <form class="w-25" @submit.prevent="handleSubmit">
-                <div class="form-group mb-3">
-                    <label>Hora de inicio</label>
-                    <input type="time" class="form-control" v-model="start_time" placeholder="Nuevo ciclo" />
+            <form @submit.prevent="handleSubmit">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="d-inline-block">Fecha de inicio</label>
+                            <input type="date" class="form-control time-picker" v-model="start_date" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="d-inline-block">Fecha de finalización</label>
+                            <input type="date" class="form-control time-picker" v-model="end_date" />
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group mb-3">
-                    <label>Hora de finalización</label>
-                    <input type="time" class="form-control" v-model="end_time" />
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="d-inline-block">Hora de inicio</label>
+                            <input type="time" class="form-control time-picker" v-model="start_time" />
+                            <span class="fs-6 text-light"><span class="fs-4">&#10551;</span> {{ startTimeFormatted
+                            }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="d-inline-block">Hora de finalización</label>
+                            <input type="time" class="form-control time-picker" v-model="end_time" />
+                            <span class="fs-6 text-light"><span class="fs-4">&#10551;</span> {{ endTimeFormatted
+                            }}</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="dropdown m-4">
-                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <span v-if="!statusSelected.length">Estado</span>
-                        <span v-else>{{ statusSelected[0] }}</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li v-for="status in statuses" :key="status.id" class="dropdown-item text-light list-click"
-                            @click="selectStatus($event, status.status)">{{ status.status }}</li>
-                    </ul>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="d-flex" v-if="!loading">
+                            <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary">Agregar <i
+                                    class="material-icons m-auto ms-1">add_box</i></button>
+                            <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning ms-1"
+                                @click="clearInputs">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
+                        </div>
+                        <div v-else>
+                            <LoadingDots styles="my-3 mx-auto" />
+                        </div>
+                    </div>
                 </div>
-                <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary btn-lg ms-4">Agregar <i
-                        class="material-icons m-auto ms-1">add_box</i></button>
-                <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning btn-lg ms-3"
-                    @click="clearInput">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
             </form>
         </section>
         <hr class="separator" />
         <section class="p-3">
-            <DataTable title="Listado de horarios" :headers="headers" :items="schedules">
+            <DataTable personalized title="Listado de horarios" :headers="headers" :items="schedules">
                 <template #actions>
                     <button type="button" class="btn btn-primary me-2">Modificar</button>
                     <button type="button" class="btn btn-danger">Eliminar</button>
@@ -136,7 +188,7 @@ export default {
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">
                 <ul class="pagination">
-                    <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                    <li class="page-item list-click" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinks" :key="page">
                         <span class="page-link" @click="getSchedules(page.url)">{{ page.label == 'pagination.previous'
                         ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
@@ -151,5 +203,10 @@ export default {
 <style scoped>
 .list-click {
     cursor: pointer;
+}
+
+.time-picker {
+    width: 200px;
+    min-width: 200px;
 }
 </style>

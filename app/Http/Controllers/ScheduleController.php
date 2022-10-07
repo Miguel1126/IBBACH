@@ -40,7 +40,8 @@ class ScheduleController extends Controller
             $schedule = new Schedule();
             $schedule->start_time = $request->start_time;
             $schedule->end_time = $request->end_time;
-            $schedule->status = $request->status;
+            $schedule->start_date = $request->start_date;
+            $schedule->end_date = $request->end_date;
             if ($schedule->save()>=1) {
                 return response()->json(['status'=>'OK','data'=>$schedule],201);
             }
@@ -60,13 +61,13 @@ class ScheduleController extends Controller
     {
         try {
             if ($paginate === 'paginate') {
-                $schedule = Schedule::select('schedules.id','schedules.start_time','schedules.end_time','schedules.status')
-                ->orderBy('id','asc')->paginate(5)->onEachSide(1);
+                $schedule = Schedule::select('schedules.id','schedules.start_time','schedules.end_time','schedules.start_date','schedules.end_date','schedules.status')
+                ->orderBy('id','desc')->paginate(5)->onEachSide(1);
                 return $schedule;
             }
             else if (!$paginate) {
-                $schedule = Schedule::select('schedules.id','schedules.start_time','schedules.end_time','schedules.status')
-                ->orderBy('id','asc')
+                $schedule = Schedule::select('schedules.id','schedules.start_time','schedules.end_time','schedules.start_date','schedules.end_date','schedules.status')
+                ->orderBy('id','desc')
                 ->get();
                 return $schedule;
             }

@@ -19,6 +19,8 @@ class ScheduleFactory extends Factory
         return [
             'start_time'=> $this->faker->time(),
             'end_time'=> $this->faker->time(),
+            'start_date' => $this->faker->date(),
+            'end_date' => $this->faker->date()
         ];
     }
 }
