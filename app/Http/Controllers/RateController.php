@@ -65,7 +65,7 @@ class RateController extends Controller
                     'rates.price',
                     'rates.tuition'
                 )
-                ->orderBy('id','asc')
+                ->orderBy('id','desc')
                 ->paginate(5)->onEachSide(1);
                 
                 return $rate;
@@ -77,7 +77,7 @@ class RateController extends Controller
                     'rates.price',
                     'rates.tuition'
                 )
-                ->orderBy('id','asc')
+                ->orderBy('id','desc')
                 ->get();
                 return $rate;
             }
@@ -98,7 +98,7 @@ class RateController extends Controller
                 'rates.price',
                 'rates.tuition'
             )
-            ->orderBy('id','asc')
+            ->orderBy('id','desc')
             ->paginate(5)->onEachSide(1);
             return $rate;
         }

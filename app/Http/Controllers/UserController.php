@@ -18,12 +18,13 @@ class UserController extends Controller
             if ($paginate === 'paginate') {
                 $teacher = User::select('users.id', 'users.name as teacher', 'users.last_name', 'users.code', 'users.status')
                 ->where('users.role', '=', 'docente')
-                ->orderBy('id','asc')->paginate(5)->onEachSide(1);
+                ->orderBy('id','desc')->paginate(5)->onEachSide(1);
                 return $teacher;
             }
             else if (!$paginate) {
                 $teacher = User::select('users.id', 'users.name as teacher', 'users.last_name', 'users.code', 'users.status')
                 ->where('users.role', '=', 'docente')
+                ->orderBy('id','desc')
                 ->get();
                 return $teacher;
             }
@@ -40,7 +41,7 @@ class UserController extends Controller
         try {
             $student = User::select('users.id', 'users.name as student', 'users.last_name', 'users.code', 'users.status')
             ->where('users.role', '=', 'alumno')
-            ->orderBy('id','asc')->get();
+            ->orderBy('id','desc')->get();
             return $student;
         }
         catch (\Exception $e) {
@@ -52,7 +53,7 @@ class UserController extends Controller
         try {
             $teacher = User::select('users.id', 'users.name as admin', 'users.last_name', 'users.code', 'users.status', 'role')
             ->where('users.role', '=', 'docente')
-            ->orderBy('id','asc') ->paginate(5)->onEachSide(1);
+            ->orderBy('id','desc') ->paginate(5)->onEachSide(1);
             return $teacher;
         }
         catch (\Exception $e) {
@@ -64,7 +65,7 @@ class UserController extends Controller
         try {
             $student = User::select('users.id', 'users.name as admin', 'users.last_name', 'users.code', 'users.status', 'role')
             ->where('users.role', '=', 'alumno')
-            ->orderBy('id','asc') ->paginate(5)->onEachSide(1);
+            ->orderBy('id','desc') ->paginate(5)->onEachSide(1);
             return $student;
         }
         catch (\Exception $e) {
@@ -76,7 +77,7 @@ class UserController extends Controller
         try {
             $teacher = User::select('users.id', 'users.name as admin', 'users.last_name', 'users.code', 'users.status', 'role')
             ->where('users.role', '=', 'admin')
-            ->orderBy('id','asc') ->paginate(5)->onEachSide(1);
+            ->orderBy('id','desc') ->paginate(5)->onEachSide(1);
             return $teacher;
         }
         catch (\Exception $e) {
@@ -88,7 +89,7 @@ class UserController extends Controller
         try {
             $teacher = User::select('users.id', 'users.name as secretary', 'users.last_name', 'users.code', 'users.status', 'role')
             ->where('users.role', '=', 'secretaria')
-            ->orderBy('id','asc') ->paginate(5)->onEachSide(1);
+            ->orderBy('id','desc') ->paginate(5)->onEachSide(1);
             return $teacher;
         }
         catch (\Exception $e) {
@@ -109,7 +110,7 @@ class UserController extends Controller
                 'notes.finalAverage',
                 'notes.status',)
                 //->where('notes.status', '=', 'Aprovado')
-                ->orderBy('id','asc')->paginate(5)->onEachSide(1);
+                ->orderBy('id','desc')->paginate(5)->onEachSide(1);
             return $student;
         }
         catch (\Exception $e) {
@@ -120,7 +121,7 @@ class UserController extends Controller
         try {
             $teacher = User::select('users.id', 'users.name as admin', 'users.last_name', 'users.code', 'users.status', 'role')
             ->where('users.role', '=', 'docente')
-            ->orderBy('id','asc')->get();
+            ->orderBy('id','desc')->get();
             return $teacher;
         }
         catch (\Exception $e) {
@@ -141,7 +142,7 @@ class UserController extends Controller
                 'notes.finalAverage',
                 'notes.status',)
                 ->where('notes.status', '=', 'Reprobado')
-                ->orderBy('id','asc')->paginate(5)->onEachSide(1);
+                ->orderBy('id','desc')->paginate(5)->onEachSide(1);
             return $student;
         }
         catch (\Exception $e) {
@@ -165,7 +166,7 @@ class UserController extends Controller
                 'groups.group'
             )
             //->where('groups.group', '=', 'Diurno')
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->get();
             return $inscriptions;
         }
@@ -188,7 +189,7 @@ class UserController extends Controller
                 'groups.group'
             )
             //->where('groups.group', '=', 'Sabatino')
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->get();
             return $inscriptions;
         }
@@ -209,7 +210,7 @@ class UserController extends Controller
 
             $student = User::where('users.role', '=', 'alumno')
             ->whereBetween('users.created_at',[$formatedSartYearDate, $formatedEndYearDate])
-            ->orderBy('id','asc')
+            ->orderBy('id','desc')
             ->get();
             return $student;
         } 
@@ -333,6 +334,13 @@ class UserController extends Controller
     public function disableUser(Request $request) {
         try {
             $user = User::findOrFail($request->id);
+
+            if ($user->role === "secretaria") {
+                $activeSecretaries = User::where("role","=","secretaria")->where("status","=","activo")->count();
+                if ($activeSecretaries < 2) {
+                    return response()->json(["message" => "This user cannot be disabled"],403);
+                }
+            }
 
             $user->status = "inactivo";
 

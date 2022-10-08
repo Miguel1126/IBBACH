@@ -73,7 +73,7 @@ class InscriptionController extends Controller
                 'subjects.description'
             )
             //->where('inscriptions.status', '=', 'inscrito')
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->paginate(5)->onEachSide(1);
             return $inscriptions;
         }
@@ -103,7 +103,7 @@ class InscriptionController extends Controller
             )
             //->where('inscriptions.status', '=', 'inscrito')
             ->where('groups.group', '=', 'Diurno')
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->paginate(5)->onEachSide(1);
             return $inscriptions;
         }
@@ -133,7 +133,7 @@ class InscriptionController extends Controller
             )
             //->where('inscriptions.status', '=', 'inscrito')
             ->where('groups.group', '=', 'Sabatino')
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->paginate(5)->onEachSide(1);
             return $inscriptions;
         }
@@ -156,7 +156,7 @@ class InscriptionController extends Controller
                 'subjects.subject',
                 'subjects.description'
             )
-            ->orderBy('group', 'asc')
+            ->orderBy('id', 'desc')
             ->get();
             return $loads;
         }

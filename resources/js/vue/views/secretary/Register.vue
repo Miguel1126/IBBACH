@@ -96,7 +96,7 @@ export default {
 </script>
 
 <template>
-    <section>
+    <section class="p-3">
         <form @submit.prevent="handleSubmit" class="form">
             <h3>Registrar usuario</h3>
             <div class="row">
@@ -139,14 +139,14 @@ export default {
                 </div>
                 <div class="col col-lg-3">
                     <label class="form-label mt-1">Confirmar contraseña</label>
-                    <input type="password" class="form-control inputs" v-model="confirmPassword" />
+                    <input type="password" class="form-control inputs mb-3" v-model="confirmPassword"/>
                     <span class="text-danger" v-if="v$.confirmPassword.$error">{{ v$.confirmPassword.$errors[0].$message}}</span>
                 </div>
             </div>
             <div class="row">
                 <div class="col col-lg-3">
                     <div v-if="!loading">
-                        <label class="form-label mt-5"></label>
+                        <label class="form-label mt-4"></label>
                         <button type="submit" class="btn btn-primary">Registrar</button>
                     </div>
                     <span class="ms-1 mb-4 px-5" v-else>

@@ -70,9 +70,6 @@ export default {
                                 this.success = true
                                 document.getElementById('close-modal').click()
                             }
-                            else {
-                                this.$swal.fire("Error", "Ocurrió un error, inténtalo de nuevo", "error")
-                            }
                         })
                         .catch(error => {
                             this.$swal.fire("Error", "Ocurrió un error, inténtalo de nuevo", "error")
@@ -102,12 +99,12 @@ export default {
                                 document.getElementById('close-modal').click()
                                 this.getUsers(1, false, this.picked)
                             }
-                            else {
-                                this.$swal.fire("Error", "Ocurrió un error, inténtalo de nuevo", "error")
-                            }
                         })
                         .catch(error => {
-                            this.$swal.fire("Error", "Ocurrió un error, inténtalo de nuevo", "error")
+                            if (error.response.status === 403) {
+                                this.$swal.fire("¡No puedes deshabilitar este usuario!", "Debe haber al menos una cuenta de secretaria activa.", "error")
+                            }
+                            else this.$swal.fire("Error", "Ocurrió un error, inténtalo de nuevo", "error")
                         })
 
                 }

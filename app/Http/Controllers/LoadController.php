@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Load;
+use Illuminate\Support\Facades\DB;
 
 class LoadController extends Controller
 {
@@ -62,13 +63,12 @@ class LoadController extends Controller
                 'loads.id',
                 'loads.status',
                 'cycles.cycle',
+                DB::raw("CONCAT(users.name,' ',users.last_name) AS teacher"),
                 'subjects.subject',
-                'users.name as teacher',
-                'users.last_name',
                 'schedules.start_time',
-                'schedules.end_time'
+                'schedules.end_time',
             )
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->paginate(5)->onEachSide(1);
             return $loads;
         }

@@ -29,9 +29,8 @@ export default {
                 { title: 'Id' },
                 { title: 'Estado' },
                 { title: 'Ciclo' },
-                { title: 'Asignatura' },
                 { title: 'Docente' },
-                { title: 'Apellidos' },
+                { title: 'Asignatura' },
                 { title: 'Hora de inicio' },
                 { title: 'Hora de fin' },
                 { title: 'Acciones' }
@@ -46,11 +45,10 @@ export default {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
-                this.loads[0] = 'loading'
                 const response = await this.axios.get('/api/getCargas?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
-                        this.loads = response.data.data;
+                        this.loads = this.formateTime(response.data.data)
                         this.paginationLinks = response.data.links
                     }
                     else {
@@ -239,17 +237,22 @@ export default {
                     )
                 }
             })
-        }
-    },
-    setup() {
-        document.title = "IBBACH | Cargas"
+        },
+        formateTime(data) {  
+            data.forEach(schedule => {
+                schedule.start_time = formatTime(schedule.start_time)
+                schedule.end_time = formatTime(schedule.end_time)
+            })
+            return data
+        },
     },
     mounted() {
+        document.title = "IBBACH | Cargas"
         this.getCycles()
         this.getSubjects()
         this.getTeachers()
         this.getSchedules()
-        this.getLoads()
+        this.getLoads(1,true)
     },
     components: { DataTable }
 }
@@ -279,7 +282,7 @@ export default {
                     <div class="select-input">
                         <select class="form-select select-input" v-model="teaSelected">
                             <option selected value="">Selecciona un docente</option>
-                            <option v-for="teacher in teachers" :key="teacher.id" :value="teacher.id">{{ teacher.name }}
+                            <option v-for="teacher in teachers" :key="teacher.id" :value="teacher.id">{{ teacher.teacher }}
                                 {{ teacher.last_name }}</option>
                         </select>
                     </div>
@@ -291,16 +294,16 @@ export default {
                         </select>
                     </div>
                 </div>
-                <div class="m-3">
-                    <button type="submit" class="d-inline-flex btn btn-primary btn-lg" id="adder-btn"
+                <div class="mt-2">
+                    <button type="submit" class="d-inline-flex btn btn-primary" id="adder-btn"
                         >Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
-                    <button type="button" class="d-inline-flex btn btn-warning btn-lg ms-3"
+                    <button type="button" class="d-inline-flex btn btn-warning ms-2"
                         @click.prevent="clearDropdown">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
                 </div>
             </form>
         </section>
         <hr class="separator" />
-        <section class="p-3">
+        <section class="p-3 table-section">
             <DataTable title="Listado de cargas" :headers="tableHeaders" :items="loads">
                 <template #actions="{ item }">
                     <button type="button" class="btn btn-primary me-2"
