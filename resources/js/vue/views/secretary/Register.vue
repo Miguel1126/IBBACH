@@ -1,5 +1,6 @@
 <script>
 import UserInfoCard from '../../components/UserInfoCard.vue';
+import { handleErrors } from '../../js/handle_error';
 export default {
     mounted() {
         document.title = "IBBACH | Registrar usuario";
@@ -11,6 +12,9 @@ export default {
             user: {},
             name: "",
             last_name: "",
+            password: "",
+            confirmPassword: "",
+            personalizedPass: true,
             roles: [
                 { id: 1, name: "Admin" },
                 { id: 2, name: "Secretaria" },
@@ -24,23 +28,51 @@ export default {
             this.name = ''
             this.last_name = ''
             this.roleSelected = ''
-        }        
+            this.password = ''
+            this.confirmPassword = ''
+        }
         ,
         async handleSubmit() {
             this.loading = true
-            const response = await this.axios.post("/api/register", {
-                name: this.name,
-                last_name: this.last_name,
-                role: this.roleSelected
-            });
-            if (response.status === 201) {
-                this.user = { ...response.data },
-                this.success = true
-                this.clearInputs()
+
+            try {
+                let payload = {}
+
+                if (!this.personalizedPass) {
+                    payload = {
+                        personalized_pass: this.personalizedPass,
+                        name: this.name,
+                        last_name: this.last_name,
+                        password: this.password,
+                        password_confirmation: this.confirmPassword,
+                        role: this.roleSelected
+                    }
+                }
+                else {
+                    payload = {
+                        personalized_pass: this.personalizedPass,
+                        name: this.name,
+                        last_name: this.last_name,
+                        role: this.roleSelected
+                    }
+                }
+
+                const response = await this.axios.post("/api/register", payload);
+                if (response.status === 201) {
+                    this.user = { ...response.data },
+                        this.success = true
+                    this.clearInputs()
+                }
+                else {
+                    this.$swal.fire("Error", "Ocurrió un error, intentalo de nuevo", "error");
+                }
             }
-            else {
+            catch (error) {
+                console.log(error)
+                handleErrors(error)
                 this.$swal.fire("Error", "Ocurrió un error, intentalo de nuevo", "error");
             }
+
             this.loading = false
         }
     },
@@ -53,23 +85,45 @@ export default {
         <form @submit.prevent="handleSubmit" class="form">
             <h3>Registrar usuario</h3>
             <div class="row">
-                <div class="col-6 col-lg-3">
+                <div class="col col-lg-3">
                     <label class="form-label mt-1">Nombres</label>
-                    <input type="text" class="form-control" v-model="name" placeholder="Nombres" pattern="^[a-zA-Z\u00C0-\u017F\s]+$" title="Solo debes escribir letras" required />
+                    <input type="text" class="form-control inputs" v-model="name" placeholder="Nombres"
+                        pattern="^[a-zA-Z\u00C0-\u017F\s]+$" title="Solo debes escribir letras" required />
                 </div>
                 <div class="col col-lg-3">
                     <label class="form-label mt-1">Apellidos</label>
-                    <input type="text" class="form-control" v-model="last_name" placeholder="Apellidos" pattern="^[a-zA-Z\u00C0-\u017F\s]+$" title="Solo debes escribir letras" required />
+                    <input type="text" class="form-control inputs" v-model="last_name" placeholder="Apellidos"
+                        pattern="^[a-zA-Z\u00C0-\u017F\s]+$" title="Solo debes escribir letras" required />
                 </div>
             </div>
             <div class="row">
                 <div class="col col-lg-3">
                     <label class="form-label mt-1" for="roles">Tipo de usuario</label>
-                    <select class="form-select" id="roles" v-model="roleSelected" required>
+                    <select class="form-select inputs" id="roles" v-model="roleSelected" required>
                         <option v-for="role in roles" :key="role.id" :value="role.name.toLowerCase()">{{ role.name }}
                         </option>
                     </select>
                 </div>
+                <div class="col col-lg-3">
+                    <div class="form-check form-switch d-flex align-items-center">
+                        <input v-model="personalizedPass" class="form-check-input switch" type="checkbox" role="switch"
+                            id="flexSwitchCheckChecked" checked>
+                        <label class="form-check-label ms-3" for="flexSwitchCheckChecked">Contraseña
+                            autogenerada</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row" v-if="!personalizedPass">
+                <div class="col col-lg-3">
+                    <label class="form-label mt-1">Contraseña</label>
+                    <input type="password" class="form-control inputs" v-model="password" required />
+                </div>
+                <div class="col col-lg-3">
+                    <label class="form-label mt-1">Confirmar contraseña</label>
+                    <input type="password" class="form-control inputs" v-model="confirmPassword" required />
+                </div>
+            </div>
+            <div class="row">
                 <div class="col col-lg-3">
                     <div v-if="!loading">
                         <label class="form-label mt-5"></label>
@@ -90,6 +144,19 @@ export default {
 </template>
 
 <style scoped>
+.inputs {
+    max-width: 300px;
+    min-width: 200px;
+}
+.form-check {
+    margin-top: 2.3rem;
+}
+
+.switch {
+    min-width: 40px;
+    height: 20px;
+}
+
 .dot-pulse {
     --uib-size: 40px;
     --uib-speed: 1.3s;
@@ -137,5 +204,11 @@ export default {
     50% {
         transform: scale(1.5);
     }
+}
+
+@media (max-width: 667px) {
+    .form-check {
+        margin-bottom: 1.6rem;
+}
 }
 </style>

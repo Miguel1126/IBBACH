@@ -17,6 +17,12 @@ class CheckSecretaria
     public function handle(Request $request, Closure $next)
     {
         $userRole = auth()->user()->role;
+        $userStatus = auth()->user()->status;
+        
+        if ($userStatus !== 'activo') {
+            return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'],401);
+        }
+        
         if ($userRole === 'secretaria') {
             return $next($request);
         }
