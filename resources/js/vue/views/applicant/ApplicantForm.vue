@@ -2,16 +2,23 @@
 import EcclesiasticalInformation from "./EcclesiasticalInformation.vue"
 import PersonalInformation from "./PersonalInformation.vue"
 import MinisterialInformation from "./MinisterialInformation.vue"
+import { useVuelidate } from '@vuelidate/core'
+import { required, helpers } from '@vuelidate/validators'
 </script>
 
 <script>
 export default {
     data() {
         return {
-            formData: {
-            },
+            v$: useVuelidate(),
+            formData: {},
             img: '',
             thumbnailImage: ''
+        }
+    },
+    validations() {
+        return {
+            img: { required: helpers.withMessage('Agregar una imagen es obligatorio', required) }
         }
     },
     methods: {
@@ -49,51 +56,59 @@ export default {
             const button = document.querySelector('#submit-btn')
             button.disabled = 'true'
             button.value = 'Enviando...'
-
-
             this.getData()
-
-            try {
-                let data = new FormData;
-                data.append('img', this.img);
-                Object.keys(this.formData).forEach(form => {
-                    data.append(form, this.formData[form]);
-                });
-                const response = await this.axios.post('/api/aplicante', data);
-                if (response.status === 201) {
-                    if (typeof (response.data) === 'object') {
+            this.v$.$validate()
+            // console.log(this.v$)
+            if (!this.v$.$error) {
+                try {
+                    let data = new FormData;
+                    data.append('img', this.img);
+                    Object.keys(this.formData).forEach(form => {
+                        data.append(form, this.formData[form]);
+                    });
+                    const response = await this.axios.post('/api/aplicante', data);
+                    if (response.status === 201) {
+                        if (typeof (response.data) === 'object') {
+                            this.clearInputs()
+                            this.$swal.fire(
+                                'Listo',
+                                '¡El Formulario de ingreso se ha enviado correctamente!',
+                                'success'
+                            )
+                        }
+                    }
+                    else {
                         this.$swal.fire(
-                            'Listo',
-                            '¡El Formulario de ingreso se ha enviado correctamente!',
-                            'success'
+                            'Error',
+                            'Ocurrió un error, intentalo de nuevo',
+                            'error'
                         )
+                        console.log(response)
                     }
                 }
-                else {
+                catch (error) {
                     this.$swal.fire(
                         'Error',
                         'Ocurrió un error, intentalo de nuevo',
                         'error'
                     )
-                    console.log(response)
+                    console.error(error)
                 }
-            }
-            catch (error) {
-                this.$swal.fire(
-                    'Error',
-                    'Ocurrió un error, intentalo de nuevo',
-                    'error'
-                )
-                console.error(error)
             }
 
             button.value = `Enviar formulario`
             button.disabled = ''
-            this.clearInputs()
         },
         getImage(e) {
             let file = e.target.files[0];
-            console.log(file);
+            let fileInput = document.getElementById('formFile');
+            let filePath = fileInput.value;
+            let allowedExtensions = /(.jpg|.jpeg)$/i;
+            if (!allowedExtensions.exec(filePath)) {
+                alert('La extension de la imagen debe ser .jpg o .jpeg');
+                fileInput.value = '';
+                return false;
+            }
             this.img = file;
             this.showImage(file);
         },
@@ -118,17 +133,20 @@ export default {
     <div class="container-fluid d-block">
         <div class="m-0 rounded form-container">
             <h2 class="text-center m-4 text-black">Formulario de inscripción</h2>
-            <h4 class="text-center m-3 text-black">Ingresa tus datos a continación, revisa muy bien la información antes de
-                enviarla.</h4>
+            <h4 class="text-center m-3 text-black">Ingresa tus datos a continación, revisa muy bien la información antes
+                de enviarla.</h4>
             <form @submit.prevent="submitForm" class="d-block p-5" action="" enctype="multipart/form-data">
-                    <div class="d-flex justify-content-center">
-                        <label for="formFile" class="btn btn-success m-3">Selecciona una foto</label>
-                        <input class="d-none" type="file" id="formFile" @change="getImage">
+                <div class="d-flex justify-content-center">
+                    <label for="formFile" class="btn btn-success m-3">Selecciona una foto</label>
+                    <input class="d-none" type="file" id="formFile" @change="getImage" accept=".jpg">
+                </div>
+                <div class="d-flex justify-content-center"><span class="text-danger" v-if="v$.img.$error">{{
+                v$.img.$errors[0].$message}}</span></div>
+                <div class="d-flex justify-content-center">
+                    <div class="m-3" v-if="thumbnailImage"><img :src="images" class="img-fluid rounded shadow"
+                            style="width: 200px; height: 200px" />
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <div class="m-3" v-if="thumbnailImage"><img :src="images" class="img-fluid rounded shadow" style="width: 200px; height: 200px"/>
-                        </div>
-                    </div>
+                </div>
                 <PersonalInformation ref="personalInfo" @personalInfo="getPersonalInformation($event)" />
                 <EcclesiasticalInformation ref="ecclesiasticalInfo"
                     @ecclesiasticalInfo="getEcclesiasticalInfo($event)" />
@@ -140,7 +158,6 @@ export default {
 </template>
 
 <style scoped>
-
 .form-container {
     background: var(--bs-gray-400);
     border: 6px solid #ccc;
