@@ -1,8 +1,11 @@
 <script>
 import { clearTokens } from '../js/clear_tokens'
+import { useVuelidate } from '@vuelidate/core'
+import { required, alphaNum, helpers  } from '@vuelidate/validators'
 export default {
   data() {
     return {
+      v$: useVuelidate(),
       credentials: {
         code: '',
         password: ''
@@ -22,6 +25,15 @@ export default {
       icon: 'visibility_off',
       title: 'Mostrar contraseña',
       loading: false
+    }
+  },
+  validations () {
+    const alpha4 = helpers.regex(/^[ A-ZÑ0-9]/)
+    return {
+      credentials: {
+        code: { required: helpers.withMessage('Llenar este campo es obligatorio', required), alpha4: helpers.withMessage('Ingresa el código con un formato válido', alpha4) },
+        password: { required: helpers.withMessage('Llenar este campo es obligatorio', required), alphaNum: helpers.withMessage('Ingresa la contraseña con un formato válido', alphaNum) }
+      },
     }
   },
   methods: {
@@ -44,18 +56,21 @@ export default {
     },
     async handleSubmit() {
       this.loading = true
-      try {
-        const response = await this.axios.post('/api/login', this.credentials)
-        this.statusActions(response.data.status, response.data)
-
-      }
-      catch (error) {
-        this.$swal.fire(
-            'Error',
-            'Ocurrió un error, inténtalo de nuevo',
-            'error'
-          )
-        console.log(error)
+      this.v$.$validate()
+      if(!this.v$.$error) {
+        try {
+          const response = await this.axios.post('/api/login', this.credentials)
+          this.statusActions(response.data.status, response.data)
+  
+        }
+        catch (error) {
+          this.$swal.fire(
+              'Error',
+              'Ocurrió un error, inténtalo de nuevo',
+              'error'
+            )
+          console.log(error)
+        }
       }
       this.loading = false
     },
@@ -122,14 +137,18 @@ export default {
               <h2 class="fw-bold fs-2 mb-5 text-uppercase">Iniciar Sesión</h2>
               <div class="form-outline form-white mb-4">
                 <input type="text" id="code" class="form-control form-control-lg" maxlength="15" placeholder="Código"
-                  v-model="credentials.code" required />
+                  v-model="credentials.code"  />
+                  <span class="text-danger" v-if="v$.credentials.code.$error">{{ v$.credentials.code.$errors[0].$message}}</span>
               </div>
               <div class="form-outline form-white mb-4 d-flex">
                 <input :type="type" id="passwd" class="form-control form-control-lg" maxlength="15" placeholder="Contraseña"
-                  v-model="credentials.password" required />
-                <span class="text-black visibility-btn" :title="title" @click="toggleVisibility"><i
+                  v-model="credentials.password"  />
+                  <span class="text-black visibility-btn" :title="title" @click="toggleVisibility"><i
                     class="material-icons d-flex align-items-center justify-content-center">{{ icon }}</i></span>
-              </div>
+                  </div>
+                  <div>
+                    <span class="text-danger d-flex justify-content-center" v-if="v$.credentials.password.$error">{{ v$.credentials.password.$errors[0].$message}}</span>
+                  </div>
               <button class="mt-3 btn btn-outline-light btn-lg px-5" type="submit" v-if="!loading">Ingresar</button>
               <span class="d-flex justify-content-center mt-3 px-5" v-else>
                 <div class="mt-3 dot-pulse">

@@ -27,6 +27,8 @@
         "@babel/core": "7.17.12",
         "@babel/preset-env": "7.17.12",
         "@vue/compiler-sfc": "3.2.33",
+        "@vuelidate/core": "^2.0.0",
+        "@vuelidate/validators": "^2.0.0",
         "autoprefixer": "10.4.5",
         "babel-loader": "8.2.5",
         "pinia": "^2.0.22",
