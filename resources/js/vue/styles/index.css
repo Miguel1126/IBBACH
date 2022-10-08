@@ -47,3 +47,6 @@ body {
 .table-container {
     overflow-x: scroll;
 }
+.cursor-pointer {
+	cursor: pointer;
+}
