@@ -54,6 +54,12 @@ body {
 	display: flex;
 	flex-wrap: wrap;
 }
+.fade-leave-to {
+	opacity: 0;
+  }
+  .fade-leave-active {
+	transition: all .5s ease;
+  }
 @media (max-width: 1025px) {
     .table-section {
         padding: 3px !important;
