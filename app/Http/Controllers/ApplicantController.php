@@ -188,7 +188,7 @@ class ApplicantController extends Controller
                 'last_year_studied',
                 'qualities_religious_worker'
             )
-            ->orderBy('id','asc')->get();
+            ->orderBy('id','desc')->get();
             return $applicant;
         }
         catch (\Exception $e) {
@@ -211,7 +211,7 @@ class ApplicantController extends Controller
                 'secular_degree',
                 'current_ocupation'
             )
-            ->orderBy('id','asc')
+            ->orderBy('id','desc')
             ->paginate(5)->onEachSide(1);
             return $applicant;
         }
@@ -248,7 +248,7 @@ class ApplicantController extends Controller
                 'denomination',
                 'study_reason',
             )
-            ->orderBy('id','asc')
+            ->orderBy('id','desc')
             ->paginate(5)->onEachSide(1);
             return $applicant;
         }
@@ -275,7 +275,7 @@ class ApplicantController extends Controller
                 'last_year_studied',
                 'qualities_religious_worker'
             )
-            ->orderBy('id','asc')
+            ->orderBy('id','desc')
             ->paginate(5)
             ->onEachSide(1);
             return $applicant;

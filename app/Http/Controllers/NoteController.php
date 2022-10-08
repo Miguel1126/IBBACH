@@ -93,7 +93,7 @@ class NoteController extends Controller
                     'notes.finalAverage',
                     'notes.status',
                 )
-                ->orderBy('notes.id', 'asc')->paginate(5)->onEachSide(1);
+                ->orderBy('notes.id', 'desc')->paginate(5)->onEachSide(1);
             return $notes;
         } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
@@ -130,7 +130,7 @@ class NoteController extends Controller
                     'notes.finalAverage',
                     'notes.status',
                 )
-                ->orderBy('notes.id', 'asc')
+                ->orderBy('notes.id', 'desc')
                 ->paginate(5)->onEachSide(1);
             return $notes;
         } catch (\Exception $e) {
