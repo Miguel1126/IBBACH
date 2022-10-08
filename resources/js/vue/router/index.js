@@ -30,7 +30,6 @@ import Reports from '../views/admin/Reports.vue'
  */
 import Secretary from '../views/secretary/base/Secretary.vue'
 import Payments from '../views/secretary/Payments.vue'
-import Rates from '../views/secretary/Rates.vue'
 import AccountManagement from '../views/secretary/AccountManagement.vue'
 
 /**
@@ -204,11 +203,6 @@ export const router = createRouter({
           path: 'pagos',
           name: 'Payments',
           component: Payments
-        },
-        {
-          path: 'cuotas',
-          name: 'Rate',
-          component: Rates
         },
         {
           path: 'gestion-de-cuentas',

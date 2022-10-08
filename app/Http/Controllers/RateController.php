@@ -36,17 +36,7 @@ class RateController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $rate = new Rate();
-            $rate->price = $request->price;
-            $rate->tuition = $request->tuition;
-            if ($rate->save()>=1) {
-                return response()->json(['status'=>'OK','data'=>$rate],201);
-            }
-        }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
-        }
+        
     }
 
     /**

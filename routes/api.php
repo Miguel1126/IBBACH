@@ -90,7 +90,6 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     Route::resource('/pagos', PaymentController::class);
     Route::post('/savePago',[PaymentController::class,'store']);
     Route::get('/getPagos', [PaymentController::class, 'show']);
-    Route::resource('/tarifas', RateController::class);
     Route::get('/getTarifas/{paginate?}', [RateController::class, 'show']);
     Route::get('/getStudent', [UserController::class, 'getStudent']);
     Route::get('/getAplicante', [ApplicantController::class, 'show']);
