@@ -303,7 +303,7 @@ export default {
             </form>
         </section>
         <hr class="separator" />
-        <section class="p-3">
+        <section class="p-3 table-section">
             <DataTable title="Listado de cargas" :headers="tableHeaders" :items="loads">
                 <template #actions="{ item }">
                     <button type="button" class="btn btn-primary me-2"

@@ -169,7 +169,7 @@ export default {
             </form>
         </section>
         <hr class="separator" />
-        <section>
+        <section class="p-3 table-section">
             <DataTable title="Listado de asignaturas" :headers="headers" :items="subjects">
                 <template #actions>
                     <button type="button" class="btn btn-primary me-2">Modificar</button>

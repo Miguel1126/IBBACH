@@ -201,7 +201,7 @@ export default {
             </form>
         </section>
         <hr class="separator" />
-        <section class="p-3">
+        <section class="p-3 table-section">
             <DataTable title="Listado de ciclos" :headers="headers" :items="cycles">
                 <template #actions>
                     <button type="button" class="btn btn-primary me-2">Modificar</button>

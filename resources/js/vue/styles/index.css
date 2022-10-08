@@ -54,3 +54,8 @@ body {
 	display: flex;
 	flex-wrap: wrap;
 }
+@media (max-width: 1025px) {
+    .table-section {
+        padding: 3px !important;
+    }
+}

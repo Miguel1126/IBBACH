@@ -351,8 +351,7 @@ export default {
         </div>
 
         <div>
-            <h3 class="m-3">Registro de Estudiantes</h3>
-            <h5 class="m-3 mb-4">Selecciona o busca el aplicante que vayas a inscribir</h5>
+            <h3 class="m-3">Selecciona el aplicante que vayas a inscribir</h3>
         </div>
         <div class="container-fluid">
             <DataTable title="Aplicantes disponibles" personalized :headers="[
