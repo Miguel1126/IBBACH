@@ -3,6 +3,7 @@ import { ref } from "@vue/reactivity";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { handleErrors } from "../js/handle_error";
+import { removeToken } from "../js/handle_token";
 import { router } from "../router";
 import { useUserStore } from "../stores/user";
 
@@ -13,17 +14,10 @@ const loading = ref(false)
 const closeSession = async () => {
     loading.value = true
 
-    const localStorageValue = {
-        admin: "auth",
-        secretaria: "access",
-        docente: "permission",
-        alumno: "token",
-    };
-
     try {
         const response = await axios.post('/api/logout')
         if (response.status === 200) {
-            localStorage.removeItem(localStorageValue[userStore.user.role])
+            removeToken(userStore.user.role)
             router.push("/login")
         }
     } catch (error) {
