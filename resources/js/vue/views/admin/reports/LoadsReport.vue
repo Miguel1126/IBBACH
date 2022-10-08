@@ -120,9 +120,8 @@ export default {
                 { title: 'id'},
                 { title: 'Estado'},
                 { title: 'Ciclo' },
-                { title: 'Asignaturas' },
                 { title: 'Docente' },
-                { title: 'Apellido' },
+                { title: 'Asignaturas' },
                 { title: 'Hora de inicio' },
                 { title: 'Hora de finalizacion' },
             ]" :items="loads">
