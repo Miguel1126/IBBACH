@@ -58,12 +58,12 @@ class GroupController extends Controller
         try {
             if($paginate === 'paginate'){
                 $group = Group::select('groups.id','groups.group')
-                ->orderBy('id','asc')->paginate(5)->onEachSide(1);
+                ->orderBy('id','desc')->paginate(5)->onEachSide(1);
                 return $group;
             }
             else if (!$paginate){
                 $group = Group::select('groups.id','groups.group')
-                ->orderBy('id','asc')->paginate(5)->onEachSide(1);
+                ->orderBy('id','desc')->paginate(5)->onEachSide(1);
                 return $group;
             }
             else {

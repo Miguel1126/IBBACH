@@ -179,7 +179,7 @@ export default {
             </form>
         </section>
         <hr class="separator" />
-        <section class="p-3">
+        <section class="p-3 table-section">
             <DataTable personalized title="Listado de horarios" :headers="headers" :items="schedules">
                 <template #actions>
                     <button type="button" class="btn btn-primary me-2">Modificar</button>

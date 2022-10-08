@@ -29,7 +29,9 @@ new Promise(resolve => {
 </script>
 	
 <template>
-	<Loader v-if="loading || error" :loading="loading" :error="error"></Loader>
+	<Transition name="fade">
+		<Loader v-if="loading || error" :loading="loading" :error="error"></Loader>
+	</Transition>
 	<Sidebar></Sidebar>
 	<router-view />
 </template>

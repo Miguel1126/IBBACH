@@ -78,4 +78,10 @@ export default {
 .component-container {
     background-color: var(--dark-alt);
 }
+
+@media (max-width: 1025px) {
+    .component-container {
+        padding: 3px !important;
+    }
+}
 </style>

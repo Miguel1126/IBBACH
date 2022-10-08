@@ -15,14 +15,14 @@
     }
 </script>
 <template>
-    <div class="loading">
-        <span v-if="loading" class="loader mb-5 me-4"></span>
-        <div v-if="error" class="text-center">
-            <h3 class="text-muted">Algo salió mal... :(</h3>
-            <h5 class="text-muted mb-3">Revisa tu conexión.</h5>
-            <button type="button" class="btn btn-light rounded-pill d-flex m-auto" @click="reloadPage()">Recargar <span class="material-symbols-outlined">replay</span></button>
-        </div>
-    </div>
+  <div class="loading">
+      <span v-if="loading" class="loader mb-5 me-4"></span>
+      <div v-if="error" class="text-center">
+          <h3 class="text-muted">Algo salió mal... :(</h3>
+          <h5 class="text-muted mb-3">Revisa tu conexión.</h5>
+          <button type="button" class="btn btn-light rounded-pill d-flex m-auto" @click="reloadPage()">Recargar <span class="material-symbols-outlined">replay</span></button>
+      </div>
+  </div>
 </template>
 
 <style scoped>

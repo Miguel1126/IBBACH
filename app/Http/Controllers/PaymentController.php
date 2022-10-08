@@ -40,7 +40,6 @@ class PaymentController extends Controller
             $payment = new Payment();
             $payment->payment_date = $request->payment_date;
             $payment->last_pay_date = $request->last_pay_date;
-            //$payment->status = $request->status;
             $payment->sourcharge = $request->sourcharge;
             $payment->rate_id = $request->rate_id;
             $payment->user_id = $request->user_id;
@@ -73,7 +72,7 @@ class PaymentController extends Controller
                 'users.name as student',
                 'rates.price'
             )
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->paginate(5)->onEachSide(1);
             return $rates;
         }
@@ -99,7 +98,7 @@ class PaymentController extends Controller
                 'rates.price'
             )
             ->where('payments.status', '=', 'pendiente')
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->paginate(5)->onEachSide(1);
             return $rates;
         }
@@ -124,7 +123,7 @@ class PaymentController extends Controller
                 'rates.price'
             )
             //->where('payments.status', '=', 'solvente')
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->paginate(5)->onEachSide(1);
             return $rates;
         }

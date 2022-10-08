@@ -1,6 +1,8 @@
 <script>
 import DataTable from '../../components/DataTable.vue';
 import { handleErrors } from '../../js/handle_error';
+import LoadingDots from '../../components/LoadingDots.vue';
+import { formatDate } from '../../js/format_time';
 export default {
     mounted() {
         this.getCycles(1, true);
@@ -8,19 +10,15 @@ export default {
     },
     data() {
         return {
-            cycle: [],
-            start_date: [],
-            end_date: [],
-            statuses: [
-                { id: 1, status: "activo" },
-                { id: 2, status: "inactivo" }
-            ],
-            statusSelected: '',
-            groups: [],
+            cycle: '',
             groupSelected: '',
+            start_date: '',
+            end_date: '',
+            groups: [],
             cycles: [],
             paginationLinks: [],
             editing: false,
+            loading: false,
             headers: [
                 { title: 'Id' },
                 { title: 'Ciclo' },
@@ -40,11 +38,10 @@ export default {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
-                this.cycles[0] = 'loading'
                 const response = await this.axios.get('/api/getCiclos/paginate?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === "object") {
-                        this.cycles = response.data.data;
+                        this.cycles = this.formateDate(response.data.data)
                         this.paginationLinks = response.data.links
                     }
                     else {
@@ -65,40 +62,31 @@ export default {
                     if (typeof (response.data) === "object") {
                         this.groups = response.data.data;
                     }
-                    else {
-                        this.groups[0] = "error";
-                    }
                 }
             }
             catch (error) {
                 handleErrors(error)
             }
         },
-        clearDropdown() {
-            this.cycle = null;
-            this.start_date = null;
-            this.end_date = null;
-            this.statusSelected = [];
-            this.groupSelected = [];
-            this.editing = false;
+        clearInputs() {
+            this.cycle = ''
+            this.start_date = ''
+            this.end_date = ''
+            this.groupSelected = ''
         },
-        validateDropdowns() {
-            let valid = this.cycle && this.start_date && this.end_date && this.statusSelected && this.groupSelected ? true : false;
-            return valid;
+        validateInputs() {
+            return this.cycle && this.groupSelected && this.start_date && this.end_date
         },
         async saveCiclo() {
-            const button = document.querySelector('#adder-btn')
-            button.disabled = 'true'
+            this.loading = true
 
-            if (this.validateDropdowns()) {
-                button.innerText = 'Cargando...'
+            if (this.validateInputs()) {
                 try {
                     const response = await this.axios.post('/api/saveCiclo',
                         {
                             cycle: this.cycle,
                             start_date: this.start_date,
                             end_date: this.end_date,
-                            status: this.statusSelected,
                             group_id: this.groupSelected
                         })
 
@@ -110,23 +98,18 @@ export default {
                         )
                         this.getCycles()
                     }
-                    else {
-                        this.$swal.fire(
-                            'Error',
-                            'Parece que algo salió mal, intentalo de nuevo',
-                            'error'
-                        )
-                        console.log(response)
-                    }
                 } catch (error) {
+                    this.$swal.fire(
+                        'Error',
+                        'Parece que algo salió mal, intentalo de nuevo',
+                        'error'
+                    )
                     handleErrors(error)
+                    this.loading = false
                 }
-                this.clearDropdown()
-                button.innerHTML = `Agregar <i class="material-icons m-auto ms-1">add_box</i>`
-                button.disabled = ''
+                this.clearInputs()
             }
             else {
-                button.disabled = ''
                 const Toast = this.$swal.mixin({
                     toast: true,
                     position: 'top',
@@ -143,59 +126,82 @@ export default {
                     title: 'Debes rellenar todos los campos'
                 })
             }
+            this.loading = false
         },
-        
+        formateDate(data) {
+            data.forEach(cycle => {
+                cycle.start_date = formatDate(cycle.start_date)
+                cycle.end_date = formatDate(cycle.end_date)
+            })
+            return data
+        },
     },
     setup() {
-        document.title = "IBBACH | Cargas"
+        document.title = "IBBACH | Ciclos"
     },
     mounted() {
         this.getCycles()
         this.getGroups()
     },
-    components: { DataTable }
+    components: { DataTable, LoadingDots }
 }
 </script>
 <template>
     <main>
-        <h1 class="h1 fs-1 fw-bold mb-3">Registro de ciclos</h1>
-        <section class="p-3">
-            <h3 class="h3 fw-semibold">Crear nuevo ciclo</h3>
-            <form class="w-25" @submit.prevent="saveCiclo">
-                <div class="form-group mb-3">
-                    <label>Ciclo</label>
-                    <input type="text" class="form-control" v-model="cycle" placeholder="Nuevo ciclo" />
-                </div>
-                <div class="form-group mb-3">
-                    <label>Fecha de inicio</label>
-                    <input type="date" class="form-control" v-model="start_date" />
-                </div>
-                <div class="form-group mb-3">
-                    <label>fecha de finalización</label>
-                    <input type="date" class="form-control" v-model="end_date" />
-                </div>
-                <div class="select-input">
-                        <select class="form-select select-input" v-model="statusSelected">
-                            <option selected value="">Selecciona un estado</option>
-                            <option v-for="status in statuses" :key="status.id" :value="status.id">{{ status.status }}</option>
-                        </select>
+        <section class="p-2">
+            <h1 class="fw-semibold mb-2">Crea un nuevo ciclo</h1>
+            <form @submit.prevent="saveCiclo">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="d-inline-block">Ciclo</label>
+                            <input type="text" class="form-control inputs" placeholder="01/2022"
+                                pattern="^[0-9]{2}\/[0-9]{4}$" v-model="cycle" />
+                        </div>
                     </div>
-                    <div class="select-input">
-                        <select class="form-select select-input" v-model="groupSelected">
-                            <option selected value="">Selecciona un grupo</option>
-                            <option v-for="group in groups" :key="group.id" :value="group.id">{{group.group}}</option>
-                        </select>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="d-inline-block" for="roles">Grupo</label>
+                            <select class="form-select inputs" id="roles" v-model="groupSelected" required>
+                                <option v-for="group in groups" :key="group.id" :value="group.id">{{
+                                group.group }}
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                <div class="m-3">
-                    <button type="submit" class="d-inline-flex btn btn-primary btn-lg" id="adder-btn"
-                        >Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
-                    <button type="button" class="d-inline-flex btn btn-warning btn-lg ms-3"
-                        @click.prevent="clearDropdown">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="d-inline-block">Fecha de inicio</label>
+                            <input type="date" class="form-control inputs" v-model="start_date" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="d-inline-block">Fecha de finalización</label>
+                            <input type="date" class="form-control inputs" v-model="end_date" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="d-flex" v-if="!loading">
+                            <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary">Agregar <i
+                                    class="material-icons m-auto ms-1">add_box</i></button>
+                            <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning ms-1"
+                                @click="clearInputs">Limpiar <i
+                                    class="material-icons m-auto ms-1">backspace</i></button>
+                        </div>
+                        <div v-else>
+                            <LoadingDots styles="my-3 mx-5" />
+                        </div>
+                    </div>
                 </div>
             </form>
         </section>
         <hr class="separator" />
-        <section class="p-3">
+        <section class="p-3 table-section">
             <DataTable title="Listado de ciclos" :headers="headers" :items="cycles">
                 <template #actions>
                     <button type="button" class="btn btn-primary me-2">Modificar</button>
@@ -216,18 +222,23 @@ export default {
     </main>
 </template>
 <style scoped>
+.inputs {
+    max-width: 400px;
+    min-width: 200px;
+}
+
+.select-input {
+    min-width: 300px;
+    margin: 2px;
+}
+
+.list-click {
+    cursor: pointer;
+}
+
+@media (max-width: 377px) {
     .select-input {
-        min-width: 300px;
-        margin: 2px;
+        min-width: 200px;
     }
-    
-    .list-click {
-        cursor: pointer;
-    }
-    
-    @media (max-width: 377px) {
-        .select-input {
-            min-width: 200px;
-        }
-    }
-    </style>
+}
+</style>
