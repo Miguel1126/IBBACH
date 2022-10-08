@@ -335,6 +335,13 @@ class UserController extends Controller
         try {
             $user = User::findOrFail($request->id);
 
+            if ($user->role === "secretaria") {
+                $activeSecretaries = User::where("role","=","secretaria")->where("status","=","activo")->count();
+                if ($activeSecretaries < 2) {
+                    return response()->json(["message" => "This user cannot be disabled"],403);
+                }
+            }
+
             $user->status = "inactivo";
 
             if ($user->save() > 0) {
