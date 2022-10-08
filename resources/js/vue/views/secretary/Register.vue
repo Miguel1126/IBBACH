@@ -1,7 +1,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core'
-import { required, alpha, helpers  } from '@vuelidate/validators'
+import { required, alpha, helpers, requiredIf } from '@vuelidate/validators'
 import UserInfoCard from '../../components/UserInfoCard.vue';
+import { handleErrors } from '../../js/handle_error';
 export default {
     mounted() {
         document.title = "IBBACH | Registrar usuario";
@@ -14,6 +15,9 @@ export default {
             user: {},
             name: "",
             last_name: "",
+            password: "",
+            confirmPassword: "",
+            personalizedPass: true,
             roles: [
                 { id: 1, name: "Admin" },
                 { id: 2, name: "Secretaria" },
@@ -22,12 +26,15 @@ export default {
             roleSelected: "",
         };
     },
-    validations () {
-        const alpha = helpers.regex(/^[ a-zA-ZñÑáéíóúÁÉÍÓÚ]+$/) 
+    validations() {
+        const alpha = helpers.regex(/^[ a-zA-ZñÑáéíóúÁÉÍÓÚ]+$/)
+        const pass = helpers.regex(/^(\d{6})$/)  
         return {
-            name: { required: helpers.withMessage('Llenar este campo es obligatorio', required), alpha: helpers.withMessage('Este campo solo admite letras',  alpha) },
-            last_name:  { required: helpers.withMessage('Llenar este campo es obligatorio', required),  alpha: helpers.withMessage('Este campo solo admite letras', alpha) },
-            roleSelected: { required: helpers.withMessage('Llenar este campo es obligatorio', required) }
+            name: { required: helpers.withMessage('Llenar este campo es obligatorio', required), alpha: helpers.withMessage('Este campo solo admite letras', alpha) },
+            last_name: { required: helpers.withMessage('Llenar este campo es obligatorio', required), alpha: helpers.withMessage('Este campo solo admite letras', alpha) },
+            roleSelected: { required: helpers.withMessage('Llenar este campo es obligatorio', required) },
+            password : {requiredIf:  helpers.withMessage('Llenar este campo es obligatorio', requiredIf(!this.personalizedPass)), pass: helpers.withMessage('Ingresa la contraseña con un formato válido', pass)},
+            confirmPassword: {requiredIf:  helpers.withMessage('Llenar este campo es obligatorio', requiredIf(!this.personalizedPass))}
         }
     },
     methods: {
@@ -35,28 +42,52 @@ export default {
             this.name = ''
             this.last_name = ''
             this.roleSelected = ''
-        }        
+            this.password = ''
+            this.confirmPassword = ''
+        }
         ,
         async handleSubmit() {
             this.loading = true
-            //console.log(this.v$)
             this.v$.$validate()
-            if(!this.v$.$error) {
-                const response = await this.axios.post("/api/register", {
-                name: this.name,
-                last_name: this.last_name,
-                role: this.roleSelected
-            });
-            if (response.status === 201) {
-                this.user = { ...response.data },
-                this.success = true
-                this.clearInputs()
+            if (!this.v$.$error) {
+                try {
+                    let payload = {}
+
+                    if (!this.personalizedPass) {
+                        payload = {
+                            personalized_pass: this.personalizedPass,
+                            name: this.name,
+                            last_name: this.last_name,
+                            password: this.password,
+                            password_confirmation: this.confirmPassword,
+                            role: this.roleSelected
+                        }
+                    }
+                    else {
+                        payload = {
+                            personalized_pass: this.personalizedPass,
+                            name: this.name,
+                            last_name: this.last_name,
+                            role: this.roleSelected
+                        }
+                    }
+
+                    const response = await this.axios.post("/api/register", payload);
+                    if (response.status === 201) {
+                        this.user = { ...response.data },
+                            this.success = true
+                        this.clearInputs()
+                    }
+                    else {
+                        this.$swal.fire("Error", "Ocurrió un error, intentalo de nuevo", "error");
+                    }
+                }
+                catch (error) {
+                    console.log(error)
+                    handleErrors(error)
+                    this.$swal.fire("Error", "Ocurrió un error, intentalo de nuevo", "error");
+                }
             }
-            else {
-                this.$swal.fire("Error", "Ocurrió un error, intentalo de nuevo", "error");
-            }
-            }
-            
             this.loading = false
         }
     },
@@ -69,26 +100,50 @@ export default {
         <form @submit.prevent="handleSubmit" class="form">
             <h3>Registrar usuario</h3>
             <div class="row">
-                <div class="col-6 col-lg-3">
+                <div class="col col-lg-3">
                     <label class="form-label mt-1">Nombres</label>
-                    <input type="text" class="form-control" v-model="name" placeholder="Nombres" />
+                    <input type="text" class="form-control inputs" v-model="name" placeholder="Nombres"/>
                     <span class="text-danger" v-if="v$.name.$error">{{ v$.name.$errors[0].$message}}</span>
                 </div>
                 <div class="col col-lg-3">
                     <label class="form-label mt-1">Apellidos</label>
-                    <input type="text" class="form-control" v-model="last_name" placeholder="Apellidos" />
+                    <input type="text" class="form-control inputs" v-model="last_name" placeholder="Apellidos"/>
                     <span class="text-danger" v-if="v$.last_name.$error">{{ v$.last_name.$errors[0].$message}}</span>
+
                 </div>
             </div>
             <div class="row">
                 <div class="col col-lg-3">
                     <label class="form-label mt-1" for="roles">Tipo de usuario</label>
-                    <select class="form-select" id="roles" v-model="roleSelected">
+                    <select class="form-select inputs" id="roles" v-model="roleSelected">
                         <option v-for="role in roles" :key="role.id" :value="role.name.toLowerCase()">{{ role.name }}
                         </option>
                     </select>
-                    <span class="text-danger" v-if="v$.roleSelected.$error">{{ v$.roleSelected.$errors[0].$message}}</span>
+                    <span class="text-danger" v-if="v$.roleSelected.$error">{{
+                    v$.roleSelected.$errors[0].$message}}</span>
                 </div>
+                <div class="col col-lg-3">
+                    <div class="form-check form-switch d-flex align-items-center">
+                        <input v-model="personalizedPass" class="form-check-input switch" type="checkbox" role="switch"
+                            id="flexSwitchCheckChecked">
+                        <label class="form-check-label ms-3" for="flexSwitchCheckChecked">Contraseña
+                            autogenerada</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row" v-if="!personalizedPass">
+                <div class="col col-lg-3">
+                    <label class="form-label mt-1">Contraseña</label>
+                    <input type="password" class="form-control inputs" v-model="password" />
+                    <span class="text-danger" v-if="v$.password.$error">{{ v$.password.$errors[0].$message}}</span>
+                </div>
+                <div class="col col-lg-3">
+                    <label class="form-label mt-1">Confirmar contraseña</label>
+                    <input type="password" class="form-control inputs" v-model="confirmPassword" />
+                    <span class="text-danger" v-if="v$.confirmPassword.$error">{{ v$.confirmPassword.$errors[0].$message}}</span>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col col-lg-3">
                     <div v-if="!loading">
                         <label class="form-label mt-5"></label>
@@ -109,6 +164,20 @@ export default {
 </template>
 
 <style scoped>
+.inputs {
+    max-width: 300px;
+    min-width: 200px;
+}
+
+.form-check {
+    margin-top: 2.3rem;
+}
+
+.switch {
+    min-width: 40px;
+    height: 20px;
+}
+
 .dot-pulse {
     --uib-size: 40px;
     --uib-speed: 1.3s;
@@ -155,6 +224,12 @@ export default {
 
     50% {
         transform: scale(1.5);
+    }
+}
+
+@media (max-width: 667px) {
+    .form-check {
+        margin-bottom: 1.6rem;
     }
 }
 </style>

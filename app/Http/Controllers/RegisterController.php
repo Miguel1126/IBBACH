@@ -9,6 +9,25 @@ class RegisterController extends Controller
 {
     public function register(Request $request) {
         try{
+            if (!$request->personalized_pass) {
+                $request->validate([
+                    'name' => 'required',
+                    'last_name' => 'required',
+                    'password' => 'required|confirmed|min:6',
+                    'role' => 'required',
+                ]);
+    
+                $user = new User();
+                $user->name = $request->name;
+                $user->last_name = $request->last_name;
+                $user->code = $this->generateUserCode($request->name, $request->last_name);
+                $user->password = Hash::make($request->password);
+                $user->role = $request->role;
+                if ($user->save() >= 1) {
+                    return response()->json(["user" => $user, "pass" => $request->password], 201);
+                }    
+            }
+
             $request->validate([
                 'name' => 'required',
                 'last_name' => 'required',

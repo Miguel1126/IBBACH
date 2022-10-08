@@ -63,7 +63,6 @@ export default {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
-                this.groups[0] = 'loading'
                 const response = await this.axios.get('/api/getGrupos/paginate?page=' + pageNumber);
                 if (response.status === 200) {
                     this.groups = response.data.data;

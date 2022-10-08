@@ -30,6 +30,7 @@ export const handleToken = async (role) => {
             }
         } catch (error) {
             if (error.response.status === 401) {
+                removeToken(role)
                 router.push("/login");
             }
             if (error.response.status === 500) {
@@ -41,4 +42,16 @@ export const handleToken = async (role) => {
     }
 
     return ''
-};
+}
+
+export const removeToken = (role) => {
+    console.log(role)
+    const localStorageValue = {
+        admin: "auth",
+        secretaria: "access",
+        docente: "permission",
+        alumno: "token",
+    };
+
+    if (localStorage.getItem(localStorageValue[role])) localStorage.removeItem(localStorageValue[role])
+}
