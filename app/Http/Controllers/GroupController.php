@@ -35,16 +35,7 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $group = new Group();
-            $group->group = $request->group;
-            if ($group->save()>=1) {
-                return response()->json(['status'=>'OK','data'=>$group],201);
-            }
-        }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
-        }
+    
     }
 
     /**

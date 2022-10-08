@@ -41,8 +41,6 @@ const ToggleMenu = () => {
 			<div class="menu">
 				<Link url="Loads" name="Cargas" icon="dataset">
 				</Link>
-				<Link url="Groups" name="Grupos" icon="workspaces">
-				</Link>
 				<Link url="Subject" name="Materias" icon="collections_bookmark">
 				</Link>
 				<Link url="Cycles" name="Ciclos" icon="autorenew">

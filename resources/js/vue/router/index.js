@@ -20,7 +20,6 @@ import NotFound from '../views/NotFound.vue'
  */
 import Admin from '../views/admin/base/Admin.vue'
 import Loads from '../views/admin/Loads.vue'
-import Groups from '../views/admin/Groups.vue'
 import Subjects from '../views/admin/Subjects.vue'
 import Cycles from '../views/admin/Cycles.vue'
 import Schedules from '../views/admin/Schedules.vue'
@@ -99,11 +98,6 @@ export const router = createRouter({
           path: 'cargas',
           name: 'Loads',
           component: Loads
-        },
-        {
-          path: 'grupos',
-          name: 'Groups',
-          component: Groups
         },
         {
           path: 'materias',

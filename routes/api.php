@@ -33,7 +33,6 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::post('/saveAsignaturas',[SubjectController::class,'store']);
     Route::resource('/grupos', GroupController::class);
     Route::get('/getGrupos/{paginate}', [GroupController::class, 'show']);
-    Route::resource('/asignaturas', SubjectController::class);
     Route::get('/getAsignaturas/{paginate?}', [SubjectController::class, 'show']);
     //Route::get('/ciclos/{paginate}', CycleController::class);
     Route::get('/getCiclos/{paginate?}',[CycleController::class,'show']);
