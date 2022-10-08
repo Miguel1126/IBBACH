@@ -33,7 +33,7 @@ const getValues = (item) => {
 </script>
 <template>
     <div class="p-3 table-color rounded">
-        <h3 class="h3 fw-semibold mb-3 text-black">{{ title }}</h3>
+        <h3 class="h3 fw-semibold mb-3 text-black table-title">{{ title }}</h3>
         <div v-if="items[0] === 'loading'" class="d-flex justify-content-center">
             <div class="waveform">
                 <div class="waveform__bar"></div>
@@ -48,7 +48,7 @@ const getValues = (item) => {
         <div v-else-if="items[0] === 'error'" class="d-flex justify-content-center">
             <h4 class="text-black">Ups... Ocurrió un error, inténtalo de nuevo más tarde.</h4>
         </div>
-        <div class="table-container d-flex justify-content-center" v-else>
+        <div class="table-container" v-else>
             <table class="styled-table">
                 <thead>
                     <tr>
@@ -187,6 +187,16 @@ tr:hover {
 
     50% {
         transform: scaleY(1);
+    }
+}
+
+@media (max-width: 1025px) {
+    .table-title {
+        margin-bottom: 0px !important;
+        padding: 8px;
+    }
+    .table-color {
+        padding: 4px !important;
     }
 }
 </style>
