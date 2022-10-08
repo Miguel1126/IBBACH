@@ -14,8 +14,8 @@ setTimeout(() => {
 }, 1000)
 </script>
 <template>
-    <div class="mt-4 d-flex">
-        <div class="p-4 bg-dark text-light w-75 rounded">
+    <div class="card-container mt-4 d-flex">
+        <div class="profile-card p-4 bg-dark text-light w-75 rounded">
             <div>
                 <div class="alert alert-success alert-dismisable fade show d-flex" role="alert">
                     <span class="material-icons d-flex align-items-center me-3">check</span> <span>¡{{
@@ -45,5 +45,17 @@ setTimeout(() => {
     color: #71ff56;
     background-color: #41a00bba;
     border-color: #2cff00;
+}
+@media (max-width: 1025px) {
+    .card-container {
+        width: 100% !important;
+    }
+    .profile-card {
+        width: inherit !important;
+        padding: 4px !important;
+    }
+    .fs-5 {
+        font-size: 1.3em !important;
+    }
 }
 </style>
