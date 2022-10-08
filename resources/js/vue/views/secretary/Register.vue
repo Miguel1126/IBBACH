@@ -1,4 +1,6 @@
 <script>
+import { useVuelidate } from '@vuelidate/core'
+import { required, alpha, helpers  } from '@vuelidate/validators'
 import UserInfoCard from '../../components/UserInfoCard.vue';
 export default {
     mounted() {
@@ -8,6 +10,7 @@ export default {
         return {
             success: false,
             loading: false,
+            v$: useVuelidate(),
             user: {},
             name: "",
             last_name: "",
@@ -19,6 +22,14 @@ export default {
             roleSelected: "",
         };
     },
+    validations () {
+        const alpha = helpers.regex(/^[ a-zA-ZñÑáéíóúÁÉÍÓÚ]+$/) 
+        return {
+            name: { required: helpers.withMessage('Llenar este campo es obligatorio', required), alpha: helpers.withMessage('Este campo solo admite letras',  alpha) },
+            last_name:  { required: helpers.withMessage('Llenar este campo es obligatorio', required),  alpha: helpers.withMessage('Este campo solo admite letras', alpha) },
+            roleSelected: { required: helpers.withMessage('Llenar este campo es obligatorio', required) }
+        }
+    },
     methods: {
         clearInputs() {
             this.name = ''
@@ -28,7 +39,10 @@ export default {
         ,
         async handleSubmit() {
             this.loading = true
-            const response = await this.axios.post("/api/register", {
+            //console.log(this.v$)
+            this.v$.$validate()
+            if(!this.v$.$error) {
+                const response = await this.axios.post("/api/register", {
                 name: this.name,
                 last_name: this.last_name,
                 role: this.roleSelected
@@ -41,6 +55,8 @@ export default {
             else {
                 this.$swal.fire("Error", "Ocurrió un error, intentalo de nuevo", "error");
             }
+            }
+            
             this.loading = false
         }
     },
@@ -55,20 +71,23 @@ export default {
             <div class="row">
                 <div class="col-6 col-lg-3">
                     <label class="form-label mt-1">Nombres</label>
-                    <input type="text" class="form-control" v-model="name" placeholder="Nombres" pattern="^[a-zA-Z\u00C0-\u017F\s]+$" title="Solo debes escribir letras" required />
+                    <input type="text" class="form-control" v-model="name" placeholder="Nombres" />
+                    <span class="text-danger" v-if="v$.name.$error">{{ v$.name.$errors[0].$message}}</span>
                 </div>
                 <div class="col col-lg-3">
                     <label class="form-label mt-1">Apellidos</label>
-                    <input type="text" class="form-control" v-model="last_name" placeholder="Apellidos" pattern="^[a-zA-Z\u00C0-\u017F\s]+$" title="Solo debes escribir letras" required />
+                    <input type="text" class="form-control" v-model="last_name" placeholder="Apellidos" />
+                    <span class="text-danger" v-if="v$.last_name.$error">{{ v$.last_name.$errors[0].$message}}</span>
                 </div>
             </div>
             <div class="row">
                 <div class="col col-lg-3">
                     <label class="form-label mt-1" for="roles">Tipo de usuario</label>
-                    <select class="form-select" id="roles" v-model="roleSelected" required>
+                    <select class="form-select" id="roles" v-model="roleSelected">
                         <option v-for="role in roles" :key="role.id" :value="role.name.toLowerCase()">{{ role.name }}
                         </option>
                     </select>
+                    <span class="text-danger" v-if="v$.roleSelected.$error">{{ v$.roleSelected.$errors[0].$message}}</span>
                 </div>
                 <div class="col col-lg-3">
                     <div v-if="!loading">
