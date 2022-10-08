@@ -2,6 +2,7 @@
 import { getgroups } from 'process';
 import DataTable from '../../components/DataTable.vue';
 import { handleErrors } from '../../js/handle_error';
+import LoadingDots from '../../components/LoadingDots.vue';
 export default {
     mounted() {
         this.getSubjects(1, true);
@@ -9,19 +10,14 @@ export default {
     data() {
         return {
             subjects: [],
-            subject: null,
-            descriptions: [],
-            description: null,
-            statuses: [
-                { id: 1, status: "disponible" },
-                { id: 2, status: "ocupado" }
-            ],
+            subject: '',
+            description: '',
             paginationLinks: [],
-            statusSelected: '',
             editing: false,
+            loading: false,
             headers: [
                 { title: "Id" },
-                { title: "Materias" },
+                { title: "Materia" },
                 { title: "Descripción" },
                 { title: "Estado" },
                 { title: "Acciones" }
@@ -51,56 +47,44 @@ export default {
                 this.subjects[0] = 'error'
             }
         },
-        clearDropdown() {
-            this.subject = null;
-            this.description = null;
-            this.statusSelected = []
-            this.editing = false;
+        clearInputs() {
+            this.subject = ''
+            this.description = ''
         },
-        validateDropdowns() {
-            let valid = this.subject && this.description  && this.statusSelected ? true : false;
-            return valid;
+        validateInputs() {
+            return this.subject && this.description
         },
         async savesubject() {
-            const button = document.querySelector('#adder-btn')
-            button.disabled = 'true'
+            this.loading = true
 
-            if (this.validateDropdowns()) {
-                button.innerText = 'Cargando...'
+            if (this.validateInputs()) {
                 try {
                     const response = await this.axios.post('/api/saveAsignaturas',
                         {
                             subject: this.subject,
-                            subject: this.subject,
-                            description: this.description,
-                            statuses: this.statusSelected,
+                            description: this.description
                         })
 
                     if (response.status === 201) {
                         this.$swal.fire(
                             'Listo',
-                            '¡Se registró la materia correctamente!',
+                            '¡Se registró la asignatura correctamente!',
                             'success'
                         )
                         this.getSubjects()
                     }
-                    else {
-                        this.$swal.fire(
-                            'Error',
-                            'Parece que algo salió mal, intentalo de nuevo',
-                            'error'
-                        )
-                        console.log(response)
-                    }
                 } catch (error) {
+                    this.loading = false
+                    this.$swal.fire(
+                        'Error',
+                        'Parece que algo salió mal, intentalo de nuevo',
+                        'error'
+                    )
                     handleErrors(error)
                 }
-                this.clearDropdown()
-                button.innerHTML = `Agregar <i class="material-icons m-auto ms-1">add_box</i>`
-                button.disabled = ''
+                this.clearInputs()
             }
             else {
-                button.disabled = ''
                 const Toast = this.$swal.mixin({
                     toast: true,
                     position: 'top',
@@ -117,19 +101,7 @@ export default {
                     title: 'Debes rellenar todos los campos'
                 })
             }
-        },
-        saveEdit() {
-            this.editing = false;
-            this.clearInput();
-            this.$swal.fire("Listo", "Se editó la materia", "success");
-        },
-        deleteSubject(id) {
-            this.subjects = this.subjects.filter(subject => subject.id != id);
-            this.subjects = [...this.subjects];
-        },
-        deleteDescription(id) {
-            this.descriptions = this.descriptions.filter(description => description.id != id);
-            this.descriptions = [...this.descriptions];
+            this.loading = false
         },
         confirmDelete(event, id) {
             this.$swal.fire({
@@ -151,48 +123,48 @@ export default {
         }
     },
     setup() {
-        document.title = "IBBACH | Cargas"
+        document.title = "IBBACH | Asignaturas"
     },
     mounted() {
         this.getSubjects()
     },
-    components: { DataTable }
+    components: { DataTable, LoadingDots }
 }
 </script>
 
 <template>
     <main>
-        <h1 class="h1 fs-1 fw-bold">Administrador de Asignaturas</h1>
-        <br />
-        <section class=" p-3 ">
+        <section class="p-2">
             <form @submit.prevent="savesubject">
-                <h3 class="h3 fw-semibold">Crea una nueva materia</h3>
-                <div>
-                    <div class="input-group input-group-lg w-50 mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-lg"><i
-                                class="material-icons">collections_bookmark</i></span>
-                        <input type="text" class="form-control" v-model="subject" aria-label="Sizing example input"
-                            aria-describedby="inputGroup-sizing-lg" placeholder="e.j Introducción al griego">
+                <h1 class="fw-semibold">Crea una nueva asignatura</h1>
+                <div class="row mb-2">
+                    <div class="col col-lg-3">
+                        <label class="form-label mt-1">Asignatura</label>
+                        <input type="text" class="form-control inputs" v-model="subject" placeholder="Nueva asignatura"
+                            pattern="^[a-zA-Z\u00C0-\u017F\s]+$" title="Solo debes escribir letras" required />
                     </div>
-                    <div class="input-group input-group-lg w-50 mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-lg"><i
-                                class="material-icons">collections_bookmark</i></span>
-                        <input type="text" class="form-control" v-model="description" aria-label="Sizing example input"
-                            aria-describedby="inputGroup-sizing-lg" placeholder="Introduce descripcion">
-                    </div>
-                    <div class="w-25">
-                        <select class="form-select select-input" v-model="statusSelected">
-                            <option selected value="">Estado</option>
-                            <option v-for="status in statuses " :key="status.id" :value="status.id">{{ status.status
-                            }}</option>
-                        </select>
-                    </div>
-                    <div class="m-3">
-                    <button type="submit" class="d-inline-flex btn btn-primary btn-lg" id="adder-btn"
-                        >Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
-                    <button type="button" class="d-inline-flex btn btn-warning btn-lg ms-3"
-                        @click.prevent="clearDropdown">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
                 </div>
+                <div class="row mb-3">
+                    <div class="col col-lg-3">
+                        <label class="form-label mt-1">Descripción</label>
+                        <textarea class="form-control inputs" v-model="description"
+                            placeholder="Breve descripción de la asignatura" pattern="^[a-zA-Z\u00C0-\u017F\s]+$"
+                            title="Solo debes escribir letras" maxlength="72" required></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-lg-3">
+                        <div class="d-flex" v-if="!loading">
+                            <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary">Agregar <i
+                                    class="material-icons m-auto ms-1">add_box</i></button>
+                            <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning ms-2"
+                                @click="clearInputs">Limpiar <i
+                                    class="material-icons m-auto ms-1">backspace</i></button>
+                        </div>
+                        <div v-else>
+                            <LoadingDots styles="my-3 mx-5" />
+                        </div>
+                    </div>
                 </div>
             </form>
         </section>
@@ -219,18 +191,18 @@ export default {
 </template>
 
 <style scoped>
-    .select-input {
-        min-width: 300px;
-        margin: 2px;
+.inputs {
+    width: 450px;
+}
+
+@media (max-width: 525px) {
+    .inputs {
+        width: 300px;
     }
-    
-    .list-click {
-        cursor: pointer;
+}
+@media (max-width: 330px) {
+    .inputs {
+        width: 200px;
     }
-    
-    @media (max-width: 377px) {
-        .select-input {
-            min-width: 200px;
-        }
-    }
-    </style>
+}
+</style>

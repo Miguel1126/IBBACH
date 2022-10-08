@@ -35,7 +35,6 @@ class SubjectController extends Controller
             $subject = new Subject();
             $subject->subject = $request->subject;
             $subject->description = $request->description;
-            //$subject->status = $request->status;
 
             if ($subject->save()>=1) {
                 return response()->json(['status'=>'OK','data'=>$subject],201);
@@ -57,11 +56,12 @@ class SubjectController extends Controller
         try {
             if ($paginate === 'paginate') {
                 $subject = Subject::select('subjects.id','subjects.subject','subjects.description','subjects.status')
-                ->orderBy('id','asc')->paginate(5)->onEachSide(1);
+                ->orderBy('id','desc')->paginate(5)->onEachSide(1);
                 return $subject;
             }
             else if (!$paginate) {
                 $subject = Subject::select('subjects.id','subjects.subject','subjects.description','subjects.status')
+                ->orderBy('id','desc')
                 ->get();
                 return $subject;
             }
@@ -78,7 +78,7 @@ class SubjectController extends Controller
     {
         try {
             $subject = Subject::select('subjects.id','subjects.subject','subjects.description','subjects.status')
-            ->orderBy('id','asc')->paginate(5)->onEachSide(1);
+            ->orderBy('id','desc')->paginate(5)->onEachSide(1);
             return $subject;
         }
         catch (\Exception $e) {
