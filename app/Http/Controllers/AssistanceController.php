@@ -39,7 +39,7 @@ class AssistanceController extends Controller
         try {
             $assistance = new Assistance();
             $assistance->date = $request->date;
-            $assistance->status = $request->status;
+            //$assistance->status = $request->status;
             $assistance->note_id = $request->note_id;
             if ($assistance->save()>=1) {
                 return response()->json(['status'=>'OK','data'=>$assistance],201);
