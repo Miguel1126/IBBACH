@@ -35,8 +35,7 @@ export default {
             notFound: false,
             loading: false,
             success: false,
-            siteUrl: window.location.origin,
-            s
+            siteUrl: window.location.origin
         }
     },
     methods: {
