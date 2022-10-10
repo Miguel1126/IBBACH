@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->date('payment_date');
-            $table->date('last_pay_date');
-            $table->string( 'status',1)->default('S',);
-            $table->decimal('sourcharge',8,2);
+            $table->decimal('total',8,2);
+            $table->string( 'status',1)->default('S');
+            $table->decimal('sourcharge',8,2)->default(0.0);
+            $table->integer('paid_count')->nullable();
             $table->foreignId('rate_id')
             ->nullable()
             ->constrained('rates')

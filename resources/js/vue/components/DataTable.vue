@@ -116,7 +116,7 @@ const getValues = (item) => {
 }
 
 .styled-table tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
+    border-bottom: 2px solid #373737;
 }
 
 .styled-table tbody tr.active-row {

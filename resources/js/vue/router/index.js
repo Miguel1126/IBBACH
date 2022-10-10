@@ -20,7 +20,6 @@ import NotFound from '../views/NotFound.vue'
  */
 import Admin from '../views/admin/base/Admin.vue'
 import Loads from '../views/admin/Loads.vue'
-import Groups from '../views/admin/Groups.vue'
 import Subjects from '../views/admin/Subjects.vue'
 import Cycles from '../views/admin/Cycles.vue'
 import Schedules from '../views/admin/Schedules.vue'
@@ -31,7 +30,6 @@ import Reports from '../views/admin/Reports.vue'
  */
 import Secretary from '../views/secretary/base/Secretary.vue'
 import Payments from '../views/secretary/Payments.vue'
-import Rates from '../views/secretary/Rates.vue'
 import AccountManagement from '../views/secretary/AccountManagement.vue'
 
 /**
@@ -99,11 +97,6 @@ export const router = createRouter({
           path: 'cargas',
           name: 'Loads',
           component: Loads
-        },
-        {
-          path: 'grupos',
-          name: 'Groups',
-          component: Groups
         },
         {
           path: 'materias',
@@ -210,11 +203,6 @@ export const router = createRouter({
           path: 'pagos',
           name: 'Payments',
           component: Payments
-        },
-        {
-          path: 'cuotas',
-          name: 'Rate',
-          component: Rates
         },
         {
           path: 'gestion-de-cuentas',

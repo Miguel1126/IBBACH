@@ -65,12 +65,10 @@ class DatabaseSeeder extends Seeder
 
         $rate = new Rate();
         $rate->price = "30.00";
-        $rate->tuition = "0";
         $rate->save();
 
         $rate = new Rate();
         $rate->price = "17.00";
-        $rate->tuition = "0";
         $rate->save();
 
         $group = new Group();

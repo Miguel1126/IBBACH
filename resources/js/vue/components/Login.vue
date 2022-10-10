@@ -122,6 +122,15 @@ export default {
       }
     }
   },
+  watch: {
+    /**
+     * 
+     * @param {String} code 
+     */
+    'credentials.code'(code) {
+      this.credentials.code = code.toUpperCase()
+    }
+  },
   setup() {
     document.title = 'IBBACH | Iniciar Sesión'
   }
