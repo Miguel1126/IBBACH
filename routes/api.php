@@ -32,7 +32,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::post('/saveCiclo',[CycleController::class,'store']);
     Route::post('/saveAsignaturas',[SubjectController::class,'store']);
     Route::resource('/grupos', GroupController::class);
-    Route::get('/getGrupos/{paginate}', [GroupController::class, 'show']);
+    Route::get('/getGrupos/{paginate?}', [GroupController::class, 'show']);
     Route::get('/getAsignaturas/{paginate?}', [SubjectController::class, 'show']);
     //Route::get('/ciclos/{paginate}', CycleController::class);
     Route::get('/getCiclos/{paginate?}',[CycleController::class,'show']);
@@ -103,6 +103,9 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     Route::put('/restore-c-access', [UserController::class, 'restorePass']);
     Route::put('/disable-user', [UserController::class, 'disableUser']);
     Route::get('/users/{role}', [UserController::class, 'getUsersByRole']);
+    Route::post('/search-student', [UserController::class, 'getStudentsBySearch']);
+    Route::get('/get-grupos/{paginate?}', [GroupController::class, 'show']);
+    Route::get('/get-user-payments/{userId}', [PaymentController::class, 'getUserPayments']);
 });
 
 
@@ -125,6 +128,7 @@ Route::middleware(['auth:sanctum', 'docente'])->group(function(){
     Route::get('/getInscriptions', [InscriptionController::class, 'show']);  
     Route::put('/updateAssistance',[AssistanceController::class, 'update']);
     Route::put('/updateNote',[NoteController::class, 'update']);
+
 });
 
 
