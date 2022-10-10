@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Payment;
-
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -37,13 +38,33 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         try {
+            DB::beginTransaction();
+            $errors = 0;
+
             $payment = new Payment();
             $payment->payment_date = $request->payment_date;
-            $payment->last_pay_date = $request->last_pay_date;
+            $payment->total = $request->total;
             $payment->sourcharge = $request->sourcharge;
+            $payment->status = "S";
+            $payment->paid_count = $request->paidMonths;
             $payment->rate_id = $request->rate_id;
             $payment->user_id = $request->user_id;
-            if ($payment->save()>=1) {
+            if ($payment->save() <= 0) {
+                $errors++;
+            }
+            
+            $user = User::findOrFail($request->user_id);
+            $user->paid_months += $request->paidMonths;
+            if ($user->save() <= 0) {
+                $errors++;
+            }
+
+            if ($errors > 0) {
+                DB::rollBack();
+            }
+
+            if ($errors === 0) {
+                DB::commit();
                 return response()->json(['status'=>'OK','data'=>$payment],201);
             }
         }
@@ -66,7 +87,7 @@ class PaymentController extends Controller
             ->select(
                 'payments.id',
                 'payments.payment_date',
-                'payments.last_pay_date',
+                'payments.total',
                 'payments.status',
                 'payments.sourcharge',
                 'users.name as student',
@@ -81,6 +102,30 @@ class PaymentController extends Controller
         }
     }
 
+    public function getUserPayments($userId) {
+        try {
+            $rates = Payment::join('users', 'payments.user_id', '=', 'users.id')
+            ->join('rates', 'payments.rate_id', '=', 'rates.id')
+            ->select(
+                'payments.id',
+                'payments.payment_date',
+                'payments.paid_count',
+                'payments.total',
+                'payments.status',
+                'payments.sourcharge',
+                DB::raw("CONCAT(users.name,' ',users.last_name) AS student"),
+                'rates.price'
+            )
+            ->where('users.id','=',$userId)
+            ->orderBy('id', 'desc')
+            ->get();
+            return $rates;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+ 
     public function getPaymentsP()
     {
         try {
@@ -114,7 +159,7 @@ class PaymentController extends Controller
             ->select(
                 'payments.id',
                 'payments.payment_date',
-                'payments.last_pay_date',
+                'payments.total',
                 'payments.status',
                 'payments.sourcharge',
                 'users.name as student',
