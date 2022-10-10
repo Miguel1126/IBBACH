@@ -3,7 +3,7 @@ import DataTable from '../../../components/DataTable.vue';
 import { handleErrors } from '../../../js/handle_error';
 export default {
     mounted() {
-        this.getTeachers(1, true);
+        this.getTeacher(1, true);
     },
     data() {
         return {
@@ -13,13 +13,13 @@ export default {
         };
     },
     methods: {
-        async getTeachers(pageNumber, firstTeacher = false) {
+        async getTeacher(pageNumber, firstTeacher = false) {
             if(firstTeacher) this.teachers[0] = 'loading'
             if (typeof (pageNumber) == 'string') {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
-                const response = await this.axios.get('/api/getDocentes?page=' + pageNumber);
+                const response = await this.axios.get('/api/getDocentes/paginate?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === "object") {
                         this.teachers = response.data.data;
@@ -44,10 +44,11 @@ export default {
 }
 </script>
 <template>
-    <section class=" p-5 ">
+    <main>
+    <section class=" p-">
         </section>
-        <section class="p-5">
-            <DataTable :title="'Listado de Docentes - Total: ' + teachers.length" :headers="[
+        <section class="p-3">
+            <DataTable :title="'Listado de Docentes - Total: '" :headers="[
                 {title:'Id'},
                 {title:'Nombre'},
                 {title:'Apellido'},
@@ -59,11 +60,12 @@ export default {
                 <ul class="pagination">
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinks" :key="page">
-                        <span class="page-link" @click.prevent="getTeachers(page.url)">{{ page.label == 'pagination.previous'
+                        <span class="page-link" @click.prevent="getTeacher(page.url)">{{ page.label == 'pagination.previous'
                                 ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
                     </li>
                 </ul>
                 </nav>
         </section>
+    </main>
 </template>

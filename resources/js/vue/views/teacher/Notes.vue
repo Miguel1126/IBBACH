@@ -70,7 +70,7 @@ export default {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
-                const response = await this.axios.get('/api/getNota?page=' + pageNumber)
+                const response = await this.axios.get('/api/getNota/paginate?page=' + pageNumber)
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.notes = response.data.data;
@@ -212,7 +212,8 @@ export default {
                     @click="clearInput">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
             </form>
         </section>
-        <section class=" p-3 ">
+        <hr class="separator" />
+        <section class="p-3 table-section">
         </section>
         <section class="p-3">
             <DataTable title="Listado de notas" :headers="[

@@ -295,9 +295,9 @@ export default {
                     </div>
                 </div>
                 <div class="mt-2">
-                    <button type="submit" class="d-inline-flex btn btn-primary" id="adder-btn"
+                    <button type="submit" class="d-inline-flex btn btn-primary m-2" id="adder-btn"
                         >Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
-                    <button type="button" class="d-inline-flex btn btn-warning ms-2"
+                    <button type="button" class="d-inline-flex btn btn-warning m-2"
                         @click.prevent="clearDropdown">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
                 </div>
             </form>
