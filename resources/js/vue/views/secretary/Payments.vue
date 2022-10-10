@@ -1,5 +1,5 @@
 <script>
-    import DataTable from '../../components/DataTable.vue';
+import DataTable from '../../components/DataTable.vue';
 import { handleErrors } from '../../js/handle_error';
 export default {
     mounted() {
@@ -24,9 +24,9 @@ export default {
     },
     methods: {
         async getPayments(pageNumber, firstPayments = false) {
-            if(firstPayments) this.payments[0] = 'loading'
-            if(typeof (pageNumber) == 'string'){
-                pageNumber = new URL(pageNumber).searchParams.getAll('page') [0]
+            if (firstPayments) this.payments[0] = 'loading'
+            if (typeof (pageNumber) == 'string') {
+                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
                 const response = await this.axios.get('/api/getPagos?page=' + pageNumber)
@@ -40,7 +40,7 @@ export default {
                     }
                 }
             }
-            catch(error) {
+            catch (error) {
                 handleErrors(error)
                 this.payments[0] = 'error'
             }
@@ -54,11 +54,11 @@ export default {
                     }
                     else {
                         console.log(response)
-                        
+
                     }
                 }
             }
-            catch(error) {
+            catch (error) {
                 handleErrors(error)
             }
         },
@@ -68,7 +68,7 @@ export default {
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.rates = response.data
-                        
+
                     }
                     else {
                         console.log(response)
@@ -91,7 +91,7 @@ export default {
             const valid = this.payment_date && this.sourcharge && this.last_pay_date && this.studentSelected && this.rateSelected ? true : false
             return valid
         },
-        
+
         async savePayment() {
             const button = document.querySelector('#adder-btn')
             button.disabled = 'true'
@@ -151,7 +151,7 @@ export default {
             }
         },
     },
-    
+
     setup() {
         document.title = "IBBACH | Cargas"
     },
@@ -168,45 +168,62 @@ export default {
         <h1 class="h1 fs-1 fw-bold mb-3">Registro de pagos</h1>
         <section class="p-3">
             <h3 class="h3 fw-semibold">Registrar nuevo pago</h3>
-            <form class="w-25" @submit.prevent="savePayment">
-                <div class="form-group mb-3">
-                    <label>Fecha de pago</label>
-                    <input type="date" class="form-control" v-model="payment_date" />
-                </div>
-                <div class="form-group mb-3">
-                    <label>Ultima fecha de pago</label>
-                    <input type="date" class="form-control" v-model="last_pay_date" />
-                </div>
-                <div class="form-group mb-3">
-                    <label>Sobrecargo</label>
-                    <input type="number" class="form-control" v-model="sourcharge" />
-                </div>
-                <div class="d-flex flex-wrap">
-                    <div class="select-input">
-                        <select class="form-select select-input" v-model="rateSelected">
-                            <option selected value="">Selecciona una cuota</option>
-                            <option v-for="price in rates" :key="price.id" :value="price.id">{{ price.price }}</option>
-                        </select>
+            <form @submit.prevent="savePayment">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="d-inline-block">Fecha de pago</label>
+                            <input type="date" class="form-control" v-model="payment_date" />
+                        </div>
                     </div>
-                    <div class="select-input">
-                        <select class="form-select select-input" v-model="studentSelected">
-                            <option selected value="">Selecciona un alumno</option>
-                            <option v-for="student in students" :key="student.id" :value="student.id">{{ student.student
-                            }}</option>
-                        </select>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="d-inline-block">Ultima fecha de pago</label>
+                            <input type="date" class="form-control" v-model="last_pay_date" />
+                        </div>
                     </div>
-                    <div class="select-input">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="d-inline-block">Sobrecargo</label>
+                            <input type="number" class="form-control" v-model="sourcharge" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="d-inline-block" for="roles">Cuota</label>
+                            <select class="form-select" id="roles" v-model="rateSelected">
+                                <option v-for="price in rates" :key="price.id" :value="price.id">{{
+                                price.price }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="d-inline-block" for="roles">Seleccione un alumno</label>
+                            <select class="form-select" id="roles" v-model="studentSelected">
+                                <option v-for="student in students" :key="student.id" :value="student.id">{{
+                                student.student
+                                }}</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <div class="m-3">
-                    <button type="submit" class="d-inline-flex btn btn-primary btn-lg" id="adder-btn"
-                        >Agregar <i class="material-icons m-auto ms-1">add_box</i></button>
-                    <button type="button" class="d-inline-flex btn btn-warning btn-lg ms-3"
-                        @click.prevent="clearDropdown">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
-                </div>
+                <div class="row-m3">
+                    <div class="col col-lg-3">
+                        <div class="d-flex flex-wrap">
+                            <button type="submit" class="d-inline-flex btn btn-primary m-2" id="adder-btn">Agregar <i
+                                    class="material-icons m-auto ms-1">add_box</i></button>
+                            <button type="button" class="d-inline-flex btn btn-warning m-2"
+                                @click.prevent="clearDropdown">Limpiar <i
+                                    class="material-icons m-auto ms-1">backspace</i></button>
+                        </div>
+                    </div>
                 </div>
             </form>
         </section>
-        <section class="p-3">
+        <hr class="separator" />
+        <section class="p-3 table-section">
             <DataTable title="Listado de pagos" :headers="[
                 {title:'Id'},
                 {title:'Fecha de pago'},
@@ -217,38 +234,33 @@ export default {
                 {title:'Cuota'},
                 {title: 'Acciones'}
             ]" :items="payments">
-            <template #actions>
+                <template #actions>
                     <button type="button" class="btn btn-primary me-2">Modificar</button>
                     <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">
-                    <ul class="pagination">
-                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
-                            v-for="page in paginationLinks" :key="page">
-                            <span class="page-link" @click="getPayments(page.url)">{{ page.label == 'pagination.previous'
-                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
-                            }}</span>
-                         </li>
-                    </ul>
-                </nav>
+                <ul class="pagination">
+                    <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                        v-for="page in paginationLinks" :key="page">
+                        <span class="page-link" @click="getPayments(page.url)">{{ page.label == 'pagination.previous'
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        }}</span>
+                    </li>
+                </ul>
+            </nav>
         </section>
     </main>
 </template>
 
 <style scoped>
-    .select-input {
-        min-width: 300px;
-        margin: 2px;
-    }
-    
-    .list-click {
-        cursor: pointer;
-    }
-    
-    @media (max-width: 377px) {
-        .select-input {
-            min-width: 200px;
-        }
-    }
-    </style>
+.inputs {
+    max-width: 400px;
+    min-width: 200px;
+}
+
+
+.list-click {
+    cursor: pointer;
+}
+</style>
