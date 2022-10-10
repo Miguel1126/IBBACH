@@ -53,7 +53,6 @@ class RateController extends Controller
                 select(
                     'rates.id',
                     'rates.price',
-                    'rates.tuition'
                 )
                 ->orderBy('id','desc')
                 ->paginate(5)->onEachSide(1);
@@ -65,7 +64,6 @@ class RateController extends Controller
                 select(
                     'rates.id',
                     'rates.price',
-                    'rates.tuition'
                 )
                 ->orderBy('id','desc')
                 ->get();
@@ -86,7 +84,6 @@ class RateController extends Controller
             select(
                 'rates.id',
                 'rates.price',
-                'rates.tuition'
             )
             ->orderBy('id','desc')
             ->paginate(5)->onEachSide(1);
@@ -120,7 +117,6 @@ class RateController extends Controller
         try {
             $rate = Rate:: findOrFail($request->id);
             $rate->price = $request->price;
-            $rate->tuition = $request->tuition;
             if ($rate->save()>=1) {
                 return response()->json(['status'=>'OK','data'=>$rate],202);
             }
