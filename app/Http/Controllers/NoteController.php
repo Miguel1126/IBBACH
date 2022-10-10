@@ -63,10 +63,11 @@ class NoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($paginate = null)
     {
         try {
-            $notes = Note::join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')
+            if ($paginate === 'paginate') {
+                $notes = Note::join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')
                 ->join('users', 'inscriptions.user_id', '=', 'users.id')
                 ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
                 ->join('subjects', 'Loads.subject_id', '=', 'subjects.id')
@@ -95,7 +96,44 @@ class NoteController extends Controller
                 )
                 ->orderBy('notes.id', 'desc')->paginate(5)->onEachSide(1);
             return $notes;
-        } catch (\Exception $e) {
+            }
+            else if (!$paginate){
+                $notes = Note::join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')
+                ->join('users', 'inscriptions.user_id', '=', 'users.id')
+                ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+                ->join('subjects', 'Loads.subject_id', '=', 'subjects.id')
+                ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
+                ->join('groups', 'cycles.group_id', '=', 'groups.id')
+                ->select(
+                    'notes.id',
+                    'cycles.cycle',
+                    'subjects.subject',
+                    'users.name',
+                    'users.last_name',
+                    'users.code',
+                    'groups.group',
+                    'notes.ev1',
+                    'notes.percentege1',
+                    'notes.ev2',
+                    'notes.percentege2',
+                    'notes.ev3',
+                    'notes.percentege3',
+                    'notes.ev4',
+                    'notes.percentege4',
+                    'notes.ev5',
+                    'notes.percentege5',
+                    'notes.finalAverage',
+                    'notes.status',
+                )
+                ->orderBy('notes.id', 'desc')
+                ->get();
+            return $notes;
+            }
+            else {
+                return response()->json(["message" => "Argument '". $paginate . "' does not exist"],404);
+            }
+        }
+        catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
         }
     }

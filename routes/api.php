@@ -122,9 +122,10 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
 Route::middleware(['auth:sanctum', 'docente'])->group(function(){
     
     Route::resource('/asistencias', AssistanceController::class);
+    Route::post('/saveAssistances',[AssistanceController::class,'store']);
     Route::get('/getAsistencia', [AssistanceController::class, 'show']);
     Route::resource('/notas', NoteController::class);
-    Route::get('/getNota', [NoteController::class, 'show']);
+    Route::get('/getNota/{paginate?}', [NoteController::class, 'show']);
     Route::get('/getInscriptions', [InscriptionController::class, 'show']);  
     Route::put('/updateAssistance',[AssistanceController::class, 'update']);
     Route::put('/updateNote',[NoteController::class, 'update']);

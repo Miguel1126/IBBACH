@@ -110,7 +110,6 @@ class SubjectController extends Controller
             $subject = Subject::findOrFail($request->id);
             $subject->subject = $request->subject;
             $subject->description = $request->description;
-            $subject->status = $request->status;
             if ($subject->save()>=1) {
                 return response()->json(['status'=>'OK','data'=>$subject],202);
             }
