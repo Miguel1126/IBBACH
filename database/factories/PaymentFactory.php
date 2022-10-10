@@ -18,8 +18,8 @@ class PaymentFactory extends Factory
     {
         return [
             'payment_date'=> $this->faker->date(),
-            'last_pay_date'=> $this->faker->date(),
             'sourcharge'=> $this->faker->randomElement([8,2]),
+            'total' => 0.0,
             'rate_id'=> $this->faker->randomElement([1,2]),
             'user_id'=> $this->faker->randomElement([1,2,3,4,5,6,7,8,9,10]),
         ];
