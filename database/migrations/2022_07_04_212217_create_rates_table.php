@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('rates', function (Blueprint $table) {
             $table->id();
             $table->float('price',8,2);
-            $table->boolean('tuition');
             $table->timestamps();
         });
     }
