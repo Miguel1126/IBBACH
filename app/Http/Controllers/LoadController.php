@@ -62,9 +62,13 @@ class LoadController extends Controller
             ->select(
                 'loads.id',
                 'loads.status',
+                'cycles.id as cycleId',
                 'cycles.cycle',
+                'users.id as userId',
                 DB::raw("CONCAT(users.name,' ',users.last_name) AS teacher"),
+                'subjects.id as subjectId',
                 'subjects.subject',
+                'schedules.id as scheduleId',
                 'schedules.start_time',
                 'schedules.end_time',
             )
@@ -99,13 +103,12 @@ class LoadController extends Controller
     {
         try{
             $load = Load::findOrFail($request->id);
-            $load->status = $request->status;
             $load->user_id = $request->user_id;
             $load->cycle_id = $request->cycle_id;
             $load->subject_id = $request->subject_id;
             $load->schedule_id = $request->schedule_id;
             if($load->save()>=1){
-                return response()->json(['status'=>'ok','data'=>$load],201);
+                return response()->json(['status'=>'ok','data'=>$load],202);
             }
             $load->save();
         }catch(\Exception $e){

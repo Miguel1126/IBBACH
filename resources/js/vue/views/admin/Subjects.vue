@@ -9,6 +9,9 @@ export default {
     },
     data() {
         return {
+            id: '',
+            subjectUp: '',
+            descriptionUp: '',
             subjects: [],
             subject: '',
             description: '',
@@ -50,9 +53,62 @@ export default {
         clearInputs() {
             this.subject = ''
             this.description = ''
+            this.subjectUp = '' 
+            this.descriptionUp = ''
         },
         validateInputs() {
             return this.subject && this.description
+        },
+        validateInputsUp() {
+            return this.subjectUp && this.descriptionUp
+        },
+        async updateSubject() {
+            this.loading = true
+            if (this.validateInputsUp()) {
+                try {
+                    const response = await this.axios.put('/api/updateSubject', {
+                        id: this.id,
+                        subject: this.subjectUp,
+                        description: this.descriptionUp
+                    })
+
+                    if (response.status === 202) {
+                        this.$swal.fire(
+                            'Listo',
+                            '¡Se actualizo la asignatura correctamente!',
+                            'success'
+                        )
+                        this.getSubjects()
+                    }
+
+                } catch (error) {
+                    this.loading = false
+                    this.$swal.fire(
+                        'Error',
+                        'Parece que algo salió mal, intentalo de nuevo',
+                        'error'
+                    )
+                    handleErrors(error)
+                }
+                this. clearInputs()
+            } else {
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes rellenar todos los campos'
+                })
+            }
+            this.loading = false
         },
         async savesubject() {
             this.loading = true
@@ -168,11 +224,68 @@ export default {
                 </div>
             </form>
         </section>
+        <section>
+            <!-- Modal -->
+            <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-dark" id="ModalLabel">Modificar Asignatura</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="row mb-2">
+                                    <div class="col col-lg-3">
+                                        <label class="form-label text-dark mt-1">Asignatura</label>
+                                        <input type="text" class="form-control inputs" v-model="subjectUp"
+                                            placeholder="Actualizar asignatura" pattern="^[a-zA-Z\u00C0-\u017F\s]+$"
+                                            title="Solo debes escribir letras" required />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col col-lg-3">
+                                        <label class="form-label text-dark mt-1">Descripción</label>
+                                        <textarea class="form-control inputs" v-model="descriptionUp"
+                                            placeholder="Actualizar descripción de la asignatura"
+                                            pattern="^[a-zA-Z\u00C0-\u017F\s]+$" title="Solo debes escribir letras"
+                                            maxlength="72" required></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col col-lg-3">
+                                    <div class="d-flex" v-if="!loading">
+                                        <button v-if="!editing" @click="updateSubject()"
+                                            class="d-inline-flex btn btn-primary m-2">Actualizar<span
+                                                class="material-symbols-outlined">
+                                                update
+                                            </span></button>
+                                    </div>
+                                    <div v-else>
+                                        <LoadingDots styles="my-3 mx-5" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <hr class="separator" />
         <section class="p-3 table-section">
-            <DataTable title="Listado de asignaturas" :headers="headers" :items="subjects">
-                <template #actions>
-                    <button type="button" class="btn btn-primary me-2">Modificar</button>
+            <DataTable title="Listado de asignaturas" personalized :headers="[
+                { title: 'Asignatura', value: 'subject' },
+                { title: 'Descripción', value: 'description' },
+                { title: 'Estado', value: 'status'},
+                { title: 'Acciones'}
+            ]" :items="subjects">
+                <template #actions="item">
+                    <button type="button"
+                        @click="id = item.item.id; subjectUp = item.item.subject; descriptionUp = item.item.description;"
+                        class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#Modal">Modificar</button>
                     <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
             </DataTable>
@@ -200,6 +313,7 @@ export default {
         width: 300px;
     }
 }
+
 @media (max-width: 330px) {
     .inputs {
         width: 200px;

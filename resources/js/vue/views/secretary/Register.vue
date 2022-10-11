@@ -1,6 +1,6 @@
 <script>
 import { useVuelidate } from '@vuelidate/core'
-import { required, alpha, helpers, requiredIf } from '@vuelidate/validators'
+import { required, minLength, helpers, requiredIf, alphaNum } from '@vuelidate/validators'
 import UserInfoCard from '../../components/UserInfoCard.vue';
 import { handleErrors } from '../../js/handle_error';
 export default {
@@ -28,12 +28,11 @@ export default {
     },
     validations() {
         const alpha = helpers.regex(/^[ a-zA-ZñÑáéíóúÁÉÍÓÚ]+$/)
-        const pass = helpers.regex(/^(\d{6})$/)  
         return {
             name: { required: helpers.withMessage('Llenar este campo es obligatorio', required), alpha: helpers.withMessage('Este campo solo admite letras', alpha) },
             last_name: { required: helpers.withMessage('Llenar este campo es obligatorio', required), alpha: helpers.withMessage('Este campo solo admite letras', alpha) },
             roleSelected: { required: helpers.withMessage('Llenar este campo es obligatorio', required) },
-            password : {requiredIf:  helpers.withMessage('Llenar este campo es obligatorio', requiredIf(!this.personalizedPass)), pass: helpers.withMessage('Ingresa la contraseña con un formato válido', pass)},
+            password : {requiredIf:  helpers.withMessage('Llenar este campo es obligatorio', requiredIf(!this.personalizedPass)), minLength: helpers.withMessage('Ingresa la contraseña con un formato válido', minLength(6)), alphaNum:helpers.withMessage('Ingresa la contraseña con un formato válido', alphaNum )},
             confirmPassword: {requiredIf:  helpers.withMessage('Llenar este campo es obligatorio', requiredIf(!this.personalizedPass))}
         }
     },
