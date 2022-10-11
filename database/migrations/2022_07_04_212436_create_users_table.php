@@ -21,6 +21,12 @@ return new class extends Migration
             $table->string('password');
             $table->string('role');
             $table->string('status')->default('activo');
+            $table->integer('paid_months')->default(0);
+            $table->foreignId('group_id')
+            ->nullable()
+            ->constrained('groups')
+            ->cascadeOnUpdate()
+            ->nullOnDelete();
             $table->foreignId('applicant_id')
             ->nullable()
             ->constrained('applicants')

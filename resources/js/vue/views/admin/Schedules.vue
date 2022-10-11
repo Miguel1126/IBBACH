@@ -224,13 +224,12 @@ export default {
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-2">
-                        <div class="d-flex" v-if="!loading">
-                            <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary">Agregar <i
+                    <div class="col col-lg-3">
+                        <div class="d-flex flex-wrap" v-if="!loading">
+                            <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary m-2">Agregar <i
                                     class="material-icons m-auto ms-1">add_box</i></button>
-                            <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning ms-1"
-                                @click="clearInputs">Limpiar <i
-                                    class="material-icons m-auto ms-1">backspace</i></button>
+                            <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning m-2"
+                                @click="clearInputs">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
                         </div>
                         <div v-else>
                             <LoadingDots styles="my-3 mx-auto" />

@@ -108,7 +108,7 @@ class ApplicantController extends Controller
             $route = 'images/users/';
             $imgName = time() . '-' . str_replace(' ', '', $img->getClientOriginalName());
             $request->file('img')->move($route, $imgName);
-            $applicant->img = '../'. $route . $imgName;
+            $applicant->img = $imgName;
             $applicant->personal_information_id = $personalInfo->id;
             $applicant->ecclesiastical_information_id = $ecclesiasticalInfo->id;
             $applicant->ministerial_information_id = $ministerialInfo->id;

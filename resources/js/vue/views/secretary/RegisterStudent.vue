@@ -2,19 +2,24 @@
 import DataTable from '../../components/DataTable.vue';
 import UserInfoCard from '../../components/UserInfoCard.vue';
 import { formatDate } from '../../js/format_time';
+import { handleErrors } from '../../js/handle_error';
 
 export default {
     mounted() {
         document.title = 'IBBACH | Registro de estudiantes'
         this.getApplicants(1, true)
+        this.getGroups()
     },
     data() {
         return {
             applicants: [],
+            groups: [],
             applicant: {},
             paginationLinks: [],
             loading: false,
             success: false,
+            registering: false,
+            picked: '',
             user: {},
             siteUrl: window.location.origin
         }
@@ -39,8 +44,17 @@ export default {
                 }
             }
             catch (error) {
-                console.log(error)
+                handleErrors(error)
                 this.applicants[0] = 'error'
+            }
+        },
+        async getGroups() {
+            try {
+                const response = await this.axios.get('/api/get-grupos')
+                this.groups = response.data
+            }
+            catch (error) {
+                handleErrors(error)
             }
         },
         showApplicant(applicant) {
@@ -48,22 +62,29 @@ export default {
             this.applicant = applicant.item
         },
         async registerStudent(applicantId) {
-            this.loading = true
-            try {
-                const response = await this.axios.post('/api/inscribir', { applicant_id: applicantId })
-                if (response.status === 201) {
-                    this.user = { ...response.data }
-                    this.success = true
-                    this.getApplicants()
-                    document.getElementById('close-modal').click()
+            if (this.picked) {
+                this.loading = true
+                try {
+                    const response = await this.axios.post('/api/inscribir', { applicant_id: applicantId, groupId: this.picked })
+                    if (response.status === 201) {
+                        this.user = { ...response.data }
+                        this.success = true
+                        this.registering = false
+                        this.picked = ''
+                        this.getApplicants()
+                        document.getElementById('close-modal').click()
+                    }
+                    else {
+                        this.$swal.fire("Error", "Ocurrió un error, inténtalo de nuevo", "error")
+                    }
                 }
-                else {
+                catch (error) {
+                    handleErrors(error)
                     this.$swal.fire("Error", "Ocurrió un error, inténtalo de nuevo", "error")
                 }
             }
-            catch (error) {
-                console.log(error)
-                this.$swal.fire("Error", "Ocurrió un error, inténtalo de nuevo", "error")
+            else {
+                this.registering = true
             }
             this.loading = false
         },
@@ -109,9 +130,9 @@ export default {
          * @param {Array} data 
          */
         formateDate(data) {
-            data.forEach( m => m.created_at = formatDate(m.created_at) )
+            data.forEach(m => m.created_at = formatDate(m.created_at))
             return data
-        }
+        },
 
     },
     components: { DataTable, UserInfoCard },
@@ -127,216 +148,233 @@ export default {
                         <h5 class="modal-title fs-3" id="staticBackdropLabel">Detalle del aplicante</h5>
                         <button type="button" id="close-modal"
                             class="btn btn-danger text-light d-flex justify-content-center" data-bs-dismiss="modal"
-                            aria-label="Close"><span class="material-icons">close</span></button>
+                            aria-label="Close" @click.prevent="registering = false"><span
+                                class="material-icons">close</span></button>
                     </div>
                     <div class="modal-body">
-                        <h5 class="fs-4 fw-bold">Información Personal</h5>
-                        <div class="field w-100 mb-2">
-                            <img style="width: 200px; height: 200px" class="img-fluid"
-                                :src="`${siteUrl}/${applicant.img}`" />
-                        </div>
-                        <div class="field w-100 mb-2">
-                            <label><b>Nombre completo: </b>{{ applicant.name }} {{ applicant.last_name }}</label>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Fecha en que aplicó: </b>{{ applicant.created_at }}</label>
+                        <div :class="registering ? 'd-none' : ''">
+                            <h5 class="fs-4 fw-bold">Información Personal</h5>
+                            <div class="field w-100 mb-2">
+                                <img style="width: 200px; height: 200px" class="img-fluid"
+                                    :src="`${siteUrl}/images/users/${applicant.img}`" />
+                            </div>
+                            <div class="field w-100 mb-2">
+                                <label><b>Nombre completo: </b>{{ applicant.name }} {{ applicant.last_name }}</label>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Fecha en que aplicó: </b>{{ applicant.created_at }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Telefono: </b>{{ applicant.phone }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Correo Electrónico: </b>{{ applicant.email }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Dirección: </b>{{ applicant.address }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Fecha de nacimiento: </b>{{ applicant.birth_date }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Nacionalidad: </b>{{ applicant.nationality }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Estado civíl: </b>{{ applicant.marital_status }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row" v-if="applicant.mate_name">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Nombre del conyuge: </b>{{ applicant.mate_name }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Grado secular: </b>{{ applicant.secular_degree }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Ocupación actual: </b>{{ applicant.current_ocupation }}</label>
+                                </div>
+                            </div>
+                            <hr />
+                            <h5 class="fs-4 fw-bold">Información Eclesiastica</h5>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Es pastor: </b>{{ applicant.is_pastor ? 'Si' : 'No' }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Es miembro: </b>{{ applicant.is_member ? 'Si' : 'No' }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row" v-if="applicant.is_member">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Nombre del pastor: </b>{{ applicant.pastor_name }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row" v-if="applicant.is_member">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Teléfono del pastor: </b>{{ applicant.pastor_phone }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row" v-if="applicant.is_member">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Licencia del pastor: </b>{{ applicant.licence }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Iglesia a la que pertenece: </b>{{ applicant.church_name }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Dirección de la iglesia: </b>{{ applicant.church_address }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Teléfono de la iglesia: </b>{{ applicant.church_phone }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Distrito: </b>{{ applicant.district }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Pastor de referencia 1: </b>{{ applicant.reference_name_one }}</label>
+                                    <label class="ms-2"><b>Teléfono: </b>{{ applicant.reference_phone_one }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Pastor de referencia 2: </b>{{ applicant.reference_name_two }}</label>
+                                    <label class="ms-2"><b>Teléfono: </b>{{ applicant.reference_phone_two }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Cuando aceptó a cristo: </b>{{ applicant.christ_accepted }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Fecha de bautismo: </b>{{ applicant.christening_date }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Es miembro desde: </b>{{ applicant.time_being_member }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Privilegios desempeñados: </b>{{ applicant.privileges_held }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Denominación: </b>{{ applicant.denomination }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Razón de estudio: </b>{{ applicant.study_reason }}</label>
+                                </div>
+                            </div>
+                            <hr />
+                            <h5 class="fs-4 fw-bold">Información Ministerial</h5>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Ministerio desempeñado: </b>{{ applicant.ministry_performed }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Ministerio actual: </b>{{ applicant.current_ministry }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Está a tiempo completo: </b>{{ applicant.full_time ? 'Si' : 'No'
+                                    }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Calificación del ministerio: </b>{{ applicant.ministry_qualification
+                                    }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Ministerio al que aspira: </b>{{ applicant.aspirated_ministry }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Razón para aspirar: </b>{{ applicant.reason_aspiring_ministry }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Ciclo que va a tomar: </b>{{ applicant.cicle_to_be_taken }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Institución en la que estudió: </b>{{ applicant.previous_institution
+                                    }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Ultimo año en que estudió: </b>{{ applicant.last_year_studied }}</label>
+                                </div>
+                            </div>
+                            <div class="formgrid grid row">
+                                <div class="field col-6 w-100 mb-2">
+                                    <label><b>Cualidades de un obrero cristiano: </b>{{
+                                    applicant.qualities_religious_worker
+                                    }}</label>
+                                </div>
                             </div>
                         </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Telefono: </b>{{ applicant.phone }}</label>
+                        <div :class="registering ? 'd-block' : 'd-none'">
+                            <p><b>Selecciona la modalidad para: {{ applicant.name }} {{ applicant.last_name }}</b></p>
+                            <div v-for="group in groups" class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" :name="groups.group" :id="group.group" :value="group.id"
+                                    v-model="picked">
+                                <label class="form-check-label cursor-pointer" :for="group.group">{{ group.group }}</label>
                             </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Correo Electrónico: </b>{{ applicant.email }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Dirección: </b>{{ applicant.address }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Fecha de nacimiento: </b>{{ applicant.birth_date }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Nacionalidad: </b>{{ applicant.nationality }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Estado civíl: </b>{{ applicant.marital_status }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row" v-if="applicant.mate_name">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Nombre del conyuge: </b>{{ applicant.mate_name }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Grado secular: </b>{{ applicant.secular_degree }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Ocupación actual: </b>{{ applicant.current_ocupation }}</label>
-                            </div>
-                        </div>
-                        <hr />
-                        <h5 class="fs-4 fw-bold">Información Eclesiastica</h5>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Es pastor: </b>{{ applicant.is_pastor ? 'Si' : 'No' }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Es miembro: </b>{{ applicant.is_member ? 'Si' : 'No' }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row" v-if="applicant.is_member">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Nombre del pastor: </b>{{ applicant.pastor_name }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row" v-if="applicant.is_member">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Teléfono del pastor: </b>{{ applicant.pastor_phone }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row" v-if="applicant.is_member">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Licencia del pastor: </b>{{ applicant.licence }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Iglesia a la que pertenece: </b>{{ applicant.church_name }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Dirección de la iglesia: </b>{{ applicant.church_address }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Teléfono de la iglesia: </b>{{ applicant.church_phone }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Distrito: </b>{{ applicant.district }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Pastor de referencia 1: </b>{{ applicant.reference_name_one }}</label>
-                                <label class="ms-2"><b>Teléfono: </b>{{ applicant.reference_phone_one }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Pastor de referencia 2: </b>{{ applicant.reference_name_two }}</label>
-                                <label class="ms-2"><b>Teléfono: </b>{{ applicant.reference_phone_two }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Cuando aceptó a cristo: </b>{{ applicant.christ_accepted }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Fecha de bautismo: </b>{{ applicant.christening_date }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Es miembro desde: </b>{{ applicant.time_being_member }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Privilegios desempeñados: </b>{{ applicant.privileges_held }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Denominación: </b>{{ applicant.denomination }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Razón de estudio: </b>{{ applicant.study_reason }}</label>
-                            </div>
-                        </div>
-                        <hr />
-                        <h5 class="fs-4 fw-bold">Información Ministerial</h5>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Ministerio desempeñado: </b>{{ applicant.ministry_performed }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Ministerio actual: </b>{{ applicant.current_ministry }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Está a tiempo completo: </b>{{ applicant.full_time ? 'Si' : 'No' }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Calificación del ministerio: </b>{{ applicant.ministry_qualification
-                                }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Ministerio al que aspira: </b>{{ applicant.aspirated_ministry }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Razón para aspirar: </b>{{ applicant.reason_aspiring_ministry }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Ciclo que va a tomar: </b>{{ applicant.cicle_to_be_taken }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Institución en la que estudió: </b>{{ applicant.previous_institution
-                                }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Ultimo año en que estudió: </b>{{ applicant.last_year_studied }}</label>
-                            </div>
-                        </div>
-                        <div class="formgrid grid row">
-                            <div class="field col-6 w-100 mb-2">
-                                <label><b>Cualidades de un obrero cristiano: </b>{{ applicant.qualities_religious_worker
-                                }}</label>
-                            </div>
+                            <button type="button" class="btn btn-danger d-flex justify-content-center mt-4"
+                                @click.prevent="registering = false; picked = ''">Cancelar
+                                <span class="material-icons ms-2 d-flex align-items-center">close</span></button>
                         </div>
                     </div>
                     <div class="modal-footer" v-if="!loading">
                         <button type="button" class="btn btn-success d-flex justify-content-center fs-5"
-                            @click.prevent="registerStudent(applicant.id)">Inscribir <span
-                                class="material-icons ms-2 d-flex align-items-center">done</span></button>
+                            @click.prevent="registerStudent(applicant.id)">
+                            <span>Registrar</span>
+                            <span class="material-icons ms-2 d-flex align-items-center">done</span></button>
                         <button type="button" class="btn btn-secondary d-flex justify-content-center fs-5"
                             @click.prevent="denyApplicant(applicant.id)">Rechazar
                             <span class="material-icons ms-2 d-flex align-items-center">close</span></button>
@@ -351,7 +389,7 @@ export default {
         </div>
 
         <div>
-            <h3 class="m-3">Selecciona el aplicante que vayas a inscribir</h3>
+            <h3 class="m-3">Selecciona el aplicante que vayas a registrar</h3>
         </div>
         <div class="container-fluid">
             <DataTable title="Aplicantes disponibles" personalized :headers="[
