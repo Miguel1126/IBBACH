@@ -292,7 +292,13 @@ export default {
         </section>
         <hr class="separator" />
         <section class="p-3 table-section">
-            <DataTable personalized title="Listado de horarios" :headers="headers" :items="schedules">
+            <DataTable personalized title="Listado de horarios" :headers="[
+                {title: 'Fecha de inicio', value: 'start_date' },
+                {title: 'Fecha de finalización', value: 'end_date' },
+                {title: 'Hora de inicio', value: 'start_time' },
+                {title: 'Hora de finalización', value: 'end_time' },
+                {title: 'Acciones'}
+            ]" :items="schedules">
                 <template #actions="item">
                     <button type="button" @click="id = item.item.id;" class="btn btn-primary me-2"
                         data-bs-toggle="modal" data-bs-target="#Modal">Modificar</button>
