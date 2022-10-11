@@ -10,6 +10,11 @@ export default {
     },
     data() {
         return {
+            id: '',
+            cycleUp: '',
+            start_dateUp: '',
+            end_dateUp: '',
+            groupUp: '',
             cycle: '',
             groupSelected: '',
             start_date: '',
@@ -73,9 +78,68 @@ export default {
             this.start_date = ''
             this.end_date = ''
             this.groupSelected = ''
+            this.cycleUp = ''
+            this.start_dateUp = ''
+            this.end_dateUp = ''
+            this.groupUp = ''
         },
         validateInputs() {
             return this.cycle && this.groupSelected && this.start_date && this.end_date
+        },
+        validateInputsUp() {
+            return this.cycleUp && this.groupUp && this.start_dateUp && this.end_dateUp
+        },
+        async updateCycle() {
+            this.loading = true
+
+            if (this.validateInputsUp()) {
+                try {
+                    const response = await this.axios.put('/api/updateCycle',
+                        {
+                            id: this.id,
+                            cycle: this.cycleUp,
+                            start_date: this.start_dateUp,
+                            end_date: this.end_dateUp,
+                            group_id: this.groupUp
+                        })
+
+                    if (response.status === 202) {
+                        this.$swal.fire(
+                            'Listo',
+                            '¡Se registró el ciclo correctamente!',
+                            'success'
+                        )
+                        this.getCycles()
+                    }
+                } catch (error) {
+                    this.$swal.fire(
+                        'Error',
+                        'Parece que algo salió mal, intentalo de nuevo',
+                        'error'
+                    )
+                    handleErrors(error)
+                    this.loading = false
+                }
+                this.clearInputs()
+            }
+            else {
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes rellenar todos los campos'
+                })
+            }
+            this.loading = false
         },
         async saveCiclo() {
             this.loading = true
@@ -93,7 +157,7 @@ export default {
                     if (response.status === 201) {
                         this.$swal.fire(
                             'Listo',
-                            '¡Se registró la carga correctamente!',
+                            '¡Se registró el ciclo correctamente!',
                             'success'
                         )
                         this.getCycles()
@@ -161,7 +225,7 @@ export default {
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label class="d-inline-block" for="roles">Grupo</label>
+                            <label class="d-inline-block" for="roles">Modalidad</label>
                             <select class="form-select inputs" id="roles" v-model="groupSelected" required>
                                 <option v-for="group in groups" :key="group.id" :value="group.id">{{
                                 group.group }}
@@ -200,11 +264,76 @@ export default {
                 </div>
             </form>
         </section>
+        <section>
+            <!-- Modal -->
+            <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-dark" id="ModalLabel">Modificar Ciclo</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="d-flex flex-wrap">
+                                    <div class="m-3">
+                                        <label class="d-inline-block text-dark">Ciclo</label>
+                                        <input type="text" class="form-control inputs" placeholder="01/2022"
+                                            pattern="^[0-9]{2}\/[0-9]{4}$" v-model="cycleUp" />
+                                    </div>
+                                    <div class="m-3">
+                                        <label class="d-inline-block text-dark" for="roles">Modalidad</label>
+                                        <select class="form-select inputs" id="roles" v-model="groupUp" required>
+                                            <option v-for="group in groups" :key="group.id" :value="group.id">{{
+                                            group.group }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="m-3">
+                                        <label class="d-inline-block text-dark">Fecha de inicio</label>
+                                        <input type="date" class="form-control inputs" v-model="start_dateUp" />
+                                    </div>
+                                    <div class="m-3">
+                                        <label class="d-inline-block text-dark">Fecha de finalización</label>
+                                        <input type="date" class="form-control inputs" v-model="end_dateUp" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="d-flex" v-if="!loading">
+                                        <button v-if="!editing" @click="updateCycle()"
+                                            class="d-inline-flex btn btn-primary m-2">Actualizar<span
+                                                class="material-symbols-outlined">
+                                                update
+                                            </span></button>
+                                    </div>
+                                    <div v-else>
+                                        <LoadingDots styles="my-3 mx-5" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <hr class="separator" />
         <section class="p-3 table-section">
-            <DataTable title="Listado de ciclos" :headers="headers" :items="cycles">
-                <template #actions>
-                    <button type="button" class="btn btn-primary me-2">Modificar</button>
+            <DataTable title="Listado de ciclos" personalized :headers="[
+                { title: 'Ciclos', value: 'cycle' },
+                { title: 'Fecha de inicio', value: 'start_date' },
+                { title: 'Fecha de finalización', value: 'end_date' },
+                { title: 'Estado', value: 'status' },
+                { title: 'Modalidad', value: 'group' },
+                { title: 'Acciones' }
+            ]" :items="cycles">
+                <template #actions="item">
+                    <button type="button"
+                        @click="id = item.item.id; cycleUp = item.item.cycle; groupUp = item.item.groupId; start_dateUp = item.item.start_date; end_dateUp = item.item.end_date; "
+                        class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#Modal">Modificar</button>
                     <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
             </DataTable>
