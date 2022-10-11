@@ -61,7 +61,7 @@ class CycleController extends Controller
         try {
             if ($paginate === 'paginate') {
                 $cycle = Cycle::join('groups', 'cycles.group_id', '=', 'groups.id')
-                ->select('cycles.id', 'cycles.cycle', 'cycles.start_date', 'cycles.end_date', 'cycles.status', 'groups.group')
+                ->select('cycles.id', 'cycles.cycle', 'cycles.start_date', 'cycles.end_date', 'cycles.status', 'groups.id as groupId', 'groups.group')
                 ->orderBy('id', 'desc')
                 ->paginate(5)->onEachSide(1);
                 return $cycle;
@@ -119,13 +119,12 @@ class CycleController extends Controller
         try{
             $cycle = Cycle:: findOrFail($request->id);
             if (Cycle::where('cycle', '=', $request->input('cycle'))->where('group_id', '=', $request->input('group_id'))->exists()) {
-                return response()->json(["status" => 302,"message" => "El ciclo ya existe"],200);
+                return response()->json(["status" => 302,"message" => "El ciclo ya existe"],302);
             }
             else {
                 $cycle->cycle = $request->cycle;
                 $cycle->start_date = $request->start_date;
                 $cycle->end_date = $request->end_date;
-                $cycle->status = $request->status;
                 $cycle->group_id = $request->group_id;
                 if($cycle->save()>=1){
                     return response()->json(['status'=>'ok','data'=>$cycle],202);

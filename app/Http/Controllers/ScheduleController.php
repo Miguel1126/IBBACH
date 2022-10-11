@@ -104,7 +104,6 @@ class ScheduleController extends Controller
             $schedule = Schedule::findOrFail($request->id);
             $schedule->start_time = $request->start_time;
             $schedule->end_time = $request->end_time;
-            $schedule->status = $request->status;
             if ($schedule->save()>=1) {
                 return response()->json(['status'=>'OK','data'=>$schedule],202);
             }
