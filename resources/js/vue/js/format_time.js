@@ -14,3 +14,8 @@ export const formatDate = (date) => {
 
     return `${daySeparatedFromTime[0]}/${dateSplit[1]}/${dateSplit[0]} ${timeSeparatedFromDay ??= timeSeparatedFromDay}`
 }
+
+export const unFormatDate = (date) => {
+    let dateSplit = date.split(/[/" "]/g)
+    return `${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}`
+}

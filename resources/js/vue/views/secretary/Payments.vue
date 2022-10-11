@@ -167,6 +167,7 @@ export default {
             this.queryLoading = false
             this.success = false
             this.months = []
+            this.sourcharge = 0
             this.getRate()
             this.getUserPayments(this.selectedUser.id)
             this.foundUser = true
@@ -296,7 +297,7 @@ export default {
                                 <div class="d-flex justify-content-center">
                                     <span class="material-symbols-outlined icon">task_alt</span>
                                 </div>
-                                <p class="mt-3 fw-bold fs-5 text-center">¡Pago registrado con exito!</p>
+                                <p class="mt-3 fw-bold fs-5 text-center">¡Pago registrado con éxito!</p>
                             </div>
                         </div>
                         <div v-else>
