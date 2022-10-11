@@ -2,7 +2,7 @@
 import DataTable from '../../components/DataTable.vue';
 import { handleErrors } from '../../js/handle_error';
 import LoadingDots from '../../components/LoadingDots.vue';
-import { formatDate } from '../../js/format_time';
+import { formatDate, unFormatDate } from '../../js/format_time';
 export default {
     mounted() {
         this.getCycles(1, true);
@@ -199,6 +199,9 @@ export default {
             })
             return data
         },
+        unFormateDate(date) {
+            return unFormatDate(date)
+        }
     },
     setup() {
         document.title = "IBBACH | Ciclos"
@@ -332,7 +335,7 @@ export default {
             ]" :items="cycles">
                 <template #actions="item">
                     <button type="button"
-                        @click="id = item.item.id; cycleUp = item.item.cycle; groupUp = item.item.groupId; start_dateUp = item.item.start_date; end_dateUp = item.item.end_date; "
+                        @click="id = item.item.id; cycleUp = item.item.cycle; groupUp = item.item.groupId; start_dateUp = unFormateDate(item.item.start_date); end_dateUp = unFormateDate(item.item.end_date); "
                         class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#Modal">Modificar</button>
                     <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
