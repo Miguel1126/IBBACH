@@ -72,7 +72,7 @@ export default {
                             this.clearInputs()
                             this.$swal.fire(
                                 'Listo',
-                                '¡El Formulario de ingreso se ha enviado correctamente!',
+                                '¡El formulario de ingreso se ha enviado correctamente!',
                                 'success'
                             )
                         }
