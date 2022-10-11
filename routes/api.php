@@ -69,7 +69,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::get('/getNotesReport', [NoteController::class, 'getNotesReport']);
     Route::get('/getAssistancesReport', [AssistanceController::class, 'getAssistances']);
     Route::put('/updateGroup', [GroupController::class, 'update']);
-    Route::put('updateSubject', [SubjectController::class, 'update']);
+    Route::put('/updateSubject', [SubjectController::class, 'update']);
     Route::put('/updateCycle', [CycleController::class, 'update']);
     Route::put('/updateSchedule', [ScheduleController::class, 'update']);
     Route::put('/updateLoad', [LoadController::class, 'update']);

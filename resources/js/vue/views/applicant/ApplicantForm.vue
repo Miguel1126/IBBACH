@@ -105,7 +105,21 @@ export default {
             let filePath = fileInput.value;
             let allowedExtensions = /(.jpg|.jpeg)$/i;
             if (!allowedExtensions.exec(filePath)) {
-                alert('La extension de la imagen debe ser .jpg o .jpeg');
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes elegir una imagen con el formato permitido'
+                })
                 fileInput.value = '';
                 return false;
             }
@@ -135,9 +149,18 @@ export default {
             <h2 class="text-center m-4 text-black">Formulario de inscripción</h2>
             <h4 class="text-center m-3 text-black">Ingresa tus datos a continación, revisa muy bien la información antes
                 de enviarla.</h4>
+            <p class="d-flex justify-content-center fw-bold">
+                <router-link class="text-primary fs-5" to="/">IBBACH</router-link>
+            </p>
             <form @submit.prevent="submitForm" class="d-block p-5" action="" enctype="multipart/form-data">
+                <span v-if="!thumbnailImage" class="d-flex justify-content-center text-black fs-6 fw-bold text-center">
+                    Selecciona una foto de tu rostro reciente y legible,
+                    <br> debe pesar un máximo de 2 Mb </span>
                 <div class="d-flex justify-content-center">
-                    <label for="formFile" class="btn btn-success m-3">Selecciona una foto</label>
+                    <label for="formFile"
+                        class="btn btn-secondary m-3 d-inline-flex icon d-flex justify-content-center">
+                        <span class="material-symbols-outlined fs-1">add_a_photo</span>
+                    </label>
                     <input class="d-none" type="file" id="formFile" @change="getImage" accept=".jpg">
                 </div>
                 <div class="d-flex justify-content-center"><span class="text-danger" v-if="v$.img.$error">{{
@@ -151,7 +174,8 @@ export default {
                 <EcclesiasticalInformation ref="ecclesiasticalInfo"
                     @ecclesiasticalInfo="getEcclesiasticalInfo($event)" />
                 <MinisterialInformation ref="ministerialInfo" @ministerialInfo="getMinisterialInformation($event)" />
-                <input type="submit" id="submit-btn" class="btn btn-primary m-3 text-light" value="Enviar formulario" />
+                <button type="submit" id="submit-btn" class="btn btn-primary m-3 text-light d-inline-flex">
+                    Enviar formulario<span class="material-symbols-outlined">send</span></button>
             </form>
         </div>
     </div>
@@ -166,5 +190,10 @@ export default {
 .questions-container {
     display: grid;
     justify-content: left;
+}
+
+.icon {
+    width: 150px;
+    height: 50px;
 }
 </style>
