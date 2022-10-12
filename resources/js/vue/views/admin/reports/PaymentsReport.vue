@@ -68,16 +68,13 @@ export default {
 <template>
     <main>
         <section class="p-3">
-            <DataTable title="Listado de pagos pendientes" :headers="[
-                { title: 'Id' },
-                { title: 'Fecha de pago' },
-                { title: 'Ultima fecha de pago' },
-                { title: 'Estado'},
-                { title: 'Sobrecargo' },
-                { title: 'Alumno'},
-                { title: 'Apellido'},
-                { title: 'Codigo'},
-                { title: 'Cuota'}
+            <DataTable title="Listado de pagos pendientes" personalized :headers="[
+                    {title: 'Fecha de pago', value: 'payment_date'},
+                    {title: 'status', value: 'status'},
+                    {title: 'Sobrecargo', value: 'sourcharge'},
+                    {title: 'Cuota', value: 'price'},
+                    {title: 'Alumno', value: 'student'},
+                    {title: 'Total', value: 'total'},
             ]" :items="PaymentsP">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinksP.length">
@@ -92,16 +89,13 @@ export default {
             </nav>
         </section>
         <section class="p-3">
-            <DataTable title="Listado de pagos solventes" :headers="[
-                { title: 'Id' },
-                { title: 'Fecha de pago' },
-                { title: 'Ultima fecha de pago' },
-                { title: 'Estado'},
-                { title: 'Sobrecargo' },
-                { title: 'Alumno'},
-                { title: 'Apellido'},
-                { title: 'Codigo'},
-                { title: 'Cuota'}
+            <DataTable title="Listado de pagos pendientes" personalized :headers="[
+                    {title: 'Fecha de pago', value: 'payment_date'},
+                    {title: 'status', value: 'status'},
+                    {title: 'Sobrecargo', value: 'sourcharge'},
+                    {title: 'Cuota', value: 'price'},
+                    {title: 'Alumno', value: 'student'},
+                    {title: 'Total', value: 'total'},
             ]" :items="PaymentsS">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinksS.length">
