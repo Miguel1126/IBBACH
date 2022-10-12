@@ -23,7 +23,7 @@ export default {
             }
             try {
                 this.PaymentsP[0] = 'loading'
-                const response = await this.axios.get('/api/getPaymentsp?page=' + pageNumber);
+                const response = await this.axios.get('/api/getPaymentspend?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.PaymentsP = response.data.data;
@@ -45,7 +45,7 @@ export default {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
-                const response = await this.axios.get('/api/getPaymentsS?page=' + pageNumber);
+                const response = await this.axios.get('/api/getPaymentssolv?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.PaymentsS = response.data.data;
@@ -89,7 +89,7 @@ export default {
             </nav>
         </section>
         <section class="p-3">
-            <DataTable title="Listado de pagos pendientes" personalized :headers="[
+            <DataTable title="Listado de pagos Solventes" personalized :headers="[
                     {title: 'Fecha de pago', value: 'payment_date'},
                     {title: 'status', value: 'status'},
                     {title: 'Sobrecargo', value: 'sourcharge'},

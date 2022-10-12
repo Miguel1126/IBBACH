@@ -186,6 +186,29 @@ class ApplicantController extends Controller
                 'last_year_studied',
                 'qualities_religious_worker'
             )
+            ->orderBy('id','desc')->paginate(5)->onEachSide(1);;
+            return $applicant;
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+    public function getPersonalInfo(){
+        try {
+            $applicant = PersonalInformation::select(
+                'id',
+                'name',
+                'last_name',
+                'email',
+                'phone',
+                'address',
+                'nationality',
+                'birth_date',
+                'marital_status',
+                'mate_name',
+                'secular_degree',
+                'current_ocupation'
+            )
             ->orderBy('id','desc')
             ->paginate(5)->onEachSide(1);
             return $applicant;

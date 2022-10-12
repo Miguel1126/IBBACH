@@ -72,7 +72,7 @@ export default {
                 { title: 'Fecha de registro' },
                 { title: 'Estado' },
                 { title: 'Ciclo' },
-                { title: 'Grupo' },
+                { title: 'Modalidad' },
                 { title: 'Alumno' },
                 { title: 'Apellido' },
                 { title: 'Codigo' },

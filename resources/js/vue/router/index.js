@@ -31,6 +31,7 @@ import Reports from '../views/admin/Reports.vue'
 import Secretary from '../views/secretary/base/Secretary.vue'
 import Payments from '../views/secretary/Payments.vue'
 import AccountManagement from '../views/secretary/AccountManagement.vue'
+import Report from '../views/secretary/Report.vue'
 
 /**
  * Components for teacher view
@@ -69,6 +70,12 @@ import UsersReport from '../views/admin/reports/UsersReport.vue'
 import PaymentsPReport from '../views/admin/reports/PaymentsReport.vue'
 import RatesReport from '../views/admin/reports/RatesReport.vue'
 import StudentsPerYear from '../views/admin/reports/StudentsPerYearReport.vue'
+
+/**
+ * secretary's reports
+ */
+import PaymentsReport from '../views/secretary/reports/PaymentsReport.vue'
+import ApplicantsReports from '../views/secretary/reports/ApplicantsReports.vue'
 
 
 export const router = createRouter({
@@ -190,6 +197,7 @@ export const router = createRouter({
         }
       ]
     },
+  
     {
       path: '/secretaria',
       component: Secretary,
@@ -205,10 +213,25 @@ export const router = createRouter({
           component: Payments
         },
         {
+          path: 'reportes',
+          name: 'Report',
+          component: Report
+        },
+        {
           path: 'gestion-de-cuentas',
           name: 'AccountManagement',
           component: AccountManagement
-        }
+        },
+        {
+          path: 'reporte-pagos',
+          name: 'PaymentsReport',
+          component: PaymentsReport
+        },
+        {
+          path: 'reporte-aplicantes',
+          name: 'ApplicantsReports',
+          component: ApplicantsReports
+        },
       ]
     },
     {

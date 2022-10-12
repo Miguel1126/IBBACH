@@ -105,6 +105,11 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     Route::post('/search-student', [UserController::class, 'getStudentsBySearch']);
     Route::get('/get-grupos/{paginate?}', [GroupController::class, 'show']);
     Route::get('/get-user-payments/{userId}', [PaymentController::class, 'getUserPayments']);
+    Route::get('/getPaymentspend', [PaymentController::class, 'getPaymentsP']);
+    Route::get('/getPaymentssolv', [PaymentController::class, 'getPaymentsS']);
+    Route::get('/getAplicantes', [ApplicantController::class, 'show']);
+    Route::get('/getEcclesiasticalInform', [ApplicantController::class, 'getEcclesiasticalInfo']);
+    Route::get('/getMinisterialInform', [ApplicantController::class, 'getMinisterialInfo']);
 });
 
 

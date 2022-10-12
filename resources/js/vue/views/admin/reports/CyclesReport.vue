@@ -56,7 +56,7 @@ export default {
                 { title: 'Fecha de inicio' },
                 { title: 'Fecha de finalización' },
                 { title: 'Estado' },
-                { title: 'Grupo' },
+                { title: 'Modalidad' },
             ]" :items="cycles">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">
