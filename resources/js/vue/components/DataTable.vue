@@ -17,7 +17,7 @@ const getValues = (item) => {
 
         let filteredItem = []
 
-        if (headers.at(-1).title == 'Acciones') {
+        if (headers.at(-1).value == 'extra' || headers.at(-1).title == 'Acciones') {
             headers = headers.slice(0, -1)
         }
 
@@ -60,7 +60,7 @@ const getValues = (item) => {
                     <tr v-for="item in items" :key="item">
                         <td class="text-center" v-for="itemValue in getValues(item)" :key="itemValue">{{ itemValue }}
                         </td>
-                        <td class="actions-row" v-if="headers[headers.length - 1].title == 'Acciones'">
+                        <td class="actions-row" v-if="headers[headers.length - 1].value == 'extra' || headers[headers.length - 1].title == 'Acciones'">
                             <slot :item="item" name="actions"></slot>
                         </td>
                     </tr>

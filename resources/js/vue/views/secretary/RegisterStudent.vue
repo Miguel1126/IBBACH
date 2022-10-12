@@ -88,8 +88,16 @@ export default {
             }
             this.loading = false
         },
-        denyApplicant(applicantId) {
+        denyApplicant({ applicant }) {
             this.loading = true
+        
+            const payload = {
+                personalInfoId: applicant.personal_information_id, 
+                ecclesiasticalInfoId: applicant.ecclesiastical_information_id,
+                ministerialInfoId: applicant.ministerial_information_id,
+                applicantId: applicant.id,
+                imgName: applicant.img
+            }
 
             this.$swal.fire({
                 title: '¿Estás seguro de rechazar este aplicante?',
@@ -102,9 +110,9 @@ export default {
                 confirmButtonText: 'Si, rechazar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    this.axios.put('/api/rechazar', { applicant_id: applicantId })
+                    this.axios.delete('/api/rechazar', {data: {...payload}})
                         .then(response => {
-                            if (response.status === 202) {
+                            if (response.status === 200) {
                                 this.getApplicants()
                                 this.$swal.fire(
                                     '¡Listo!',
@@ -361,9 +369,10 @@ export default {
                         <div :class="registering ? 'd-block' : 'd-none'">
                             <p><b>Selecciona la modalidad para: {{ applicant.name }} {{ applicant.last_name }}</b></p>
                             <div v-for="group in groups" class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" :name="groups.group" :id="group.group" :value="group.id"
-                                    v-model="picked">
-                                <label class="form-check-label cursor-pointer" :for="group.group">{{ group.group }}</label>
+                                <input class="form-check-input" type="radio" :name="groups.group" :id="group.group"
+                                    :value="group.id" v-model="picked">
+                                <label class="form-check-label cursor-pointer" :for="group.group">{{ group.group
+                                }}</label>
                             </div>
                             <button type="button" class="btn btn-danger d-flex justify-content-center mt-4"
                                 @click.prevent="registering = false; picked = ''">Cancelar
@@ -376,7 +385,7 @@ export default {
                             <span>Registrar</span>
                             <span class="material-icons ms-2 d-flex align-items-center">done</span></button>
                         <button type="button" class="btn btn-secondary d-flex justify-content-center fs-5"
-                            @click.prevent="denyApplicant(applicant.id)">Rechazar
+                            @click.prevent="denyApplicant({applicant})">Rechazar
                             <span class="material-icons ms-2 d-flex align-items-center">close</span></button>
                     </div>
                     <span class="d-flex justify-content-end ms-1 mb-4 px-5" v-else>
