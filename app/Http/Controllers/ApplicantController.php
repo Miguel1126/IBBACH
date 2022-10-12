@@ -138,65 +138,14 @@ class ApplicantController extends Controller
     public function show()
     {
         try {
-            $applicant = Applicant::join('personal_information', 'applicants.personal_information_id', '=', 'personal_information.id')
-                ->join('ecclesiastical_information', 'applicants.ecclesiastical_information_id', '=', 'ecclesiastical_information.id')
-                ->join('ministerial_information', 'applicants.ministerial_information_id', '=', 'ministerial_information.id')
-                ->select(
-                    'applicants.id',
-                    'applicants.created_at',
-                    'personal_information.name',
-                    'last_name',
-                    'email',
-                    'phone',
-                    'address',
-                    'nationality',
-                    'birth_date',
-                    'marital_status',
-                    'mate_name',
-                    'secular_degree',
-                    'current_ocupation',
-                    'is_pastor',
-                    'is_member',
-                    'pastor_phone',
-                    'church_name',
-                    'church_address',
-                    'church_phone',
-                    'district',
-                    'pastor_name',
-                    'licence',
-                    'reference_name_one',
-                    'reference_phone_one',
-                    'reference_name_two',
-                    'reference_phone_two',
-                    'christ_accepted',
-                    'christening_date',
-                    'time_being_member',
-                    'privileges_held',
-                    'denomination',
-                    'study_reason',
-                    'ministry_performed',
-                    'current_ministry',
-                    'full_time',
-                    'ministry_qualification',
-                    'aspirated_ministry',
-                    'reason_aspiring_ministry',
-                    'cicle_to_be_taken',
-                    'previous_institution',
-                    'last_year_studied',
-                    'qualities_religious_worker'
-                )
-                ->orderBy('id', 'desc')->get();
-            return $applicant;
-        } catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()], 500);
-        }
-    }
-    public function getPersonalInfo()
-    {
-        try {
-            $applicant = PersonalInformation::select(
-                'id',
-                'name',
+            $applicant = Applicant::join('personal_information','applicants.personal_information_id','=','personal_information.id')
+            ->join('ecclesiastical_information','applicants.ecclesiastical_information_id','=','ecclesiastical_information.id')
+            ->join('ministerial_information','applicants.ministerial_information_id','=','ministerial_information.id')
+            ->select(
+                'applicants.id',
+                'applicants.img',
+                'applicants.created_at',
+                'personal_information.name',
                 'last_name',
                 'email',
                 'phone',
@@ -206,83 +155,46 @@ class ApplicantController extends Controller
                 'marital_status',
                 'mate_name',
                 'secular_degree',
-                'current_ocupation'
+                'current_ocupation',
+                'is_pastor',
+                'is_member',
+                'pastor_phone',
+                'church_name',
+                'church_address',
+                'church_phone',
+                'district',
+                'pastor_name',
+                'licence',
+                'reference_name_one',
+                'reference_phone_one',
+                'reference_name_two',
+                'reference_phone_two',
+                'christ_accepted',
+                'christening_date',
+                'time_being_member',
+                'privileges_held',
+                'denomination',
+                'study_reason',
+                'ministry_performed',
+                'current_ministry',
+                'full_time',
+                'ministry_qualification',
+                'aspirated_ministry',
+                'reason_aspiring_ministry',
+                'cicle_to_be_taken',
+                'previous_institution',
+                'last_year_studied',
+                'qualities_religious_worker'
             )
-                ->orderBy('id', 'desc')
-                ->paginate(5)->onEachSide(1);
+            ->orderBy('id','desc')
+            ->paginate(5)->onEachSide(1);
             return $applicant;
         } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()], 500);
         }
     }
-    public function getEcclesiasticalInfo()
-    {
-        try {
-            $applicant = Applicant::join('personal_information', 'applicants.personal_information_id', '=', 'personal_information.id')
-                ->join('ecclesiastical_information', 'applicants.ecclesiastical_information_id', '=', 'ecclesiastical_information.id')
-                ->join('ministerial_information', 'applicants.ministerial_information_id', '=', 'ministerial_information.id')
-                ->select(
-                    'ecclesiastical_information.id',
-                    'personal_information.name',
-                    'personal_information.last_name',
-                    'is_pastor',
-                    'is_member',
-                    'pastor_phone',
-                    'church_name',
-                    'church_address',
-                    'church_phone',
-                    'district',
-                    'pastor_name',
-                    'licence',
-                    'reference_name_one',
-                    'reference_phone_one',
-                    'reference_name_two',
-                    'reference_phone_two',
-                    'christ_accepted',
-                    'christening_date',
-                    'time_being_member',
-                    'privileges_held',
-                    'denomination',
-                    'study_reason',
-                )
-                ->orderBy('id', 'desc')
-                ->paginate(5)->onEachSide(1);
-            return $applicant;
-        } catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()], 500);
-        }
-    }
-    public function getMinisterialInfo()
-    {
-        try {
-            $applicant = Applicant::join('personal_information', 'applicants.personal_information_id', '=', 'personal_information.id')
-                ->join('ministerial_information', 'applicants.ministerial_information_id', '=', 'ministerial_information.id')
-                ->select(
-                    'ministerial_information.id',
-                    'personal_information.name',
-                    'personal_information.last_name',
-                    'ministry_performed',
-                    'current_ministry',
-                    'full_time',
-                    'ministry_qualification',
-                    'aspirated_ministry',
-                    'reason_aspiring_ministry',
-                    'cicle_to_be_taken',
-                    'previous_institution',
-                    'last_year_studied',
-                    'qualities_religious_worker'
-                )
-                ->orderBy('id', 'desc')
-                ->paginate(5)
-                ->onEachSide(1);
-            return $applicant;
-        } catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()], 500);
-        }
-    }
-
-    public function getPendingApplicants()
-    {
+    
+    public function getPendingApplicants() {
         try {
             $applicant = Applicant::join('personal_information', 'applicants.personal_information_id', '=', 'personal_information.id')
                 ->join('ecclesiastical_information', 'applicants.ecclesiastical_information_id', '=', 'ecclesiastical_information.id')
