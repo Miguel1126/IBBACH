@@ -22,7 +22,7 @@ const getValues = (item) => {
         }
 
         headers.forEach(header => {
-            filteredItem.push(Object.keys(item).filter((key) => key == header.value).reduce((cur, key) => { return Object.assign(item[key]) }, {}))
+            filteredItem.push(Object.keys(item).filter((key) => key == header.value).reduce((cur, key) => { return Object.assign(item[key] !== null ? item[key] : ' ') }, {}))
         })
         return filteredItem
     }
