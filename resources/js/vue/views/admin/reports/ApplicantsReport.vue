@@ -44,8 +44,6 @@ export default {
 
 <template>
     <main>
-        <section class=" p-3 ">
-        </section>
         <section class="p-3">
             <DataTable title="Informacion Personal" personalized :headers="[
                 { title: 'Nombre', value: 'name' },
@@ -69,7 +67,7 @@ export default {
                 <ul class="pagination">
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinks" :key="page">
-                        <span class="page-link" @click.prevent="getPersonalInfo(page.url)">{{ page.label ==
+                        <span class="page-link" @click.prevent="getApplicant(page.url)">{{ page.label ==
                         'pagination.previous'
                         ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
@@ -106,7 +104,7 @@ export default {
                 <ul class="pagination">
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinks" :key="page">
-                        <span class="page-link" @click.prevent="getEcclesiasticalInfo(page.url)">{{ page.label ==
+                        <span class="page-link" @click.prevent="getApplicant(page.url)">{{ page.label ==
                         'pagination.previous'
                         ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
@@ -134,7 +132,7 @@ export default {
                 <ul class="pagination">
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinks" :key="page">
-                        <span class="page-link" @click.prevent="getMinisterialInfo(page.url)">{{ page.label ==
+                        <span class="page-link" @click.prevent="getApplicant(page.url)">{{ page.label ==
                         'pagination.previous'
                         ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
