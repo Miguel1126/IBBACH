@@ -119,15 +119,12 @@ class ApplicantController extends Controller
             // checking if there was an error
             if ($errors == 0) {
                 DB::commit();
-                return response()->json(['status'=>'OK', 'data'=>$applicant],201);
-            }
-            else {
+                return response()->json(['status' => 'OK', 'data' => $applicant], 201);
+            } else {
                 DB::rollBack();
-                return response()->json(['status'=>'FAIL', 'data'=>$applicant],400);
+                return response()->json(['status' => 'FAIL', 'data' => $applicant], 400);
             }
-
-        }
-        catch (\Exception $ex) {
+        } catch (\Exception $ex) {
             return $ex->getMessage();
         }
     }
@@ -189,7 +186,7 @@ class ApplicantController extends Controller
                 'last_year_studied',
                 'qualities_religious_worker'
             )
-            ->orderBy('id','desc')->paginate(5)->onEachSide(1);
+            ->orderBy('id','desc')->get();
             return $applicant;
         }
         catch (\Exception $e) {
@@ -215,145 +212,81 @@ class ApplicantController extends Controller
             ->orderBy('id','desc')
             ->paginate(5)->onEachSide(1);
             return $applicant;
-        }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
-        }
-    }
-    public function getEcclesiasticalInfo(){ 
-        try {
-            $applicant = Applicant::join('personal_information','applicants.personal_information_id','=','personal_information.id')
-                ->join('ecclesiastical_information','applicants.ecclesiastical_information_id','=','ecclesiastical_information.id')
-                ->join('ministerial_information','applicants.ministerial_information_id','=','ministerial_information.id')
-                ->select(
-                'ecclesiastical_information.id',
-                'personal_information.name',
-                'personal_information.last_name',
-                'is_pastor',
-                'is_member',
-                'pastor_phone',
-                'church_name',
-                'church_address',
-                'church_phone',
-                'district',
-                'pastor_name',
-                'licence',
-                'reference_name_one',
-                'reference_phone_one',
-                'reference_name_two',
-                'reference_phone_two',
-                'christ_accepted',
-                'christening_date',
-                'time_being_member',
-                'privileges_held',
-                'denomination',
-                'study_reason',
-            )
-            ->orderBy('id','desc')
-            ->paginate(5)->onEachSide(1);
-            return $applicant;
-        }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 500);
         }
     }
-    public function getMinisterialInfo(){
-        try {
-            $applicant = Applicant::join('personal_information','applicants.personal_information_id','=','personal_information.id')
-                ->join('ministerial_information','applicants.ministerial_information_id','=','ministerial_information.id')
-                ->select(
-                'ministerial_information.id',
-                'personal_information.name',
-                'personal_information.last_name',
-                'ministry_performed',
-                'current_ministry',
-                'full_time',
-                'ministry_qualification',
-                'aspirated_ministry',
-                'reason_aspiring_ministry',
-                'cicle_to_be_taken',
-                'previous_institution',
-                'last_year_studied',
-                'qualities_religious_worker'
-            )
-            ->orderBy('id','desc')
-            ->paginate(5)
-            ->onEachSide(1);
-            return $applicant;
-        }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
-        }
-    }
-
+    
     public function getPendingApplicants() {
         try {
-            $applicant = Applicant::join('personal_information','applicants.personal_information_id','=','personal_information.id')
-            ->join('ecclesiastical_information','applicants.ecclesiastical_information_id','=','ecclesiastical_information.id')
-            ->join('ministerial_information','applicants.ministerial_information_id','=','ministerial_information.id')
-            ->select(
-                'applicants.id',
-                'applicants.img',
-                'applicants.created_at',
-                'personal_information.name',
-                'last_name',
-                'email',
-                'phone',
-                'address',
-                'nationality',
-                'birth_date',
-                'marital_status',
-                'mate_name',
-                'secular_degree',
-                'current_ocupation',
-                'is_pastor',
-                'is_member',
-                'pastor_phone',
-                'church_name',
-                'church_address',
-                'church_phone',
-                'district',
-                'pastor_name',
-                'licence',
-                'reference_name_one',
-                'reference_phone_one',
-                'reference_name_two',
-                'reference_phone_two',
-                'christ_accepted',
-                'christening_date',
-                'time_being_member',
-                'privileges_held',
-                'denomination',
-                'study_reason',
-                'ministry_performed',
-                'current_ministry',
-                'full_time',
-                'ministry_qualification',
-                'aspirated_ministry',
-                'reason_aspiring_ministry',
-                'cicle_to_be_taken',
-                'previous_institution',
-                'last_year_studied',
-                'qualities_religious_worker'
-            )
-            ->where('applicants.status', '=', 'P')
-            ->orderBy('id','desc')
-            ->paginate(5)->onEachSide(1);
+            $applicant = Applicant::join('personal_information', 'applicants.personal_information_id', '=', 'personal_information.id')
+                ->join('ecclesiastical_information', 'applicants.ecclesiastical_information_id', '=', 'ecclesiastical_information.id')
+                ->join('ministerial_information', 'applicants.ministerial_information_id', '=', 'ministerial_information.id')
+                ->select(
+                    'applicants.id',
+                    'personal_information.id as personal_information_id',
+                    'ecclesiastical_information.id as ecclesiastical_information_id',
+                    'ministerial_information.id as ministerial_information_id',
+                    'applicants.img',
+                    'applicants.created_at',
+                    'personal_information.name',
+                    'last_name',
+                    'email',
+                    'phone',
+                    'address',
+                    'nationality',
+                    'birth_date',
+                    'marital_status',
+                    'mate_name',
+                    'secular_degree',
+                    'current_ocupation',
+                    'is_pastor',
+                    'is_member',
+                    'pastor_phone',
+                    'church_name',
+                    'church_address',
+                    'church_phone',
+                    'district',
+                    'pastor_name',
+                    'licence',
+                    'reference_name_one',
+                    'reference_phone_one',
+                    'reference_name_two',
+                    'reference_phone_two',
+                    'christ_accepted',
+                    'christening_date',
+                    'time_being_member',
+                    'privileges_held',
+                    'denomination',
+                    'study_reason',
+                    'ministry_performed',
+                    'current_ministry',
+                    'full_time',
+                    'ministry_qualification',
+                    'aspirated_ministry',
+                    'reason_aspiring_ministry',
+                    'cicle_to_be_taken',
+                    'previous_institution',
+                    'last_year_studied',
+                    'qualities_religious_worker'
+                )
+                ->where('applicants.status', '=', 'P')
+                ->orderBy('id', 'desc')
+                ->paginate(5)->onEachSide(1);
             return $applicant;
-        }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 500);
         }
     }
 
-    public function denyApplicant(Request $request) {
+    public function denyApplicant(Request $request)
+    {
 
         $deniedApplicant = Applicant::findOrFail($request->applicant_id);
         $deniedApplicant->status = "R";
         if ($deniedApplicant->save() >= 1) {
-            return response()->json(["message" => "Aplicante rechazado"],202);
+            return response()->json(["message" => "Aplicante rechazado"], 202);
         }
-
     }
 
     /**
@@ -376,8 +309,8 @@ class ApplicantController extends Controller
      */
     public function update(Request $request)
     {
-        try{
-        $personalInfo = PersonalInformation:: findOrFail($request->id);
+        try {
+            $personalInfo = PersonalInformation::findOrFail($request->id);
             $personalInfo->name = $request->name;
             $personalInfo->last_name = $request->last_name;
             $personalInfo->email = $request->email;
@@ -390,12 +323,17 @@ class ApplicantController extends Controller
             $personalInfo->secular_degree = $request->secular_degree;
             $personalInfo->current_ocupation = $request->current_ocupation;
             if ($personalInfo->save() <= 0) {
-                return response()->json(['status'=>'OK','data'=>$personalInfo],202);
+                return response()->json(['status' => 'OK', 'data' => $personalInfo], 202);
             }
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 500);
         }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
-        }  
+    }
+
+    public function deleteImage(Request $request)
+    {
+        $route = 'images/users/';
+        unlink($route . $request->imgName);
     }
 
     /**
@@ -404,8 +342,40 @@ class ApplicantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        try {
+            $errors = 0;
+
+            DB::beginTransaction();
+            
+            $applicant = Applicant::findOrFail($request->applicantId);
+            if ($applicant->delete() < 1) $errors++;
+
+            $personalInfo = PersonalInformation::findOrFail($request->personalInfoId);
+            if ($personalInfo->delete() < 1) $errors++; 
+            
+            $ecclesiasticalInfo = EcclesiasticalInformation::findOrFail($request->ecclesiasticalInfoId);
+            if ($ecclesiasticalInfo->delete() < 1) $errors++; 
+            
+            $ministerialInfo = MinisterialInformation::findOrFail($request->ministerialInfoId);
+            if ($ministerialInfo->delete() < 1) $errors++;
+            
+            $route = 'images/users/';
+            if ($request->imgName !== 'no-image.svg') {
+                if (unlink($route . $request->imgName) < 1) $errors++;
+            }
+
+            if ($errors == 0) {
+                DB::commit();
+                return response()->json(['message' => 'Applicant deleted successfully'], 200);
+            } else {
+                DB::rollBack();
+                return response()->json(['message' => 'Applicant could not be deleted'], 400);
+            }
+            
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 500);
+        }
     }
 }

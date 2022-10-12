@@ -59,9 +59,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::get('/getPaymentsS', [PaymentController::class, 'getPaymentsS']);
     Route::get('/getTeacher1', [UserController::class, 'getTeacher1']);
     Route::resource('/aplicante', ApplicantController::class);
-    Route::get('/getPersonalInfo', [ApplicantController::class, 'getPersonalInfo']);
-    Route::get('/getEcclesiasticalInfo', [ApplicantController::class, 'getEcclesiasticalInfo']);
-    Route::get('/getMinisterialInfo', [ApplicantController::class, 'getMinisterialInfo']);
+    Route::get('/getApplicants', [ApplicantController::class, 'show']);
     Route::get('/getrates', [RateController::class, 'getrates']);
     Route::get('/getStudentsByYear', [UserController::class, 'getStudentsPerYear']);
     Route::get('/getCyclesReport', [CycleController::class, 'getCyclesReport']);
@@ -93,10 +91,11 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     Route::get('/getTarifas/{paginate?}', [RateController::class, 'show']);
     Route::get('/getStudent', [UserController::class, 'getStudent']);
     Route::get('/getAplicante', [ApplicantController::class, 'show']);
+    Route::delete('/deleteApplicant', [ApplicantController::class, 'destroy']);
     Route::post('/register', [RegisterController::class,'register']);
     Route::resource('/aplicante', ApplicantController::class);
     Route::post('/inscribir', [UserController::class, 'registerStudent']);
-    Route::put('/rechazar', [ApplicantController::class, 'denyApplicant']);
+    Route::delete('/rechazar', [ApplicantController::class, 'destroy']);
     Route::get('/aplicantes-pendientes', [ApplicantController::class, 'getPendingApplicants']);
     Route::put('/updatePayment', [PaymentController::class, 'update']);
     Route::put('/updateRate', [RateController::class, 'update']);
