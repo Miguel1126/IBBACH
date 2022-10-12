@@ -55,7 +55,7 @@ export default {
                 {title:'Nombre'},
                 {title:'Apellido'},
                 {title:'Codigo'},
-                {title:'Grupo'},
+                {title:'Modaidad'},
                 {title:'Evalucion #1'},
                 {title:'Porcentaje'},
                 {title:'Evalucion #2'},
