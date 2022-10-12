@@ -134,12 +134,11 @@ class PaymentController extends Controller
             ->select(
                 'payments.id',
                 'payments.payment_date',
-                'payments.last_pay_date',
+                'payments.paid_count',
+                'payments.total',
                 'payments.status',
                 'payments.sourcharge',
-                'users.name as student',
-                'users.last_name',
-                'users.code',
+                DB::raw("CONCAT(users.name,' ',users.last_name) AS student"),
                 'rates.price'
             )
             ->where('payments.status', '=', 'pendiente')
@@ -159,12 +158,11 @@ class PaymentController extends Controller
             ->select(
                 'payments.id',
                 'payments.payment_date',
+                'payments.paid_count',
                 'payments.total',
                 'payments.status',
                 'payments.sourcharge',
-                'users.name as student',
-                'users.last_name',
-                'users.code',
+                DB::raw("CONCAT(users.name,' ',users.last_name) AS student"),
                 'rates.price'
             )
             //->where('payments.status', '=', 'solvente')

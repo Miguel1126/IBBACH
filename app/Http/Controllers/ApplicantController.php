@@ -146,6 +146,7 @@ class ApplicantController extends Controller
             ->join('ministerial_information','applicants.ministerial_information_id','=','ministerial_information.id')
             ->select(
                 'applicants.id',
+                'applicants.img',
                 'applicants.created_at',
                 'personal_information.name',
                 'last_name',
@@ -188,7 +189,7 @@ class ApplicantController extends Controller
                 'last_year_studied',
                 'qualities_religious_worker'
             )
-            ->orderBy('id','desc')->get();
+            ->orderBy('id','desc')->paginate(5)->onEachSide(1);
             return $applicant;
         }
         catch (\Exception $e) {
