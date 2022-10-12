@@ -186,7 +186,7 @@ class ApplicantController extends Controller
                 'last_year_studied',
                 'qualities_religious_worker'
             )
-            ->orderBy('id','desc')->get();
+            ->orderBy('id','desc')->paginate(5)->onEachSide(1);;
             return $applicant;
         }
         catch (\Exception $e) {

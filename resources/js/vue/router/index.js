@@ -223,12 +223,12 @@ export const router = createRouter({
           component: AccountManagement
         },
         {
-          path: 'reporte_pagos',
+          path: 'reporte-pagos',
           name: 'PaymentsReport',
           component: PaymentsReport
         },
         {
-          path: 'reporte_aplicantes',
+          path: 'reporte-aplicantes',
           name: 'ApplicantsReports',
           component: ApplicantsReports
         },
