@@ -95,7 +95,7 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     Route::post('/register', [RegisterController::class,'register']);
     Route::resource('/aplicante', ApplicantController::class);
     Route::post('/inscribir', [UserController::class, 'registerStudent']);
-    Route::put('/rechazar', [ApplicantController::class, 'denyApplicant']);
+    Route::delete('/rechazar', [ApplicantController::class, 'destroy']);
     Route::get('/aplicantes-pendientes', [ApplicantController::class, 'getPendingApplicants']);
     Route::put('/updatePayment', [PaymentController::class, 'update']);
     Route::put('/updateRate', [RateController::class, 'update']);
