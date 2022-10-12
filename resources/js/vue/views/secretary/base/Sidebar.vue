@@ -44,11 +44,10 @@ const ToggleMenu = () => {
 				<Link url="AccountManagement" name="Gestión de cuentas" icon="manage_accounts">
 				</Link>
 			</div>
-
-			<div class="flex"></div>
-
+			<h3>Reportes</h3>
 			<div class="menu">
-				<!-- <Link url="/settings" name="Settings" icon="settings"></Link> -->
+				<Link url="Report" name="Reportes" icon="folder_open">
+				</Link>
 			</div>
 		</aside>
 	</div>
