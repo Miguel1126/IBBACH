@@ -46,11 +46,10 @@ const ToggleMenu = () => {
 				<Link url="Notes" name="Notas" icon="note_alt">
 				</Link>
 			</div>
-
-			<div class="flex"></div>
-
+			<h3>Reportes</h3>
 			<div class="menu">
-				<!-- <Link url="/settings" name="Settings" icon="settings"></Link> -->
+				<Link url="report" name="Reportes" icon="folder_open">
+				</Link>
 			</div>
 		</aside>
 	</div>
