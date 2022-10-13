@@ -50,13 +50,12 @@ export default {
         <section class=" p-3 ">
         </section>
         <section class="p-3">
-            <DataTable title="Listado de Ciclos" :headers="[
-                { title: 'Id' },
-                { title: 'Ciclos' },
-                { title: 'Fecha de inicio' },
-                { title: 'Fecha de finalización' },
-                { title: 'Estado' },
-                { title: 'Modalidad' },
+            <DataTable title="Listado de Ciclos" personalized :headers="[
+                { title: 'Ciclos', value: 'cycle' },
+                { title: 'Fecha de inicio', value: 'start_date' },
+                { title: 'Fecha de finalización', value: 'end_date' },
+                { title: 'Estado', value: 'status' },
+                { title: 'Modalidad', value: 'group' },
             ]" :items="cycles">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">

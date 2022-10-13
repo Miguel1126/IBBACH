@@ -69,14 +69,13 @@ export default {
         <section class=" p-3 ">
         </section>
         <section class="p-3">
-            <DataTable title="Listado de Aprobados" :headers="[
-                {title:'Id'},
-                {title:'Nombre'},
-                {title:'Apellido'},
-                {title:'Codigo'},
-                {title:'Asignatura'},
-                {title:'Resultado Final'},
-                {title:'Estado'},
+            <DataTable title="Listado de Aprobados" personalized :headers="[
+                {title:'Nombre', value: 'student'},
+                {title:'Apellido', value: 'last_name'},
+                {title:'Codigo', value: 'code'},
+                {title:'Asignatura', value: 'subject'},
+                {title:'Resultado Final', value: 'finalAverage'},
+                {title:'Estado', value: 'status'},
             ]" :items="notesA">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">
@@ -91,14 +90,13 @@ export default {
             </nav>
         </section>
         <section class="p-3">
-            <DataTable title="Listado de Reprobados" :headers="[
-                {title:'Id'},
-                {title:'Nombre'},
-                {title:'Apellido'},
-                {title:'Codigo'},
-                {title:'Asignatura'},
-                {title:'Resultado Final'},
-                {title:'Estado'},
+            <DataTable title="Listado de Aprobados" personalized :headers="[
+                {title:'Nombre', value: 'student'},
+                {title:'Apellido', value: 'last_name'},
+                {title:'Codigo', value: 'code'},
+                {title:'Asignatura', value: 'subject'},
+                {title:'Resultado Final', value: 'finalAverage'},
+                {title:'Estado', value: 'status'},
             ]" :items="notesR">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinksR.length">

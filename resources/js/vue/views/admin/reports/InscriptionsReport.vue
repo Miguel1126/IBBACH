@@ -67,17 +67,16 @@ export default {
 <template>
     <main>
         <section class="p-3">
-            <DataTable title="Listado de alumnos inscritos en el grupo diurno" :headers="[
-                { title: 'Id' },
-                { title: 'Fecha de registro' },
-                { title: 'Estado' },
-                { title: 'Ciclo' },
-                { title: 'Modalidad' },
-                { title: 'Alumno' },
-                { title: 'Apellido' },
-                { title: 'Codigo' },
-                { title: 'Asignatura' },
-                { title: 'Descripcion' }
+            <DataTable title="Listado de alumnos inscritos en el grupo diurno" personalized="" :headers="[
+                { title: 'Fecha de registro', value: 'created_at'},
+                { title: 'Estado', value: 'status' },
+                { title: 'Ciclo', value: 'cycle' },
+                { title: 'Modalidad', value: 'group' },
+                { title: 'Alumno', value: 'name' },
+                { title: 'Apellido', value: 'last_name' },
+                { title: 'Codigo', value: 'code'},
+                { title: 'Asignatura', value: 'subject'},
+                { title: 'Descripcion', value: 'description'}
             ]" :items="inscriptionsD">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinksD.length">
@@ -93,17 +92,16 @@ export default {
             </nav>
         </section>
         <section class="p-3">
-            <DataTable title="Listado de alumnos inscritos en el grupo sabatino" :headers="[
-                { title: 'Id' },
-                { title: 'Fecha de registro' },
-                { title: 'Estado' },
-                { title: 'Ciclo' },
-                { title: 'Grupo' },
-                { title: 'Alumno' },
-                { title: 'Apellido' },
-                { title: 'Codigo' },
-                { title: 'Asignatura' },
-                { title: 'Descripcion' }
+            <DataTable title="Listado de alumnos inscritos en el grupo sabatino" personalized="" :headers="[
+                { title: 'Fecha de registro', value: 'created_at'},
+                { title: 'Estado', value: 'status' },
+                { title: 'Ciclo', value: 'cycle' },
+                { title: 'Modalidad', value: 'group' },
+                { title: 'Alumno', value: 'name' },
+                { title: 'Apellido', value: 'last_name' },
+                { title: 'Codigo', value: 'code'},
+                { title: 'Asignatura', value: 'subject'},
+                { title: 'Descripcion', value: 'description'}
             ]" :items="inscriptionsS">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinksS.length">

@@ -48,26 +48,25 @@ export default {
         <section class=" p-3 ">
         </section>
         <section class="p-3">
-            <DataTable title="Listado de notas" :headers="[
-                {title:'Id'},
-                {title:'Ciclo'},
-                {title:'Asignatura'},
-                {title:'Nombre'},
-                {title:'Apellido'},
-                {title:'Codigo'},
-                {title:'Modaidad'},
-                {title:'Evalucion #1'},
-                {title:'Porcentaje'},
-                {title:'Evalucion #2'},
-                {title:'Porcentaje'},
-                {title:'Evalucion #3'},
-                {title:'Porcentaje'},
-                {title:'Evalucion #4'},
-                {title:'Porcentaje'},
-                {title:'Evalucion #5'},
-                {title:'Porcentaje'},
-                {title:'Resultado Final'},
-                {title:'Estado'},
+            <DataTable title="Listado de notas" personalized :headers="[
+                {title:'Ciclo', value: 'cycle'},
+                {title:'Asignatura', value: 'subject'},
+                {title:'Nombre', value: 'name'},
+                {title:'Apellido', value: 'last_name'},
+                {title:'Codigo', value: 'code'},
+                {title:'Modaidad', value: 'group'},
+                {title:'Evalucion #1', value: 'ev1'},
+                {title:'Porcentaje', value: 'percentege1'},
+                {title:'Evalucion #2', value: 'ev2'},
+                {title:'Porcentaje', value: 'percentege2'},
+                {title:'Evalucion #3', value: 'ev3'},
+                {title:'Porcentaje', value: 'percentege3'},
+                {title:'Evalucion #4', value: 'ev4'},
+                {title:'Porcentaje', value: 'percentege4'},
+                {title:'Evalucion #5', value: 'ev5'},
+                {title:'Porcentaje', value: 'percentege5'},
+                {title:'Resultado Final', value: 'finalAverage'},
+                {title:'Estado', value: 'status'},
             ]" :items="notes">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">

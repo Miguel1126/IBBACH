@@ -89,7 +89,7 @@ class UserController extends Controller
     public function getteachers()
     {
         try {
-            $teacher = User::select('users.id', 'users.name as admin', 'users.last_name', 'users.code', 'users.status', 'role')
+            $teacher = User::select('users.id', 'users.name as teacher', 'users.last_name', 'users.code', 'users.status', 'role')
                 ->where('users.role', '=', 'docente')
                 ->orderBy('id', 'desc')->paginate(5)->onEachSide(1);
             return $teacher;
@@ -101,7 +101,7 @@ class UserController extends Controller
     public function getStudents()
     {
         try {
-            $student = User::select('users.id', 'users.name as admin', 'users.last_name', 'users.code', 'users.status', 'role')
+            $student = User::select('users.id', 'users.name as student', 'users.last_name', 'users.code', 'users.status', 'role')
                 ->where('users.role', '=', 'alumno')
                 ->orderBy('id', 'desc')->paginate(5)->onEachSide(1);
             return $student;
@@ -159,7 +159,7 @@ class UserController extends Controller
     public function getTeacher1()
     {
         try {
-            $teacher = User::select('users.id', 'users.name as admin', 'users.last_name', 'users.code', 'users.status', 'role')
+            $teacher = User::select('users.id', 'users.name as teacher', 'users.last_name', 'users.code', 'users.status', 'role')
                 ->where('users.role', '=', 'docente')
                 ->orderBy('id', 'desc')->get();
             return $teacher;

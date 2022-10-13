@@ -48,12 +48,11 @@ export default {
     <section class=" p-">
         </section>
         <section class="p-3">
-            <DataTable :title="'Listado de Docentes - Total: '" :headers="[
-                {title:'Id'},
-                {title:'Nombre'},
-                {title:'Apellido'},
-                {title:'Codigo'},
-                {title:'Estado'},
+            <DataTable :title="'Listado de Docentes - Total: '" personalized :headers="[
+                {title:'Nombre', value: 'teacher'},
+                {title:'Apellido', value: 'last_name'},
+                {title:'Codigo', value: 'code'},
+                {title:'Estado', value: 'status'},
             ]" :items="teachers">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">

@@ -45,11 +45,10 @@ export default {
         <section class=" p-3 ">
         </section>
         <section class="p-3">
-            <DataTable title="Listado de Materias" :headers="[
-                { title: 'Id' },
-                { title: 'Asignaturas' },
-                { title: 'Descripcion' },
-                { title: 'Estado' },
+            <DataTable title="Listado de Materias" personalized :headers="[
+                { title: 'Asignaturas', value: 'subject' },
+                { title: 'Descripcion', value: 'description' },
+                { title: 'Estado', value: 'status'},
             ]" :items="subjects">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">
