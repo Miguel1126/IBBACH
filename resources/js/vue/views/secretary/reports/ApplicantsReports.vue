@@ -60,7 +60,7 @@ export default {
                 { title: 'Foto', value: 'extra' }
             ]" :items="Applicant">
             <template #actions="item">
-                <img style="width: 200px; height: 200px"  :src="`${siteUrl}/images/users/${item.item.img}`" />
+                <img style="width: 100px; height: 100px"  :src="`${siteUrl}/images/users/${item.item.img}`" />
             </template>
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">
