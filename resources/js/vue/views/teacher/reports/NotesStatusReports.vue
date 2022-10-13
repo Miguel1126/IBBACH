@@ -22,7 +22,7 @@ export default {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
-                const response = await this.axios.get('/api/getEstadoA?page=' + pageNumber);
+                const response = await this.axios.get('/api/getEstadoApr?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === "object") {
                         this.notesA = response.data.data;
@@ -44,7 +44,7 @@ export default {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
-                const response = await this.axios.get('/api/getEstadoR?page=' + pageNumber);
+                const response = await this.axios.get('/api/getEstadoRep?page=' + pageNumber);
                 if (response.status === 200) {
                     if (typeof (response.data) === "object") {
                         this.notesR = response.data.data;
@@ -69,13 +69,14 @@ export default {
         <section class=" p-3 ">
         </section>
         <section class="p-3">
-            <DataTable title="Listado de Aprobados" personalized :headers="[
-                {title:'Nombre', value: 'student'},
-                {title:'Apellido', value: 'last_name'},
-                {title:'Codigo', value: 'code'},
-                {title:'Asignatura', value: 'subject'},
-                {title:'Resultado Final', value: 'finalAverage'},
-                {title:'Estado', value: 'status'},
+            <DataTable title="Listado de Aprobados" :headers="[
+                {title:'Id'},
+                {title:'Nombre'},
+                {title:'Apellido'},
+                {title:'Codigo'},
+                {title:'Asignatura'},
+                {title:'Resultado Final'},
+                {title:'Estado'},
             ]" :items="notesA">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">
@@ -90,13 +91,14 @@ export default {
             </nav>
         </section>
         <section class="p-3">
-            <DataTable title="Listado de Aprobados" personalized :headers="[
-                {title:'Nombre', value: 'student'},
-                {title:'Apellido', value: 'last_name'},
-                {title:'Codigo', value: 'code'},
-                {title:'Asignatura', value: 'subject'},
-                {title:'Resultado Final', value: 'finalAverage'},
-                {title:'Estado', value: 'status'},
+            <DataTable title="Listado de Reprobados" :headers="[
+                {title:'Id'},
+                {title:'Nombre'},
+                {title:'Apellido'},
+                {title:'Codigo'},
+                {title:'Asignatura'},
+                {title:'Resultado Final'},
+                {title:'Estado'},
             ]" :items="notesR">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinksR.length">

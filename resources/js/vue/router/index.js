@@ -82,6 +82,7 @@ import StudentsperYear from '../views/secretary/reports/StudentsperYearReports.v
  * secretary's reports
  */
 import AssistanceReport from '../views/teacher/reports/AssistanceReports.vue'
+import NoteStatusReports from '../views/teacher/reports/NotesStatusReports.vue'
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -272,6 +273,11 @@ export const router = createRouter({
           path: 'reporte-Asistencias',
           name: 'AssistanceReports',
           component: AssistanceReport
+        },
+        {
+          path: 'reporte-notas',
+          name: 'NotesStatusReports',
+          component: NoteStatusReports
         },
         {
           path: 'notas',

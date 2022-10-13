@@ -11,20 +11,20 @@ export default {
     },
     data() {
         return {
-            Teachers:[],
-            Students:[],
-            Admin:[],
+            Teachers: [],
+            Students: [],
+            Admin: [],
             paginationLinksT: [],
             paginationLinksA: [],
             paginationLinksSe: [],
             paginationLinksS: [],
-            Secre:[]
+            Secre: []
         };
     },
     methods: {
         async getTeachers(pageNumber, firstTeachers = false) {
-            if(firstTeachers) this.Teachers[0] = 'loading'
-            if(typeof (pageNumber) == 'string'){
+            if (firstTeachers) this.Teachers[0] = 'loading'
+            if (typeof (pageNumber) == 'string') {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
@@ -35,18 +35,18 @@ export default {
                         this.paginationLinksT = response.data.links
                     }
                     else {
-                        this.Teachers[0]='error'
+                        this.Teachers[0] = 'error'
                     }
                 }
             }
             catch (error) {
                 handleErrors(error)
-                this.Teachers[0]='error'
+                this.Teachers[0] = 'error'
             }
         },
-         async getStudents(pageNumber, firstStudents = false) {
-            if(firstStudents) this.Students[0] = 'loading'
-            if(typeof (pageNumber) == 'string'){
+        async getStudents(pageNumber, firstStudents = false) {
+            if (firstStudents) this.Students[0] = 'loading'
+            if (typeof (pageNumber) == 'string') {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
@@ -67,8 +67,8 @@ export default {
             }
         },
         async getAdmin(pageNumber, firstAdmin = false) {
-            if(firstAdmin) this.Admin[0] = 'loading'
-            if(typeof (pageNumber) == 'string'){
+            if (firstAdmin) this.Admin[0] = 'loading'
+            if (typeof (pageNumber) == 'string') {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
@@ -89,8 +89,8 @@ export default {
             }
         },
         async getSecre(pageNumber, firstSecre = false) {
-            if(firstSecre) this.Secre[0] = 'loading'
-            if(typeof (pageNumber) == 'string'){
+            if (firstSecre) this.Secre[0] = 'loading'
+            if (typeof (pageNumber) == 'string') {
                 pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
             }
             try {
@@ -116,92 +116,93 @@ export default {
 </script>
 <template>
     <main>
-                <section class="p-3">
-            <DataTable title="Listado de usuarios secretaria" :headers="[
-                { title: 'Id' },
-                { title: 'Nombre' },
-                { title: 'Apellido' },
-                { title: 'Codigo' },
-                { title: 'Estado'},
-                { title: 'Rol'}
+        <section class="p-3">
+            <DataTable title="Listado de usuarios secretaria" personalized :headers="[
+                { title: 'Nombre', value: 'secretary'},
+                { title: 'Apellido', value: 'last_name'},
+                { title: 'Codigo', value: 'code'},
+                { title: 'Estado', value: 'status'},
+                { title: 'Rol', value: 'role'}
             ]" :items="Secre">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinksSe.length">
                 <ul class="pagination">
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinksSe" :key="page">
-                        <span class="page-link" @click.prevent="getSecre(page.url)">{{ page.label == 'pagination.previous'
-                                ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        <span class="page-link" @click.prevent="getSecre(page.url)">{{ page.label ==
+                        'pagination.previous'
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
                     </li>
                 </ul>
-                </nav>
+            </nav>
         </section>
         <section class="p-3">
-            <DataTable title="Listado de usuarios docentes" :headers="[
-                { title: 'Id' },
-                { title: 'Nombre' },
-                { title: 'Apellido' },
-                { title: 'Codigo' },
-                { title: 'Estado'},
-                { title: 'Rol'}
+            <DataTable title="Listado de usuarios docentes" personalized :headers="[
+                { title: 'Nombre', value: 'teacher'},
+                { title: 'Apellido', value: 'last_name'},
+                { title: 'Codigo', value: 'code'},
+                { title: 'Estado', value: 'status'},
+                { title: 'Rol', value: 'role'}
             ]" :items="Teachers">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinksT.length">
                 <ul class="pagination">
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinksT" :key="page">
-                        <span class="page-link" @click.prevent="getTeachers(page.url)">{{ page.label == 'pagination.previous'
-                                ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        <span class="page-link" @click.prevent="getTeachers(page.url)">{{ page.label ==
+                        'pagination.previous'
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
                     </li>
                 </ul>
-                </nav>
+            </nav>
         </section>
-         <section class="p-3">
-            <DataTable title="Listado de usuarios alumnos" :headers="[
-                { title: 'Id' },
-                { title: 'Nombre' },
-                { title: 'Apellido' },
-                { title: 'Codigo' },
-                { title: 'Estado'},
-                { title: 'Rol'}
+        <section class="p-3">
+            <DataTable title="Listado de usuarios alumnos" personalized :headers="[
+                { title: 'Nombre', value: 'student'},
+                { title: 'Apellido', value: 'last_name'},
+                { title: 'Codigo', value: 'code'},
+                { title: 'Estado', value: 'status'},
+                { title: 'Rol', value: 'role'}
             ]" :items="Students">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinksS.length">
                 <ul class="pagination">
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinksS" :key="page">
-                        <span class="page-link" @click.prevent="getStudents(page.url)">{{ page.label == 'pagination.previous'
-                                ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        <span class="page-link" @click.prevent="getStudents(page.url)">{{ page.label ==
+                        'pagination.previous'
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
                     </li>
                 </ul>
-                </nav>
+            </nav>
         </section>
         <section class="p-3">
-            <DataTable title="Listado de usuarios administrador" :headers="[
-                { title: 'Id' },
-                { title: 'Nombre' },
-                { title: 'Apellido' },
-                { title: 'Codigo' },
-                { title: 'Estado'},
-                { title: 'Rol'}
+            <DataTable title="Listado de usuarios administrador" personalized :headers="[
+                { title: 'Nombre', value: 'admin'},
+                { title: 'Apellido', value: 'last_name'},
+                { title: 'Codigo', value: 'code'},
+                { title: 'Estado', value: 'status'},
+                { title: 'Rol', value: 'role'}
             ]" :items="Admin">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinksA.length">
                 <ul class="pagination">
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinksA" :key="page">
-                        <span class="page-link" @click.prevent="getAdmin(page.url)">{{ page.label == 'pagination.previous'
-                                ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        <span class="page-link" @click.prevent="getAdmin(page.url)">{{ page.label ==
+                        'pagination.previous'
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
                     </li>
                 </ul>
-                </nav>
+            </nav>
         </section>
     </main>
 </template>
 
 <style scoped>
+
 </style>

@@ -116,14 +116,13 @@ export default {
 <template>
     <main>
         <section class=" p-3 ">
-            <DataTable title="Listado de Carga Academica" :headers="[
-                { title: 'id'},
-                { title: 'Estado'},
-                { title: 'Ciclo' },
-                { title: 'Docente' },
-                { title: 'Asignaturas' },
-                { title: 'Hora de inicio' },
-                { title: 'Hora de finalizacion' },
+            <DataTable title="Listado de cargas academicas" personalized :headers="[
+                { title: 'Estado', value: 'status' },
+                { title: 'Ciclos', value: 'cycle' },
+                { title: 'Docente', value: 'teacher' },
+                { title: 'Asignatura', value: 'subject' },
+                { title: 'Hora de inicio', value: 'start_time' },
+                { title: 'Hora de finalizacion', value: 'end_time' },
             ]" :items="loads">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">

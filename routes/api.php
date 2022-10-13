@@ -135,6 +135,8 @@ Route::middleware(['auth:sanctum', 'docente'])->group(function(){
     Route::put('/updateAssistance',[AssistanceController::class, 'update']);
     Route::put('/updateNote',[NoteController::class, 'update']);
     Route::get('/getAssistance', [AssistanceController::class, 'getAssistances']);
+    Route::get('/getEstadoApr', [UserController::class, 'getStudentA']);
+    Route::get('/getEstadoRep', [UserController::class, 'getStudentR']);
 
 });
 

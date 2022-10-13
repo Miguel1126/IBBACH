@@ -6,7 +6,8 @@ export default {
     data() {
         return {
             reports: [
-                { icon: 'group', name: 'Reporte de Asistencias', url: 'AssistanceReports' },
+                { icon: 'assignment_ind', name: 'Reporte de Asistencias', url: 'AssistanceReports' },
+                { icon: 'school', name: 'Reporte de Notas', url: 'NotesStatusReports' },
             ]
         }
     }
@@ -15,7 +16,7 @@ export default {
 <template>
     <main>
         <div class="container text-light">
-            <h1 class="h1 mb-4 text-center border-bottom border-secondary p-3">Reportes de la secretaria</h1>
+            <h1 class="h1 mb-4 text-center border-bottom border-secondary p-3">Reportes del docente</h1>
             <div class="row gap-3 justify-content-center">
                 <div class="col col-sm-3" v-for="report in reports" :key="report">
                     <div class="card border border-secondary w-100 p-3">
