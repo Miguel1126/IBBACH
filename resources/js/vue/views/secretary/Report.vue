@@ -8,6 +8,7 @@ export default {
             reports: [
                 { icon: 'payments', name: 'Reporte de pagos', url: 'PaymentsReport' },
                 { icon: 'group', name: 'Reporte de aplicantes', url: 'ApplicantsReports' },
+                { icon: 'group', name: 'Reporte de alumnos', url: 'StudentsperYearReports' },
             ]
         }
     }
