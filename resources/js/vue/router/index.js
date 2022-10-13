@@ -40,6 +40,7 @@ import Teacher from '../views/teacher/base/Teacher.vue'
 import TestTeacher from '../views/teacher/TestTeacher.vue'
 import Assistances from '../views/teacher/Assistances.vue'
 import Notes from '../views/teacher/Notes.vue'
+import report from '../views/teacher/report.vue'
 
 /**
  * Components for student view
@@ -76,7 +77,11 @@ import StudentsPerYear from '../views/admin/reports/StudentsPerYearReport.vue'
  */
 import PaymentsReport from '../views/secretary/reports/PaymentsReport.vue'
 import ApplicantsReports from '../views/secretary/reports/ApplicantsReports.vue'
-
+import StudentsperYear from '../views/secretary/reports/StudentsperYearReports.vue'
+/**
+ * secretary's reports
+ */
+import AssistanceReport from '../views/teacher/reports/AssistanceReports.vue'
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -232,6 +237,11 @@ export const router = createRouter({
           name: 'ApplicantsReports',
           component: ApplicantsReports
         },
+        {
+          path: 'reporte-alumnos',
+          name: 'StudentsperYearReports',
+          component: StudentsperYear
+        },
       ]
     },
     {
@@ -252,6 +262,16 @@ export const router = createRouter({
           path: 'asistencias',
           name: 'Assistances',
           component: Assistances
+        },
+        {
+          path: 'reportes',
+          name: 'report',
+          component: report
+        },
+        {
+          path: 'reporte-Asistencias',
+          name: 'AssistanceReports',
+          component: AssistanceReport
         },
         {
           path: 'notas',

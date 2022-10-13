@@ -110,6 +110,7 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     Route::get('/getAplicantes', [ApplicantController::class, 'show']);
     Route::get('/getEcclesiasticalInform', [ApplicantController::class, 'getEcclesiasticalInfo']);
     Route::get('/getMinisterialInform', [ApplicantController::class, 'getMinisterialInfo']);
+    Route::get('/getStudentsYear', [UserController::class, 'getStudentsPerYear']);
 });
 
 
@@ -133,6 +134,7 @@ Route::middleware(['auth:sanctum', 'docente'])->group(function(){
     Route::get('/getInscriptions', [InscriptionController::class, 'show']);  
     Route::put('/updateAssistance',[AssistanceController::class, 'update']);
     Route::put('/updateNote',[NoteController::class, 'update']);
+    Route::get('/getAssistance', [AssistanceController::class, 'getAssistances']);
 
 });
 
