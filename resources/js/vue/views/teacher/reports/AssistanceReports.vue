@@ -63,14 +63,13 @@ export default {
         <section class=" p-3 ">
         </section>
         <section class="p-3">
-            <DataTable title="Listado de asistencia" :headers="[
-                {title:'Id'},
-                {title:'Fecha de asistencia'},
-                {title:'Asignatura'},
-                {title:'Estado'},
-                {title:'Alumno'},
-                {title:'Apellido'},
-                {title:'Codigo'},
+            <DataTable title="Listado de asistencia" personalized :headers="[
+                {title:'Fecha de asistencia', value: 'date'},
+                {title:'Asignatura', value: 'subject'},
+                {title:'Estado', value: 'status'},
+                {title:'Alumno', value: 'name'},
+                {title:'Apellido', value: 'last_name'},
+                {title:'Codigo', value: 'code'},
 
             ]" :items="assistances">
             </DataTable>
