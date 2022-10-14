@@ -8,26 +8,34 @@ export default {
     },
     data() {
         return {
-            students: []
+            students: [],
+            paginationLinks: []
         }
     },
     methods: {
-        async getStudents() {
-            this.students[0] = 'loading'
+        async getStudents(pageNumber, firstStudents = false) {
+            if (firstStudents) this.students[0] = 'loading'
+            if (typeof (pageNumber) == 'string') {
+                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+            }
             try {
-                const response = await this.axios.get('/api/getStudentsYear')
+                const response = await this.axios.get('/api/getStudentsYear?page=' + pageNumber)
                 if (response.status === 200) {
-                    this.students = response.data
-                }
-                else {
-                    this.students[0] = 'error'
+                    if (typeof (response.data) === "object") {
+                        this.students = response.data.data;
+                        this.paginationLinks = response.data.links
+                    }
+                    else {
+                        this.students[0] = 'error'
+                    }
                 }
             }
             catch (error) {
                 this.students[0] = 'error'
                 handleErrors(error)
             }
-        }
+        },
+        
     },
     components: { DataTable }
 }
@@ -40,6 +48,18 @@ export default {
                 {title: 'Apellidos', value: 'last_name'},
                 {title: 'Código', value: 'code'},
                 {title: 'Fecha de inscripción', value: 'created_at'}
-            ]" :items="students"></DataTable>
+            ]" :items="students">
+        </DataTable>
+        <nav aria-label="Page navigation example" v-if="paginationLinks.length">
+                <ul class="pagination">
+                    <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
+                        v-for="page in paginationLinks" :key="page">
+                        <span class="page-link" @click.prevent="getStudents(page.url)">{{ page.label ==
+                        'pagination.previous'
+                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        }}</span>
+                    </li>
+                </ul>
+            </nav>
     </main>
 </template>
