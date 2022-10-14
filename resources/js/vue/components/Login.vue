@@ -1,5 +1,4 @@
 <script>
-import { clearTokens } from '../js/clear_tokens'
 import { useVuelidate } from '@vuelidate/core'
 import { required, alphaNum, helpers  } from '@vuelidate/validators'
 export default {
@@ -141,7 +140,7 @@ export default {
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
         <div class="card bg-dark mt-5 text-white" style="border-radius: 1rem;">
-          <div class="card-body p-5 text-center">
+          <div class="card-body p-5 text-center card-login">
             <form @submit.prevent="handleSubmit" class="mb-md-2 mt-md-4 pb-5">
               <h2 class="fw-bold fs-2 mb-5 text-uppercase">Iniciar Sesión</h2>
               <div class="form-outline form-white mb-4">
@@ -149,10 +148,10 @@ export default {
                   v-model="credentials.code"  />
                   <span class="text-danger" v-if="v$.credentials.code.$error">{{ v$.credentials.code.$errors[0].$message}}</span>
               </div>
-              <div class="form-outline form-white mb-4 d-flex">
+              <div class="form-outline form-white mb-4 d-flex justify-content-end align-items-center">
                 <input :type="type" id="passwd" class="form-control form-control-lg" maxlength="15" placeholder="Contraseña"
                   v-model="credentials.password"  />
-                  <span class="text-black visibility-btn" :title="title" @click="toggleVisibility"><i
+                  <span class="text-black visibility-btn me-3" :title="title" @click="toggleVisibility"><i
                     class="material-icons d-flex align-items-center justify-content-center">{{ icon }}</i></span>
                   </div>
                   <div>
@@ -166,7 +165,7 @@ export default {
               </span>
             </form>
           </div>
-          <div class="d-flex justify-content-center text-secondary">
+          <div class="d-flex justify-content-center text-center text-secondary">
             <p>Instituto Bíblico Betel Anexo Chalatenango • <router-link class="text-secondary" to="/">IBBACH
               </router-link>
             </p>
@@ -181,8 +180,18 @@ export default {
   cursor: pointer;
   user-select: none;
   position: absolute;
-  top: 14.8rem;
-  right: 4rem;
+}
+
+@media (max-width: 450px) {
+  .card-login {
+    padding: 2rem !important;
+}
+}
+
+@media (max-width: 320px) {
+  .card-login {
+    padding: 2rem 1rem 2rem 1rem !important;
+}
 }
 
 .dot-pulse {
