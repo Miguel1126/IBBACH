@@ -8,12 +8,12 @@ use App\Models\Group;
 
 class CycleController extends Controller
 {
-  
+
     public function index()
     {
         //
     }
-     /**
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -31,22 +31,21 @@ class CycleController extends Controller
      */
     public function store(Request $request)
     {
-        try{
+        try {
             $cycle = new Cycle();
             if (Cycle::where('cycle', '=', $request->input('cycle'))->where('group_id', '=', $request->input('group_id'))->exists()) {
-                return response()->json(["message" => "El ciclo ya existe"],302);
-            }
-            else {
+                return response()->json(["message" => "El ciclo ya existe"], 302);
+            } else {
                 $cycle->cycle = $request->cycle;
                 $cycle->start_date = $request->start_date;
                 $cycle->end_date = $request->end_date;
                 $cycle->group_id = $request->group_id;
-                if($cycle->save()>=1){
-                    return response()->json(['status'=>'OK','data'=>$cycle],201);
+                if ($cycle->save() >= 1) {
+                    return response()->json(['status' => 'OK', 'data' => $cycle], 201);
                 }
             }
-        }catch(\Exception $e){
-            return response()->json(["message" => $e->getMessage()],500);
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 500);
         }
     }
     /**
@@ -61,24 +60,21 @@ class CycleController extends Controller
         try {
             if ($paginate === 'paginate') {
                 $cycle = Cycle::join('groups', 'cycles.group_id', '=', 'groups.id')
-                ->select('cycles.id', 'cycles.cycle', 'cycles.start_date', 'cycles.end_date', 'cycles.status', 'groups.id as groupId', 'groups.group')
-                ->orderBy('id', 'desc')
-                ->paginate(5)->onEachSide(1);
+                    ->select('cycles.id', 'cycles.cycle', 'cycles.start_date', 'cycles.end_date', 'cycles.status', 'groups.id as groupId', 'groups.group')
+                    ->orderBy('id', 'desc')
+                    ->paginate(5)->onEachSide(1);
                 return $cycle;
-            }
-            else if (!$paginate) {
+            } else if (!$paginate) {
                 $cycle = Cycle::join('groups', 'cycles.group_id', '=', 'groups.id')
-                ->select('cycles.id', 'cycles.cycle', 'cycles.start_date', 'cycles.end_date', 'cycles.status', 'groups.group')
-                ->orderBy('id', 'desc')
-                ->get();
+                    ->select('cycles.id', 'cycles.cycle', 'cycles.start_date', 'cycles.end_date', 'cycles.status', 'groups.group')
+                    ->orderBy('id', 'desc')
+                    ->get();
                 return $cycle;
+            } else {
+                return response()->json(["message" => "Argument '" . $paginate . "' does not exist"], 404);
             }
-            else {
-                return response()->json(["message" => "Argument '". $paginate . "' does not exist"],404);
-            }
-        }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 500);
         }
     }
 
@@ -86,13 +82,12 @@ class CycleController extends Controller
     {
         try {
             $cycle = Cycle::join('groups', 'cycles.group_id', '=', 'groups.id')
-            ->select('cycles.id', 'cycles.cycle', 'cycles.start_date', 'cycles.end_date', 'cycles.status', 'groups.group')
-            ->orderBy('id', 'desc')
-            ->paginate(5)->onEachSide(1);
+                ->select('cycles.id', 'cycles.cycle', 'cycles.start_date', 'cycles.end_date', 'cycles.status', 'groups.group')
+                ->orderBy('id', 'desc')
+                ->paginate(5)->onEachSide(1);
             return $cycle;
-        }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 500);
         }
     }
 
@@ -116,22 +111,18 @@ class CycleController extends Controller
      */
     public function update(Request $request)
     {
-        try{
-            $cycle = Cycle:: findOrFail($request->id);
-            if (Cycle::where('cycle', '=', $request->input('cycle'))->where('group_id', '=', $request->input('group_id'))->exists()) {
-                return response()->json(["status" => 302,"message" => "El ciclo ya existe"],302);
+        try {
+            $cycle = Cycle::findOrFail($request->id);
+            $cycle->cycle = $request->cycle;
+            $cycle->start_date = $request->start_date;
+            $cycle->end_date = $request->end_date;
+            $cycle->group_id = $request->group_id;
+            $cycle->status = $request->status;
+            if ($cycle->save() >= 1) {
+                return response()->json(['status' => 'ok', 'data' => $cycle], 202);
             }
-            else {
-                $cycle->cycle = $request->cycle;
-                $cycle->start_date = $request->start_date;
-                $cycle->end_date = $request->end_date;
-                $cycle->group_id = $request->group_id;
-                if($cycle->save()>=1){
-                    return response()->json(['status'=>'ok','data'=>$cycle],202);
-                }
-            }
-        }catch(\Exception $e){
-            return response()->json(["message" => $e->getMessage()],500);
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 500);
         }
     }
 
@@ -145,5 +136,4 @@ class CycleController extends Controller
     {
         //
     }
-
 }

@@ -15,6 +15,7 @@ export default {
             start_dateUp: '',
             end_dateUp: '',
             groupUp: '',
+            statusUp: '',
             cycle: '',
             groupSelected: '',
             start_date: '',
@@ -100,7 +101,8 @@ export default {
                             cycle: this.cycleUp,
                             start_date: this.start_dateUp,
                             end_date: this.end_dateUp,
-                            group_id: this.groupUp
+                            group_id: this.groupUp,
+                            status: this.statusUp,
                         })
 
                     if (response.status === 202) {
@@ -151,7 +153,7 @@ export default {
                             cycle: this.cycle,
                             start_date: this.start_date,
                             end_date: this.end_date,
-                            group_id: this.groupSelected
+                            group_id: this.groupSelected,
                         })
 
                     if (response.status === 201) {
@@ -205,10 +207,6 @@ export default {
     },
     setup() {
         document.title = "IBBACH | Ciclos"
-    },
-    mounted() {
-        this.getCycles()
-        this.getGroups()
     },
     components: { DataTable, LoadingDots }
 }
@@ -300,6 +298,13 @@ export default {
                                         <label class="d-inline-block text-dark">Fecha de finalización</label>
                                         <input type="date" class="form-control inputs" v-model="end_dateUp" />
                                     </div>
+                                    <div class="m-3">
+                                        <label class="d-inline-block text-dark">Estado</label>
+                                        <select class="form-select inputs" v-model="statusUp" required>
+                                            <option value="I">Inactivo</option>
+                                            <option value="A">Activo</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -335,7 +340,7 @@ export default {
             ]" :items="cycles">
                 <template #actions="item">
                     <button type="button"
-                        @click="id = item.item.id; cycleUp = item.item.cycle; groupUp = item.item.groupId; start_dateUp = unFormateDate(item.item.start_date); end_dateUp = unFormateDate(item.item.end_date); "
+                        @click="id = item.item.id; cycleUp = item.item.cycle; groupUp = item.item.groupId; start_dateUp = unFormateDate(item.item.start_date); end_dateUp = unFormateDate(item.item.end_date); statusUp = item.item.status;"
                         class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#Modal">Modificar</button>
                     <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
