@@ -11,6 +11,8 @@ const userStore = useUserStore()
 
 const loading = ref(false)
 
+const siteUrl = window.location.origin
+
 const closeSession = async () => {
     loading.value = true
 
@@ -33,7 +35,8 @@ const closeSession = async () => {
 <template>
     <div class="dropdown profile-info">
         <button class="profile-button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-            <img src="https://pbs.twimg.com/profile_images/1467668510893559812/dOiA_l1Z_400x400.jpg" alt="">
+            <img v-if="userStore.user.img" class="img-fluid" :src="`${siteUrl}/images/users/${userStore.user.img}`" />
+            <img v-else class="img-fluid" :src="`${siteUrl}/images/users/no-image.svg`" />
         </button>
         <div class="dropdown-menu p-4">
             <h5>{{ userStore.user.name }} {{ userStore.user.last_name }}</h5>
