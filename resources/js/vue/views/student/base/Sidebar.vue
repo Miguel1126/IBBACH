@@ -39,9 +39,13 @@ const ToggleMenu = () => {
 
 			<h3>Menu</h3>
 			<div class="menu">
-				<Link url="Testest" name="Test" icon="home">
+				<Link url="StudentHome" name="Home" icon="home">
 				</Link>
-				<Link url="Inscription" name="Inscription" icon="app_registration">
+				<Link url="StudentNotes" name="Consulta de Notas" icon="list_alt">
+				</Link>
+				<Link url="Inscription" name="Inscripción de Ciclos" icon="bookmark_add">
+				</Link>
+				<Link url="StudentSchedules" name="Consulta de Horarios" icon="today">
 				</Link>
 
 			</div>
