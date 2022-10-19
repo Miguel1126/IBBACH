@@ -152,13 +152,12 @@ Route::middleware(['auth:sanctum', 'docente'])->group(function(){
 
 
 Route::middleware(['auth:sanctum', 'alumno'])->group(function(){
-    
-    Route::get('students', [UserController::class, 'getStudent']);
-    Route::get('/getCarga', [InscriptionController::class, 'getLoad']);
-    Route::resource('/inscripciones', InscriptionController::class);
-    Route::get('/getInscripcion', [InscriptionController::class, 'show']);
-    Route::put('/updateInscription',[InscriptionController::class, 'update']);
-    Route::put('/updateApplicant', [ApplicantController::class, 'update']);
+    Route::get('/get-student-info/{applicantId}', [ApplicantController::class, 'getApplicantInfo']);
+    Route::get('/get-inscription', [InscriptionController::class, 'getStudentInscription']);
+    Route::get('/inscription-cycles', [InscriptionController::class, 'getInscriptionCycles']);
+    Route::post('/inscribe', [InscriptionController::class, 'store']);
+    Route::get('/get-schedules/{cycleId}', [ScheduleController::class, 'getStudentSchedules']);
+
 });
 
 
