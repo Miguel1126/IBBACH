@@ -1,176 +1,132 @@
 <script>
-import DataTable from '../../components/DataTable.vue'
+import { formatDate } from '../../js/format_time';
 import { handleErrors } from '../../js/handle_error';
+import LoadingDots from '../../components/LoadingDots.vue';
+
 export default {
-    mounted() {
-        this.getStudents(1, true);
-        this.getLoads(1, true);
-        this.getInscriptions(1, true);
-    },
     data() {
         return {
-            date: "",
-            statuses: [
-                { id: 1, status: "Inscrito" },
-                { id: 2, status: "Sin inscribir" }
-            ],
-            statusSelected: [],
-            students: [],
-            studentSelected: [],
+            cycle: {},
             subjects: [],
-            subjectSelected: [],
-            inscriptions: [],
-            paginationLinks: [],
-            editing: false
+            canInscribe: false,
+            isInscribed: false,
+            loading: false,
         };
     },
     methods: {
-        async handleSubmit() {
-            if (this.validateInput()) {
-                try{
-                const response = await this.axios.post("/api/inscripciones", {
-                    registration_date: this.date,
-                    status: this.statusSelected[0],
-                    user_id: this.studentSelected[0].id,
-                    load_id: this.subjectSelected[0].id
-                });
-                console.log(response);
+        async getInscription() {
+            try {
+                const response = await this.axios.get("/api/get-inscription");
+                if (response.status === 200 && response.data.subjects) {
+                    this.cycle = this.formateDate(response.data.cycle);
+                    this.subjects = response.data.subjects;
+                    this.canInscribe = true;
+                }
+                else if (response.status === 200 && !response.data.subjects) {
+                    this.isInscribed = true;
+                }
+            }
+            catch (error) {
+                handleErrors(error);
+            }
+        },
+        async inscribe() {
+            this.loading = true
+            let subjectsId = []
+            this.subjects.forEach(subject => {
+                subjectsId.push(subject.id)
+            });
+            try {
+                const response = await this.axios.post("/api/inscribe", { loads: subjectsId });
                 if (response.status === 201) {
-                    this.clearInput();
-                    this.getInscriptions();
-                    this.$swal.fire("Listo", "La inscripcion fue exitosa", "success");
-                }
-            }catch(error){
-                handleErrors(error)
-            }
-            }
-        },
-
-        async getInscriptions(pageNumber, firstInscriptions = false) {
-            if(firstInscriptions) this.inscriptions[0] = 'loading'
-            if(typeof (pageNumber) == 'string'){
-                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
-            }
-            try {
-                const response = await this.axios.get('/api/getInscripcion?page=' + pageNumber);
-                if (response.status === 200) {
-                    if (typeof (response.data) === "object") {
-                        this.inscriptions = response.data.data;
-                        this.paginationLinks = response.data.links
-                    }
-                    else {
-                        this.inscriptions[0] = 'error'
-                    }
+                    this.canInscribe = false;
+                    this.isInscribed = true;
                 }
             }
             catch (error) {
-                handleErrors(error)
-                this.inscriptions[0] = 'error'
+                this.$swal.fire("Error", "No se pudo inscribir el ciclo", "error");
+                this.loading = false
+                handleErrors(error);
             }
         },
-        async getStudents() {
-            try {
-                const response = await this.axios.get("/api/students");
-                if (response.status === 200) {
-                    if (typeof (response.data) === "object") {
-                        this.students = response.data;
-                    }
-                    else {
-                        console.log(response);
-                        this.students[0] = "error";
-                    }
-                }
-            }
-            catch (error) {
-                handleErrors(error)
-            }
-        },
-        async getLoads() {
-            try {
-                this.subjects[0] = "loading";
-                const response = await this.axios.get("/api/getCarga");
-                if (response.status === 200) {
-                    if (typeof (response.data) === "object") {
-                        this.subjects = response.data;
-                        console.log(response);
-                    }
-                    else {
-                        console.log(response);
-                        this.subjects[0] = "error";
-                    }
-                }
-            }
-            catch (error) {
-                handleErrors(error)
-            }
-        },
-        clearInput() {
-            this.date = null;
-            this.statusSelected = [];
-            this.studentSelected = [];
-            this.subjectSelected = [];
-            this.editing = false;
-        },
-        validateInput() {
-            let valid = this.date && this.statusSelected && this.studentSelected && this.subjectSelected ? true : false;
-            return valid;
-        },
-        selectStatus(event, statuses) {
-            this.statusSelected = [];
-            this.statusSelected.push(statuses);
-        },
-        selectStudent(event, students) {
-            this.studentSelected = [];
-            this.studentSelected.push(students);
-        },
-        selectSubject(event, subject) {
-            this.subjectSelected = [];
-            this.subjectSelected.push(subject);
+        formateDate(data) {
+            data.forEach(cycle => {
+                cycle.start_date = formatDate(cycle.start_date);
+                cycle.end_date = formatDate(cycle.end_date);
+            });
+            return data[0];
         },
     },
-    components: { DataTable }
+    mounted() {
+        this.getInscription();
+        document.title = "IBBACH | Inscripción";
+    },
+    components: { LoadingDots }
 }
 </script>
 <template>
     <main>
-        <!--<h1 class="h1 fs-1 fw-bold mb-3">Inscripcion de ciclos</h1>-->
-        <section class="p-3">
-            <h3 class="h3 fw-semibold">Inscribir nuevo ciclo</h3>
-            <form class="w-25" @submit.prevent="handleSubmit">
-
-                <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary btn-lg ms-4">Agregar <i
-                        class="material-icons m-auto ms-1">add_box</i></button>
-                <button v-if="!editing" type="submit" class="d-inline-flex btn btn-warning btn-lg ms-3">Limpiar <i
-                        class="material-icons m-auto ms-1">backspace</i></button>
-            </form>
-        </section>
-        <section class="p-3">
-            <DataTable title="Listado de alumnos inscritos en el grupo diurno" :headers="[
-                { title: 'Id' },
-                { title: 'Fecha de registro' },
-                { title: 'Estado' },
-                { title: 'Alumno' },
-                { title: 'Apellido' },
-                { title: 'Codigo' },
-                { title: 'Asignatura' },
-                { title: 'Descripcion' },
-                {title: 'Acciones'}
-            ]" :items="inscriptions">
-            <template #actions>
-                    <button type="button" class="btn btn-primary me-2">Modificar</button>
-                    <button type="button" class="btn btn-danger">Eliminar</button>
-                </template>
-            </DataTable>
-            <nav aria-label="Page navigation example" v-if="paginationLinks.length">
-                    <ul class="pagination">
-                        <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
-                            v-for="page in paginationLinks" :key="page">
-                            <span class="page-link" @click="getInscriptions(page.url)">{{ page.label == 'pagination.previous'
-                                    ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
-                            }}</span>
-                         </li>
-                    </ul>
-                </nav>
-        </section>
+        <h1>Inscripción de Ciclo</h1>
+        <div class="inscription-container">
+            <div v-if="!canInscribe">
+                <div class="alert alert-success alert-dismisable fade show d-flex" role="alert">
+                    <span class="material-icons d-flex align-items-center me-3">check</span>
+                    <span v-if="isInscribed">¡Ya estás inscrito en este ciclo!.</span>
+                    <span v-else>No tienes ciclos disponibles para inscribir en este momento.</span>
+                </div>
+            </div>
+            <div v-else>
+                <div>
+                    <h4><b>Ciclo:</b> {{ cycle.cycle }}</h4>
+                    <h5 class="d-inline-block"><b>Fecha de inicio:</b> {{ cycle.start_date }} &nbsp;&nbsp; <b>Fecha de
+                            finalización:</b> {{ cycle.end_date }}</h5>
+                </div>
+                <hr>
+                <div class="table-responsive">
+                    <h4>Asignaturas a inscribir:</h4>
+                    <table class="table text-light">
+                        <thead>
+                            <tr>
+                                <th><b>Nombre</b></th>
+                                <th><b>Descripción</b></th>
+                                <th><b>UV</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="subject in subjects">
+                                <td>{{ subject.subject }}</td>
+                                <td>{{ subject.description }}</td>
+                                <td>0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-end">
+                    <LoadingDots class="m-3" v-if="loading"></LoadingDots>
+                    <button v-else class="btn btn-secondary d-inline-flex align-items-center gap-1 fs-5"
+                        @click="inscribe">Inscribirse <span
+                            class="material-symbols-outlined">arrow_circle_right</span></button>
+                </div>
+            </div>
+        </div>
     </main>
 </template>
+<style scoped>
+.alert-success {
+    color: #71ff56;
+    background-color: #41a00bba;
+    border-color: #2cff00;
+}
+
+.inscription-container {
+    background: var(--dark);
+    max-width: 40rem;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+thead {
+    background-color: var(--dark-alt);
+}
+</style>
