@@ -303,6 +303,7 @@ export default {
                                         <select class="form-select inputs" v-model="statusUp" required>
                                             <option value="I">Inactivo</option>
                                             <option value="A">Activo</option>
+                                            <option value="F">Finalizado</option>
                                         </select>
                                     </div>
                                 </div>
