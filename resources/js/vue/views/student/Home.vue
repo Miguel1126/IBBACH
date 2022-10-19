@@ -92,7 +92,7 @@ onUpdated(() => {
                     <router-link class="link-to" to="/alumno/notas">
                         <div class="widget">
                             <div class="icon">
-                                <i class="material-icons">description</i>
+                                <i class="material-icons">list_alt</i>
                             </div>
                             <div class="content">
                                 <h4>Consulta de Notas</h4>
