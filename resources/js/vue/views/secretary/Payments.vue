@@ -19,8 +19,7 @@ export default {
             rates: [],
             userPayments: [],
             rate: {
-                Sabatino: 17,
-                Diurno: 30
+                
             },
             rateFiltered: {
                 id: null,
@@ -52,6 +51,10 @@ export default {
             try {
                 const response = await this.axios.get('/api/getTarifas')
                 this.rates = response.data
+
+                this.rates.forEach(r => {
+                    this.rate[r.group] = r.price
+                })
             }
             catch (error) {
                 handleErrors(error)
@@ -177,8 +180,7 @@ export default {
             let rate = rates.filter(r => r.price == this.rate[this.selectedUser.group])[0]
             this.rateFiltered.id = rate["id"]
             this.rateFiltered.price = rate["price"]
-            if (this.selectedUser.group == "Diurno") this.nRate = 4
-            if (this.selectedUser.group == "Sabatino") this.nRate = 9
+            this.nRate = rate["n_rate"]
         },
         calcTotal() {
             let total = parseFloat((this.rateFiltered.price * this.months.length) + this.sourcharge).toFixed(2)
