@@ -126,6 +126,7 @@ export default {
                             }
                         })
                         .catch(error => {
+                            handleErrors(error)
                             this.$swal.fire("Error", "Ocurrió un error, inténtalo de nuevo", "error")
                         })
                 }
