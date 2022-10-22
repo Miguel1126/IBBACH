@@ -16,7 +16,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CycleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NoteController;
-
+use App\Http\Controllers\PublicationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -111,6 +111,9 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     Route::get('/getEcclesiasticalInform', [ApplicantController::class, 'getEcclesiasticalInfo']);
     Route::get('/getMinisterialInform', [ApplicantController::class, 'getMinisterialInfo']);
     Route::get('/getStudentsYear', [UserController::class, 'getStudentsPerYear']);
+    Route::post('/publicaciones', [PublicationController::class, 'store']);
+    Route::get('/getpublicaciones', [PublicationController::class, 'show']);
+    Route::delete('/deletePublication', [PublicationController::class, 'destroy']);
 });
 
 
@@ -166,8 +169,25 @@ Route::get('/getUser', [AuthController::class, 'getLoggedUser'])->middleware('au
 
 
 // Open routes
-
+Route::get('/getpublications', [PublicationController::class, 'show']);
 Route::post('/aplicante', [ApplicantController::class, 'store']);
+//routes basic level 
+Route::get('/level', [SubjectController::class, 'levelbasic1']);
+Route::get('/level2', [SubjectController::class, 'levelbasic2']);
+Route::get('/level3', [SubjectController::class, 'levelbasic3']);
+Route::get('/level4', [SubjectController::class, 'levelbasic4']);
+//routes ministerial level
+Route::get('/levelMinisterial', [SubjectController:: class, 'Ministerial1']);
+Route::get('/levelMinisteria2', [SubjectController:: class, 'Ministerial2']);
+//routes especialized level
+Route::get('/MinisterioPas', [SubjectController::class, 'MinisterioPas']);
+Route::get('/Misiones', [SubjectController::class, 'Misiones']);
+Route::get('/EducacionCris',[SubjectController::class, 'EducacionCris']);
+Route::get('/MinisterioJ',[SubjectController::class, 'MinisterioJ']);
+Route::get('/PlantacionIg', [SubjectController::class, 'PlantacionIg']);
+Route::get('/MinisterioU', [SubjectController::class, 'MinisterioU']);
+Route::get('/MinisterioI', [SubjectController::class, 'MinisterioI']);
+
 
 Route::post('/login', [AuthController::class,'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
