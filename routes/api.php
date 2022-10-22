@@ -137,7 +137,7 @@ Route::middleware(['auth:sanctum', 'docente'])->group(function(){
     Route::get('/getAssistance', [AssistanceController::class, 'getAssistances']);
     Route::get('/getEstadoApr', [UserController::class, 'getStudentA']);
     Route::get('/getEstadoRep', [UserController::class, 'getStudentR']);
-
+    Route::get('/students-notes/{idLoad}', [NoteController::class, 'studentsNotes']);
 });
 
 
