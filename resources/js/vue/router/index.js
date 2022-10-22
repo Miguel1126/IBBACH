@@ -35,7 +35,9 @@ import Secretary from '../views/secretary/base/Secretary.vue'
 import Payments from '../views/secretary/Payments.vue'
 import AccountManagement from '../views/secretary/AccountManagement.vue'
 import Report from '../views/secretary/Report.vue'
+import Rates from '../views/secretary/Rates.vue'
 import Publications from '../views/secretary/Publications.vue'
+
 
 /**
  * Components for teacher view
@@ -278,11 +280,14 @@ export const router = createRouter({
           component: StudentsperYear
         },
         {
+          path: 'cuotas',
+          name: 'Rates',
+          component: Rates
+        },
           path: 'Publicaciones',
           name: 'Publications',
           component: Publications
         },
-        
       ]
     },
     {
