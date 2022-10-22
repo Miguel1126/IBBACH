@@ -16,7 +16,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CycleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NoteController;
-
+use App\Http\Controllers\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +71,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::put('/updateCycle', [CycleController::class, 'update']);
     Route::put('/updateSchedule', [ScheduleController::class, 'update']);
     Route::put('/updateLoad', [LoadController::class, 'update']);
+    Route::get('/cyclesPDF/pdf', [PDFController::class,'cyclesPDF']);
 });
 
     

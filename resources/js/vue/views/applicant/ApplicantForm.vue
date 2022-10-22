@@ -100,8 +100,27 @@ export default {
             button.disabled = ''
         },
         getImage(e) {
-            let file = e.target.files[0];
             let fileInput = document.getElementById('formFile');
+            if (e.target.files[0].size > 2000000) {
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'La imagen no debe pesar mas de 2 MB'
+                })
+                fileInput.value = '';
+                return false;
+            }
+            let file = e.target.files[0];
             let filePath = fileInput.value;
             let allowedExtensions = /(.jpg|.jpeg)$/i;
             if (!allowedExtensions.exec(filePath)) {
@@ -161,7 +180,7 @@ export default {
                         class="btn btn-secondary m-3 d-inline-flex icon d-flex justify-content-center">
                         <span class="material-symbols-outlined fs-1">add_a_photo</span>
                     </label>
-                    <input class="d-none" type="file" id="formFile" @change="getImage" accept=".jpg">
+                    <input class="d-none" type="file" id="formFile" @change="getImage" accept=".jpg, .jpeg">
                 </div>
                 <div class="d-flex justify-content-center"><span class="text-danger" v-if="v$.img.$error">{{
                 v$.img.$errors[0].$message}}</span></div>
