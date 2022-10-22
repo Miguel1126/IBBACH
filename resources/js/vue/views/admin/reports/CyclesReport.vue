@@ -1,5 +1,5 @@
 <script>
-import DataTable from '../../../components/DataTable.vue'
+import DataTable from "../../../components/DataTable.vue";
 export default {
     mounted() {
         this.getCyclesReport(1, true);
@@ -11,43 +11,140 @@ export default {
             end_date: [],
             status: [],
             groups: [],
-            paginationLinks: []
+            paginationLinks: [],
+            dates: []
         };
     },
     methods: {
-        async getCyclesReport(pageNumber, firstCycle = false) {
-            if (firstCycle) this.cycles[0] = 'loading'
+        async exportPDF(e) {
+            let date = this.dates;
+            e.preventDefault();
+            if (date.length === 0 || date.length === 1) {
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes seleccionar dos fechas'
+                })
+            }
+            else if (date.length === 2) {
+                this.axios({
+                    url: `/api/cyclesPDF/pdf?date1=${date[0]}&date2=${date[1]}`, //your url
+                    method: 'GET',
+                    responseType: 'blob', // important
+                }).then((response) => {
+                    // create file link in browser's memory
+                    const href = URL.createObjectURL(response.data);
 
-            if (typeof (pageNumber) == 'string') {
-                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
+                    // create "a" HTML element with href to file & click
+                    const link = document.createElement('a');
+                    link.href = href;
+                    link.setAttribute('target', '_blank'); //or any other extension
+                    //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+
+                    // clean up "a" element & remove ObjectURL
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(href);
+                });
+            }
+        },
+        async downloadPDF(e) {
+            let date = this.dates;
+            e.preventDefault();
+            if (date.length === 0 || date.length === 1) {
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes seleccionar dos fechas'
+                })
+            }
+            else if (date.length === 2) {
+                this.axios({
+                    url: `/api/cyclesPDF/pdf?date1=${date[0]}&date2=${date[1]}`, //your url
+                    method: 'GET',
+                    responseType: 'blob', // important
+                }).then((response) => {
+                    // create file link in browser's memory
+                    const href = URL.createObjectURL(response.data);
+
+                    // create "a" HTML element with href to file & click
+                    const link = document.createElement('a');
+                    link.href = href;
+                    link.setAttribute('download', 'Ciclos.pdf'); //or any other extension
+                    //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+
+                    // clean up "a" element & remove ObjectURL
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(href);
+                });
+            }
+        },
+        async getCyclesReport(pageNumber, firstCycle = false) {
+            if (firstCycle) this.cycles[0] = "loading";
+
+            if (typeof pageNumber == "string") {
+                pageNumber = new URL(pageNumber).searchParams.getAll("page")[0];
             }
             try {
-                this.cycles[0] = 'loading'
-                const response = await this.axios.get('/api/getCyclesReport?page=' + pageNumber);
+                this.cycles[0] = "loading";
+                const response = await this.axios.get(
+                    "/api/getCyclesReport?page=" + pageNumber
+                );
                 if (response.status === 200) {
-                    if (typeof (response.data) === "object") {
+                    if (typeof response.data === "object") {
                         this.cycles = response.data.data;
-                        this.paginationLinks = response.data.links
-                    }
-                    else {
+                        this.paginationLinks = response.data.links;
+                    } else {
                         this.cycles[0] = "error";
                     }
                 }
-            }
-            catch {
-                (error)
-                handleErrors(error)
+            } catch {
+                error;
+                handleErrors(error);
                 this.cycles[0] = "error";
-
             }
         },
     },
-    components: { DataTable }
-}        
+    components: { DataTable },
+};
 </script>
 <template>
     <main>
         <section class=" p-3 ">
+            <div>
+                <h4>Selecciona un rango de fechas</h4>
+                <span class="m-2">Desde:</span>
+                <input type="date" class="inputs form-control" v-model="dates[0]">
+                <span class="m-2">Hasta:</span>
+                <input type="date" class="inputs form-control" v-model="dates[1]">
+                <div class="d-flex flex-wrap">
+                    <button class="btn btn-danger m-2" @click="exportPDF">Visualizar PDF</button>
+                    <button class="btn btn-danger m-2" @click="downloadPDF"><span class="material-symbols-outlined">file_download</span></button>
+                </div>
+            </div>
         </section>
         <section class="p-3">
             <DataTable title="Listado de Ciclos" personalized :headers="[
@@ -62,9 +159,12 @@ export default {
                 <ul class="pagination">
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinks" :key="page">
-                        <span class="page-link" @click="getCyclesReport(page.url)">{{ page.label ==
-                        'pagination.previous'
-                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                        <span class="page-link" @click="getCyclesReport(page.url)">{{
+                        page.label == "pagination.previous"
+                        ? "&laquo;"
+                        : page.label == "pagination.next"
+                        ? "&raquo;"
+                        : page.label
                         }}</span>
                     </li>
                 </ul>
@@ -74,5 +174,8 @@ export default {
 </template>
 
 <style scoped>
-
+.inputs {
+    max-width: 400px;
+    min-width: 200px;
+}
 </style>
