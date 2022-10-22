@@ -5,7 +5,10 @@ import { createRouter, createWebHistory } from 'vue-router'
  */
 import Home from '../views/Home.vue'
 import NotFound from '../views/NotFound.vue'
-
+import LevelBasic from '../views/LevelBasic.vue'
+import MinisterialLevel from '../views/MinisterialLevel.vue'
+import SpecializedLevel from '../views/SpecializedLevel.vue'
+import StudyProgram from '../views/StudyProgram.vue'
 
 /**
  * compnents for applicant view
@@ -33,6 +36,8 @@ import Payments from '../views/secretary/Payments.vue'
 import AccountManagement from '../views/secretary/AccountManagement.vue'
 import Report from '../views/secretary/Report.vue'
 import Rates from '../views/secretary/Rates.vue'
+import Publications from '../views/secretary/Publications.vue'
+
 
 /**
  * Components for teacher view
@@ -90,6 +95,26 @@ import NoteStatusReports from '../views/teacher/reports/NotesStatusReports.vue'
 export const router = createRouter({
   history: createWebHistory(),
   routes: [
+    {
+			path: '/level',
+      name: 'level',
+			component: LevelBasic
+		},
+    {
+			path: '/levelM',
+      name: 'levelM',
+			component: MinisterialLevel
+		},
+    {
+			path: '/levelE',
+      name: 'levelE',
+			component: SpecializedLevel
+		},
+    {
+			path: '/ProgramaEstudio',
+      name: 'StudyProgram',
+			component: StudyProgram
+		},
     {
 			path: '/',
       name: 'Home',
@@ -258,6 +283,10 @@ export const router = createRouter({
           path: 'cuotas',
           name: 'Rates',
           component: Rates
+        },
+          path: 'Publicaciones',
+          name: 'Publications',
+          component: Publications
         },
       ]
     },

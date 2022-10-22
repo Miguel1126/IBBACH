@@ -15,6 +15,10 @@ export default {
             subjects: [],
             subject: '',
             description: '',
+            uv: '',
+            level: '',
+            uvUp: '',
+            levelUp: '',
             paginationLinks: [],
             editing: false,
             loading: false,
@@ -55,12 +59,16 @@ export default {
             this.description = ''
             this.subjectUp = '' 
             this.descriptionUp = ''
+            this.uv = ''
+            this.level = ''
+            this.uvUp = ''
+            this.levelUp = ''
         },
         validateInputs() {
-            return this.subject && this.description
+            return this.subject && this.description && this.uv && this.level
         },
         validateInputsUp() {
-            return this.subjectUp && this.descriptionUp
+            return this.subjectUp && this.descriptionUp && this.uvUp && this.levelUp
         },
         async updateSubject() {
             this.loading = true
@@ -69,7 +77,9 @@ export default {
                     const response = await this.axios.put('/api/updateSubject', {
                         id: this.id,
                         subject: this.subjectUp,
-                        description: this.descriptionUp
+                        description: this.descriptionUp,
+                        uv: this.uvUp,
+                        level: this.levelUp
                     })
 
                     if (response.status === 202) {
@@ -118,7 +128,10 @@ export default {
                     const response = await this.axios.post('/api/saveAsignaturas',
                         {
                             subject: this.subject,
-                            description: this.description
+                            description: this.description,
+                            uv: this.uv,
+                            level: this.level,
+
                         })
 
                     if (response.status === 201) {
@@ -208,6 +221,32 @@ export default {
                             title="Solo debes escribir letras" maxlength="72" required></textarea>
                     </div>
                 </div>
+                <div class="row mb-3">
+                    <div class="col col-lg-3">
+                        <label class="form-label mt-1">Unidad valorativa</label>
+                        <input v-model="uv" type="number" class="inputs form-control">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col col-lg-3">
+                        <label class="form-label mt-1">Nivel</label>
+                        <select class=" inputs form-select" v-model="level">
+                        <option value="Basico 1">Basico 1</option>
+                        <option value="Basico 2">Basico 2</option>
+                        <option value="Basico 3">Basico 3</option>
+                        <option value="Basico 4">Basico 4</option>
+                        <option value="Ministerial 1">Ministerial 1</option>
+                        <option value="Ministerial 2">Ministerial 2</option>
+                        <option value="Ministerio pastoral">Ministerio pastoral</option>
+                        <option value="Misiones">Misiones</option>
+                        <option value="Educacion cristiana">Educacion cristiana</option>
+                        <option value="Ministerio juvenil">Ministerio juvenil</option>
+                        <option value="Plantacion de iglesias">Plantacion de iglesias</option>
+                        <option value="Ministerio universitario">Ministerio universitario</option>
+                        <option value="Ministerio infantil">Ministerio infantil</option>
+                    </select>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col col-lg-3">
                         <div class="d-flex flex-wrap" v-if="!loading">
@@ -252,6 +291,32 @@ export default {
                                             maxlength="72" required></textarea>
                                     </div>
                                 </div>
+                                <div class="row mb-3">
+                    <div class="col col-lg-3">
+                        <label class="form-label mt-1 text-black">Unidad valorativa</label>
+                        <input v-model="uvUp" type="number" class="inputs form-control">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col col-lg-3">
+                        <label class="form-label mt-1 text-black">Nivel</label>
+                        <select class=" inputs form-select" v-model="levelUp">
+                        <option value="Basico 1">Basico 1</option>
+                        <option value="Basico 2">Basico 2</option>
+                        <option value="Basico 3">Basico 3</option>
+                        <option value="Basico 4">Basico 4</option>
+                        <option value="Ministerial 1">Ministerial 1</option>
+                        <option value="Ministerial 2">Ministerial 2</option>
+                        <option value="Ministerio pastoral">Ministerio pastoral</option>
+                        <option value="Misiones">Misiones</option>
+                        <option value="Educacion cristiana">Educacion cristiana</option>
+                        <option value="Ministerio juvenil">Ministerio juvenil</option>
+                        <option value="Plantacion de iglesias">Plantacion de iglesias</option>
+                        <option value="Ministerio universitario">Ministerio universitario</option>
+                        <option value="Ministerio infantil">Ministerio infantil</option>
+                    </select>
+                    </div>
+                </div>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -279,12 +344,14 @@ export default {
             <DataTable title="Listado de asignaturas" personalized :headers="[
                 { title: 'Asignatura', value: 'subject' },
                 { title: 'Descripción', value: 'description' },
+                { title: 'UV', value: 'uv'},
+                { title: 'Nivel', value: 'level'},
                 { title: 'Estado', value: 'status'},
                 { title: 'Acciones'}
             ]" :items="subjects">
                 <template #actions="item">
                     <button type="button"
-                        @click="id = item.item.id; subjectUp = item.item.subject; descriptionUp = item.item.description;"
+                        @click="id = item.item.id; subjectUp = item.item.subject; descriptionUp = item.item.description; uvUp = item.item.uv; levelUp = item.item.level;"
                         class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#Modal">Modificar</button>
                     <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
