@@ -253,7 +253,7 @@ class UserController extends Controller
             $student = User::where('users.role', '=', 'alumno')
                 ->whereBetween('users.created_at', [$formatedSartYearDate, $formatedEndYearDate])
                 ->orderBy('id', 'desc')
-                ->get();
+                ->paginate(5)->onEachSide(1);
             return $student;
         } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()], 500);
