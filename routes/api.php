@@ -60,7 +60,6 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::get('/getTeacher1', [UserController::class, 'getTeacher1']);
     Route::resource('/aplicante', ApplicantController::class);
     Route::get('/getApplicants', [ApplicantController::class, 'show']);
-    Route::get('/getrates', [RateController::class, 'getrates']);
     Route::get('/getStudentsByYear', [UserController::class, 'getStudentsPerYear']);
     Route::get('/getCyclesReport', [CycleController::class, 'getCyclesReport']);
     Route::get('/getSubjectsReport', [SubjectController::class, 'getSubjectsReport']);
@@ -75,7 +74,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
 });
 
     
-/*
+/*get
 |--------------------------------------------------------------------------
 | SECRETARIA Routes
 |--------------------------------------------------------------------------
@@ -86,6 +85,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
 
 Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     
+    Route::get('/getrates', [RateController::class, 'getrates']);
     Route::resource('/pagos', PaymentController::class);
     Route::post('/savePago',[PaymentController::class,'store']);
     Route::get('/getPagos', [PaymentController::class, 'show']);
