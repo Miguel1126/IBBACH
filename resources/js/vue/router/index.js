@@ -50,8 +50,10 @@ import report from '../views/teacher/report.vue'
  * Components for student view
  */
 import Student from '../views/student/base/Student.vue'
-import TestStudent from '../views/student/TestStudent.vue'
+import StudentHome from '../views/student/Home.vue'
 import Inscriptions from '../views/student/Inscriptions.vue'
+import StudentNotes from '../views/student/Notes.vue'
+import StudentSchedules from '../views/student/Schedules.vue'
 
 /**
  * Components for login
@@ -130,6 +132,10 @@ export const router = createRouter({
         }
       },
       children: [
+        {
+          path: '',
+          redirect: '/admin/cargas'
+        },
         {
           path: 'cargas',
           name: 'Loads',
@@ -238,6 +244,10 @@ export const router = createRouter({
       },
       children: [
         {
+          path: '',
+          redirect: '/secretaria/pagos'
+        },
+        {
           path: 'pagos',
           name: 'Payments',
           component: Payments
@@ -286,8 +296,8 @@ export const router = createRouter({
       children: [
         {
           path: '',
-          name: 'Testtea',
-          component: TestTeacher
+          redirect: '/docente/asistencias',
+          
         },
         { 
           path: 'asistencias',
@@ -327,13 +337,23 @@ export const router = createRouter({
       children: [
         {
           path: '',
-          name: 'Testest',
-          component: TestStudent
+          name: 'StudentHome',
+          component: StudentHome
         },
         {
           path: 'inscripciones',
           name: 'Inscription',
           component: Inscriptions
+        },
+        {
+          path: 'notas',
+          name: 'StudentNotes',
+          component: StudentNotes
+        },
+        {
+          path: 'horarios',
+          name: 'StudentSchedules',
+          component: StudentSchedules
         },
         
       ]

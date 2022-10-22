@@ -16,6 +16,12 @@ return new class extends Migration
         Schema::create('rates', function (Blueprint $table) {
             $table->id();
             $table->float('price',8,2);
+            $table->integer('n_rate');
+            $table->foreignId('group_id')
+            ->nullable()
+            ->constrained('groups')
+            ->cascadeOnUpdate()
+            ->nullOndelete();
             $table->timestamps();
         });
     }

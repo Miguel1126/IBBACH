@@ -16,7 +16,11 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CycleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NoteController;
+
 use App\Http\Controllers\PublicationController;
+
+use App\Http\Controllers\PDFController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +75,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::put('/updateCycle', [CycleController::class, 'update']);
     Route::put('/updateSchedule', [ScheduleController::class, 'update']);
     Route::put('/updateLoad', [LoadController::class, 'update']);
+    Route::get('/cyclesPDF/pdf', [PDFController::class,'cyclesPDF']);
 });
 
     
@@ -140,7 +145,7 @@ Route::middleware(['auth:sanctum', 'docente'])->group(function(){
     Route::get('/getAssistance', [AssistanceController::class, 'getAssistances']);
     Route::get('/getEstadoApr', [UserController::class, 'getStudentA']);
     Route::get('/getEstadoRep', [UserController::class, 'getStudentR']);
-
+    Route::get('/students-notes/{idLoad}', [NoteController::class, 'studentsNotes']);
 });
 
 
@@ -155,13 +160,12 @@ Route::middleware(['auth:sanctum', 'docente'])->group(function(){
 
 
 Route::middleware(['auth:sanctum', 'alumno'])->group(function(){
-    
-    Route::get('students', [UserController::class, 'getStudent']);
-    Route::get('/getCarga', [InscriptionController::class, 'getLoad']);
-    Route::resource('/inscripciones', InscriptionController::class);
-    Route::get('/getInscripcion', [InscriptionController::class, 'show']);
-    Route::put('/updateInscription',[InscriptionController::class, 'update']);
-    Route::put('/updateApplicant', [ApplicantController::class, 'update']);
+    Route::get('/get-student-info/{applicantId}', [ApplicantController::class, 'getApplicantInfo']);
+    Route::get('/get-inscription', [InscriptionController::class, 'getStudentInscription']);
+    Route::get('/inscription-cycles', [InscriptionController::class, 'getInscriptionCycles']);
+    Route::post('/inscribe', [InscriptionController::class, 'store']);
+    Route::get('/get-schedules/{cycleId}', [ScheduleController::class, 'getStudentSchedules']);
+
 });
 
 
