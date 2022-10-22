@@ -6,6 +6,7 @@ use App\Models\Cycle;
 use Illuminate\Http\Request;
 use App\Models\Inscription;
 use App\Models\Load;
+use App\Models\Note;
 use Illuminate\Support\Facades\DB;
 
 class InscriptionController extends Controller
@@ -41,18 +42,32 @@ class InscriptionController extends Controller
         try {
             $loadsLength = count($request->loads);
 
+            $errors = 0;
+
+            DB::beginTransaction();
+
             for ($i = 0; $i <= $loadsLength - 1; $i++) {
                 if (!Inscription::where('load_id','=',$request->loads[$i])->where('user_id','=',auth()->user()->id)->exists()) {
 
                     $inscription = new Inscription();
                     $inscription->user_id = auth()->user()->id;
                     $inscription->load_id = $request->loads[$i];
-                    $inscription->save();
+                    if ($inscription->save() < 1) $errors++;
+                    
+                    $note = new Note();
+                    $note->inscription_id = $inscription->id;
+                    if ($note->save() < 1) $errors++;
                 }
             }
 
-            return response()->json(["message" => "Ciclo inscrito correctamente"],201);
-
+            if ($errors === 0) {
+                DB::commit();
+                return response()->json(["message" => "Ciclo inscrito correctamente"],201);
+            }
+            else {
+                DB::rollBack();
+                return response()->json(["message" => "No se pudo inscribir el ciclo"],500);
+            }
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
@@ -217,6 +232,7 @@ class InscriptionController extends Controller
             ->select('cycles.id','cycle','groups.group','start_date','end_date')
             ->whereIn('cycles.status', ['A','F'])
             ->where('group_id','=',auth()->user()->group_id)
+            ->where('inscriptions.user_id','=',auth()->user()->id)
             ->groupBy('cycles.cycle')
             ->orderBy('cycles.id', 'desc')
             ->get();
