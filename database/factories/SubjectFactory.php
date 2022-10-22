@@ -19,6 +19,8 @@ class SubjectFactory extends Factory
         return [
             'subject'=> $this->faker->text($maxNbChars=30),
             'description'=> $this->faker->text($maxNbChars=50),
+            'uv'=> $this->faker->randomFloat(1,2,3,4,5,6),
+            'level'=> $this->faker->text($maxNbChars=10),
         ];
     }
 }
