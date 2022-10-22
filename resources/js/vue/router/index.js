@@ -284,6 +284,7 @@ export const router = createRouter({
           name: 'Rates',
           component: Rates
         },
+        {
           path: 'Publicaciones',
           name: 'Publications',
           component: Publications
