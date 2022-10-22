@@ -25,9 +25,9 @@ export default {
                     this.cySelected = this.cycles[0].id
                     this.getSchedules()
                 }
-            } 
+            }
             catch (error) {
-                handleErrors(error)    
+                handleErrors(error)
             }
         },
 
@@ -35,10 +35,15 @@ export default {
             try {
                 const response = await this.axios.get('/api/get-schedules/' + this.cySelected)
                 this.schedules = response.data
-            } 
-            catch (error) {
-                handleErrors(error)    
             }
+            catch (error) {
+                handleErrors(error)
+            }
+        },
+
+        getCurrentCycle(cycles) {
+            let cycleObject = {...cycles[0]}
+            return cycleObject['cycle']
         }
     },
     watch: {
@@ -50,14 +55,18 @@ export default {
 </script>
 <template>
     <main>
-        <h1>Horarios</h1>
-        <div>
+        <div class="m-2">
+            <h1>Horarios</h1>
             <label class="d-inline-block">Selecciona el Ciclo:</label>
             <select class="form-select select-input" v-model="cySelected">
                 <option v-for="cycle in cycles" :key="cycle.id" :value="cycle.id">{{ cycle.cycle }}</option>
             </select>
         </div>
-        <div class="m-3" v-if="schedules.length">
+        <div class="m-2">
+            <p class="fs-3"><b>Ciclo actual:</b> {{ getCurrentCycle(cycles) }}</p>
+            <hr>
+        </div>
+        <div class="m-2" v-if="schedules.length">
             <div class="d-flex flex-wrap gap-2">
                 <div class="schedule-card" v-for="schedule in schedules">
                     <p><b>Ciclo:</b> {{ schedule.cycle }}</p>
@@ -66,8 +75,10 @@ export default {
                     <p><b>Asignatura:</b> {{ schedule.subject }}</p>
                     <p><b>Descripción:</b> {{ schedule.description }}</p>
                     <hr>
-                    <p><b>Fecha de inicio:</b> {{ formatDate(schedule.start_date) }}  <br><b>Fecha de finalización:</b> {{ formatDate(schedule.start_date) }}</p>
-                    <p><b>De:</b> {{ formatTime(schedule.start_time) }}  <b>A:</b> {{ formatTime(schedule.end_time) }}</p>
+                    <p><b>Fecha de inicio:</b> {{ formatDate(schedule.start_date) }} <br><b>Fecha de finalización:</b>
+                        {{ formatDate(schedule.end_date) }}</p>
+                    <p><b>De:</b> {{ formatTime(schedule.start_time) }} <b>A:</b> {{ formatTime(schedule.end_time) }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -78,12 +89,15 @@ select {
     max-width: 400px;
     min-width: 200px;
 }
+
 .schedule-card {
     background-color: var(--dark);
     max-width: 300px;
     padding: 1rem;
     font-size: 1.2em;
+    border-radius: 5px;
 }
+
 p {
     padding: 0;
     margin: 0;

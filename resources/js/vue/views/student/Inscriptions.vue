@@ -67,15 +67,15 @@ export default {
 <template>
     <main>
         <h1>Inscripción de Ciclo</h1>
-        <div class="inscription-container">
-            <div v-if="!canInscribe">
-                <div class="alert alert-success alert-dismisable fade show d-flex" role="alert">
-                    <span class="material-icons d-flex align-items-center me-3">check</span>
-                    <span v-if="isInscribed">¡Ya estás inscrito en este ciclo!.</span>
-                    <span v-else>No tienes ciclos disponibles para inscribir en este momento.</span>
-                </div>
+        <div class="alert-insc" v-if="!canInscribe">
+            <div class="alert alert-success alert-dismisable fade show d-flex" role="alert">
+                <span class="material-icons d-flex align-items-center me-3">check</span>
+                <span v-if="isInscribed">¡Ya estás inscrito en este ciclo!.</span>
+                <span v-else>No tienes ciclos disponibles para inscribir en este momento.</span>
             </div>
-            <div v-else>
+        </div>
+        <div class="inscription-container" v-else>
+            <div>
                 <div>
                     <h4><b>Ciclo:</b> {{ cycle.cycle }}</h4>
                     <h5 class="d-inline-block"><b>Fecha de inicio:</b> {{ cycle.start_date }} &nbsp;&nbsp; <b>Fecha de
@@ -113,6 +113,10 @@ export default {
     </main>
 </template>
 <style scoped>
+.alert-insc {
+    max-width: 40rem;
+}
+
 .alert-success {
     color: #71ff56;
     background-color: #41a00bba;
