@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cycle;
 use Illuminate\Http\Request;
 use App\Models\Inscription;
 use App\Models\Load;
+use App\Models\Note;
+use Illuminate\Support\Facades\DB;
 
 class InscriptionController extends Controller
 {
@@ -37,12 +40,33 @@ class InscriptionController extends Controller
     public function store(Request $request)
     {
         try {
-            $inscription = new Inscription();
-            $inscription->status = $request->status;
-            $inscription-> user_id = $request-> user_id;
-            $inscription-> load_id = $request-> load_id;
-            if ($inscription->save()>=1) {
-                return response()->json(['status'=>'OK','data'=>$inscription],201);
+            $loadsLength = count($request->loads);
+
+            $errors = 0;
+
+            DB::beginTransaction();
+
+            for ($i = 0; $i <= $loadsLength - 1; $i++) {
+                if (!Inscription::where('load_id','=',$request->loads[$i])->where('user_id','=',auth()->user()->id)->exists()) {
+
+                    $inscription = new Inscription();
+                    $inscription->user_id = auth()->user()->id;
+                    $inscription->load_id = $request->loads[$i];
+                    if ($inscription->save() < 1) $errors++;
+                    
+                    $note = new Note();
+                    $note->inscription_id = $inscription->id;
+                    if ($note->save() < 1) $errors++;
+                }
+            }
+
+            if ($errors === 0) {
+                DB::commit();
+                return response()->json(["message" => "Ciclo inscrito correctamente"],201);
+            }
+            else {
+                DB::rollBack();
+                return response()->json(["message" => "No se pudo inscribir el ciclo"],500);
             }
         }
         catch (\Exception $e) {
@@ -164,6 +188,61 @@ class InscriptionController extends Controller
             return response()->json(["message" => $e->getMessage()],500);
         }
     }
+    
+    public function getStudentInscription() {
+        try {
+            $cycle = Cycle::join('groups','cycles.group_id','=','groups.id')
+            ->select('cycles.id','cycle','groups.group','start_date','end_date')
+            ->where('status','=','A')
+            ->where('group_id','=',auth()->user()->group_id)
+            ->orderBy('cycles.id','desc')
+            ->get();
+
+            if (!isset($cycle[0]->id)) return response([],204);
+
+            $inscriptions = Inscription::join('loads', 'inscriptions.load_id', '=', 'loads.id')
+            ->join('cycles','loads.cycle_id','=','cycles.id')
+            ->select('cycles.id as cycle_id')
+            ->where('inscriptions.user_id','=',auth()->user()->id)
+            ->where('cycle_id','=', $cycle[0]->id)
+            ->count();
+
+            $subjects = Load::join('subjects','loads.subject_id','=','subjects.id')
+            ->select('loads.id','subjects.id as subject_id','subjects.subject','subjects.description')
+            ->where('loads.status','=','D')
+            ->where('loads.cycle_id', '=', $cycle[0]->id)
+            ->get();
+            
+            if (count($subjects) < 1) return response([],204);
+
+            if (count($subjects) === $inscriptions) return response()->json(["cycle" => $cycle],200);
+            
+            return response()->json(["cycle" => $cycle, "subjects" => $subjects],200);
+        }
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+    
+    public function getInscriptionCycles() {
+        try {
+            $cycles = Inscription::join('loads', 'inscriptions.load_id', '=', 'loads.id')
+            ->join('cycles','loads.cycle_id','=','cycles.id')
+            ->join('groups', 'cycles.group_id', '=', 'groups.id')
+            ->select('cycles.id','cycle','groups.group','start_date','end_date')
+            ->whereIn('cycles.status', ['A','F'])
+            ->where('group_id','=',auth()->user()->group_id)
+            ->where('inscriptions.user_id','=',auth()->user()->id)
+            ->groupBy('cycles.cycle')
+            ->orderBy('cycles.id', 'desc')
+            ->get();
+            return $cycles;
+        } 
+        catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

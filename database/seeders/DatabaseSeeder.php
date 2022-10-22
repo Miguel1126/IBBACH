@@ -62,24 +62,30 @@ class DatabaseSeeder extends Seeder
         $user->password = Hash::make("alumno");
         $user->role = "alumno";
         $user->save();
-
-        $rate = new Rate();
-        $rate->price = "30.00";
-        $rate->save();
-
-        $rate = new Rate();
-        $rate->price = "17.00";
-        $rate->save();
-
+        
+        $group = new Group();
+        $group->group = "Diurno";
+        $group->save();
+        
         $group = new Group();
         $group->group = "Sabatino";
         $group->save();
 
-        $group = new Group();
-        $group->group = "Diurno";
-        $group->save();
 
-        PersonalInformation::factory(100)->create();
+        $rate = new Rate();
+        $rate->price = "30.00";
+        $rate->group_id = "1";
+        $rate->n_rate = "4";
+        $rate->save();
+
+        $rate = new Rate();
+        $rate->price = "17.00";
+        $rate->group_id = "2";
+        $rate->n_rate = "9";
+        $rate->save();
+
+
+        /* PersonalInformation::factory(100)->create();
         EcclesiasticalInformation::factory(100)->create();
         MinisterialInformation::factory(100)->create();
         Applicant::factory(100)->create();
@@ -91,7 +97,7 @@ class DatabaseSeeder extends Seeder
         Payment::factory(10)->create();
         Inscription::factory(10)->create();
         Note::factory(10)->create();
-        Assistance::factory(10)->create();
+        Assistance::factory(10)->create(); */
 
     }
 }

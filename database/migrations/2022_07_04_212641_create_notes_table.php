@@ -15,18 +15,18 @@ return new class extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
-            $table->float('ev1',);
-            $table->float('percentege1',);
-            $table->float('ev2',);
-            $table->float('percentege2',);
-            $table->float('ev3',);
-            $table->float('percentege3',);
-            $table->float('ev4',);
-            $table->float('percentege4',);
-            $table->float('ev5',);
-            $table->float('percentege5',);
-            $table->float('finalAverage',);
-            $table->string('status',1)->default('A');
+            $table->float('ev1')->default(0.0);
+            $table->float('percentege1')->default(0.0);
+            $table->float('ev2')->default(0.0);
+            $table->float('percentege2')->default(0.0);
+            $table->float('ev3')->default(0.0);
+            $table->float('percentege3')->default(0.0);
+            $table->float('ev4')->default(0.0);
+            $table->float('percentege4')->default(0.0);
+            $table->float('ev5')->default(0.0);
+            $table->float('percentege5')->default(0.0);
+            $table->float('finalAverage')->default(0.0);
+            $table->string('status',1)->default('I');
             $table->foreignId('inscription_id')
             ->nullable()
             ->constrained('inscriptions')

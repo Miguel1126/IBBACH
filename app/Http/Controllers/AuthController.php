@@ -14,10 +14,16 @@ class AuthController extends Controller
     {
         try {
             $user = User::where("code", "=", $request->code)->first();
-            if ($user->status === "inactivo") {
+            if (!isset($user->status)) {
                 return response()->json([
                     "status" => "notlogged",
                     "message" => "El usuario o la contraseña son incorrectos"
+                ], 200);
+            }
+            if ($user->status === "inactivo") {
+                return response()->json([
+                    "status" => "notlogged",
+                    "message" => "Este usuario ya no está disponible"
                 ], 200);
             }
             if (isset($user->id)) {
@@ -54,13 +60,26 @@ class AuthController extends Controller
                 $token->delete();
                 return response()->json(['message' => 'No tienes autorización para ejecutar esta acción, inicia sesión en una cuenta válida'], 401);
             }
+            
+            if (auth()->user()->role === 'alumno') {
+                $user = User::join('applicants', 'users.applicant_id', '=', 'applicants.id')
+                ->join('groups', 'users.group_id', '=', 'groups.id')
+                ->select('applicants.img', 'groups.group')
+                ->where('users.id','=',auth()->user()->id)
+                ->get();
+                
+                auth()->user()->img = count($user) ? $user[0]->img : null;
+                auth()->user()->group = count($user) ? $user[0]->group : null;
+            }
 
             return response()->json([
                 'id' => auth()->user()->id,
+                'img' => auth()->user()->img,
                 'name' => auth()->user()->name,
                 'last_name' => auth()->user()->last_name,
                 'code' => auth()->user()->code,
                 'role' => auth()->user()->role,
+                'group' => auth()->user()->group,
                 'status' => auth()->user()->status,
                 'applicant_id' => auth()->user()->applicant_id,
             ], 200);

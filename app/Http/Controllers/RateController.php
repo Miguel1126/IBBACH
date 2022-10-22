@@ -49,10 +49,11 @@ class RateController extends Controller
     {
         try {
             if ($paginate === 'paginate'){
-                $rate = Rate:: 
-                select(
+                $rate = Rate::join('groups','rates.group_id','=','groups.id')
+                ->select(
                     'rates.id',
                     'rates.price',
+                    'groups.group'
                 )
                 ->orderBy('id','desc')
                 ->paginate(5)->onEachSide(1);
@@ -60,10 +61,12 @@ class RateController extends Controller
                 return $rate;
             }
             else if (!$paginate){
-                $rate = Rate:: 
-                select(
+                $rate = Rate::join('groups','rates.group_id','=','groups.id')
+                ->select(
                     'rates.id',
                     'rates.price',
+                    'groups.group',
+                    'rates.n_rate'
                 )
                 ->orderBy('id','desc')
                 ->get();
