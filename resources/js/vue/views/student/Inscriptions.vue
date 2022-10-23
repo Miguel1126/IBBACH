@@ -96,7 +96,7 @@ export default {
                             <tr v-for="subject in subjects">
                                 <td>{{ subject.subject }}</td>
                                 <td>{{ subject.description }}</td>
-                                <td>0</td>
+                                <td>{{ subject.uv }}</td>
                             </tr>
                         </tbody>
                     </table>
