@@ -201,13 +201,12 @@ class UserController extends Controller
                 ->join('groups', 'cycles.group_id', '=', 'groups.id')
                 ->select(
                     'inscriptions.id',
-                    'inscriptions.registration_date',
                     'users.name',
                     'users.last_name',
                     'users.code',
                     'groups.group'
                 )
-                //->where('groups.group', '=', 'Diurno')
+                ->where('groups.group', '=', 'Diurno')
                 ->orderBy('id', 'desc')
                 ->get();
             return $inscriptions;
@@ -224,13 +223,12 @@ class UserController extends Controller
                 ->join('groups', 'cycles.group_id', '=', 'groups.id')
                 ->select(
                     'inscriptions.id',
-                    'inscriptions.registration_date',
                     'users.name',
                     'users.last_name',
                     'users.code',
                     'groups.group'
                 )
-                //->where('groups.group', '=', 'Sabatino')
+                ->where('groups.group', '=', 'Sabatino')
                 ->orderBy('id', 'desc')
                 ->get();
             return $inscriptions;
