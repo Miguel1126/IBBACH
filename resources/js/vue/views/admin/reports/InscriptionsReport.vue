@@ -67,7 +67,7 @@ export default {
 <template>
     <main>
         <section class="p-3">
-            <DataTable title="Listado de alumnos inscritos en el grupo diurno" personalized="" :headers="[
+            <DataTable title="Listado de alumnos inscritos en la modalidad diurna" personalized="" :headers="[
                 { title: 'Fecha de registro', value: 'created_at'},
                 { title: 'Estado', value: 'status' },
                 { title: 'Ciclo', value: 'cycle' },
@@ -92,7 +92,7 @@ export default {
             </nav>
         </section>
         <section class="p-3">
-            <DataTable title="Listado de alumnos inscritos en el grupo sabatino" personalized="" :headers="[
+            <DataTable title="Listado de alumnos inscritos en la modalidad sabatina" personalized="" :headers="[
                 { title: 'Fecha de registro', value: 'created_at'},
                 { title: 'Estado', value: 'status' },
                 { title: 'Ciclo', value: 'cycle' },
