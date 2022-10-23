@@ -68,20 +68,9 @@ export default {
     expose: ['passData', 'clearInputs'],
     watch: {
         'state.personalInfo.phone'(newValue) {
-            let phoneNumber = newValue
-            if (phoneNumber.length === 8) {
-                let cleaned = ('' + phoneNumber).replace(/\D/g, '')
-                let match = cleaned.match(/^(\d{4})(\d{4})$/)
-                if (match) {
-                    this.state.personalInfo.phone = match[1] + '' + match[2]
-                }
-                else {
-                    this.state.personalInfo.phone = ''
-                }
-            }
-            if (phoneNumber.length > 9) {
-                this.state.personalInfo.phone = phoneNumber.slice(0, -1)
-            }
+            let arrayPhoneNumber = newValue.match(/[0-9]/g) ?? [""]
+            let phoneNumber = arrayPhoneNumber.join().replace(/,/g,"")
+            this.state.personalInfo.phone = phoneNumber.length > 8 ? phoneNumber.slice(0,-1) : phoneNumber
         }
     }
 }
