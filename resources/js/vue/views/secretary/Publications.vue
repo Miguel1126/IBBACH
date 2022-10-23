@@ -179,7 +179,7 @@ export default {
                         class="btn btn-secondary m-3 d-inline-flex icon d-flex justify-content-center">
                         <span class="material-symbols-outlined fs-1">add_a_photo</span>
                     </label>
-                    <input class="d-none" type="file" id="formFile" @change="getImage" accept=".jpg">
+                    <input class="d-none" type="file" id="formFile" @change="getImage" accept=".jpg, .jpeg">
                 </div>
                 <div class="d-flex justify-content-center"><span class="text-danger" v-if="v$.img.$error">{{
                 v$.img.$errors[0].$message}}</span></div>
