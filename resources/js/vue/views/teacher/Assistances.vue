@@ -13,6 +13,12 @@ export default {
             noteSelected: '',
             assistances: [],
             paginationLinks: [],
+            status: [
+                { id: 1, status: 'Presente' },
+                { id: 2, status: 'Ausente' },
+                { id: 3, status: 'Permiso' }
+            ],
+            statusSelected: [],
         }
     },
     methods: {
@@ -58,10 +64,11 @@ export default {
         clearDropdown() {
             this.date = ''
             this.noteSelected = ''
+            this.statusSelected = ''
 
         },
         validateDropdowns() {
-            const valid = this.date && this.noteSelected ? true : false
+            const valid = this.date && this.noteSelected && this.statusSelected? true : false
             return valid
 
         },
@@ -75,7 +82,8 @@ export default {
                     const response = await this.axios.post('/api/saveAssistances',
                         {
                             date: this.date,
-                            note_id: this.noteSelected
+                            note_id: this.noteSelected,
+                            statusSelected: this.statusSelected,
                         })
 
                     if (response.status === 201) {
@@ -152,6 +160,14 @@ export default {
                             <select class="form-select inputs" v-model="noteSelected">
                                 <option v-for="note in notes" :key="note.id" :value="note.id">{{ note.name }}
                                     {{ note.last_name }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="select-input">
+                            <label class="d-inline-block">Seleccione un estado</label>
+                            <select class="form-select inputs" v-model="statusSelected">
+                                <option v-for="status in status" :key="status.id" :value="status.id">{{ status.status }}</option>
                             </select>
                         </div>
                     </div>

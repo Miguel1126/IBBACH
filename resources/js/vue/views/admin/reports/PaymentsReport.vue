@@ -3,42 +3,16 @@ import DataTable from '../../../components/DataTable.vue';
 import { handleErrors } from '../../../js/handle_error';
 export default {
     mounted() {
-        this.getPaymentsP(1, true);
         this.getPaymentsS(1, true)
 
     },
     data() {
         return {
-            PaymentsP: [],
             PaymentsS: [],
-            paginationLinksP: [],
             paginationLinksS: []
         };
     },
     methods: {
-        async getPaymentsP(pageNumber, firstPaymentsP = false) {
-            if (firstPaymentsP) this.PaymentsP[0] = 'loading'
-            if (typeof (pageNumber) == 'string') {
-                pageNumber = new URL(pageNumber).searchParams.getAll('page')[0]
-            }
-            try {
-                this.PaymentsP[0] = 'loading'
-                const response = await this.axios.get('/api/getPaymentsp?page=' + pageNumber);
-                if (response.status === 200) {
-                    if (typeof (response.data) === 'object') {
-                        this.PaymentsP = response.data.data;
-                        this.paginationLinksP = response.data.links
-                    }
-                    else {
-                        this.PaymentsP[0] = 'error'
-                    }
-                }
-            }
-            catch (error) {
-                handleErrors(error)
-                this.PaymentsP[0] = 'error'
-            }
-        },
         async getPaymentsS(pageNumber, firstPaymentsS = false) {
             if (firstPaymentsS) this.PaymentsS[0] = 'loading'
             if (typeof (pageNumber) == 'string') {
@@ -68,30 +42,9 @@ export default {
 <template>
     <main>
         <section class="p-3">
-            <DataTable title="Listado de pagos pendientes" personalized :headers="[
+            <DataTable title="Listado de pagos solventes" personalized :headers="[
                     {title: 'Fecha de pago', value: 'payment_date'},
-                    {title: 'status', value: 'status'},
-                    {title: 'Sobrecargo', value: 'sourcharge'},
-                    {title: 'Cuota', value: 'price'},
-                    {title: 'Alumno', value: 'student'},
-                    {title: 'Total', value: 'total'},
-            ]" :items="PaymentsP">
-            </DataTable>
-            <nav aria-label="Page navigation example" v-if="paginationLinksP.length">
-                <ul class="pagination">
-                    <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
-                        v-for="page in paginationLinksP" :key="page">
-                        <span class="page-link" @click="getPaymentsP(page.url)">{{ page.label == 'pagination.previous'
-                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
-                        }}</span>
-                    </li>
-                </ul>
-            </nav>
-        </section>
-        <section class="p-3">
-            <DataTable title="Listado de pagos pendientes" personalized :headers="[
-                    {title: 'Fecha de pago', value: 'payment_date'},
-                    {title: 'status', value: 'status'},
+                    {title: 'Estado', value: 'status'},
                     {title: 'Sobrecargo', value: 'sourcharge'},
                     {title: 'Cuota', value: 'price'},
                     {title: 'Alumno', value: 'student'},

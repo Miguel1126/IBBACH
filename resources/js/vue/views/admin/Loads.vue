@@ -453,8 +453,6 @@ export default {
                     <button type="button"
                         @click="id = item.item.id; cycle_id = item.item.cycleId; subject_id = item.item.subjectId; user_id = item.item.userId; schedule_id = item.item.scheduleId ;"
                         class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#Modal">Modificar</button>
-                    <button type="button" class="btn btn-danger"
-                        @click="confirmDelete($event, load.id)">Eliminar</button>
                 </template>
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">

@@ -353,7 +353,6 @@ export default {
                     <button type="button"
                         @click="id = item.item.id; subjectUp = item.item.subject; descriptionUp = item.item.description; uvUp = item.item.uv; levelUp = item.item.level;"
                         class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#Modal">Modificar</button>
-                    <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">
