@@ -39,7 +39,7 @@
                         <td class="text-center"><?= $student->subject ?></td>
                         <td class="text-center"><?= $student->name .' '. $student->last_name ?></td>
                         <td class="text-center"><?= $student->code ?></td>
-                        <td class="text-center"><?= $student->status ?></td>
+                        <td class="text-center"><?= $student->result_status ?></td>
                         <td class="text-center"><?= $student->finalAverage?></td>
                     </tr>
                     @endforeach
