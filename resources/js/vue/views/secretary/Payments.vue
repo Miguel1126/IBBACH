@@ -113,6 +113,7 @@ export default {
                         payment_date: currentDate,
                         total: this.total,
                         sourcharge: this.sourcharge,
+                        pay_price: this.rateFiltered.price,
                         rate_id: this.rateFiltered.id,
                         user_id: this.selectedUser.id,
                         paidMonths: this.months.length
@@ -337,6 +338,7 @@ export default {
                     {title: 'Fecha de pago', value: 'payment_date'},
                     {title: 'Pagos realizados', value: 'paid_count'},
                     {title: 'Cuota', value: 'price'},
+                    {title: 'Precio de pago', value: 'pay_price'},
                     {title: 'Sobrecargo', value: 'sourcharge'},
                     {title: 'Total', value: 'total'}
                 ]" :items="userPayments">

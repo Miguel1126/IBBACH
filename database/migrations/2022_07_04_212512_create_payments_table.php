@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string( 'status',1)->default('S');
             $table->decimal('sourcharge',8,2)->default(0.0);
             $table->integer('paid_count')->nullable();
+            $table->decimal('pay_price')->default(0.0);
             $table->foreignId('rate_id')
             ->nullable()
             ->constrained('rates')

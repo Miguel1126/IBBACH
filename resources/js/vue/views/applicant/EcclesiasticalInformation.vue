@@ -97,69 +97,25 @@ export default {
     },
     expose: ['passData', 'clearInputs'],
     watch: {
-        'ecclesiasticalInfo.pastor_phone'(value) {
-            //let phoneNumber = value
-            if (value.length === 8) {
-                let cleaned = ('' + value).replace(/\D/g, '')
-                let match = cleaned.match(/^(\d{4})(\d{4})$/)
-                if (match) {
-                    this.ecclesiasticalInfo.pastor_phone = match[1] + '-' + match[2]
-                }
-                else {
-                    this.ecclesiasticalInfo.pastor_phone = ''
-                }
-            }
-            if (value.length > 9) {
-                this.ecclesiasticalInfo.pastor_phone = value.slice(0, -1)
-            }
+        'state.ecclesiasticalInfo.pastor_phone'(newValue) {
+            let arrayPhoneNumber = newValue.match(/[0-9]/g) ?? [""]
+            let phoneNumber = arrayPhoneNumber.join().replace(/,/g,"")
+            this.state.ecclesiasticalInfo.pastor_phone = phoneNumber.length > 8 ? phoneNumber.slice(0,-1) : phoneNumber
         },
-        'ecclesiasticalInfo.church_phone'(value) {
-            let phoneNumber = value
-            if (phoneNumber.length === 8) {
-                let cleaned = ('' + phoneNumber).replace(/\D/g, '')
-                let match = cleaned.match(/^(\d{4})(\d{4})$/)
-                if (match) {
-                    this.ecclesiasticalInfo.church_phone = match[1] + '' + match[2]
-                }
-                else {
-                    this.ecclesiasticalInfo.church_phone = ''
-                }
-            }
-            if (phoneNumber.length > 9) {
-                this.ecclesiasticalInfo.church_phone = phoneNumber.slice(0, -1)
-            }
+        'state.ecclesiasticalInfo.church_phone'(newValue) {
+            let arrayPhoneNumber = newValue.match(/[0-9]/g) ?? [""]
+            let phoneNumber = arrayPhoneNumber.join().replace(/,/g,"")
+            this.state.ecclesiasticalInfo.church_phone = phoneNumber.length > 8 ? phoneNumber.slice(0,-1) : phoneNumber
         },
-        'ecclesiasticalInfo.reference_phone_one'(value) {
-            let phoneNumber = value
-            if (phoneNumber.length === 8) {
-                let cleaned = ('' + phoneNumber).replace(/\D/g, '')
-                let match = cleaned.match(/^(\d{4})(\d{4})$/)
-                if (match) {
-                    this.ecclesiasticalInfo.reference_phone_one = match[1] + '' + match[2]
-                }
-                else {
-                    this.ecclesiasticalInfo.reference_phone_one = ''
-                }
-            }
-            if (phoneNumber.length > 9) {
-                this.ecclesiasticalInfo.reference_phone_one = phoneNumber.slice(0, -1)
-            }
+        'state.ecclesiasticalInfo.reference_phone_one'(newValue) {
+            let arrayPhoneNumber = newValue.match(/[0-9]/g) ?? [""]
+            let phoneNumber = arrayPhoneNumber.join().replace(/,/g,"")
+            this.state.ecclesiasticalInfo.reference_phone_one = phoneNumber.length > 8 ? phoneNumber.slice(0,-1) : phoneNumber
         },
-        'ecclesiasticalInfo.reference_phone_two'(value) {
-            let phoneNumber = value
-            if (phoneNumber.length === 8) {
-                let cleaned = ('' + phoneNumber).replace(/\D/g, '')
-                let match = cleaned.match(/^(\d{4})(\d{4})$/)
-                if (match) {
-                    this.ecclesiasticalInfo.reference_phone_two = match[1] + '' + match[2]
-                }
-                else {
-                    this.ecclesiasticalInfo.reference_phone_two = ''
-                }
-            }
-            if (phoneNumber.length > 9) {
-                this.ecclesiasticalInfo.reference_phone_two = phoneNumber.slice(0, -1)
-            }
+        'state.ecclesiasticalInfo.reference_phone_two'(newValue) {
+            let arrayPhoneNumber = newValue.match(/[0-9]/g) ?? [""]
+            let phoneNumber = arrayPhoneNumber.join().replace(/,/g,"")
+            this.state.ecclesiasticalInfo.reference_phone_two = phoneNumber.length > 8 ? phoneNumber.slice(0,-1) : phoneNumber
         }
     }
 

@@ -47,6 +47,7 @@ class PaymentController extends Controller
             $payment->sourcharge = $request->sourcharge;
             $payment->status = "S";
             $payment->paid_count = $request->paidMonths;
+            $payment->pay_price = $request->pay_price;
             $payment->rate_id = $request->rate_id;
             $payment->user_id = $request->user_id;
             if ($payment->save() <= 0) {
@@ -111,6 +112,7 @@ class PaymentController extends Controller
                 'payments.payment_date',
                 'payments.paid_count',
                 'payments.total',
+                'payments.pay_price',
                 'payments.status',
                 'payments.sourcharge',
                 DB::raw("CONCAT(users.name,' ',users.last_name) AS student"),
