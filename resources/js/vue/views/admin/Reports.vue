@@ -7,7 +7,6 @@ export default {
         return {
             reports: [
                 { icon: 'dataset', name: 'Reporte de carga académica', url: 'LoadsReport' },
-                { icon: 'groups_3', name: 'Reporte de docentes', url: 'TeachersReport' },
                 { icon: 'collections_bookmark', name: 'Reporte de asignaturas', url: 'SubjectsReport' },
                 { icon: 'person', name: 'Reporte de aplicantes', url: 'ApplicantsReport' },
                 { icon: 'cycle', name: 'Reporte de ciclos', url: 'CyclesReport' },
@@ -18,6 +17,7 @@ export default {
                 { icon: 'groups', name: 'Reporte de usuarios', url: 'UsersReport' },
                 { icon: 'payments', name: 'Reporte de pagos', url: 'PaymentsPReport' },
                 { icon: 'group_add', name: 'Reporte de estudiantes por año', url: 'StudentsPerYearReport' },
+                { icon: 'group_add', name: 'Reporte de estudiantes por modalidad', url: 'UsersGroupReport' },
             ]
         }
     }
