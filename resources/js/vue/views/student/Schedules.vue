@@ -23,7 +23,6 @@ export default {
                 this.cycles = response.data
                 if (this.cycles[0]) {
                     this.cySelected = this.cycles[0].id
-                    this.getSchedules()
                 }
             }
             catch (error) {

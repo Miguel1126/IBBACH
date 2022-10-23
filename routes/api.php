@@ -170,7 +170,7 @@ Route::middleware(['auth:sanctum', 'alumno'])->group(function(){
     Route::get('/inscription-cycles', [InscriptionController::class, 'getInscriptionCycles']);
     Route::post('/inscribe', [InscriptionController::class, 'store']);
     Route::get('/get-schedules/{cycleId}', [ScheduleController::class, 'getStudentSchedules']);
-
+    Route::get('/get-notes/{cycleId}', [NoteController::class, 'studentNotes']);
 });
 
 
