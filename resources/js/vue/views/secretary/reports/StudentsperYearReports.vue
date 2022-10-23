@@ -9,7 +9,8 @@ export default {
     data() {
         return {
             students: [],
-            paginationLinks: []
+            paginationLinks: [],
+            count: 0
         }
     },
     methods: {
@@ -24,6 +25,7 @@ export default {
                     if (typeof (response.data) === "object") {
                         this.students = response.data.data;
                         this.paginationLinks = response.data.links
+                        this.count = response.data.total
                     }
                     else {
                         this.students[0] = 'error'
@@ -42,7 +44,7 @@ export default {
 </script>
 <template>
     <main>
-        <DataTable :title="'Estudiantes por año actual: ' + new Date().getFullYear() + ' - Total: ' + students.length"
+        <DataTable :title="'Estudiantes por año actual: ' + new Date().getFullYear() + ' - Total: ' + count"
             personalized :headers="[
                 {title: 'Nombre', value: 'name'},
                 {title: 'Apellidos', value: 'last_name'},
