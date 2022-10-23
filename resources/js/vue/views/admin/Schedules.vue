@@ -301,7 +301,6 @@ export default {
                 <template #actions="item">
                     <button type="button" @click="id = item.item.id;" class="btn btn-primary me-2"
                         data-bs-toggle="modal" data-bs-target="#Modal">Modificar</button>
-                    <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">

@@ -343,7 +343,6 @@ export default {
                     <button type="button"
                         @click="id = item.item.id; cycleUp = item.item.cycle; groupUp = item.item.groupId; start_dateUp = unFormateDate(item.item.start_date); end_dateUp = unFormateDate(item.item.end_date); statusUp = item.item.status;"
                         class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#Modal">Modificar</button>
-                    <button type="button" class="btn btn-danger">Eliminar</button>
                 </template>
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">
