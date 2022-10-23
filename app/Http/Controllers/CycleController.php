@@ -130,6 +130,10 @@ class CycleController extends Controller
     public function update(Request $request)
     {
         try {
+            if ($request->status === "A" && Cycle::where("status","A")->where("group_id",$request->group_id)->exists()) {
+                return response()->json(["message" => "No pueden haber 2 ciclos de la misma modalidad activos a la vez"],409);
+            }
+
             $cycle = Cycle::findOrFail($request->id);
             $cycle->cycle = $request->cycle;
             $cycle->start_date = $request->start_date;

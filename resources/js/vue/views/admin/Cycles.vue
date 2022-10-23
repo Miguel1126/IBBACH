@@ -6,7 +6,7 @@ import { formatDate, unFormatDate } from '../../js/format_time';
 export default {
     mounted() {
         this.getCycles(1, true);
-        this.getGroups(1, true);
+        this.getGroups();
     },
     data() {
         return {
@@ -63,10 +63,10 @@ export default {
         },
         async getGroups() {
             try {
-                const response = await this.axios.get("/api/getGrupos/paginate");
+                const response = await this.axios.get("/api/getGrupos");
                 if (response.status === 200) {
                     if (typeof (response.data) === "object") {
-                        this.groups = response.data.data;
+                        this.groups = response.data;
                     }
                 }
             }
@@ -114,11 +114,21 @@ export default {
                         this.getCycles()
                     }
                 } catch (error) {
-                    this.$swal.fire(
+                    if (error.response.status === 409) {
+                        this.$swal.fire(
+                            'Error',
+                            `${error.response.data.message}`,
+                            'error'
+                        )
+                        this.getCycles()
+                    }
+                    else {
+                        this.$swal.fire(
                         'Error',
                         'Parece que algo salió mal, intentalo de nuevo',
                         'error'
                     )
+                    }
                     handleErrors(error)
                     this.loading = false
                 }
