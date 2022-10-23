@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Cycle;
 use Illuminate\Http\Request;
 use App\Models\Load;
 use Illuminate\Support\Facades\DB;
@@ -78,6 +78,42 @@ class LoadController extends Controller
         }
         catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()],500);
+        }
+    }
+
+    public function getTeacherLoads(Request $request) {
+        try {
+            $cycle = Cycle::join('groups','cycles.group_id','=','groups.id')
+            ->select('cycles.id','cycle','groups.group','start_date','end_date')
+            ->where('status','=','A')
+            ->where('group_id','=',$request->group_id)
+            ->orderBy('cycles.id','desc')
+            ->get();
+
+            if (!isset($cycle[0]->id)) return response([],204);
+
+            $loads = Load::join('cycles','loads.cycle_id','=','cycles.id')
+            ->join('subjects','loads.subject_id','=','subjects.id')
+            ->join('users','loads.user_id','=','users.id')
+            ->join('schedules','loads.schedule_id','=','schedules.id')
+            ->select(
+                'loads.id',
+                'subjects.subject',
+                'subjects.description',
+                'schedules.start_date',
+                'schedules.end_date',
+                'schedules.start_time',
+                'schedules.end_time'
+            )
+            ->where('cycles.id',$cycle[0]->id)
+            ->where('users.id',auth()->user()->id)
+            ->where('subjects.status','D')
+            ->get();
+            
+            return response()->json(["loads" => $loads, "current_cycle" => $cycle[0]], 200);
+
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 500);
         }
     }
 
