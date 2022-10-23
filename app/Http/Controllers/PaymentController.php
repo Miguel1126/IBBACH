@@ -142,7 +142,7 @@ class PaymentController extends Controller
                 DB::raw("CONCAT(users.name,' ',users.last_name) AS student"),
                 'rates.price'
             )
-            //->where('payments.status', '=', 'solvente')
+            ->where('payments.status', '=', 'S')
             ->orderBy('id', 'desc')
             ->paginate(5)->onEachSide(1);
             return $rates;

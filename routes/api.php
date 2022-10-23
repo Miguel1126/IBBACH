@@ -81,6 +81,12 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::get('/notesPDF/pdf', [PDFController::class,'notesPDF']);
     Route::get('/studentsAPDF/pdf', [PDFController::class,'studentsAPDF']);
     Route::get('/studentsRPDF/pdf', [PDFController::class,'studentsRPDF']);
+    Route::get('/subjectsPDF/pdf', [PDFController::class,'subjectsPDF']);
+    Route::get('/paymentsPDF/pdf', [PDFController::class,'paymentsPDF']);
+    Route::get('/teachersPDF/pdf', [PDFController::class,'teachersPDF']);
+    Route::get('/studentsPDF/pdf', [PDFController::class,'studentsPDF']);
+    Route::get('/secretaryPDF/pdf', [PDFController::class,'secretaryPDF']);
+    Route::get('/adminsPDF/pdf', [PDFController::class,'adminsPDF']);
 });
 
     
