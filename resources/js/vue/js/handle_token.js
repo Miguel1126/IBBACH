@@ -45,7 +45,6 @@ export const handleToken = async (role) => {
 }
 
 export const removeToken = (role) => {
-    console.log(role)
     const localStorageValue = {
         admin: "auth",
         secretaria: "access",

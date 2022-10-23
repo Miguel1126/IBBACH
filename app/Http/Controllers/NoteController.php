@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cycle;
 use App\Models\Inscription;
+use App\Models\Load;
 use Illuminate\Http\Request;
 use App\Models\Note;
 use Illuminate\Support\Facades\DB;
@@ -215,27 +216,42 @@ class NoteController extends Controller
     public function studentsNotes($loadId)
     {
         try {
-            $notes = Note::join('inscriptions','notes.inscription_id','=','inscriptions.id')
-            ->join('users','inscriptions.user_id','=','users.id')
-            ->select(
-                DB::raw("CONCAT(users.name,' ',users.last_name) AS student"),
-                'notes.ev1',
-                'notes.percentege1',
-                'notes.ev2',
-                'notes.percentege2',
-                'notes.ev3',
-                'notes.percentege3',
-                'notes.ev4',
-                'notes.percentege4',
-                'notes.ev5',
-                'notes.percentege5',
-                'notes.finalAverage',
-            )
-            ->where('inscriptions.load_id','=',$loadId)
-            ->get();
+            $notes = Note::join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')
+                ->join('users', 'inscriptions.user_id', '=', 'users.id')
+                ->select(
+                    'notes.id',
+                    DB::raw("CONCAT(users.name,' ',users.last_name) AS student"),
+                    'notes.ev1',
+                    'notes.percentege1',
+                    'notes.ev2',
+                    'notes.percentege2',
+                    'notes.ev3',
+                    'notes.percentege3',
+                    'notes.ev4',
+                    'notes.percentege4',
+                    'notes.ev5',
+                    'notes.percentege5',
+                    'notes.finalAverage',
+                    'notes.result_status',
+                    'notes.status',
+                )
+                ->where('inscriptions.load_id', '=', $loadId)
+                ->get();
 
-            return $notes;
+            $load = Load::join('cycles', 'loads.cycle_id', '=', 'cycles.id')
+                ->join('groups', 'cycles.group_id', '=', 'groups.id')
+                ->join('subjects', 'loads.subject_id', '=', 'subjects.id')
+                ->select(
+                    'cycles.cycle',
+                    'subjects.subject',
+                    'groups.group',
+                )
+                ->where('loads.id', $loadId)
+                ->get();
 
+            if (!isset($load[0])) return response()->json([], 204);
+
+            return response()->json(["notes" => $notes, "load" => isset($load[0]) ? $load[0] : []], 200);
         } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()], 500);
         }
@@ -244,41 +260,55 @@ class NoteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function publishNotes(Request $request)
     {
-        //
+        try {
+            $notes = $request->notes;
+            for ($i = 0; $i < count($notes); $i++) {
+                $note = Note::findOrFail($notes[$i]['id']);
+                $note->status = "A";
+                $note->save();
+            }
+
+            return response("Notes published successfully", 200);
+            
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 500);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
         try {
-            $notes = Note::findOrFail($request->id);
-            $notes->ev1 = $request->ev1;
-            $notes->percentege1 = $request->percentege1;
-            $notes->ev2 = $request->ev2;
-            $notes->percentege2 = $request->percentege2;
-            $notes->ev3 = $request->ev3;
-            $notes->percentege3 = $request->percentege3;
-            $notes->ev4 = $request->ev4;
-            $notes->percentege4 = $request->percentege4;
-            $notes->ev5 = $request->ev5;
-            $notes->percentege5 = $request->percentege5;
-            $notes->finalAverage = $request->finalAverage;
-            $notes->status = $request->status;
-            $notes->inscription_id = $request->inscription_id;
-            if ($notes->save() >= 1) {
-                return response()->json(['status' => 'ok', 'data' => $notes], 202);
+            $notes = $request->notes;
+            for ($i = 0; $i < count($notes); $i++) {
+                $note = Note::findOrFail($notes[$i]['id']);
+                $note->ev1 = $notes[$i]['ev1'];
+                $note->percentege1 = $notes[$i]['percentege1'];
+                $note->ev2 = $notes[$i]['ev2'];
+                $note->percentege2 = $notes[$i]['percentege2'];
+                $note->ev3 = $notes[$i]['ev3'];
+                $note->percentege3 = $notes[$i]['percentege3'];
+                $note->ev4 = $notes[$i]['ev4'];
+                $note->percentege4 = $notes[$i]['percentege4'];
+                $note->ev5 = $notes[$i]['ev5'];
+                $note->percentege5 = $notes[$i]['percentege5'];
+                $note->finalAverage = $notes[$i]['finalAverage'];
+                $note->result_status = $notes[$i]['result_status'];
+                $note->save();
             }
+
+            return response("Notes updated successfully", 200);
+            
         } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()], 500);
         }
