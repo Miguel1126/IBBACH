@@ -91,7 +91,7 @@ export default {
                                 <td class="text-center">{{ note.percentege4 }}</td>
                                 <td class="text-center">{{ note.ev5 }}</td>
                                 <td class="text-center">{{ note.percentege5 }}</td>
-                                <td class="text-center">{{ note.finalAverage }}</td>
+                                <td class="text-center fw-bold" :class="note.result_status == 'A' ? '' : 'text-danger'">{{ note.finalAverage }}</td>
                                 <td class="text-center" :class="note.result_status == 'A' ? 'text-success' : 'text-danger'">{{ note.result_status == 'A' ? 'Aprobado' : 'Reprobado' }}</td>
                             </tr>
                         </tbody>

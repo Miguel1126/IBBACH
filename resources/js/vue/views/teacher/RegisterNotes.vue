@@ -81,8 +81,15 @@ export default {
             }
         }
     },
+    beforeRouteLeave(to, from) {
+        const answer = window.confirm('¿Ya te vas? Asegúrate de guardar los cambios que hayas hecho en las notas.\n Si ya lo hiciste puedes continuar.')
+        if (!answer) return false
+    },
     mounted() {
         document.title = "IBBACH | Registrar Notas"
+        document.body.onbeforeunload = function(event) {
+            event.returnValue = "Asegurate de guardar los cambios antes de salir";
+        }
         this.getNotes()
     }
 }
@@ -98,7 +105,7 @@ export default {
         <div class="m-2 mt-3">
             <p class="fs-4 m-0 p-0 text-center border-bottom">Edita las notas de los alumnos en la tabla</p>
             <div class="table-container">
-                <table class="styled-table shadow">
+                <table class="styled-table shadow" id="notes-table">
                     <thead>
                         <tr>
                             <th class="text-center" scope="col">Estudiante</th>
