@@ -18,58 +18,53 @@ export default {
             try {
                 const response = await this.axios.get("/api/getGrupoD");
                 if (response.status === 200) {
-                    if (typeof (response.data) === "object") {
-                        this.usersD = response.data;
-                    }
-                    else {
-                        console.log(response);
-                    }
+                    this.usersD = response.data;
                 }
-            }
+                else {
+                    this.usersD[0] = 'error'
+                }
+            } 
             catch (error) {
                 handleErrors(error)
+                this.usersD[0] = 'error'
             }
         },
         async getGroupS() {
             try {
                 const response = await this.axios.get("/api/getGrupoS");
                 if (response.status === 200) {
-                    if (typeof (response.data) === "object") {
-                        this.usersS = response.data;
-                    }
-                    else {
-                        console.log(response);
-                    }
+                    this.usersS = response.data;
                 }
-            }
+                else {
+                    this.usersS[0] = 'error'
+                }
+            } 
             catch (error) {
                 handleErrors(error)
+                this.usersS[0] = 'error'
             }
         },
-    }
+    },
+    components: {DataTable}
 }
 </script>
 <template>
     <main>
         <section class="p-3">
-            <DataTable title="Listado de alumnos inscritos en el grupo diurno" :headers="[
-                { title: 'Id' },
-                { title: 'Fecha de inscripcion' },
-                { title: 'Nombre' },
-                { title: 'Apellido' },
-                { title: 'Codigo' },
-                { title: 'Grupo' }
+            <DataTable title="Listado de alumnos inscritos en la modalidad diurna" personalized :headers="[
+                { title: 'Nombre', value: 'name' },
+                { title: 'Apellido', value: 'last_name'},
+                { title: 'Codigo', value: 'code' },
+                { title: 'Modalidad', value: 'group' }
             ]" :items="usersD">
             </DataTable>
         </section>
         <section class="p-3">
-            <DataTable title="Listado de alumnos inscritos en el grupo sabatino" :headers="[
-                { title: 'Id' },
-                { title: 'Fecha de inscripcion' },
-                { title: 'Nombre' },
-                { title: 'Apellido' },
-                { title: 'Codigo' },
-                { title: 'Grupo' }
+            <DataTable title="Listado de alumnos inscritos en la modalidad sabatina" personalized :headers="[
+                  { title: 'Nombre', value: 'name' },
+                { title: 'Apellido', value: 'last_name'},
+                { title: 'Codigo', value: 'code' },
+                { title: 'Modalidad', value: 'group' }
             ]" :items="usersS">
             </DataTable>
         </section>
