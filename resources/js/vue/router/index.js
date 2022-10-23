@@ -37,9 +37,9 @@ import Report from '../views/secretary/Report.vue'
  * Components for teacher view
  */
 import Teacher from '../views/teacher/base/Teacher.vue'
-import TestTeacher from '../views/teacher/TestTeacher.vue'
 import Assistances from '../views/teacher/Assistances.vue'
 import Notes from '../views/teacher/Notes.vue'
+import RegisterNotes from '../views/teacher/RegisterNotes.vue'
 import report from '../views/teacher/report.vue'
 
 /**
@@ -293,6 +293,11 @@ export const router = createRouter({
           path: 'notas',
           name: 'Notes',
           component: Notes
+        },
+        {
+          path: 'notas/registro/:loadId',
+          name: 'RegisterNotes',
+          component: RegisterNotes
         }
       ]
     },
