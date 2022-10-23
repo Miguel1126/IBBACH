@@ -7,6 +7,7 @@ import { handleErrors } from '../../js/handle_error';
 
 export default {
     mounted() {
+        document.title = "IBBACH | Publicaciones"
         this.getPublications(1, true);
     },
     data() {

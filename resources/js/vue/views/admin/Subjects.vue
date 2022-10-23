@@ -194,9 +194,6 @@ export default {
     setup() {
         document.title = "IBBACH | Asignaturas"
     },
-    mounted() {
-        this.getSubjects()
-    },
     components: { DataTable, LoadingDots }
 }
 </script>

@@ -3,8 +3,9 @@ import DataTable from '../../components/DataTable.vue';
 import { handleErrors } from '../../js/handle_error';
 export default {
     mounted() {
+        document.title = "IBBACH | Asistencias"
         this.getAssistances(1, true);
-        this.getNotes(1, true)
+        this.getNotes()
     },
     data() {
         return {
@@ -127,11 +128,6 @@ export default {
                     title: 'Debes rellenar todos los campos'
                 })
             }
-        },
-        mounted() {
-            document.title = "IBBACH | Asistencias"
-            this.getAssistances()
-            this.getNotes()
         },
     },
     components: { DataTable }

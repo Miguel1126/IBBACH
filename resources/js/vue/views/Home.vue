@@ -1,11 +1,4 @@
 <script>
-
-
-
-
-
-
-
 export default {
 	mounted() {
 		this.getPublications()

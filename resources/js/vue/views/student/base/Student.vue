@@ -24,6 +24,9 @@ new Promise(resolve => {
 		axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.token
 	}
 })
+
+document.title = "IBBACH | Alumno"
+
 </script>
 	
 <template>
