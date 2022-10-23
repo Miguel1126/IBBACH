@@ -130,6 +130,7 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     Route::post('/publicaciones', [PublicationController::class, 'store']);
     Route::get('/getpublicaciones', [PublicationController::class, 'show']);
     Route::delete('/deletePublication', [PublicationController::class, 'destroy']);
+    Route::get('/paymentPDF/pdf', [PDFController::class,'paymentsPDF']);
 });
 
 
@@ -157,6 +158,10 @@ Route::middleware(['auth:sanctum', 'docente'])->group(function(){
     Route::put('/publish-notes', [NoteController::class, 'publishNotes']);
     Route::get('/teacher-loads', [LoadController::class, 'getTeacherLoads']);
     Route::get('/groups', [GroupController::class, 'show']);
+    Route::get('/studentsApPDF/pdf', [PDFController::class,'studentsAPDF']);
+    Route::get('/studentsRePDF/pdf', [PDFController::class,'studentsRPDF']);
+    Route::get('/assistancePDF/pdf', [PDFController::class,'assistancesPDF']);
+
 });
 
 
