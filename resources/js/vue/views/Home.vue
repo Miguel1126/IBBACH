@@ -85,6 +85,7 @@ export default {
 			<span class="carousel-control-next-icon"></span>
 		</button>
 	</div>
+	<br>
 	<div class="row m-3">
 		<div class="col-sm-6">
 			<div class="card text-white mb-3" style="background-color: #0643A4;">

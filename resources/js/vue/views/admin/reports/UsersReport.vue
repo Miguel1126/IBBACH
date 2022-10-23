@@ -18,10 +18,358 @@ export default {
             paginationLinksA: [],
             paginationLinksSe: [],
             paginationLinksS: [],
-            Secre: []
+            Secre: [],
+            dates: [],
+            datesS: [],
+            datesAd: [],
+            datesSt: []
         };
     },
     methods: {
+        async exportPDFst(e) {
+            let date = this.datesSt;
+            e.preventDefault();
+            if (date.length === 0 || date.length === 1) {
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes seleccionar dos fechas'
+                })
+            }
+            else if (date.length === 2) {
+                this.axios({
+                    url: `/api/studentsPDF/pdf?date1=${date[0]}&date2=${date[1]}`, //your url
+                    method: 'GET',
+                    responseType: 'blob', // important
+                }).then((response) => {
+                    // create file link in browser's memory
+                    const href = URL.createObjectURL(response.data);
+
+                    // create "a" HTML element with href to file & click
+                    const link = document.createElement('a');
+                    link.href = href;
+                    link.setAttribute('target', '_blank'); //or any other extension
+                    //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+
+                    // clean up "a" element & remove ObjectURL
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(href);
+                });
+            }
+        },
+        async downloadPDFst(e) {
+            let date = this.datesSt;
+            e.preventDefault();
+            if (date.length === 0 || date.length === 1) {
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes seleccionar dos fechas'
+                })
+            }
+            else if (date.length === 2) {
+                this.axios({
+                    url: `/api/studentsPDF/pdf?date1=${date[0]}&date2=${date[1]}`, //your url
+                    method: 'GET',
+                    responseType: 'blob', // important
+                }).then((response) => {
+                    // create file link in browser's memory
+                    const href = URL.createObjectURL(response.data);
+
+                    // create "a" HTML element with href to file & click
+                    const link = document.createElement('a');
+                    link.href = href;
+                    link.setAttribute('download', 'Alumnos.pdf'); //or any other extension
+                    //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+
+                    // clean up "a" element & remove ObjectURL
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(href);
+                });
+            }
+        },
+        async exportPDFad(e) {
+            let date = this.datesAd;
+            e.preventDefault();
+            if (date.length === 0 || date.length === 1) {
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes seleccionar dos fechas'
+                })
+            }
+            else if (date.length === 2) {
+                this.axios({
+                    url: `/api/adminsPDF/pdf?date1=${date[0]}&date2=${date[1]}`, //your url
+                    method: 'GET',
+                    responseType: 'blob', // important
+                }).then((response) => {
+                    // create file link in browser's memory
+                    const href = URL.createObjectURL(response.data);
+
+                    // create "a" HTML element with href to file & click
+                    const link = document.createElement('a');
+                    link.href = href;
+                    link.setAttribute('target', '_blank'); //or any other extension
+                    //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+
+                    // clean up "a" element & remove ObjectURL
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(href);
+                });
+            }
+        },
+        async downloadPDFad(e) {
+            let date = this.datesAd;
+            e.preventDefault();
+            if (date.length === 0 || date.length === 1) {
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes seleccionar dos fechas'
+                })
+            }
+            else if (date.length === 2) {
+                this.axios({
+                    url: `/api/adminsPDF/pdf?date1=${date[0]}&date2=${date[1]}`, //your url
+                    method: 'GET',
+                    responseType: 'blob', // important
+                }).then((response) => {
+                    // create file link in browser's memory
+                    const href = URL.createObjectURL(response.data);
+
+                    // create "a" HTML element with href to file & click
+                    const link = document.createElement('a');
+                    link.href = href;
+                    link.setAttribute('download', 'Administradores.pdf'); //or any other extension
+                    //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+
+                    // clean up "a" element & remove ObjectURL
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(href);
+                });
+            }
+        },
+        async exportPDFs(e) {
+            let date = this.datesS;
+            e.preventDefault();
+            if (date.length === 0 || date.length === 1) {
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes seleccionar dos fechas'
+                })
+            }
+            else if (date.length === 2) {
+                this.axios({
+                    url: `/api/secretaryPDF/pdf?date1=${date[0]}&date2=${date[1]}`, //your url
+                    method: 'GET',
+                    responseType: 'blob', // important
+                }).then((response) => {
+                    // create file link in browser's memory
+                    const href = URL.createObjectURL(response.data);
+
+                    // create "a" HTML element with href to file & click
+                    const link = document.createElement('a');
+                    link.href = href;
+                    link.setAttribute('target', '_blank'); //or any other extension
+                    //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+
+                    // clean up "a" element & remove ObjectURL
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(href);
+                });
+            }
+        },
+        async downloadPDFs(e) {
+            let date = this.datesS;
+            e.preventDefault();
+            if (date.length === 0 || date.length === 1) {
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes seleccionar dos fechas'
+                })
+            }
+            else if (date.length === 2) {
+                this.axios({
+                    url: `/api/secretaryPDF/pdf?date1=${date[0]}&date2=${date[1]}`, //your url
+                    method: 'GET',
+                    responseType: 'blob', // important
+                }).then((response) => {
+                    // create file link in browser's memory
+                    const href = URL.createObjectURL(response.data);
+
+                    // create "a" HTML element with href to file & click
+                    const link = document.createElement('a');
+                    link.href = href;
+                    link.setAttribute('download', 'Secretarias.pdf'); //or any other extension
+                    //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+
+                    // clean up "a" element & remove ObjectURL
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(href);
+                });
+            }
+        },
+        async exportPDF(e) {
+            let date = this.dates;
+            e.preventDefault();
+            if (date.length === 0 || date.length === 1) {
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes seleccionar dos fechas'
+                })
+            }
+            else if (date.length === 2) {
+                this.axios({
+                    url: `/api/teachersPDF/pdf?date1=${date[0]}&date2=${date[1]}`, //your url
+                    method: 'GET',
+                    responseType: 'blob', // important
+                }).then((response) => {
+                    // create file link in browser's memory
+                    const href = URL.createObjectURL(response.data);
+
+                    // create "a" HTML element with href to file & click
+                    const link = document.createElement('a');
+                    link.href = href;
+                    link.setAttribute('target', '_blank'); //or any other extension
+                    //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+
+                    // clean up "a" element & remove ObjectURL
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(href);
+                });
+            }
+        },
+        async downloadPDF(e) {
+            let date = this.dates;
+            e.preventDefault();
+            if (date.length === 0 || date.length === 1) {
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes seleccionar dos fechas'
+                })
+            }
+            else if (date.length === 2) {
+                this.axios({
+                    url: `/api/teachersPDF/pdf?date1=${date[0]}&date2=${date[1]}`, //your url
+                    method: 'GET',
+                    responseType: 'blob', // important
+                }).then((response) => {
+                    // create file link in browser's memory
+                    const href = URL.createObjectURL(response.data);
+
+                    // create "a" HTML element with href to file & click
+                    const link = document.createElement('a');
+                    link.href = href;
+                    link.setAttribute('download', 'Docentes.pdf'); //or any other extension
+                    //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+
+                    // clean up "a" element & remove ObjectURL
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(href);
+                });
+            }
+        },
         async getTeachers(pageNumber, firstTeachers = false) {
             if (firstTeachers) this.Teachers[0] = 'loading'
             if (typeof (pageNumber) == 'string') {
@@ -116,6 +464,19 @@ export default {
 </script>
 <template>
     <main>
+        <section class=" p-3 ">
+            <div>
+                <h4>Selecciona un rango de fechas</h4>
+                <span class="m-2">Desde:</span>
+                <input type="date" class="inputs form-control" v-model="datesS[0]">
+                <span class="m-2">Hasta:</span>
+                <input type="date" class="inputs form-control" v-model="datesS[1]">
+                <div class="d-flex flex-wrap">
+                    <button class="btn btn-danger m-2" @click="exportPDFs">Visualizar PDF</button>
+                    <button class="btn btn-danger m-2" @click="downloadPDFs"><span class="material-symbols-outlined">file_download</span></button>
+                </div>
+            </div>
+        </section>
         <section class="p-3">
             <DataTable title="Listado de usuarios secretaria" personalized :headers="[
                 { title: 'Nombre', value: 'secretary'},
@@ -136,6 +497,19 @@ export default {
                     </li>
                 </ul>
             </nav>
+        </section>
+        <section class=" p-3 ">
+            <div>
+                <h4>Selecciona un rango de fechas</h4>
+                <span class="m-2">Desde:</span>
+                <input type="date" class="inputs form-control" v-model="dates[0]">
+                <span class="m-2">Hasta:</span>
+                <input type="date" class="inputs form-control" v-model="dates[1]">
+                <div class="d-flex flex-wrap">
+                    <button class="btn btn-danger m-2" @click="exportPDF">Visualizar PDF</button>
+                    <button class="btn btn-danger m-2" @click="downloadPDF"><span class="material-symbols-outlined">file_download</span></button>
+                </div>
+            </div>
         </section>
         <section class="p-3">
             <DataTable title="Listado de usuarios docentes" personalized :headers="[
@@ -158,6 +532,19 @@ export default {
                 </ul>
             </nav>
         </section>
+        <section class=" p-3 ">
+            <div>
+                <h4>Selecciona un rango de fechas</h4>
+                <span class="m-2">Desde:</span>
+                <input type="date" class="inputs form-control" v-model="datesSt[0]">
+                <span class="m-2">Hasta:</span>
+                <input type="date" class="inputs form-control" v-model="datesSt[1]">
+                <div class="d-flex flex-wrap">
+                    <button class="btn btn-danger m-2" @click="exportPDFst">Visualizar PDF</button>
+                    <button class="btn btn-danger m-2" @click="downloadPDFst"><span class="material-symbols-outlined">file_download</span></button>
+                </div>
+            </div>
+        </section>
         <section class="p-3">
             <DataTable title="Listado de usuarios alumnos" personalized :headers="[
                 { title: 'Nombre', value: 'student'},
@@ -178,6 +565,19 @@ export default {
                     </li>
                 </ul>
             </nav>
+        </section>
+        <section class=" p-3 ">
+            <div>
+                <h4>Selecciona un rango de fechas</h4>
+                <span class="m-2">Desde:</span>
+                <input type="date" class="inputs form-control" v-model="datesAd[0]">
+                <span class="m-2">Hasta:</span>
+                <input type="date" class="inputs form-control" v-model="datesAd[1]">
+                <div class="d-flex flex-wrap">
+                    <button class="btn btn-danger m-2" @click="exportPDFad">Visualizar PDF</button>
+                    <button class="btn btn-danger m-2" @click="downloadPDFad"><span class="material-symbols-outlined">file_download</span></button>
+                </div>
+            </div>
         </section>
         <section class="p-3">
             <DataTable title="Listado de usuarios administrador" personalized :headers="[
@@ -204,5 +604,8 @@ export default {
 </template>
 
 <style scoped>
-
+.inputs {
+    max-width: 400px;
+    min-width: 200px;
+}
 </style>
