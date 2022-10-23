@@ -9,10 +9,97 @@ export default {
         return {
             notes: [],
             noteSelected: [],
-            paginationLinks: []
+            paginationLinks: [],
+            dates: []
         };
     },
     methods: {
+        async exportPDF(e) {
+            let date = this.dates;
+            e.preventDefault();
+            if (date.length === 0 || date.length === 1) {
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes seleccionar dos fechas'
+                })
+            }
+            else if (date.length === 2) {
+                this.axios({
+                    url: `/api/notesPDF/pdf?date1=${date[0]}&date2=${date[1]}`, //your url
+                    method: 'GET',
+                    responseType: 'blob', // important
+                }).then((response) => {
+                    // create file link in browser's memory
+                    const href = URL.createObjectURL(response.data);
+
+                    // create "a" HTML element with href to file & click
+                    const link = document.createElement('a');
+                    link.href = href;
+                    link.setAttribute('target', '_blank'); //or any other extension
+                    //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+
+                    // clean up "a" element & remove ObjectURL
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(href);
+                });
+            }
+        },
+        async downloadPDF(e) {
+            let date = this.dates;
+            e.preventDefault();
+            if (date.length === 0 || date.length === 1) {
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Debes seleccionar dos fechas'
+                })
+            }
+            else if (date.length === 2) {
+                this.axios({
+                    url: `/api/notesPDF/pdf?date1=${date[0]}&date2=${date[1]}`, //your url
+                    method: 'GET',
+                    responseType: 'blob', // important
+                }).then((response) => {
+                    // create file link in browser's memory
+                    const href = URL.createObjectURL(response.data);
+
+                    // create "a" HTML element with href to file & click
+                    const link = document.createElement('a');
+                    link.href = href;
+                    link.setAttribute('download', 'Notas.pdf'); //or any other extension
+                    //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+
+                    // clean up "a" element & remove ObjectURL
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(href);
+                });
+            }
+        },
         async getNotesReport(pageNumber, firstNota = false) {
             if (firstNota) this.notes[0] = 'loading'
             if (typeof (pageNumber) == 'string') {
@@ -46,6 +133,17 @@ export default {
 <template>
     <main>
         <section class=" p-3 ">
+            <div>
+                <h4>Selecciona un rango de fechas</h4>
+                <span class="m-2">Desde:</span>
+                <input type="date" class="inputs form-control" v-model="dates[0]">
+                <span class="m-2">Hasta:</span>
+                <input type="date" class="inputs form-control" v-model="dates[1]">
+                <div class="d-flex flex-wrap">
+                    <button class="btn btn-danger m-2" @click="exportPDF">Visualizar PDF</button>
+                    <button class="btn btn-danger m-2" @click="downloadPDF"><span class="material-symbols-outlined">file_download</span></button>
+                </div>
+            </div>
         </section>
         <section class="p-3">
             <DataTable title="Listado de notas" personalized :headers="[
@@ -54,7 +152,7 @@ export default {
                 {title:'Nombre', value: 'name'},
                 {title:'Apellido', value: 'last_name'},
                 {title:'Codigo', value: 'code'},
-                {title:'Modaidad', value: 'group'},
+                {title:'Modalidad', value: 'group'},
                 {title:'Evalucion #1', value: 'ev1'},
                 {title:'Porcentaje', value: 'percentege1'},
                 {title:'Evalucion #2', value: 'ev2'},
@@ -83,3 +181,9 @@ export default {
         </section>
     </main>
 </template>
+<style scoped>
+.inputs {
+    max-width: 400px;
+    min-width: 200px;
+}
+</style>

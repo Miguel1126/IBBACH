@@ -74,6 +74,13 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::put('/updateSchedule', [ScheduleController::class, 'update']);
     Route::put('/updateLoad', [LoadController::class, 'update']);
     Route::get('/cyclesPDF/pdf', [PDFController::class,'cyclesPDF']);
+    Route::get('/assistancesPDF/pdf', [PDFController::class,'assistancesPDF']);
+    Route::get('/inscriptionsPDF/pdf', [PDFController::class,'inscriptionsPDF']);
+    Route::get('/inscriptionPDF/pdf', [PDFController::class,'inscriptionPDF']);
+    Route::get('/loadsPDF/pdf', [PDFController::class,'loadsPDF']);
+    Route::get('/notesPDF/pdf', [PDFController::class,'notesPDF']);
+    Route::get('/studentsAPDF/pdf', [PDFController::class,'studentsAPDF']);
+    Route::get('/studentsRPDF/pdf', [PDFController::class,'studentsRPDF']);
 });
 
     
