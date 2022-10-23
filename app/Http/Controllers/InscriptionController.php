@@ -208,7 +208,7 @@ class InscriptionController extends Controller
             ->count();
 
             $subjects = Load::join('subjects','loads.subject_id','=','subjects.id')
-            ->select('loads.id','subjects.id as subject_id','subjects.subject','subjects.description')
+            ->select('loads.id','subjects.id as subject_id','subjects.subject','subjects.description','subjects.uv')
             ->where('loads.status','=','D')
             ->where('loads.cycle_id', '=', $cycle[0]->id)
             ->get();
