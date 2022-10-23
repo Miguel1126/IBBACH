@@ -62,7 +62,7 @@ export default {
             }
         },
         async downloadPDF(e) {
-            let date = this.datesS;
+            let date = this.dates;
             e.preventDefault();
             if (date.length === 0 || date.length === 1) {
                 const Toast = this.$swal.mixin({
@@ -105,7 +105,7 @@ export default {
             }
         },
         async exportPDFs(e) {
-            let date = this.dates;
+            let date = this.datesS;
             e.preventDefault();
             if (date.length === 0 || date.length === 1) {
                 const Toast = this.$swal.mixin({
@@ -148,7 +148,7 @@ export default {
             }
         },
         async downloadPDFs(e) {
-            let date = this.dates;
+            let date = this.datesS;
             e.preventDefault();
             if (date.length === 0 || date.length === 1) {
                 const Toast = this.$swal.mixin({
