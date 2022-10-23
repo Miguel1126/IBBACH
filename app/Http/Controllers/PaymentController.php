@@ -125,31 +125,6 @@ class PaymentController extends Controller
             return response()->json(["message" => $e->getMessage()],500);
         }
     }
- 
-    public function getPaymentsP()
-    {
-        try {
-            $rates = Payment::join('users', 'payments.user_id', '=', 'users.id')
-            ->join('rates', 'payments.rate_id', '=', 'rates.id')
-            ->select(
-                'payments.id',
-                'payments.payment_date',
-                'payments.paid_count',
-                'payments.total',
-                'payments.status',
-                'payments.sourcharge',
-                DB::raw("CONCAT(users.name,' ',users.last_name) AS student"),
-                'rates.price'
-            )
-            ->where('payments.status', '=', 'pendiente')
-            ->orderBy('id', 'desc')
-            ->paginate(5)->onEachSide(1);
-            return $rates;
-        }
-        catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()],500);
-        }
-    }
     public function getPaymentsS()
     {
         try {
