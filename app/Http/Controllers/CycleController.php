@@ -90,6 +90,24 @@ class CycleController extends Controller
             return response()->json(["message" => $e->getMessage()], 500);
         }
     }
+    
+    public function getCurrentCycle(Request $request) {
+        try {
+            $cycle = Cycle::join('groups','cycles.group_id','=','groups.id')
+            ->select('cycles.id','cycle','groups.group','start_date','end_date')
+            ->where('status','=','A')
+            ->where('group_id','=',$request->group_id)
+            ->orderBy('cycles.id','desc')
+            ->get();
+
+            if (!isset($cycle[0]->id)) return response([],204);
+
+            return $cycle[0]->id;
+
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 500);
+        }
+    }
 
     /**
      * Show the form for editing the specified resource.
