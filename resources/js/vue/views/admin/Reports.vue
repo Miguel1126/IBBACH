@@ -17,7 +17,6 @@ export default {
                 { icon: 'feed', name: 'Reporte de inscripciones', url: 'InscriptionsReport' },
                 { icon: 'groups', name: 'Reporte de usuarios', url: 'UsersReport' },
                 { icon: 'payments', name: 'Reporte de pagos', url: 'PaymentsPReport' },
-                { icon: 'paid', name: 'Reporte de cuotas', url: 'RatesReport' },   
                 { icon: 'group_add', name: 'Reporte de estudiantes por año', url: 'StudentsPerYearReport' },
             ]
         }

@@ -59,7 +59,6 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function(){
     Route::get('/getAplicantes', [ApplicantController::class, 'show']);
     Route::get('getNotas', [NoteController::class, 'show']);
     Route::get('/getAsistencias', [AssistanceController::class, 'show']);
-    Route::get('/getPaymentsp', [PaymentController::class, 'getPaymentsP']);
     Route::get('/getPaymentsS', [PaymentController::class, 'getPaymentsS']);
     Route::get('/getTeacher1', [UserController::class, 'getTeacher1']);
     Route::resource('/aplicante', ApplicantController::class);
@@ -110,7 +109,6 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     Route::post('/search-student', [UserController::class, 'getStudentsBySearch']);
     Route::get('/get-grupos/{paginate?}', [GroupController::class, 'show']);
     Route::get('/get-user-payments/{userId}', [PaymentController::class, 'getUserPayments']);
-    Route::get('/getPaymentspend', [PaymentController::class, 'getPaymentsP']);
     Route::get('/getPaymentssolv', [PaymentController::class, 'getPaymentsS']);
     Route::get('/getAplicantes', [ApplicantController::class, 'show']);
     Route::get('/getEcclesiasticalInform', [ApplicantController::class, 'getEcclesiasticalInfo']);
