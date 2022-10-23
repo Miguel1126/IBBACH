@@ -25,6 +25,8 @@ new Promise(resolve => {
 	}
 })
 
+document.title = "IBBACH | Admin"
+
 </script>
 
 <template>

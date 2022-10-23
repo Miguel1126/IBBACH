@@ -8,7 +8,7 @@ import { useVuelidate } from '@vuelidate/core'
 export default {
     mounted() {
         this.getrates(1, true);
-
+        document.title = "IBBACH | Cuotas"
     },
     data() {
         return {

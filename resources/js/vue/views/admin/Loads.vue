@@ -6,13 +6,6 @@ import LoadingDots from '../../components/LoadingDots.vue';
 </script>
 <script>
 export default {
-    mounted() {
-        this.getCycles(1, true)
-        this.getSubjects(1, true)
-        this.getTeacher(1, true)
-        this.getSchedules(1, true)
-        this.getLoads(1, true)
-    },
     data() {
         return {
             id: '',
