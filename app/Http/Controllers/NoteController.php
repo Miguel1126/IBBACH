@@ -257,6 +257,39 @@ class NoteController extends Controller
         }
     }
 
+    public function studentNotes($cycleId)
+    {
+        try {
+            $notes = Note::join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')
+                ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+                ->join('subjects','loads.subject_id','=','subjects.id')
+                ->select(
+                    'notes.id',
+                    'notes.ev1',
+                    'notes.percentege1',
+                    'notes.ev2',
+                    'notes.percentege2',
+                    'notes.ev3',
+                    'notes.percentege3',
+                    'notes.ev4',
+                    'notes.percentege4',
+                    'notes.ev5',
+                    'notes.percentege5',
+                    'notes.finalAverage',
+                    'notes.result_status',
+                    'subjects.subject'
+                )
+                ->where('inscriptions.user_id', auth()->user()->id)
+                ->where('loads.cycle_id', '=', $cycleId)
+                ->where('notes.status','A')
+                ->get();
+
+            return $notes;
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 500);
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -274,7 +307,6 @@ class NoteController extends Controller
             }
 
             return response("Notes published successfully", 200);
-            
         } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()], 500);
         }
@@ -308,7 +340,6 @@ class NoteController extends Controller
             }
 
             return response("Notes updated successfully", 200);
-            
         } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()], 500);
         }
