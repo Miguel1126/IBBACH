@@ -148,8 +148,9 @@ class UserController extends Controller
                     'subjects.subject',
                     'notes.finalAverage',
                     'notes.status',
+                    'notes.result_status'
                 )
-                //->where('notes.status', '=', 'Aprovado')
+                ->where('notes.result_status', '=', 'A')
                 ->orderBy('id', 'desc')->paginate(5)->onEachSide(1);
             return $student;
         } catch (\Exception $e) {
@@ -182,8 +183,9 @@ class UserController extends Controller
                     'subjects.subject',
                     'notes.finalAverage',
                     'notes.status',
+                    'notes.result_status'
                 )
-                ->where('notes.status', '=', 'Reprobado')
+                ->where('notes.result_status', '=', 'R')
                 ->orderBy('id', 'desc')->paginate(5)->onEachSide(1);
             return $student;
         } catch (\Exception $e) {

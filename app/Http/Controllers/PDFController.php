@@ -194,7 +194,7 @@ class PDFController extends Controller
             ->select(
                 'notes.id',
                 'notes.result_status',
-                'users.name as student',
+                'users.name',
                 'users.last_name',
                 'users.code',
                 'subjects.subject',
