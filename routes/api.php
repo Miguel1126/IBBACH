@@ -157,6 +157,8 @@ Route::middleware(['auth:sanctum', 'docente'])->group(function(){
     Route::put('/update-notes', [NoteController::class, 'update']);
     Route::put('/publish-notes', [NoteController::class, 'publishNotes']);
     Route::get('/teacher-loads', [LoadController::class, 'getTeacherLoads']);
+    Route::get('/getEstadoRep', [UserController::class, 'getStudentR']);
+    Route::get('/getEstadoApr', [UserController::class, 'getStudentA']);
     Route::get('/groups', [GroupController::class, 'show']);
     Route::get('/studentsApPDF/pdf', [PDFController::class,'studentsAPDF']);
     Route::get('/studentsRePDF/pdf', [PDFController::class,'studentsRPDF']);
