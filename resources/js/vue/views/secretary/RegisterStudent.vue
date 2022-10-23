@@ -64,6 +64,7 @@ export default {
         async registerStudent(applicantId) {
             if (this.picked) {
                 this.loading = true
+                this.success = false
                 try {
                     const response = await this.axios.post('/api/inscribir', { applicant_id: applicantId, groupId: this.picked })
                     if (response.status === 201) {
