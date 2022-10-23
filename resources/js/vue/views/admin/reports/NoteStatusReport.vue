@@ -260,7 +260,7 @@ export default {
                 {title:'Codigo', value: 'code'},
                 {title:'Asignatura', value: 'subject'},
                 {title:'Resultado Final', value: 'finalAverage'},
-                {title:'Estado', value: 'status'},
+                {title:'Estado', value: 'result_status'},
             ]" :items="notesA">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinks.length">
@@ -294,7 +294,7 @@ export default {
                 {title:'Codigo', value: 'code'},
                 {title:'Asignatura', value: 'subject'},
                 {title:'Resultado Final', value: 'finalAverage'},
-                {title:'Estado', value: 'status'},
+                {title:'Estado', value: 'result_status'},
             ]" :items="notesR">
             </DataTable>
             <nav aria-label="Page navigation example" v-if="paginationLinksR.length">
