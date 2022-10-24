@@ -139,6 +139,29 @@ class NoteController extends Controller
         }
     }
 
+    public function getStudentsByNotes()
+    {
+        try {
+            $notes = Note::join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')
+                ->join('users', 'inscriptions.user_id', '=', 'users.id')
+                ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
+                ->join('subjects', 'Loads.subject_id', '=', 'subjects.id')
+                ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
+                ->join('groups', 'cycles.group_id', '=', 'groups.id')
+                ->select(
+                    'notes.id',
+                    'users.name',
+                    'users.last_name',
+                )
+                ->orderBy('notes.id', 'desc')
+                ->groupBy('users.id')
+                ->get();
+            return $notes;
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 500);
+        }
+    }
+
     public function getNotesReport()
     {
         try {
@@ -262,7 +285,7 @@ class NoteController extends Controller
         try {
             $notes = Note::join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')
                 ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
-                ->join('subjects','loads.subject_id','=','subjects.id')
+                ->join('subjects', 'loads.subject_id', '=', 'subjects.id')
                 ->select(
                     'notes.id',
                     'notes.ev1',
@@ -281,7 +304,7 @@ class NoteController extends Controller
                 )
                 ->where('inscriptions.user_id', auth()->user()->id)
                 ->where('loads.cycle_id', '=', $cycleId)
-                ->where('notes.status','A')
+                ->where('notes.status', 'A')
                 ->get();
 
             return $notes;
