@@ -144,10 +144,6 @@ class NoteController extends Controller
         try {
             $notes = Note::join('inscriptions', 'notes.inscription_id', '=', 'inscriptions.id')
                 ->join('users', 'inscriptions.user_id', '=', 'users.id')
-                ->join('loads', 'inscriptions.load_id', '=', 'loads.id')
-                ->join('subjects', 'Loads.subject_id', '=', 'subjects.id')
-                ->join('cycles', 'loads.cycle_id', '=', 'cycles.id')
-                ->join('groups', 'cycles.group_id', '=', 'groups.id')
                 ->select(
                     'notes.id',
                     'users.name',
