@@ -131,6 +131,7 @@ Route::middleware(['auth:sanctum', 'secretaria'])->group(function(){
     Route::get('/getpublicaciones', [PublicationController::class, 'show']);
     Route::delete('/deletePublication', [PublicationController::class, 'destroy']);
     Route::get('/paymentPDF/pdf', [PDFController::class,'paymentsPDF']);
+    Route::get('/newUser/pdf', [PDFController::class,'newUserPDF']);
 });
 
 

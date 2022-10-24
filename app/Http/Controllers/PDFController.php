@@ -358,4 +358,14 @@ class PDFController extends Controller
             $pdf = \PDF::loadView("usersPDF", compact('users'));
             return $pdf->stream('admins.pdf');
     }
+
+    public function newUserPDF(Request $request) {
+        $data = [
+            "name" => $request->name,
+            "code" => $request->code,
+            "password" => $request->password,
+        ];
+        $pdf = \PDF::loadView("newUserPDF", compact('data'));
+        return $pdf->stream('new-user.pdf');
+    }
 }
