@@ -150,7 +150,7 @@ Route::middleware(['auth:sanctum', 'docente'])->group(function(){
     Route::resource('/asistencias', AssistanceController::class);
     Route::post('/saveAssistances',[AssistanceController::class,'store']);
     Route::get('/getAsistencia', [AssistanceController::class, 'show']);
-    Route::get('/getNota/{paginate?}', [NoteController::class, 'show']);
+    Route::get('/getStudents', [NoteController::class, 'getStudentsByNotes']);
     Route::get('/getInscriptions', [InscriptionController::class, 'show']);  
     Route::put('/updateAssistance',[AssistanceController::class, 'update']);
     Route::get('/getAssistance', [AssistanceController::class, 'getAssistances']);

@@ -47,7 +47,7 @@ export default {
         },
         async getNotes() {
             try {
-                const response = await this.axios.get('/api/getNota')
+                const response = await this.axios.get('/api/getStudents')
                 if (response.status === 200) {
                     if (typeof (response.data) === 'object') {
                         this.notes = response.data
