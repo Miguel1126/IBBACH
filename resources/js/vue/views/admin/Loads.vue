@@ -1,6 +1,6 @@
 <script setup>
 import { handleErrors } from '../../js/handle_error'
-import { formatTime } from '../../js/format_time'
+import { formatDate, formatTime } from '../../js/format_time'
 import DataTable from '../../components/DataTable.vue'
 import LoadingDots from '../../components/LoadingDots.vue';
 </script>
@@ -329,7 +329,7 @@ export default {
                     <div class="select-input">
                         <select class="form-select select-input" v-model="cySelected">
                             <option selected value="">Selecciona un ciclo</option>
-                            <option v-for="cycle in cycles" :key="cycle.id" :value="cycle.id">{{ cycle.cycle }}</option>
+                            <option v-for="cycle in cycles" :key="cycle.id" :value="cycle.id">{{ cycle.cycle }} - {{ cycle.group }}</option>
                         </select>
                     </div>
                     <div class="select-input">
@@ -350,8 +350,8 @@ export default {
                     <div class="select-input">
                         <select class="form-select select-input" v-model="schSelected">
                             <option selected value="">Selecciona un horario</option>
-                            <option v-for="schedule in schedules" :key="schedule.id" :value="schedule.id">{{
-                            formatTime(schedule.start_time) }} - {{ formatTime(schedule.end_time) }}</option>
+                            <option v-for="schedule in schedules" :key="schedule.id" :value="schedule.id">
+                            {{ formatDate(schedule.start_date) }} - {{ formatDate(schedule.end_date) }} | {{ formatTime(schedule.start_time) }} - {{ formatTime(schedule.end_time) }}</option>
                         </select>
                     </div>
                 </div>
