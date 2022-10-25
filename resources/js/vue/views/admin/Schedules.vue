@@ -37,92 +37,130 @@ export default {
     methods: {
         async updateSchedule() {
             this.loading = true
-            if (this.validateInputsUp()) {
-                try {
-                    const response = await this.axios.put("/api/updateSchedule", {
-                        id: this.id,
-                        start_time: this.start_timeUp,
-                        end_time: this.end_timeUp,
-                        start_date: this.start_dateUp,
-                        end_date: this.end_dateUp,
-                    });
-                    if (response.status === 202) {
-                        this.$swal.fire(
-                            'Listo',
-                            '¡Se registró la asignatura correctamente!',
-                            'success'
-                        )
-                        this.getSchedules();
-                        this.clearInputs();
+            if (this.start_dateUp < this.end_dateUp && this.start_timeUp < this.end_timeUp) {
+                if (this.validateInputsUp()) {
+                    try {
+                        const response = await this.axios.put("/api/updateSchedule", {
+                            id: this.id,
+                            start_time: this.start_timeUp,
+                            end_time: this.end_timeUp,
+                            start_date: this.start_dateUp,
+                            end_date: this.end_dateUp,
+                        });
+                        if (response.status === 202) {
+                            this.$swal.fire(
+                                'Listo',
+                                '¡Se registró la asignatura correctamente!',
+                                'success'
+                            )
+                            this.getSchedules();
+                            this.clearInputs();
+                        }
                     }
-                }
-                catch (error) {
-                    this.loading = false
-                    console.log(error)
-                    this.$swal.fire("Error", "Hubo un error", "error");
-                    handleErrors(error)
-                }
+                    catch (error) {
+                        this.loading = false
+                        console.log(error)
+                        this.$swal.fire("Error", "Hubo un error", "error");
+                        handleErrors(error)
+                    }
 
-            }
-            else {
+                }
+                else {
+                    const Toast = this.$swal.mixin({
+                        toast: true,
+                        position: "top",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                            toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+                        }
+                    });
+                    Toast.fire({
+                        icon: "error",
+                        title: "Debes rellenar todos los campos"
+                    });
+                }
+                this.loading = false
+            } else {
                 const Toast = this.$swal.mixin({
                     toast: true,
-                    position: "top",
+                    position: 'top',
                     showConfirmButton: false,
                     timer: 3000,
                     timerProgressBar: true,
                     didOpen: (toast) => {
-                        toast.addEventListener("mouseenter", this.$swal.stopTimer);
-                        toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
                     }
-                });
+                })
                 Toast.fire({
-                    icon: "error",
-                    title: "Debes rellenar todos los campos"
-                });
+                    icon: 'error',
+                    title: 'Ingresa un horario y fecha valido'
+                })
             }
             this.loading = false
         },
         async handleSubmit() {
             this.loading = true
-            if (this.validateInputs()) {
-                try {
-                    const response = await this.axios.post("/api/horarios", {
-                        start_time: this.start_time,
-                        end_time: this.end_time,
-                        start_date: this.start_date,
-                        end_date: this.end_date,
-                    });
-                    if (response.status === 201) {
-                        this.getSchedules();
-                        this.clearInputs();
-                        this.$swal.fire("Listo", "Se registró el Horario", "success");
+            if (this.start_date < this.end_date && this.start_time < this.end_time) {
+                if (this.validateInputs()) {
+                    try {
+                        const response = await this.axios.post("/api/horarios", {
+                            start_time: this.start_time,
+                            end_time: this.end_time,
+                            start_date: this.start_date,
+                            end_date: this.end_date,
+                        });
+                        if (response.status === 201) {
+                            this.getSchedules();
+                            this.clearInputs();
+                            this.$swal.fire("Listo", "Se registró el Horario", "success");
+                        }
                     }
-                }
-                catch (error) {
-                    this.loading = false
-                    console.log(error)
-                    this.$swal.fire("Error", "Hubo un error", "error");
-                    handleErrors(error)
-                }
+                    catch (error) {
+                        this.loading = false
+                        console.log(error)
+                        this.$swal.fire("Error", "Hubo un error", "error");
+                        handleErrors(error)
+                    }
 
-            }
-            else {
+                }
+                else {
+                    const Toast = this.$swal.mixin({
+                        toast: true,
+                        position: "top",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                            toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+                        }
+                    });
+                    Toast.fire({
+                        icon: "error",
+                        title: "Debes rellenar todos los campos"
+                    });
+                }
+                this.loading = false
+            } else {
                 const Toast = this.$swal.mixin({
                     toast: true,
-                    position: "top",
+                    position: 'top',
                     showConfirmButton: false,
                     timer: 3000,
                     timerProgressBar: true,
                     didOpen: (toast) => {
-                        toast.addEventListener("mouseenter", this.$swal.stopTimer);
-                        toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
                     }
-                });
+                })
                 Toast.fire({
-                    icon: "error",
-                    title: "Debes rellenar todos los campos"
-                });
+                    icon: 'error',
+                    title: 'Ingresa un horario y fecha valido'
+                })
             }
             this.loading = false
         },
@@ -229,7 +267,8 @@ export default {
                             <button v-if="!editing" type="submit" class="d-inline-flex btn btn-primary m-2">Agregar <i
                                     class="material-icons m-auto ms-1">add_box</i></button>
                             <button v-if="!editing" type="button" class="d-inline-flex btn btn-warning m-2"
-                                @click="clearInputs">Limpiar <i class="material-icons m-auto ms-1">backspace</i></button>
+                                @click="clearInputs">Limpiar <i
+                                    class="material-icons m-auto ms-1">backspace</i></button>
                         </div>
                         <div v-else>
                             <LoadingDots styles="my-3 mx-auto" />
@@ -245,7 +284,8 @@ export default {
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title text-dark" id="ModalLabel">Modificar Ciclo</h5>
-                            <button type="button" class="btn btn-danger btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn btn-danger btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form>
@@ -292,11 +332,11 @@ export default {
         <hr class="separator" />
         <section class="p-3 table-section">
             <DataTable personalized title="Listado de horarios" :headers="[
-                {title: 'Fecha de inicio', value: 'start_date' },
-                {title: 'Fecha de finalización', value: 'end_date' },
-                {title: 'Hora de inicio', value: 'start_time' },
-                {title: 'Hora de finalización', value: 'end_time' },
-                {title: 'Acciones'}
+                { title: 'Fecha de inicio', value: 'start_date' },
+                { title: 'Fecha de finalización', value: 'end_date' },
+                { title: 'Hora de inicio', value: 'start_time' },
+                { title: 'Hora de finalización', value: 'end_time' },
+                { title: 'Acciones' }
             ]" :items="schedules">
                 <template #actions="item">
                     <button type="button" @click="id = item.item.id;" class="btn btn-primary me-2"
@@ -308,7 +348,7 @@ export default {
                     <li class="page-item list-click" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinks" :key="page">
                         <span class="page-link" @click="getSchedules(page.url)">{{ page.label == 'pagination.previous'
-                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                                ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
                     </li>
                 </ul>

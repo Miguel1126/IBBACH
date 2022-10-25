@@ -83,13 +83,13 @@ export default {
             <div class="row g-3">
                 <div class="col-6 col-md-4">
                     <label for="name" class="form-label">Nombres</label>
-                    <input type="text" class="form-control" id="name" placeholder="Juan José"
+                    <input type="text" class="form-control" id="name" placeholder="Escribir ambos nombres"
                         v-model="state.personalInfo.name" >
                         <span class="text-danger" v-if="v$.personalInfo.name.$error">{{ v$.personalInfo.name.$errors[0].$message}}</span>
                 </div>
                 <div class="col-6 col-md-4">
                     <label for="lastname" class="form-label">Apellidos</label>
-                    <input type="text" class="form-control" id="lastname" placeholder="Perez López"
+                    <input type="text" class="form-control" id="lastname" placeholder="Escribir ambos apellidos"
                         v-model="state.personalInfo.last_name" >
                         <span class="text-danger" v-if="v$.personalInfo.last_name.$error">{{ v$.personalInfo.last_name.$errors[0].$message}}</span>
                 </div>
@@ -114,7 +114,7 @@ export default {
                 </div>
                 <div class="col-6 col-md-4">
                     <label for="nationality" class="form-label">Nacionalidad</label>
-                    <input type="text" class="form-control" id="nationality" placeholder="Salvadoreñe"
+                    <input type="text" class="form-control" id="nationality" placeholder="Salvadoreño"
                         v-model="state.personalInfo.nationality" >
                         <span class="text-danger" v-if="v$.personalInfo.nationality.$error">{{ v$.personalInfo.nationality.$errors[0].$message}}</span>
                 </div>
@@ -137,19 +137,19 @@ export default {
                 </div>
                 <div class="col-6 col-md-4" v-if="state.personalInfo.marital_status === 'Casado/a'">
                     <label for="mateName" class="form-label">Nombre del cónyuge</label>
-                    <input type="text" class="form-control" id="mateName" placeholder="Juan Perez"
+                    <input type="text" class="form-control" id="mateName" placeholder="Nombre completo"
                         v-model="state.personalInfo.mate_name" >
                         <span class="text-danger" v-if="v$.personalInfo.mate_name.$error">{{ v$.personalInfo.mate_name.$errors[0].$message}}</span>
                 </div>
                 <div class="col-6 col-md-4">
                     <label for="secularDegree" class="form-label">Último grado secular estudiado</label>
-                    <input type="text" class="form-control" id="secularDegree" placeholder="Bachillerato stop"
+                    <input type="text" class="form-control" id="secularDegree" placeholder="Grado secular"
                         v-model="state.personalInfo.secular_degree" >
                         <span class="text-danger" v-if="v$.personalInfo.secular_degree.$error">{{ v$.personalInfo.secular_degree.$errors[0].$message}}</span>
                 </div>
                 <div class="col-6 col-md-4">
                     <label for="currentOcupation" class="form-label">Ocupación actual</label>
-                    <input type="text" class="form-control" id="currentOcupation" placeholder="Corralero"
+                    <input type="text" class="form-control" id="currentOcupation" placeholder="Ocupacion"
                         v-model="state.personalInfo.current_ocupation" >
                         <span class="text-danger" v-if="v$.personalInfo.current_ocupation.$error">{{ v$.personalInfo.current_ocupation.$errors[0].$message}}</span>
                 </div>
@@ -173,6 +173,6 @@ export default {
 }
 
 .col-6 {
-    min-width: 300px;
+    min-width: 250px;
 }
 </style>

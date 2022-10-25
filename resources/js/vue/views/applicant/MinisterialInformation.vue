@@ -156,6 +156,6 @@ export default {
 }
 
 .col-6 {
-    min-width: 300px;
+    min-width: 250px;
 }
 </style>

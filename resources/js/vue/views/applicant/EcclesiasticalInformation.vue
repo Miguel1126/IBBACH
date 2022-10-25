@@ -172,7 +172,7 @@ export default {
                 <div class="row g-3" v-if="state.ecclesiasticalInfo.is_member === '1'">
                     <div class="col-6 col-md-4" v-if="state.ecclesiasticalInfo.is_member === '1'">
                         <label for="MemOrPas" class="form-label">Escriba el nombre de su pastor</label>
-                        <input type="text" class="form-control" id="MemOrPas" placeholder="Nombre"
+                        <input type="text" class="form-control" id="MemOrPas" placeholder="Nombre completo"
                             v-model="state.ecclesiasticalInfo.pastor_name">
                     <span class="text-danger" v-if="v$.ecclesiasticalInfo.pastor_name.$error">{{ v$.ecclesiasticalInfo.pastor_name.$errors[0].$message}}</span>
                     </div>
@@ -195,7 +195,7 @@ export default {
                 </div>
                 <div class="col-6 col-md-4">
                     <label for="pastor1" class="form-label">Nombre del Pastor</label>
-                    <input type="text" class="form-control" id="pastor1" placeholder="Nombre"
+                    <input type="text" class="form-control" id="pastor1" placeholder="Nombre completo"
                         v-model="state.ecclesiasticalInfo.reference_name_one">
                     <span class="text-danger" v-if="v$.ecclesiasticalInfo.reference_name_one.$error">{{ v$.ecclesiasticalInfo.reference_name_one.$errors[0].$message}}</span>
 
@@ -208,7 +208,7 @@ export default {
                 </div>
                 <div class="col-6 col-md-4">
                     <label for="pastor2" class="form-label">Nombre del Pastor</label>
-                    <input type="text" class="form-control" id="pastor2" placeholder="Nombre"
+                    <input type="text" class="form-control" id="pastor2" placeholder="Nombre completo"
                         v-model="state.ecclesiasticalInfo.reference_name_two">
                     <span class="text-danger" v-if="v$.ecclesiasticalInfo.reference_name_two.$error">{{ v$.ecclesiasticalInfo.reference_name_two.$errors[0].$message}}</span>
                 </div>
@@ -272,6 +272,6 @@ export default {
 }
 
 .col-6 {
-    min-width: 300px;
+    min-width: 250px;
 }
 </style>
