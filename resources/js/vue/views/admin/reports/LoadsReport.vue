@@ -1,6 +1,8 @@
 <script>
 import DataTable from '../../../components/DataTable.vue'
 import { handleErrors } from '../../../js/handle_error';
+import LoadingDots from '../../../components/LoadingDots.vue';
+
 export default {
     mounted() {
         this.getCycles(1, true);
@@ -14,6 +16,7 @@ export default {
             loads: [],
             paginationLinks: [],
             teachers: [],
+            loading: false,
             dates:[]
         };
     },
@@ -21,6 +24,7 @@ export default {
         async exportPDF(e) {
             let date = this.dates;
             e.preventDefault();
+            if(this.dates[0] < this.dates[1]){
             if (date.length === 0 || date.length === 1) {
                 const Toast = this.$swal.mixin({
                     toast: true,
@@ -60,10 +64,29 @@ export default {
                     URL.revokeObjectURL(href);
                 });
             }
+        } else{
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Ingresa una fecha valida'
+                })
+                this.loading = false
+            }
         },
         async downloadPDF(e) {
             let date = this.dates;
             e.preventDefault();
+            if(this.dates[0] < this.dates[1]){
             if (date.length === 0 || date.length === 1) {
                 const Toast = this.$swal.mixin({
                     toast: true,
@@ -102,6 +125,24 @@ export default {
                     document.body.removeChild(link);
                     URL.revokeObjectURL(href);
                 });
+            }
+        } else{
+                const Toast = this.$swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Ingresa una fecha valida'
+                })
+                this.loading = false
             }
         },
         async getLoads(pageNumber, firtsLoad = false) {
@@ -197,7 +238,7 @@ export default {
             }
         },
     },
-    components: { DataTable }
+    components: { DataTable, LoadingDots }
 }        
 </script>
 <template>
@@ -209,7 +250,7 @@ export default {
                 <input type="date" class="inputs form-control" v-model="dates[0]">
                 <span class="m-2">Hasta:</span>
                 <input type="date" class="inputs form-control" v-model="dates[1]">
-                <div class="d-flex flex-wrap">
+                <div class="d-flex flex-wrap"  v-if="!loading">
                     <button class="btn btn-danger m-2" @click="exportPDF">Visualizar PDF</button>
                     <button class="btn btn-danger m-2" @click="downloadPDF"><span class="material-symbols-outlined">file_download</span></button>
                 </div>

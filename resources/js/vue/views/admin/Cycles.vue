@@ -92,49 +92,67 @@ export default {
         },
         async updateCycle() {
             this.loading = true
+            if (this.start_dateUp < this.end_dateUp) {
+                if (this.validateInputsUp()) {
+                    try {
+                        const response = await this.axios.put('/api/updateCycle',
+                            {
+                                id: this.id,
+                                cycle: this.cycleUp,
+                                start_date: this.start_dateUp,
+                                end_date: this.end_dateUp,
+                                group_id: this.groupUp,
+                                status: this.statusUp,
+                            })
 
-            if (this.validateInputsUp()) {
-                try {
-                    const response = await this.axios.put('/api/updateCycle',
-                        {
-                            id: this.id,
-                            cycle: this.cycleUp,
-                            start_date: this.start_dateUp,
-                            end_date: this.end_dateUp,
-                            group_id: this.groupUp,
-                            status: this.statusUp,
-                        })
-
-                    if (response.status === 202) {
-                        this.$swal.fire(
-                            'Listo',
-                            '¡Se registró el ciclo correctamente!',
-                            'success'
-                        )
-                        this.getCycles()
+                        if (response.status === 202) {
+                            this.$swal.fire(
+                                'Listo',
+                                '¡Se registró el ciclo correctamente!',
+                                'success'
+                            )
+                            this.getCycles()
+                        }
+                    } catch (error) {
+                        if (error.response.status === 409) {
+                            this.$swal.fire(
+                                'Error',
+                                `${error.response.data.message}`,
+                                'error'
+                            )
+                            this.getCycles()
+                        }
+                        else {
+                            this.$swal.fire(
+                                'Error',
+                                'Parece que algo salió mal, intentalo de nuevo',
+                                'error'
+                            )
+                        }
+                        handleErrors(error)
+                        this.loading = false
                     }
-                } catch (error) {
-                    if (error.response.status === 409) {
-                        this.$swal.fire(
-                            'Error',
-                            `${error.response.data.message}`,
-                            'error'
-                        )
-                        this.getCycles()
-                    }
-                    else {
-                        this.$swal.fire(
-                        'Error',
-                        'Parece que algo salió mal, intentalo de nuevo',
-                        'error'
-                    )
-                    }
-                    handleErrors(error)
-                    this.loading = false
+                    this.clearInputs()
                 }
-                this.clearInputs()
-            }
-            else {
+                else {
+                    const Toast = this.$swal.mixin({
+                        toast: true,
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                            toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                        }
+                    })
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Debes rellenar todos los campos'
+                    })
+                }
+                this.loading = false
+            } else {
                 const Toast = this.$swal.mixin({
                     toast: true,
                     position: 'top',
@@ -148,44 +166,62 @@ export default {
                 })
                 Toast.fire({
                     icon: 'error',
-                    title: 'Debes rellenar todos los campos'
+                    title: 'Ingresa una fecha valida'
                 })
             }
             this.loading = false
         },
         async saveCiclo() {
             this.loading = true
+            if (this.start_date < this.end_date) {
+                if (this.validateInputs()) {
+                    try {
+                        const response = await this.axios.post('/api/saveCiclo',
+                            {
+                                cycle: this.cycle,
+                                start_date: this.start_date,
+                                end_date: this.end_date,
+                                group_id: this.groupSelected,
+                            })
 
-            if (this.validateInputs()) {
-                try {
-                    const response = await this.axios.post('/api/saveCiclo',
-                        {
-                            cycle: this.cycle,
-                            start_date: this.start_date,
-                            end_date: this.end_date,
-                            group_id: this.groupSelected,
-                        })
-
-                    if (response.status === 201) {
+                        if (response.status === 201) {
+                            this.$swal.fire(
+                                'Listo',
+                                '¡Se registró el ciclo correctamente!',
+                                'success'
+                            )
+                            this.getCycles()
+                        }
+                    } catch (error) {
                         this.$swal.fire(
-                            'Listo',
-                            '¡Se registró el ciclo correctamente!',
-                            'success'
+                            'Error',
+                            'Parece que algo salió mal, intentalo de nuevo',
+                            'error'
                         )
-                        this.getCycles()
+                        handleErrors(error)
+                        this.loading = false
                     }
-                } catch (error) {
-                    this.$swal.fire(
-                        'Error',
-                        'Parece que algo salió mal, intentalo de nuevo',
-                        'error'
-                    )
-                    handleErrors(error)
-                    this.loading = false
+                    this.clearInputs()
                 }
-                this.clearInputs()
-            }
-            else {
+                else {
+                    const Toast = this.$swal.mixin({
+                        toast: true,
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                            toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                        }
+                    })
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Debes rellenar todos los campos'
+                    })
+                }
+                this.loading = false
+            } else {
                 const Toast = this.$swal.mixin({
                     toast: true,
                     position: 'top',
@@ -199,10 +235,12 @@ export default {
                 })
                 Toast.fire({
                     icon: 'error',
-                    title: 'Debes rellenar todos los campos'
+                    title: 'Ingresa una fecha valida'
                 })
             }
             this.loading = false
+
+
         },
         formateDate(data) {
             data.forEach(cycle => {
@@ -239,7 +277,8 @@ export default {
                             <label class="d-inline-block" for="roles">Modalidad</label>
                             <select class="form-select inputs" id="roles" v-model="groupSelected" required>
                                 <option v-for="group in groups" :key="group.id" :value="group.id">{{
-                                group.group }}
+                                        group.group
+                                }}
                                 </option>
                             </select>
                         </div>
@@ -282,7 +321,8 @@ export default {
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title text-dark" id="ModalLabel">Modificar Ciclo</h5>
-                            <button type="button" class="btn btn-danger btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn btn-danger btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form>
@@ -296,7 +336,8 @@ export default {
                                         <label class="d-inline-block text-dark" for="roles">Modalidad</label>
                                         <select class="form-select inputs" id="roles" v-model="groupUp" required>
                                             <option v-for="group in groups" :key="group.id" :value="group.id">{{
-                                            group.group }}
+                                                    group.group
+                                            }}
                                             </option>
                                         </select>
                                     </div>
@@ -360,7 +401,7 @@ export default {
                     <li class="page-item cursor-pointer" :class="page.active ? 'active' : ''"
                         v-for="page in paginationLinks" :key="page">
                         <span class="page-link" @click="getCycles(page.url)">{{ page.label == 'pagination.previous'
-                        ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
+                                ? '&laquo;' : page.label == 'pagination.next' ? '&raquo;' : page.label
                         }}</span>
                     </li>
                 </ul>

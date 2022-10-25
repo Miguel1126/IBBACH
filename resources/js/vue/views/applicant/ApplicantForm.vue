@@ -171,7 +171,7 @@ export default {
             <p class="d-flex justify-content-center fw-bold">
                 <router-link class="text-primary fs-5" to="/">IBBACH</router-link>
             </p>
-            <form @submit.prevent="submitForm" class="d-block p-5" action="" enctype="multipart/form-data">
+            <form @submit.prevent="submitForm" class="d-block" action="" enctype="multipart/form-data">
                 <span v-if="!thumbnailImage" class="d-flex justify-content-center text-black fs-6 fw-bold text-center">
                     Selecciona una foto de tu rostro reciente y legible,
                     <br> debe pesar un máximo de 2 Mb </span>
@@ -204,6 +204,7 @@ export default {
 .form-container {
     background: var(--bs-gray-400);
     border: 6px solid #ccc;
+    min-width: 260px;
 }
 
 .questions-container {
