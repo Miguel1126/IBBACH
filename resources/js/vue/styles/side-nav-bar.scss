@@ -74,6 +74,12 @@
 	}
 }
 
+@media (max-width: 329px) {
+	.navbar-title {
+		color: transparent !important;
+	}
+}
+
 aside {
 	position: fixed;
 	display: flex;

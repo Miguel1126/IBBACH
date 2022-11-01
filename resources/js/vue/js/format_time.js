@@ -19,3 +19,15 @@ export const unFormatDate = (date) => {
     let dateSplit = date.split(/[/" "]/g)
     return `${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}`
 }
+
+export const  unFormatTime = (time) => {
+    let timee = time.split(" ")
+    let timeSplit = timee[0].split(":")
+    let hour = 0
+    if (timeSplit[0] < 12 && timee[1] == "PM") {
+        hour = parseInt(timeSplit[0]) + 12
+        return `${hour}:${timeSplit[1]}`
+    }
+    hour = timeSplit[0]
+    return `${timeSplit[0]}:${timeSplit[1]}`
+}
