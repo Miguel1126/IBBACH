@@ -1,3 +1,6 @@
+<script setup>
+import { unFormatDate, unFormatTime } from '../../js/format_time';
+</script>
 <script>
 import DataTable from '../../components/DataTable.vue';
 import { formatDate, formatTime } from '../../js/format_time';
@@ -283,7 +286,7 @@ export default {
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-dark" id="ModalLabel">Modificar Ciclo</h5>
+                            <h5 class="modal-title text-dark" id="ModalLabel">Modificar Horario</h5>
                             <button type="button" class="btn btn-danger btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
@@ -339,7 +342,7 @@ export default {
                 { title: 'Acciones' }
             ]" :items="schedules">
                 <template #actions="item">
-                    <button type="button" @click="id = item.item.id;" class="btn btn-primary me-2"
+                    <button type="button" @click="id = item.item.id; start_dateUp = unFormatDate(item.item.start_date); end_dateUp = unFormatDate(item.item.end_date); start_timeUp = unFormatTime(item.item.start_time); end_timeUp = unFormatTime(item.item.end_time)" class="btn btn-primary me-2"
                         data-bs-toggle="modal" data-bs-target="#Modal">Modificar</button>
                 </template>
             </DataTable>
