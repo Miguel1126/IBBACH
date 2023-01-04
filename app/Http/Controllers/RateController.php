@@ -83,13 +83,15 @@ class RateController extends Controller
     public function getrates()
     {
         try {
-            $rate = Rate:: 
-            select(
-                'rates.id',
-                'rates.price',
-            )
-            ->orderBy('id','desc')
-            ->paginate(5)->onEachSide(1);
+            $rate = Rate::join('groups','rates.group_id','=','groups.id')
+            ->select(
+                    'rates.id',
+                    'rates.price',
+                    'groups.group',
+                    'rates.n_rate'
+                )
+                ->orderBy('id','desc')
+                ->get();
             return $rate;
         }
         catch (\Exception $e) {
