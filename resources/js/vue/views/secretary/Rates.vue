@@ -21,8 +21,9 @@ export default {
         };
     },
     validations() { 
+        const price = helpers.regex(/^[0-9.$]+$/g)
         return {
-            price: { required: helpers.withMessage('Este campo es obligatorio', required), alpah3: helpers.withMessage('Este campo solo puede tener numeros', decimal) }
+            price: { required: helpers.withMessage('Este campo es obligatorio', required), alpah3: helpers.withMessage('Este campo solo puede tener numeros', price) }
         }
     },
     methods: {
@@ -38,13 +39,13 @@ export default {
                     const response = await this.axios.put('/api/updateRate',
                         {
                             id: this.id,
-                            price: this.price,
+                            price: this.price.split("$")[1],
                         })
 
                     if (response.status === 202) {
                         this.$swal.fire(
                             'Listo',
-                            '¡Se registró el ciclo correctamente!',
+                            '¡Se actualizó la cuota correctamente!',
                             'success'
                         )
                         this.getrates()
@@ -66,7 +67,10 @@ export default {
             try {
                 const response = await this.axios.get('/api/getrates')
                 if (response.status === 200) {
-                        this.Rates = response.data.data;
+                        this.Rates = response.data.map(r => {
+                            r.price = `$${r.price}`
+                            return r
+                        });
                     }
                     else {
                         this.Rates[0] = 'error'
@@ -86,6 +90,7 @@ export default {
         <section class="p-3">
             <DataTable title="Cuotas" personalized :headers="[
                 { title: 'Precio', value: 'price'},
+                {title: 'Modalidad', value: 'group'},
                 { title: 'Acciones' }
             ]" :items="Rates">
              <template #actions="item">
